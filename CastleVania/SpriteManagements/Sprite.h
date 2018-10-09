@@ -9,7 +9,6 @@ using namespace std;
 class Sprite
 {
 private:
-
 	int id;
 	int left;
 	int top;

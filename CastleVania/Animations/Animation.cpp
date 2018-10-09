@@ -1,5 +1,5 @@
 #include "Animation.h"
-#include "../SpriteManagerments/Sprites.h"
+#include "../SpriteManagements/Sprites.h"
 #include "../Game.h"
 #include "../Debug/DebugOut.h"
 

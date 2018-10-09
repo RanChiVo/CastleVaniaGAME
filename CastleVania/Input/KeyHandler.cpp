@@ -3,10 +3,9 @@
 #include <dinput.h>
 #include "../GameObjects/Simon.h"
 #include "../CastleVania.h"
-
 KeyHandler::KeyHandler()
 {
-}
+} 
 
 KeyHandler::~KeyHandler()
 {
@@ -26,11 +25,16 @@ void KeyHandler::OnKeyDown(int KeyCode)
 {
 	CastleVania* game = CastleVania::GetInstance();
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	switch (KeyCode)
+	
+	if (KeyCode == DIK_SPACE)
 	{
-	case DIK_SPACE:
-		game->simon->SetState(SIMON_STATE_JUMP);
-		break;
+		if(game->simon->GetDierection() > 0)
+			
+			game->simon->SetState(SIMON_STATE_JUMPING_RIGHT);
+		else
+		{
+			game->simon->SetState(SIMON_STATE_JUMPING_LEFT);
+		}
 	}
 }
 

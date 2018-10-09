@@ -12,18 +12,18 @@ class Game
 {
 	HWND hWnd;									// Window handle
 
-	LPDIRECT3D9 d3d = NULL;						// Direct3D handle
-	LPDIRECT3DDEVICE9 d3ddv = NULL;				// Direct3D device object
+	LPDIRECT3D9 d3d = nullptr;						// Direct3D handle
+	LPDIRECT3DDEVICE9 d3ddv = nullptr;				// Direct3D device object
 
-	LPDIRECT3DSURFACE9 backBuffer = NULL;
-	LPD3DXSPRITE spriteHandler = NULL;			// Sprite helper library to help us draw 2D image on the screen 
+	LPDIRECT3DSURFACE9 backBuffer = nullptr;
+	LPD3DXSPRITE spriteHandler = nullptr;			// Sprite helper library to help us draw 2D image on the screen 
 
 	LPDIRECTINPUT8       di;		// The DirectInput object         
 	LPDIRECTINPUTDEVICE8 didv;		// The keyboard device 
 
 	BYTE  keyStates[256];
 	LPKEYEVENTHANDLER keyHandler;
-	DIDEVICEOBJECTDATA keyEvents[KEYBOARD_BUFFER_SIZE];
+	DIDEVICEOBJECTDATA keyEvents[keyboard_buffer_size];
 
 public:
 

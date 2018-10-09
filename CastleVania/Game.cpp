@@ -2,8 +2,9 @@
 #include "Debug/DebugOut.h"
 #include "WindowUtil.h"
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(200, 200, 255)
-#define MAX_FRAME_RATE 90
+constexpr unsigned int screen_width = 640;
+constexpr unsigned int screen_height = 480;
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0,0,0)
 
 void Game::InitKeyboard(LPKEYEVENTHANDLER handler)
 {
@@ -12,7 +13,7 @@ void Game::InitKeyboard(LPKEYEVENTHANDLER handler)
 		(
 		(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
 			DIRECTINPUT_VERSION,
-			IID_IDirectInput8, (VOID**)&di, NULL
+			IID_IDirectInput8, (VOID**)&di, nullptr
 		);
 
 	if (hr != DI_OK)
@@ -21,7 +22,7 @@ void Game::InitKeyboard(LPKEYEVENTHANDLER handler)
 		return;
 	}
 
-	hr = di->CreateDevice(GUID_SysKeyboard, &didv, NULL);
+	hr = di->CreateDevice(GUID_SysKeyboard, &didv, nullptr);
 
 	// TO-DO: put in exception handling
 	if (hr != DI_OK)
@@ -58,7 +59,7 @@ void Game::InitKeyboard(LPKEYEVENTHANDLER handler)
 	dipdw.diph.dwHeaderSize = sizeof(DIPROPHEADER);
 	dipdw.diph.dwObj = 0;
 	dipdw.diph.dwHow = DIPH_DEVICE;
-	dipdw.dwData = KEYBOARD_BUFFER_SIZE; // Arbitary buffer size
+	dipdw.dwData = keyboard_buffer_size; // Arbitary buffer size
 
 	hr = didv->SetProperty(DIPROP_BUFFERSIZE, &dipdw.diph);
 
@@ -71,12 +72,11 @@ void Game::InitKeyboard(LPKEYEVENTHANDLER handler)
 
 	this->keyHandler = handler;
 	DebugOut(L"[INFO] Keyboard has been initialized successfully\n");
-
 }
 
 void Game::Init(HINSTANCE hInstance, int nCmdShow)
 {
-	WindowUtil* windowUtil = new WindowUtil(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
+	WindowUtil* windowUtil = new WindowUtil(hInstance, nCmdShow, screen_width, screen_height);
 	HWND hWnd = windowUtil->CreateGameWindow();
 	
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
@@ -106,7 +106,7 @@ void Game::Init(HINSTANCE hInstance, int nCmdShow)
 		&d3dpp,
 		&d3ddv);
 
-	if (d3ddv == NULL)
+	if (d3ddv == nullptr)
 	{
 		OutputDebugString(L"[ERROR] CreateDevice failed\n");
 		return;
@@ -128,12 +128,11 @@ void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top,
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
-	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
+	spriteHandler->Draw(texture, &r, nullptr, &p, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 void Game::Render()
 {
-
 	LPDIRECT3DDEVICE9 d3ddv = GetDirect3DDevice();
 	LPDIRECT3DSURFACE9 bb = GetBackBuffer();
 	LPD3DXSPRITE spriteHandler = GetSpriteHandler();
@@ -141,7 +140,7 @@ void Game::Render()
 	if (d3ddv->BeginScene())
 	{
 		// Clear back buffer with a color
-		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
+		d3ddv->ColorFill(bb, nullptr, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
@@ -152,20 +151,21 @@ void Game::Render()
 	}
 
 	// Display back buffer content to the screen
-	d3ddv->Present(NULL, NULL, NULL, NULL);
+	d3ddv->Present(nullptr, nullptr, nullptr, nullptr);
 
 }
 
 int Game::Run()
 {
+	constexpr int max_frame_rate = 90;
 	MSG msg;
 	int done = 0;
 	DWORD frameStart = GetTickCount();
-	DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
-
+	DWORD tickPerFrame = 1000 / int(max_frame_rate);
+	
 	while (!done)
 	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
 			if (msg.message == WM_QUIT) done = 1;
 
@@ -202,7 +202,6 @@ int Game::IsKeyDown(int KeyCode)
 
 void Game::ProcessKeyboard()
 {
-
 	HRESULT hr;
 
 	// Collect all key states first
@@ -229,7 +228,7 @@ void Game::ProcessKeyboard()
 	keyHandler->KeyState((BYTE *)&keyStates);
 
 	// Collect all buffered events
-	DWORD dwElements = KEYBOARD_BUFFER_SIZE;
+	DWORD dwElements = keyboard_buffer_size;
 	hr = didv->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), keyEvents, &dwElements, 0);
 	if (FAILED(hr))
 	{
@@ -251,46 +250,7 @@ void Game::ProcessKeyboard()
 
 Game::~Game()
 {
-
-	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
-
-	this->hWnd = hWnd;
-
-	D3DPRESENT_PARAMETERS d3dpp;
-
-	ZeroMemory(&d3dpp, sizeof(d3dpp));
-
-	d3dpp.Windowed = TRUE;
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
-	d3dpp.BackBufferCount = 1;
-
-	RECT r;
-	GetClientRect(hWnd, &r);	// retrieve Window width & height 
-
-	d3dpp.BackBufferHeight = r.bottom + 1;
-	d3dpp.BackBufferWidth = r.right + 1;
-
-	d3d->CreateDevice(
-		D3DADAPTER_DEFAULT,
-		D3DDEVTYPE_HAL,
-		hWnd,
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
-		&d3dpp,
-		&d3ddv);
-
-	if (d3ddv == NULL)
-	{
-		OutputDebugString(L"[ERROR] CreateDevice failed\n");
-		return;
-	}
-
-	d3ddv->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);
-
-	// Initialize sprite helper from Direct3DX helper library
-	D3DXCreateSprite(d3ddv, &spriteHandler);
-
-	OutputDebugString(L"[INFO] InitGame done;\n");
+	
 }
 
 

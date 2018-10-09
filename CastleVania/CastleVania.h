@@ -3,17 +3,13 @@
 #include "Textures/Textures.h"
 #include "Input/KeyHandler.h"
 #include "GameObjects/Simon.h"
-#include "SpriteManagerments/Sprites.h"
+#include "SpriteManagements/Sprites.h"
 #include "Animations/Animations.h"
 #include "WindowUtil.h"
-
-#define SCREEN_WIDTH	640
-#define SCREEN_HEIGHT	480
 
 class CastleVania: public Game
 {
 private:
-
 	static CastleVania * __instance;
 	CastleVania();
 

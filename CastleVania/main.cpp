@@ -4,6 +4,7 @@
 #include "Debug/DebugOut.h"
 #include "Game.h"
 #include "CastleVania.h"
+#include "ResourceManagement.h"
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -15,6 +16,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameCastleVania->loadResource();
 
 	gameCastleVania->Run();
+
+	delete gameCastleVania;
 
 	return 0;
 	

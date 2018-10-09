@@ -4,16 +4,15 @@
 #include <unordered_map>
 #include "Animation.h"
 
-class CAnimations
+class Animations
 {
-	static CAnimations * __instance;
+	static Animations * __instance;
 
 	unordered_map<int, LPANIMATION> animations;
 
 public:
 	void Add(int id, LPANIMATION ani);
 	LPANIMATION Get(int id);
-	void loadResource();
 
-	static CAnimations * GetInstance();
+	static Animations * GetInstance();
 };

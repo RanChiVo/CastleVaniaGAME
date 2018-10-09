@@ -4,7 +4,7 @@
 
 InputComponent::InputComponent()
 {
-	}
+}
 
 
 InputComponent::~InputComponent()

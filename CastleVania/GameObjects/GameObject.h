@@ -20,21 +20,21 @@ protected:
 	int nx;
 
 	int state;
-
+	
 	static vector<LPANIMATION> animations;
 
 public:
-	void SetPosition(float x, float y) { this->x = x, this->y = y; }
-	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
-
-	void SetState(int state) { this->state = state; }
-	int GetState() { return this->state; }
-
+	virtual void SetPosition(float x, float y) { this->x = x, this->y = y; }
+	virtual void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
+	
+	virtual void SetState(int state) { this->state = state; }
+	virtual int GetState() { return this->state; }
+	virtual int GetDierection() { return this->nx; }
 	static void AddAnimation(int aniId);
-
+		//, std::vector<std::string> spriteIDs, int frameTimeout);
 	GameObject();
 
-	void Update(DWORD dt);
-	void Render();
-	~GameObject();
+	virtual void Update(DWORD dt);
+	virtual void Render();
+	virtual ~GameObject();
 };

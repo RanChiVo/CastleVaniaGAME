@@ -1,5 +1,10 @@
+#include <string>
+
 #include "WindowUtil.h"
 
+constexpr LPCWSTR WINDOW_CLASS_NAME = L"Castlevania";
+constexpr LPCWSTR MAIN_WINDOW_TITLE = L"Castlevania";
+constexpr bool FULLSCREEN = false;
 
 LRESULT WindowUtil::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -33,12 +38,12 @@ HWND WindowUtil::CreateGameWindow()
 	wc.lpfnWndProc = (WNDPROC)WinProc;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
-	wc.hIcon = NULL;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hIcon = nullptr;
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-	wc.lpszMenuName = NULL;
+	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = WINDOW_CLASS_NAME;
-	wc.hIconSm = NULL;
+	wc.hIconSm = nullptr;
 
 	RegisterClassEx(&wc);
 
@@ -51,10 +56,10 @@ HWND WindowUtil::CreateGameWindow()
 			CW_USEDEFAULT,
 			ScreenWidth,
 			ScreenHeight,
-			NULL,
-			NULL,
+			nullptr,
+			nullptr,
 			hInstance,
-			NULL);
+			nullptr);
 
 	if (!hWnd)
 	{

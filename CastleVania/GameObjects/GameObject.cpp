@@ -5,12 +5,11 @@
 #include "GameObject.h"
 #include "../Animations/Animations.h"
 
-
 vector<LPANIMATION> GameObject::animations;
 
 void GameObject::AddAnimation(int aniId)
 {
-	LPANIMATION ani = CAnimations::GetInstance()->Get(aniId);
+	LPANIMATION ani = Animations::GetInstance()->Get(aniId);
 	animations.push_back(ani);
 }
 

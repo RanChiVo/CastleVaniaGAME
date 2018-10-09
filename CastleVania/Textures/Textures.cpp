@@ -8,7 +8,7 @@
 #include "../CastleVania.h"
 #include "Textures.h"
 
-Textures *Textures::__instance = NULL;
+Textures *Textures::__instance = nullptr;
 
 
 void Textures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
@@ -20,7 +20,7 @@ void Textures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 		DebugOut(L"[ERROR] GetImageInfoFromFile failed: %s\n", filePath);
 		return;
 	}
-
+	//Initialize Direct 3DDevice thought Game->CastleVania
 	LPDIRECT3DDEVICE9 d3ddv = CastleVania::GetInstance()->GetDirect3DDevice();
 	LPDIRECT3DTEXTURE9 texture;
 
@@ -37,7 +37,7 @@ void Textures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 		D3DX_DEFAULT,
 		transparentColor,
 		&info,
-		NULL,
+		nullptr,
 		&texture);								// Created texture pointer
 
 	if (result != D3D_OK)
@@ -58,6 +58,6 @@ LPDIRECT3DTEXTURE9 Textures::Get(unsigned int i)
 
 Textures * Textures::GetInstance()
 {
-	if (__instance == NULL) __instance = new Textures();
+	if (__instance == nullptr) __instance = new Textures();
 	return __instance;
 }

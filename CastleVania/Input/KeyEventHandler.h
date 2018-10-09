@@ -4,7 +4,7 @@
 #include <d3dx9.h>
 
 #define DIRECTINPUT_VERSION 0x0800
-#define KEYBOARD_BUFFER_SIZE 1024
+constexpr int keyboard_buffer_size = 1024;
 
 class  KeyEventHandler
 {
