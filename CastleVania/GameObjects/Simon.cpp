@@ -102,12 +102,14 @@ void Simon::Render()
 		ani = SIMON_ANI_WALKING_RIGHT;
 	else ani = SIMON_ANI_WALKING_LEFT;
 
-	if (vy < 0)
+	if (y < 100)
 	{
-		if (nx > 0) ani = SIMON_ANI_JUMPING_RIGHT;
-		else ani = SIMON_ANI_JUMPING_LEFT;
+		if (vy < 0 )
+		{
+			if (nx > 0) ani = SIMON_ANI_JUMPING_RIGHT;
+			else ani = SIMON_ANI_JUMPING_LEFT;
+		}
 	}
-
 	animations[ani]->Render(x, y);
 }
 

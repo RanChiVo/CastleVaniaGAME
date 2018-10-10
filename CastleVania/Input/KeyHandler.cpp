@@ -28,9 +28,10 @@ void KeyHandler::OnKeyDown(int KeyCode)
 	
 	if (KeyCode == DIK_SPACE)
 	{
-		if(game->simon->GetDierection() > 0)
-			
+		if (game->simon->GetDierection() > 0)
+		{
 			game->simon->SetState(SIMON_STATE_JUMPING_RIGHT);
+		}
 		else
 		{
 			game->simon->SetState(SIMON_STATE_JUMPING_LEFT);
