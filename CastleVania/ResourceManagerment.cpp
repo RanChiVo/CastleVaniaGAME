@@ -1,4 +1,4 @@
-#include "ResourceManagerment.h"
+#include "ResourceManagement.h"
 
 ResourceManagement * ResourceManagement::__instance = nullptr;
 

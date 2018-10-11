@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="Animations\Animations.cpp" />
     <ClCompile Include="Animations\Animation.cpp" />
+    <ClCompile Include="Direct3DManager.cpp" />
     <ClCompile Include="GameObjects\Brick.cpp" />
     <ClCompile Include="CastleVania.cpp" />
     <ClCompile Include="Input\KeyHandler.cpp" />
@@ -132,13 +133,11 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObjects\GameObject.cpp" />
     <ClCompile Include="GlobalInfo.cpp" />
-    <ClCompile Include="Models\GraphicsComponent.cpp" />
-    <ClCompile Include="Models\InputComponent.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Models\PhysicsComponent.cpp" />
     <ClCompile Include="GameObjects\Simon.cpp" />
     <ClCompile Include="ResourceManagerment.cpp" />
-    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="Screens\Screen.cpp" />
+    <ClCompile Include="Screens\ScreenManager.cpp" />
     <ClCompile Include="SpriteManagements\Sprite.cpp" />
     <ClCompile Include="SpriteManagements\Sprites.cpp" />
     <ClCompile Include="Textures\Textures.cpp" />
@@ -147,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="Animations\Animations.h" />
     <ClInclude Include="Animations\Animation.h" />
+    <ClInclude Include="Direct3DManager.h" />
     <ClInclude Include="GameObjects\Brick.h" />
     <ClInclude Include="CastleVania.h" />
     <ClInclude Include="Input\KeyEventHandler.h" />
@@ -155,12 +155,10 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
     <ClInclude Include="GlobalInfo.h" />
-    <ClInclude Include="Models\GraphicsComponent.h" />
-    <ClInclude Include="Models\InputComponent.h" />
-    <ClInclude Include="Models\PhysicsComponent.h" />
     <ClInclude Include="GameObjects\Simon.h" />
     <ClInclude Include="ResourceManagement.h" />
-    <ClInclude Include="Screen.h" />
+    <ClInclude Include="Screens\Screen.h" />
+    <ClInclude Include="Screens\ScreenManager.h" />
     <ClInclude Include="SpriteManagements\Sprite.h" />
     <ClInclude Include="SpriteManagements\Sprites.h" />
     <ClInclude Include="Textures\Textures.h" />

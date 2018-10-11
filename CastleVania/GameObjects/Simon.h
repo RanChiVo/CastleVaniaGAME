@@ -4,7 +4,6 @@
 
 constexpr float SIMON_MOVE_SPEED = 0.1f;
 constexpr int SIMON_JUMP_VEL = 350;
-constexpr float SIMON_JUMP_SPEED_X = 1.0f;
 constexpr float SIMON_JUMP_SPEED_Y = 0.5f;
 
 constexpr float SIMON_GRAVITY = 0.02f;
@@ -20,6 +19,9 @@ constexpr int SIMON_STATE_WALKING_RIGHT = 100;
 constexpr int SIMON_STATE_WALKING_LEFT = 200;
 constexpr int SIMON_STATE_JUMPING_RIGHT = 300;
 constexpr int SIMON_STATE_JUMPING_LEFT = 400;
+constexpr int SIMON_STATE_SITDOWN_RIGHT = 500;
+constexpr int SIMON_STATE_SITDOWN_LEFT = 600;
+
 
 constexpr int SIMON_ANI_IDLE_RIGHT = 0;
 constexpr int SIMON_ANI_IDLE_LEFT = 1;
@@ -28,6 +30,9 @@ constexpr int SIMON_ANI_WALKING_LEFT = 3;
 
 constexpr int SIMON_ANI_JUMPING_RIGHT = 4;
 constexpr int SIMON_ANI_JUMPING_LEFT = 5;
+
+constexpr int SIMON_ANI_SIT_RIGHT = 5;
+constexpr int SIMON_ANI_SIT_LEFT = 6;
 
 
 class Simon: public GameObject

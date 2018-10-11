@@ -4,6 +4,7 @@
 
 constexpr LPCWSTR WINDOW_CLASS_NAME = L"Castlevania";
 constexpr LPCWSTR MAIN_WINDOW_TITLE = L"Castlevania";
+
 constexpr bool FULLSCREEN = false;
 
 LRESULT WindowUtil::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -73,6 +74,7 @@ HWND WindowUtil::CreateGameWindow()
 
 	return hWnd;
 }
+
 
 WindowUtil::~WindowUtil()
 {

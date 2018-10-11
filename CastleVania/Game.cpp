@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Debug/DebugOut.h"
 #include "WindowUtil.h"
+#include "Direct3DManager.h"
 
 constexpr unsigned int screen_width = 640;
 constexpr unsigned int screen_height = 480;
@@ -74,50 +75,22 @@ void Game::InitKeyboard(LPKEYEVENTHANDLER handler)
 	DebugOut(L"[INFO] Keyboard has been initialized successfully\n");
 }
 
+Game::Game()
+{
+	direct3D = Direct3DManager::getInstance();
+}
+
 void Game::Init(HINSTANCE hInstance, int nCmdShow)
 {
-	WindowUtil* windowUtil = new WindowUtil(hInstance, nCmdShow, screen_width, screen_height);
-	HWND hWnd = windowUtil->CreateGameWindow();
-	
-	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
+	WindowUtil* window = new WindowUtil(hInstance, nCmdShow, screen_width, screen_height);
 
-	this->hWnd = hWnd;
+	direct3D->init(window);
 
-	D3DPRESENT_PARAMETERS d3dpp;
+	hWnd = direct3D->gethWnd();
+}
 
-	ZeroMemory(&d3dpp, sizeof(d3dpp));
-
-	d3dpp.Windowed = TRUE;
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
-	d3dpp.BackBufferCount = 1;
-
-	RECT r;
-	GetClientRect(hWnd, &r);	// retrieve Window width & height 
-
-	d3dpp.BackBufferHeight = r.bottom + 1;
-	d3dpp.BackBufferWidth = r.right + 1;
-
-	d3d->CreateDevice(
-		D3DADAPTER_DEFAULT,
-		D3DDEVTYPE_HAL,
-		hWnd,
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
-		&d3dpp,
-		&d3ddv);
-
-	if (d3ddv == nullptr)
-	{
-		OutputDebugString(L"[ERROR] CreateDevice failed\n");
-		return;
-	}
-
-	d3ddv->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);
-
-	// Initialize sprite helper from Direct3DX helper library
-	D3DXCreateSprite(d3ddv, &spriteHandler);
-
-	OutputDebugString(L"[INFO] InitGame done;\n");
+void Game::Update()
+{
 }
 
 void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom)
@@ -128,31 +101,31 @@ void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top,
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
-	spriteHandler->Draw(texture, &r, nullptr, &p, D3DCOLOR_XRGB(255, 255, 255));
+	direct3D->GetSpriteHandler()->Draw(texture, &r, nullptr, &p, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 void Game::Render()
 {
-	LPDIRECT3DDEVICE9 d3ddv = GetDirect3DDevice();
-	LPDIRECT3DSURFACE9 bb = GetBackBuffer();
-	LPD3DXSPRITE spriteHandler = GetSpriteHandler();
+	LPDIRECT3DDEVICE9 d3ddv = direct3D->GetDirect3DDevice();
+	LPDIRECT3DSURFACE9 bb = direct3D->GetBackBuffer();
+	LPD3DXSPRITE spriteHandler = direct3D->GetSpriteHandler();
 
-	if (d3ddv->BeginScene())
+	if (direct3D->GetDirect3DDevice()->BeginScene())
 	{
-		// Clear back buffer with a color
-		d3ddv->ColorFill(bb, nullptr, BACKGROUND_COLOR);
+		// clearBackBuffer back buffer with a color
+		direct3D->clearBackBuffer();
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		simon->Render();
 
 		spriteHandler->End();
-		d3ddv->EndScene();
+
+		direct3D->GetDirect3DDevice()->EndScene();
 	}
 
 	// Display back buffer content to the screen
 	d3ddv->Present(nullptr, nullptr, nullptr, nullptr);
-
 }
 
 int Game::Run()
@@ -186,6 +159,7 @@ int Game::Run()
 			ProcessKeyboard();
 
 			simon->Update(dt);
+
 			Render();
 		}
 		else
@@ -250,7 +224,7 @@ void Game::ProcessKeyboard()
 
 Game::~Game()
 {
-	
+
 }
 
 

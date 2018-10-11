@@ -15,7 +15,8 @@ void GameObject::AddAnimation(int aniId)
 
 GameObject::GameObject()
 {
-	x = y = 0;
+	x = 0;
+	y = 0;
 	vx = vy = 0;
 	nx = 1;
 }

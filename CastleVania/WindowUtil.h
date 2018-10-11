@@ -14,7 +14,7 @@ protected:
 	int nCmdShow;
 	int ScreenWidth;
 	int ScreenHeight;
-
+	
 public:
 
 	WindowUtil(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight);

@@ -2,9 +2,10 @@
 
 CastleVania* CastleVania::__instance = nullptr;
 
+
 CastleVania::CastleVania()
 {
-
+	Game::Game();
 }
 void CastleVania::init(HINSTANCE hInstance, int nCmdShow)
 {	

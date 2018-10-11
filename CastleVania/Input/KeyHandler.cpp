@@ -14,11 +14,12 @@ KeyHandler::~KeyHandler()
 void KeyHandler::KeyState(BYTE * states)
 {
 	CastleVania* game = CastleVania::GetInstance();
-	if (game->IsKeyDown(DIK_RIGHT))		
+	if (game->IsKeyDown(DIK_K))		
 		game->simon->SetState(SIMON_STATE_WALKING_RIGHT);
-	else if (game->IsKeyDown(DIK_LEFT))
+	else if (game->IsKeyDown(DIK_H))
 		game->simon->SetState(SIMON_STATE_WALKING_LEFT);
 	else game->simon->SetState(SIMON_STATE_IDLE);
+	
 }
 
 void KeyHandler::OnKeyDown(int KeyCode)
@@ -26,7 +27,7 @@ void KeyHandler::OnKeyDown(int KeyCode)
 	CastleVania* game = CastleVania::GetInstance();
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	
-	if (KeyCode == DIK_SPACE)
+	if (KeyCode == DIK_X)
 	{
 		if (game->simon->GetDierection() > 0)
 		{
@@ -37,6 +38,19 @@ void KeyHandler::OnKeyDown(int KeyCode)
 			game->simon->SetState(SIMON_STATE_JUMPING_LEFT);
 		}
 	}
+	else if (game->IsKeyDown(DIK_J))
+	{
+		if (game->simon->GetDierection() > 0)
+		{
+			game->simon->SetState(SIMON_STATE_SITDOWN_RIGHT);
+		}
+		else
+		{
+			game->simon->SetState(SIMON_STATE_SITDOWN_LEFT);
+		}
+	}
+	
+
 }
 
 void KeyHandler::OnKeyUp(int KeyCode)

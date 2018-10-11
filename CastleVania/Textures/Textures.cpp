@@ -3,7 +3,7 @@
 
 #include <d3dx9.h>
 
-
+#include "../Direct3DManager.h"
 #include "../Debug/DebugOut.h"
 #include "../CastleVania.h"
 #include "Textures.h"
@@ -21,7 +21,7 @@ void Textures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 		return;
 	}
 	//Initialize Direct 3DDevice thought Game->CastleVania
-	LPDIRECT3DDEVICE9 d3ddv = CastleVania::GetInstance()->GetDirect3DDevice();
+	LPDIRECT3DDEVICE9 d3ddv = Direct3DManager::getInstance()->GetDirect3DDevice();
 	LPDIRECT3DTEXTURE9 texture;
 
 	result = D3DXCreateTextureFromFileEx(
