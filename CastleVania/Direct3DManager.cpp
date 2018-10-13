@@ -53,12 +53,12 @@ void Direct3DManager::init(WindowUtil * windowGame)
 }
 
 void Direct3DManager::clearBackBuffer()
-{
+{	
 	this->d3ddv->ColorFill(backBuffer, nullptr, D3DCOLOR_XRGB(0, 0, 0));
 }
 
 void Direct3DManager::callPresent()
-{
+{//display the back buffer on the screen
 	this->d3ddv->Present(0, 0, 0, 0);
 }
 

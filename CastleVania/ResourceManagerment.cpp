@@ -4,15 +4,13 @@ ResourceManagement * ResourceManagement::__instance = nullptr;
 
 void ResourceManagement::loadTexture(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 {
-	Textures* textures = Textures::GetInstance();
+	
 	textures->Add(id, filePath, transparentColor);
 }
 
 void ResourceManagement::loadSprites(int id, int left, int top, int right, int bottom, int idCharater)
 {
-	Textures* textures = Textures::GetInstance();
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(idCharater);
-	Sprites * sprites = Sprites::GetInstance();
 	sprites->Add(id, left, top, right, bottom, texSimon);
 }
 
@@ -25,6 +23,9 @@ void ResourceManagement::loadSprites(int id, int left, int top, int right, int b
 
 ResourceManagement::ResourceManagement()
 {
+	textures = Textures::GetInstance();
+	sprites = Sprites::GetInstance();
+	Getanimations = Animations::GetInstance();
 }
 
 ResourceManagement * ResourceManagement::GetInstance()

@@ -3,6 +3,7 @@
 #include <dinput.h>
 #include "../GameObjects/Simon.h"
 #include "../CastleVania.h"
+
 KeyHandler::KeyHandler()
 {
 } 
@@ -13,13 +14,29 @@ KeyHandler::~KeyHandler()
 
 void KeyHandler::KeyState(BYTE * states)
 {
+	DirectInput* directInput = DirectInput::getInstance();
 	CastleVania* game = CastleVania::GetInstance();
-	if (game->IsKeyDown(DIK_K))		
+
+	if (directInput->IsKeyDown(DIK_K))
+	{
 		game->simon->SetState(SIMON_STATE_WALKING_RIGHT);
-	else if (game->IsKeyDown(DIK_H))
+	}
+	else if (directInput->IsKeyDown(DIK_H))
+	{
 		game->simon->SetState(SIMON_STATE_WALKING_LEFT);
+	}
+	else if (directInput->IsKeyDown(DIK_J))
+	{
+		if (game->simon->GetDierection() > 0)
+		{
+			game->simon->SetState(SIMON_STATE_SITDOWN_RIGHT);
+		}
+		else
+		{
+			game->simon->SetState(SIMON_STATE_SITDOWN_LEFT);
+		}
+	}
 	else game->simon->SetState(SIMON_STATE_IDLE);
-	
 }
 
 void KeyHandler::OnKeyDown(int KeyCode)
@@ -38,19 +55,6 @@ void KeyHandler::OnKeyDown(int KeyCode)
 			game->simon->SetState(SIMON_STATE_JUMPING_LEFT);
 		}
 	}
-	else if (game->IsKeyDown(DIK_J))
-	{
-		if (game->simon->GetDierection() > 0)
-		{
-			game->simon->SetState(SIMON_STATE_SITDOWN_RIGHT);
-		}
-		else
-		{
-			game->simon->SetState(SIMON_STATE_SITDOWN_LEFT);
-		}
-	}
-	
-
 }
 
 void KeyHandler::OnKeyUp(int KeyCode)

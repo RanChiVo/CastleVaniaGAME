@@ -10,9 +10,6 @@ CastleVania::CastleVania()
 void CastleVania::init(HINSTANCE hInstance, int nCmdShow)
 {	
 	Game::Init(hInstance, nCmdShow);
-	KeyHandler * keyHandler;
-	keyHandler = new KeyHandler();
-	Game::InitKeyboard(keyHandler);
 }
 
 void CastleVania::loadResource()

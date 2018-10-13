@@ -15,7 +15,11 @@ private:
 	ResourceManagement();
 
 public:
-	
+
+	Textures * textures;
+	Sprites* sprites;
+	Animations* Getanimations;
+
 	void loadTexture(int id, LPCWSTR filePath, D3DCOLOR transparentColor);
 	void loadSprites(int id, int left, int top, int right, int bottom, int idCharater);
 	/*void loadAnimation(int time,int id, LPANIMATION ani);*/

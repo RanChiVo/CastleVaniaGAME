@@ -10,11 +10,11 @@
 class CastleVania: public Game
 {
 private:
-	static CastleVania * __instance;
 
-	CastleVania();
+	static CastleVania * __instance;
 	HINSTANCE hInstance;
 	int nCmdShow;
+	CastleVania();
 
 public:
 

@@ -12,12 +12,12 @@ protected:
 	HINSTANCE hInstance;
 	HWND hWnd;
 	int nCmdShow;
-	int ScreenWidth;
-	int ScreenHeight;
+	int ScreenBaseWidth;
+	int ScreenBaseHeight;
 	
 public:
 
-	WindowUtil(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight);
+	WindowUtil(HINSTANCE hInstance, int nCmdShow, int ScreenBaseWidth, int ScreenBaseHeight);
 	HWND CreateGameWindow();
 	~WindowUtil();
 	WindowUtil();

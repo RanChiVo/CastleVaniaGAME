@@ -14,7 +14,7 @@ private:
 	LPDIRECT3D9 d3d = nullptr;						// Direct3D handle
 	LPDIRECT3DDEVICE9 d3ddv = nullptr;
 	LPDIRECT3DSURFACE9 backBuffer = nullptr;
-	LPD3DXSPRITE spriteHandler = nullptr;			// Sprite helper library to help us draw 2D image on the screen 
+	LPD3DXSPRITE spriteHandler = nullptr;			// Sprite helper library to help us draw 2D image on the ScreenBase 
 
 	Direct3DManager();
 

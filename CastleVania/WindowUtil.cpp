@@ -5,7 +5,7 @@
 constexpr LPCWSTR WINDOW_CLASS_NAME = L"Castlevania";
 constexpr LPCWSTR MAIN_WINDOW_TITLE = L"Castlevania";
 
-constexpr bool FULLSCREEN = false;
+constexpr bool FULLScreenBase = false;
 
 LRESULT WindowUtil::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -20,12 +20,12 @@ LRESULT WindowUtil::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	return 0;
 }
 
-WindowUtil::WindowUtil(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight)
+WindowUtil::WindowUtil(HINSTANCE hInstance, int nCmdShow, int ScreenBaseWidth, int ScreenBaseHeight)
 {
 	this->hInstance = hInstance;
 	this->nCmdShow = nCmdShow;
-	this->ScreenWidth = ScreenWidth;
-	this->ScreenHeight = ScreenHeight;
+	this->ScreenBaseWidth = ScreenBaseWidth;
+	this->ScreenBaseHeight = ScreenBaseHeight;
 }
 
 HWND WindowUtil::CreateGameWindow()
@@ -55,8 +55,8 @@ HWND WindowUtil::CreateGameWindow()
 			WS_OVERLAPPEDWINDOW, // WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
-			ScreenWidth,
-			ScreenHeight,
+			ScreenBaseWidth,
+			ScreenBaseHeight,
 			nullptr,
 			nullptr,
 			hInstance,

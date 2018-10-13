@@ -10,7 +10,6 @@
 
 Textures *Textures::__instance = nullptr;
 
-
 void Textures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 {
 	D3DXIMAGE_INFO info;

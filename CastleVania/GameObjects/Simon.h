@@ -1,6 +1,7 @@
 #pragma once
 #include "../GameObjects/GameObject.h"
 #include "../ResourceManagement.h"
+#include "../SingleObjectManager.h"
 
 constexpr float SIMON_MOVE_SPEED = 0.1f;
 constexpr int SIMON_JUMP_VEL = 350;
@@ -22,7 +23,6 @@ constexpr int SIMON_STATE_JUMPING_LEFT = 400;
 constexpr int SIMON_STATE_SITDOWN_RIGHT = 500;
 constexpr int SIMON_STATE_SITDOWN_LEFT = 600;
 
-
 constexpr int SIMON_ANI_IDLE_RIGHT = 0;
 constexpr int SIMON_ANI_IDLE_LEFT = 1;
 constexpr int SIMON_ANI_WALKING_RIGHT = 2;
@@ -31,16 +31,17 @@ constexpr int SIMON_ANI_WALKING_LEFT = 3;
 constexpr int SIMON_ANI_JUMPING_RIGHT = 4;
 constexpr int SIMON_ANI_JUMPING_LEFT = 5;
 
-constexpr int SIMON_ANI_SIT_RIGHT = 5;
-constexpr int SIMON_ANI_SIT_LEFT = 6;
+constexpr int SIMON_ANI_SITDOWN_RIGHT = 6;
+constexpr int SIMON_ANI_SITDOWN_LEFT = 7;
 
+constexpr int SIMON_ANI_FACINGBACKWARD = 8;
 
-class Simon: public GameObject
+class Simon: public GameObject, public SingleObjectManager
 {
 private: 
 
 	int level;
-	
+	int isSitdown = 0;
 public:
 	Simon();
 
