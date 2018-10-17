@@ -4,33 +4,49 @@
 
 constexpr unsigned int ScreenBase_width = 640;
 constexpr unsigned int ScreenBase_height = 480;
+
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0,0,0)
 
 Game::Game()
 {
 	direct3D = Direct3DManager::getInstance();
 	directInput = DirectInput::getInstance();
-	keyHandler = new KeyHandler();
 }
 
-void Game::Init(HINSTANCE hInstance, int nCmdShow)
+void Game::init(HINSTANCE hInstance, int nCmdShow)
 {
-	WindowUtil* window = new WindowUtil(hInstance, nCmdShow, ScreenBase_width, ScreenBase_height);
+	int extra_width = 15;
+	int extra_height = 38;
+
+	WindowUtil* window = new WindowUtil(hInstance, nCmdShow, ScreenBase_width + extra_width, ScreenBase_height + extra_height);
 
 	direct3D->init(window);
 
 	hWnd = direct3D->gethWnd();
 
-	directInput->initKeyboard(keyHandler, hWnd);
+	directInput->initKeyboard(hWnd);	
 }
 
-void Game::Update()
+void Game::update(float dt)
 {
+}
+
+void Game::renderObjects()
+{
+}
+
+void Game::loadResource()
+{
+}
+
+void Game::handleInput()
+{
+
 }
 
 void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom)
 {
-	D3DXVECTOR3 p(x, y, 0);
+	D3DXVECTOR3 p(x, y, 0);	
 	RECT r;
 	r.left = left;
 	r.top = top;
@@ -52,7 +68,7 @@ void Game::Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		simon->Render();
+		renderObjects();
 
 		spriteHandler->End();
 
@@ -90,9 +106,9 @@ int Game::Run()
 		{
 			frameStart = now;
 
-			directInput->ProcessKeyboard();
+			handleInput();
 
-			simon->Update(dt);
+			update(dt);
 
 			Render();
 		}

@@ -1,8 +1,13 @@
 #pragma once
 #include <dinput.h>
-#include "../Game.h"
 #include "../Debug/DebugOut.h"
+#include <stdio.h>  
 
+#define DIRECTINPUT_VERSION 0x0800
+// evh_native.cpp  
+constexpr int keyboard_buffer_size = 1024;
+
+[event_source(native)]
 class DirectInput
 {
 protected:
@@ -12,17 +17,25 @@ protected:
 	LPDIRECTINPUTDEVICE8 didv;		// The keyboard device 
 
 	BYTE  keyStates[256];
-	LPKEYEVENTHANDLER keyEventHandler;
 	DIDEVICEOBJECTDATA keyEvents[keyboard_buffer_size];
 	DirectInput();
 
 public:
 	
-	static DirectInput* getInstance();
-	void initKeyboard(LPKEYEVENTHANDLER keyEventHandler, HWND hWnd);
+	__event void KeyState(BYTE *state);
+	__event void OnKeyDown(int KeyCode);
+	__event void OnKeyUp(int KeyCode);
+
+	bool isPlayGame = false;
+
+	void initKeyboard(HWND hWnd);
 	int IsKeyDown(int KeyCode);
-	void ProcessKeyboard();
-	
+	DWORD getDiviceData();
+	LPDIRECTINPUTDEVICE8 getdidv() { return didv; }
+	DIDEVICEOBJECTDATA getKeyEvents(int i) { return keyEvents[i]; }
+
+	static DirectInput* getInstance();
+
 	~DirectInput();
 };
 

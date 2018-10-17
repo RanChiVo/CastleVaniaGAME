@@ -10,8 +10,8 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	CastleVania *gameCastleVania = CastleVania::GetInstance();
-	
-	gameCastleVania->init(hInstance, nCmdShow);
+
+	gameCastleVania->Init(hInstance, nCmdShow);
 
 	gameCastleVania->loadResource();
 
@@ -20,5 +20,4 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	delete gameCastleVania;
 
 	return 0;
-	
 }

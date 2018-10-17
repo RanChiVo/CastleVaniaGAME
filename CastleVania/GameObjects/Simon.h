@@ -1,7 +1,7 @@
 #pragma once
 #include "../GameObjects/GameObject.h"
 #include "../ResourceManagement.h"
-#include "../SingleObjectManager.h"
+#include "../Input/DirectInput.h"
 
 constexpr float SIMON_MOVE_SPEED = 0.1f;
 constexpr int SIMON_JUMP_VEL = 350;
@@ -36,12 +36,13 @@ constexpr int SIMON_ANI_SITDOWN_LEFT = 7;
 
 constexpr int SIMON_ANI_FACINGBACKWARD = 8;
 
-class Simon: public GameObject, public SingleObjectManager
+class Simon: public GameObject
 {
 private: 
 
 	int level;
 	int isSitdown = 0;
+	
 public:
 	Simon();
 
@@ -49,6 +50,12 @@ public:
 	void Update(DWORD dt);
 	void Render();
 	int GetLevel() { return level; }
+
+	void OnKeyStateChange(BYTE *states);
+	void OnKeyDown(int KeyCode);
+	void OnKeyUp(int KeyCode);
+	
+	
 
 	void SetState(int state);
 	~Simon();

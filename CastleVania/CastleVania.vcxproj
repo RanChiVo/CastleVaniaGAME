@@ -130,7 +130,6 @@
     <ClCompile Include="GameObjects\Brick.cpp" />
     <ClCompile Include="CastleVania.cpp" />
     <ClCompile Include="Screens\GameplayScreen.cpp" />
-    <ClCompile Include="Input\KeyHandler.cpp" />
     <ClCompile Include="Debug\DebugOut.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObjects\GameObject.cpp" />
@@ -141,7 +140,6 @@
     <ClCompile Include="ResourceManagerment.cpp" />
     <ClCompile Include="Screens\ScreenBase.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
-    <ClCompile Include="SingleObjectManager.cpp" />
     <ClCompile Include="SpriteManagements\Sprite.cpp" />
     <ClCompile Include="SpriteManagements\Sprites.cpp" />
     <ClCompile Include="Textures\Textures.cpp" />
@@ -155,8 +153,6 @@
     <ClInclude Include="GameObjects\Brick.h" />
     <ClInclude Include="CastleVania.h" />
     <ClInclude Include="Screens\GameplayScreen.h" />
-    <ClInclude Include="Input\KeyEventHandler.h" />
-    <ClInclude Include="Input\KeyHandler.h" />
     <ClInclude Include="Debug\DebugOut.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
@@ -166,7 +162,6 @@
     <ClInclude Include="ResourceManagement.h" />
     <ClInclude Include="Screens\ScreenBase.h" />
     <ClInclude Include="ScreenManager.h" />
-    <ClInclude Include="SingleObjectManager.h" />
     <ClInclude Include="SpriteManagements\Sprite.h" />
     <ClInclude Include="SpriteManagements\Sprites.h" />
     <ClInclude Include="Textures\Textures.h" />

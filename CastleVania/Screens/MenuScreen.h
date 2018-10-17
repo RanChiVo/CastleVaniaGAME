@@ -3,24 +3,24 @@
 #include "../SpriteManagements/Sprite.h"
 #include "../ResourceManagement.h"
 #include "../Game.h"
-#include "../Input/DirectInput.h"
 #include "../GameObjects/GameObject.h"
-#include "../SingleObjectManager.h"
 
-class MenuScreen : public ScreenBase, public SingleObjectManager
+class MenuScreen : public ScreenBase
 {
 private: 
+
 	bool isRender = false;
 	bool isplayGame = false;
-	vector<GameObject> objects;
+	Sprite* loadBackGround;
+	ResourceManagement* resourceManagement;
 
 public:
 
-	bool init();
-	void update(float dt);
-	void render();
-	void handleInput();
-	void loadResources();
+		void init() override;
+		void update(float dt) override;
+		void renderObject() override;
+		void handleInput() override;
+		void loadResources() override;
 
 	MenuScreen();
 	~MenuScreen();

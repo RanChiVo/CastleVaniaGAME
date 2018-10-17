@@ -3,6 +3,11 @@ constexpr int  ID_TEX_SIMON = 0;
 
 Simon::Simon()
 {
+	DirectInput* directInput = DirectInput::getInstance();
+
+	__hook(&DirectInput::KeyState, directInput, &Simon::OnKeyStateChange);
+	__hook(&DirectInput::OnKeyDown, directInput, &Simon::OnKeyDown);
+	__hook(&DirectInput::OnKeyUp, directInput, &Simon::OnKeyUp);
 }
 
 void Simon::Update(DWORD dt)
@@ -22,6 +27,7 @@ void Simon::Update(DWORD dt)
 
 void Simon::loadResource()
 {
+	ResourceManagement*resourceManagement = ResourceManagement::GetInstance();
 	resourceManagement->loadTexture(ID_TEX_SIMON, L"Resources\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
 	//right
 	resourceManagement->loadSprites(10001, 749, 2, 775, 65, ID_TEX_SIMON);
@@ -145,6 +151,54 @@ void Simon::Render()
 	GameObject::animations[ani]->Render(x, y);
 }
 
+void Simon::OnKeyStateChange(BYTE * states)
+{
+	DirectInput* directInput = DirectInput::getInstance();
+
+	if (directInput->IsKeyDown(DIK_K))
+	{
+		SetState(SIMON_STATE_WALKING_RIGHT);
+	}
+	else if (directInput->IsKeyDown(DIK_H))
+	{
+		SetState(SIMON_STATE_WALKING_LEFT);
+	}
+	else if (directInput->IsKeyDown(DIK_J))
+	{
+		if (GetDierection() > 0)
+		{
+			SetState(SIMON_STATE_SITDOWN_RIGHT);
+		}
+		else
+		{
+			SetState(SIMON_STATE_SITDOWN_LEFT);
+		}
+	}
+	else SetState(SIMON_STATE_IDLE);
+}
+
+void Simon::OnKeyDown(int KeyCode)
+{
+	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+
+	if (KeyCode == DIK_X)
+	{
+		if (nx > 0)
+		{
+			SetState(SIMON_STATE_JUMPING_RIGHT);
+		}
+		else
+		{
+			SetState(SIMON_STATE_JUMPING_LEFT);
+		}
+	}
+}
+
+void Simon::OnKeyUp(int KeyCode)
+{
+	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+}
+
 void Simon::SetState(int state)
 {
 	GameObject::SetState(state);
@@ -189,4 +243,9 @@ void Simon::SetState(int state)
 
 Simon::~Simon()
 {
+	DirectInput* directInput = DirectInput::getInstance();
+
+	__unhook(&DirectInput::KeyState, directInput, &Simon::OnKeyStateChange);
+	__unhook(&DirectInput::OnKeyDown, directInput, &Simon::OnKeyDown);
+	__unhook(&DirectInput::OnKeyUp, directInput, &Simon::OnKeyUp);
 }

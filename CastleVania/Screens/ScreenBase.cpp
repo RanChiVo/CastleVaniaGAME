@@ -4,7 +4,6 @@
 
 ScreenBase::ScreenBase()
 {
-	directInput = DirectInput::getInstance();
 }
 
 
