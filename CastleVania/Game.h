@@ -16,9 +16,7 @@ protected:
 	Direct3DManager* direct3D;
 	DirectInput* directInput;
 	DIDEVICEOBJECTDATA keyEvents[keyboard_buffer_size];
-	HWND hWnd;
-	DWORD dwElements;
-
+	
 public:
 
 	Game();

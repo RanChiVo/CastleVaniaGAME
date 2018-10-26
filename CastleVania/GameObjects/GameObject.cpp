@@ -1,6 +1,6 @@
 #include <d3dx9.h>
 
-#include "../Debug/DebugOut.h"
+#include "../DebugOut/DebugOut.h"
 #include "../Game.h"
 #include "GameObject.h"
 #include "../Animations/Animations.h"

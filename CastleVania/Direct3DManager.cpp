@@ -1,5 +1,5 @@
 #include "Direct3DManager.h"
-
+#include "DebugOut/DebugOut.h"
 
 Direct3DManager* Direct3DManager::_instance = nullptr;
 

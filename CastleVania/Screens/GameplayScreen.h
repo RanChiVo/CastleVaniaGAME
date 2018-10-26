@@ -17,7 +17,6 @@ public:
 	void init() override;
 	void update(float dt) override;
 	void renderObject() override;
-	void handleInput() override;
 	void loadResources() override;
 	
 	GameplayScreen();

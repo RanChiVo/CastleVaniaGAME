@@ -6,7 +6,6 @@
 #include <dinput.h>
 #include "../Input/DirectInput.h"
 
-
 class ScreenBase
 {
 public:
@@ -14,7 +13,6 @@ public:
 
 	void virtual init() = 0;
 	void virtual update(float deltatime) = 0;
-	void virtual handleInput() = 0;
 	void virtual loadResources() = 0;
 	void virtual renderObject() = 0;
 

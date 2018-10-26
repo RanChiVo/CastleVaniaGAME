@@ -73,10 +73,10 @@ void DirectInput::initKeyboard(HWND hWnd)
 
 int DirectInput::IsKeyDown(int KeyCode)
 {
-	return (keyStates[KeyCode] & 0x80) > 0;
+	return ((keyStates[KeyCode] & 0x80) > 0);
 }
 
-DWORD DirectInput::getDiviceData()
+void DirectInput::ProcessKeyboard()
 {
 	HRESULT hr;
 
@@ -91,11 +91,13 @@ DWORD DirectInput::getDiviceData()
 			if (h == DI_OK)
 			{
 				DebugOut(L"[INFO] Keyboard re-acquired!\n");
+				return;
 			}
 		}
 		else
 		{
 			DebugOut(L"[ERROR] DINPUT::GetDeviceState failed. Error: %d\n", hr);
+			return;
 		}
 	}
 
@@ -107,11 +109,20 @@ DWORD DirectInput::getDiviceData()
 	if (FAILED(hr))
 	{
 		DebugOut(L"[ERROR] DINPUT::GetDeviceData failed. Error: %d\n", hr);
+		return;
 	}
 
-	return dwElements;
+	// Scan through all buffered events, check if the key is pressed or released
+	for (DWORD i = 0; i < dwElements; i++)
+	{
+		int KeyCode = keyEvents[i].dwOfs;
+		int KeyState = keyEvents[i].dwData;
+		if ((KeyState & 0x80) > 0)
+			OnKeyDown(KeyCode);
+		else
+			OnKeyUp(KeyCode);
+	}
 }
-
 
 DirectInput* DirectInput::getInstance()
 {

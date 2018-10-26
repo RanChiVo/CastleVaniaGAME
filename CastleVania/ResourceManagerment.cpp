@@ -8,13 +8,13 @@ void ResourceManagement::loadTexture(int id, LPCWSTR filePath, D3DCOLOR transpar
 	textures->Add(id, filePath, transparentColor);
 }
 
-void ResourceManagement::loadSprites(int id, int left, int top, int right, int bottom, int idCharater)
+void ResourceManagement::loadSprites(std::string id, int left, int top, int right, int bottom, int idCharater)
 {
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(idCharater);
 	sprites->Add(id, left, top, right, bottom, texSimon);
 }
 
-//void ResourceManagerment::loadAnimation(int time)
+//void ResourceManagerment::loadAnimation(int time
 //{
 //	Animations * animations = Animations::GetInstance();
 //	LPANIMATION ani;

@@ -1,7 +1,7 @@
 #include "Sprite.h"
 #include "../CastleVania.h"
 
-Sprite::Sprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
+Sprite::Sprite(std::string id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {
 	this->id = id;
 	this->left = left;

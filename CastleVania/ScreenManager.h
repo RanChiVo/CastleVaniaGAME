@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "Screens/ScreenBase.h"
-#include "Debug/DebugOut.h"
+#include "DebugOut/DebugOut.h"
 
 
 class ScreenManager
@@ -15,7 +15,6 @@ public:
 	ScreenManager();
 
 	bool init();
-	void handleInput();
 	void loadResources();
 	void update(float dt);
 	void renderObject();

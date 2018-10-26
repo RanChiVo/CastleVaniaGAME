@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-#include "Debug/DebugOut.h"
+#include "DebugOut/DebugOut.h"
 #include "Game.h"
 #include "CastleVania.h"
 #include "ResourceManagement.h"

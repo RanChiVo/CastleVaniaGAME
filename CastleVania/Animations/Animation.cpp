@@ -1,9 +1,9 @@
 #include "Animation.h"
 #include "../SpriteManagements/Sprites.h"
 #include "../Game.h"
-#include "../Debug/DebugOut.h"
+#include "../DebugOut/DebugOut.h"
 
-void Animation::Add(int spriteId, DWORD time)
+void Animation::Add(std::string spriteId, DWORD time)
 {
 	int t = time;
 	if (time == 0) t = this->defaultTime;

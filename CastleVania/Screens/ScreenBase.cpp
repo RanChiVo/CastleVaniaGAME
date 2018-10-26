@@ -6,11 +6,6 @@ ScreenBase::ScreenBase()
 {
 }
 
-
-void ScreenBase::handleInput()
-{
-}
-
 ScreenBase::~ScreenBase()
 {
 }

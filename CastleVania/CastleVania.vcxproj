@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -42,7 +42,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -73,6 +73,10 @@
     <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -90,9 +94,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader />
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dinput8.lib;dxguid.lib;dsound.lib;dxerr.lib;winmm.lib;%(AdditionalDependencies);legacy_stdio_definitions.lib</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -125,12 +134,13 @@
   <ItemGroup>
     <ClCompile Include="Animations\Animations.cpp" />
     <ClCompile Include="Animations\Animation.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Direct3DManager.cpp" />
     <ClCompile Include="Input\DirectInput.cpp" />
     <ClCompile Include="GameObjects\Brick.cpp" />
     <ClCompile Include="CastleVania.cpp" />
     <ClCompile Include="Screens\GameplayScreen.cpp" />
-    <ClCompile Include="Debug\DebugOut.cpp" />
+    <ClCompile Include="DebugOut\DebugOut.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObjects\GameObject.cpp" />
     <ClCompile Include="GlobalInfo.cpp" />
@@ -148,12 +158,13 @@
   <ItemGroup>
     <ClInclude Include="Animations\Animations.h" />
     <ClInclude Include="Animations\Animation.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Direct3DManager.h" />
     <ClInclude Include="Input\DirectInput.h" />
     <ClInclude Include="GameObjects\Brick.h" />
     <ClInclude Include="CastleVania.h" />
     <ClInclude Include="Screens\GameplayScreen.h" />
-    <ClInclude Include="Debug\DebugOut.h" />
+    <ClInclude Include="DebugOut\DebugOut.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
     <ClInclude Include="GlobalInfo.h" />
@@ -166,9 +177,6 @@
     <ClInclude Include="SpriteManagements\Sprites.h" />
     <ClInclude Include="Textures\Textures.h" />
     <ClInclude Include="WindowUtil.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\gamedev-intro-tutorials\03-Keyboard-States\textures\mario.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

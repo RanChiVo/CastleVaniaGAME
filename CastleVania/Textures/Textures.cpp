@@ -4,7 +4,7 @@
 #include <d3dx9.h>
 
 #include "../Direct3DManager.h"
-#include "../Debug/DebugOut.h"
+#include "../DebugOut/DebugOut.h"
 #include "../CastleVania.h"
 #include "Textures.h"
 
