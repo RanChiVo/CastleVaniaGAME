@@ -1,10 +1,9 @@
 #pragma once
-#include "../DebugOut/DebugOut.h"
+#include <dinput.h>
+#include "../Debug/DebugOut.h"
 #include <stdio.h>  
 
 #define DIRECTINPUT_VERSION 0x0800
-#include <dinput.h>
-
 // evh_native.cpp  
 constexpr int keyboard_buffer_size = 1024;
 
@@ -31,7 +30,7 @@ public:
 
 	void initKeyboard(HWND hWnd);
 	int IsKeyDown(int KeyCode);
-	void ProcessKeyboard();
+	DWORD getDiviceData();
 	LPDIRECTINPUTDEVICE8 getdidv() { return didv; }
 	DIDEVICEOBJECTDATA getKeyEvents(int i) { return keyEvents[i]; }
 

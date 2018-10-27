@@ -19,6 +19,11 @@ bool ScreenManager::init()
 	return true;
 }
 
+void ScreenManager::handleInput()
+{
+	if (!screens.empty())
+		screens.back()->handleInput();
+}
 
 void ScreenManager::loadResources()
 {
@@ -41,7 +46,6 @@ void ScreenManager::renderObject()
 void ScreenManager::addScreen(ScreenBase* _screen)
 {
 	screens.push_back(_screen);
-	screens.back()->init();
 }
 
 void ScreenManager::removeScreen()

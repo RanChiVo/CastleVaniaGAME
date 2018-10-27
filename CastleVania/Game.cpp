@@ -1,9 +1,9 @@
 #include "Game.h"
-#include "DebugOut/DebugOut.h"
+#include "Debug/DebugOut.h"
+
 
 constexpr unsigned int ScreenBase_width = 640;
 constexpr unsigned int ScreenBase_height = 480;
-constexpr int max_frame_rate = 90;
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0,0,0)
 
@@ -22,7 +22,7 @@ void Game::init(HINSTANCE hInstance, int nCmdShow)
 
 	direct3D->init(window);
 
-	HWND hWnd = direct3D->gethWnd();
+	hWnd = direct3D->gethWnd();
 
 	directInput->initKeyboard(hWnd);	
 }
@@ -41,6 +41,7 @@ void Game::loadResource()
 
 void Game::handleInput()
 {
+
 }
 
 void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom)
@@ -79,6 +80,7 @@ void Game::Render()
 
 int Game::Run()
 {
+	constexpr int max_frame_rate = 90;
 	MSG msg;
 	int done = 0;
 	DWORD frameStart = GetTickCount();
@@ -104,7 +106,7 @@ int Game::Run()
 		{
 			frameStart = now;
 
-			directInput->ProcessKeyboard();
+			handleInput();
 
 			update(dt);
 
@@ -118,7 +120,7 @@ int Game::Run()
 
 Game::~Game()
 {
-	
+
 }
 
 

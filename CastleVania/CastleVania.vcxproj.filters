@@ -27,6 +27,9 @@
     <ClCompile Include="GlobalInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Debug\DebugOut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Animations\Animations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -75,12 +78,6 @@
     <ClCompile Include="Input\DirectInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DebugOut\DebugOut.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\GameObject.h">
@@ -90,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GlobalInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug\DebugOut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -140,11 +140,10 @@
     <ClInclude Include="Input\DirectInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DebugOut\DebugOut.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\gamedev-intro-tutorials\03-Keyboard-States\textures\mario.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -18,11 +18,10 @@ constexpr int SIMON_LEVEL_FIRE = 2;
 constexpr int SIMON_STATE_IDLE = 0;
 constexpr int SIMON_STATE_WALKING_RIGHT = 100;
 constexpr int SIMON_STATE_WALKING_LEFT = 200;
-constexpr int SIMON_STATE_JUMPING = 300;
-constexpr int SIMON_STATE_SITDOWN = 500;
-constexpr int SIMON_STATE_ATTACK_STAND= 700;
-constexpr int SIMON_STATE_ATTACK_SITDOWN = 900;
-constexpr int SIMON_STATE_ATTACK_JUMP = 1100;
+constexpr int SIMON_STATE_JUMPING_RIGHT = 300;
+constexpr int SIMON_STATE_JUMPING_LEFT = 400;
+constexpr int SIMON_STATE_SITDOWN_RIGHT = 500;
+constexpr int SIMON_STATE_SITDOWN_LEFT = 600;
 
 constexpr int SIMON_ANI_IDLE_RIGHT = 0;
 constexpr int SIMON_ANI_IDLE_LEFT = 1;
@@ -35,29 +34,15 @@ constexpr int SIMON_ANI_JUMPING_LEFT = 5;
 constexpr int SIMON_ANI_SITDOWN_RIGHT = 6;
 constexpr int SIMON_ANI_SITDOWN_LEFT = 7;
 
-//constexpr int SIMON_ANI_FACINGBACKWARD = 8;
-
-constexpr int SIMON_ANI_ATTACK_STANDING_RIGHT = 8;
-constexpr int SIMON_ANI_ATTACK_STANDING_LEFT = 9;
+constexpr int SIMON_ANI_FACINGBACKWARD = 8;
 
 class Simon: public GameObject
 {
 private: 
 
 	int level;
-	enum State 
-	{
-		SIMON_STATE_IDLE,
-		SIMON_STATE_WALKING_RIGHT,
-		SIMON_STATE_WALKING_LEFT,
-		SIMON_STATE_JUMPING,
-		SIMON_STATE_SITDOWN,
-		SIMON_STATE_ATTACK_STAND,
-		SIMON_STATE_ATTACK_SITDOWN,
-		SIMON_STATE_ATTACK_JUMP
-	};
-	int ani;
-
+	int isSitdown = 0;
+	
 public:
 	Simon();
 
@@ -70,6 +55,8 @@ public:
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
 	
+	
+
 	void SetState(int state);
 	~Simon();
 };

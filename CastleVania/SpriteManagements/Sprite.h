@@ -2,14 +2,14 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <unordered_map>
-#include "../DebugOut/DebugOut.h"
-#include <string.h>
+#include "../Debug/DebugOut.h"
+
 using namespace std;
 
 class Sprite
 {
 private:
-	std::string id;
+	int id;
 	int left;
 	int top;
 	int right;
@@ -18,7 +18,7 @@ private:
 	LPDIRECT3DTEXTURE9 texture;
 public:
 	//Init sprite
-	Sprite(std::string id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	Sprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 
 	void Draw(float x, float y);
 

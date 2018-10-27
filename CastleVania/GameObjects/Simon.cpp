@@ -8,8 +8,6 @@ Simon::Simon()
 	__hook(&DirectInput::KeyState, directInput, &Simon::OnKeyStateChange);
 	__hook(&DirectInput::OnKeyDown, directInput, &Simon::OnKeyDown);
 	__hook(&DirectInput::OnKeyUp, directInput, &Simon::OnKeyUp);
-	SetState(SIMON_STATE_IDLE);
-	ani = SIMON_ANI_IDLE_RIGHT;
 }
 
 void Simon::Update(DWORD dt)
@@ -25,29 +23,6 @@ void Simon::Update(DWORD dt)
 	// simple ScreenBase edge collision!!!
 	if (vx > 0 && x > 480) x = 480;
 	if (vx < 0 && x < 0) x = 0;
-
-	switch (state)
-	{
-	case SIMON_STATE_WALKING_RIGHT:
-		vx = SIMON_MOVE_SPEED;
-		nx = 1;
-		break;
-	case SIMON_STATE_WALKING_LEFT:
-		vx = -SIMON_MOVE_SPEED;
-		nx = -1;
-		break;
-	case SIMON_STATE_JUMPING:
-		if (y == 300)
-			vy = -SIMON_JUMP_SPEED_Y;
-		break;
-	case SIMON_STATE_SITDOWN:
-
-	case SIMON_STATE_ATTACK_STAND:
-
-	case SIMON_STATE_IDLE:
-		vx = 0;
-		break;
-	}
 }
 
 void Simon::loadResource()
@@ -55,115 +30,83 @@ void Simon::loadResource()
 	ResourceManagement*resourceManagement = ResourceManagement::GetInstance();
 	resourceManagement->loadTexture(ID_TEX_SIMON, L"Resources\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
 	//right
-	resourceManagement->loadSprites("WalkingRight1", 749, 2, 775, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("WalkingRight2", 803, 3, 835, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("WalkingRight3", 867, 1, 893, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("WalkingRight4", 925, 3, 959, 65, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10001, 749, 2, 775, 65, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10002, 803, 3, 835, 65, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10003, 867, 1, 893, 65, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10004, 925, 3, 959, 65, ID_TEX_SIMON);
 
 	//left
-	resourceManagement->loadSprites("WalkingLeft1", 195, 2, 221, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("WalkingLeft2", 135, 3, 167, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("WalkingLeft3", 77, 1, 103, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("WalkingLeft4", 11, 3, 45, 65, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10011, 195, 2, 221, 65, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10012, 135, 3, 167, 65, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10013, 77, 1, 103, 65, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10014, 11, 3, 45, 65, ID_TEX_SIMON);
 
 	//jump right	
-	resourceManagement->loadSprites("JumpRight", 685, 0, 719, 48, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10021, 685, 0, 719, 48, ID_TEX_SIMON);
 
 	//jump left
-	resourceManagement->loadSprites("JumpLeft", 251, 0, 285, 48, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10022, 251, 0, 285, 48, ID_TEX_SIMON);
 
 	//sit down right
-	resourceManagement->loadSprites("SitdownRight", 685, -15, 719, 48, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10031, 685, -15, 719, 48, ID_TEX_SIMON);
 
 	//sit down left
-	resourceManagement->loadSprites("SitdownLeft", 251, -15, 285, 48, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10032, 251, -15, 285, 48, ID_TEX_SIMON);
 
 	//facing backward
-	//resourceManagement->loadSprites(10040, 857, 65, 891, 131, ID_TEX_SIMON);
-
-	//attack standing right
-	resourceManagement->loadSprites("AttackStandRight1", 500, 5, 550, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("AttackStandRight2", 548, 3, 598, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("AttackStandRight3", 609, 3, 659, 65, ID_TEX_SIMON);
-
-
-	//attack standing left
-	resourceManagement->loadSprites("AttackStandLeft1", 415, 5, 465, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("AttackStandLeft2", 356, 3, 406, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("AttackStandLeft3", 311, 3, 361, 65, ID_TEX_SIMON);
+	resourceManagement->loadSprites(10040, 857, 65, 891, 131, ID_TEX_SIMON);
 
 	LPANIMATION ani;
 	//idle right
 	ani = new Animation(100);
-	ani->Add("WalkingRight4");
+	ani->Add(10004);
 	resourceManagement->Getanimations->Add(400, ani);
 
 	//idle left
 	ani = new Animation(100);
-	ani->Add("WalkingLeft4");
+	ani->Add(10014);
 	resourceManagement->Getanimations->Add(401, ani);
 
 	// walk right
 	ani = new Animation(100);
-	ani->Add("WalkingRight1");
-	ani->Add("WalkingRight2");
-	ani->Add("WalkingRight3");
-	ani->Add("WalkingRight4");
+	ani->Add(10001);
+	ani->Add(10002);
+	ani->Add(10003);
+	ani->Add(10004);
 	resourceManagement->Getanimations->Add(500, ani);
 
 	// walk left
 	ani = new Animation(100);
-
-	ani->Add("WalkingLeft1");
-	ani->Add("WalkingLeft2");
-	ani->Add("WalkingLeft3");
-	ani->Add("WalkingLeft4");
+	ani->Add(10011);
+	ani->Add(10012);
+	ani->Add(10013);
+	ani->Add(10014);
 	resourceManagement->Getanimations->Add(501, ani);
 
 	//jump right
 	ani = new Animation(100);
-	ani->Add("JumpRight");
+	ani->Add(10021);
 	resourceManagement->Getanimations->Add(600, ani);
 
 	//jump left
 	ani = new Animation(100);
-	ani->Add("JumpLeft");
+	ani->Add(10022);
 	resourceManagement->Getanimations->Add(601, ani);
 
 	//sit down right
 	ani = new Animation(100);
-	ani->Add("SitdownRight");
+	ani->Add(10031);
 	resourceManagement->Getanimations->Add(700, ani);
 
 	//sit down left
 	ani = new Animation(100);
-	ani->Add("SitdownLeft");
+	ani->Add(10032);
 	resourceManagement->Getanimations->Add(701, ani);
 
 	//facing backward
-	/*ani = new Animation(100);
+	ani = new Animation(100);
 	ani->Add(10040);
 	resourceManagement->Getanimations->Add(800, ani);
-*/
-	//attack standing right
-	ani = new Animation(100);
-	ani->Add("AttackStandRight1");
-	ani->Add("AttackStandRight2");
-	ani->Add("AttackStandRight3");
-	ani->Add("AttackStandRight4");
-
-
-	resourceManagement->Getanimations->Add(900, ani);
-
-	//attack standing left
-	ani = new Animation(100);
-	ani->Add("AttackStandLeft1");
-	ani->Add("AttackStandLeft2");
-	ani->Add("AttackStandLeft3");
-	ani->Add("AttackStandLeft4");
-
-	resourceManagement->Getanimations->Add(901, ani);
-
 
 	AddAnimation(400);		// idle right
 	AddAnimation(401);		// idle left
@@ -176,131 +119,126 @@ void Simon::loadResource()
 	AddAnimation(700);		//sitdown right
 	AddAnimation(701);		//sitdown left
 
-	//AddAnimation(800);		//facing backward
-
-	AddAnimation(900);		//attack standing right
-	AddAnimation(901);		//attack standing left
+	AddAnimation(800);		//facing backward
 
 	SetPosition(0.0f, 300.0f);
 }
 
-void Simon::SetState(int state)
+void Simon::Render()
 {
-	this->state = state;
+	int ani;
+	if (vx == 0)
+	{
+		if (isSitdown == 0)
+			if (nx > 0) ani = SIMON_ANI_IDLE_RIGHT;
+			else ani = SIMON_ANI_IDLE_LEFT;
+		else
+		{
+			if (nx > 0) ani = SIMON_ANI_SITDOWN_RIGHT;
+			else ani = SIMON_ANI_SITDOWN_LEFT;
+		}
+	}
+	else if (vx > 0)
+		ani = SIMON_ANI_WALKING_RIGHT;
+	else ani = SIMON_ANI_WALKING_LEFT;
+
+	if (vy < 0)
+	{
+		if (nx > 0) ani = SIMON_ANI_JUMPING_RIGHT;
+		else ani = SIMON_ANI_JUMPING_LEFT;
+	}
+
+	GameObject::animations[ani]->Render(x, y);
 }
 
 void Simon::OnKeyStateChange(BYTE * states)
 {
 	DirectInput* directInput = DirectInput::getInstance();
 
-	switch (state)
+	if (directInput->IsKeyDown(DIK_K))
 	{
-	case SIMON_STATE_IDLE:
-		if (directInput->IsKeyDown(DIK_K))
-		{
-			SetState(SIMON_STATE_WALKING_RIGHT);
-		}
-		else if (directInput->IsKeyDown(DIK_H))
-		{
-			SetState(SIMON_STATE_WALKING_LEFT);
-		}
-		else if (directInput->IsKeyDown(DIK_J))
-		{
-			SetState(SIMON_STATE_SITDOWN);
-		}
-		break;
-	case SIMON_STATE_WALKING_RIGHT:
-	case SIMON_STATE_WALKING_LEFT:
-		if (directInput->IsKeyDown(DIK_J))
-		{
-			SetState(SIMON_STATE_SITDOWN);
-		}
-		break;
+		SetState(SIMON_STATE_WALKING_RIGHT);
 	}
-
+	else if (directInput->IsKeyDown(DIK_H))
+	{
+		SetState(SIMON_STATE_WALKING_LEFT);
+	}
+	else if (directInput->IsKeyDown(DIK_J))
+	{
+		if (GetDierection() > 0)
+		{
+			SetState(SIMON_STATE_SITDOWN_RIGHT);
+		}
+		else
+		{
+			SetState(SIMON_STATE_SITDOWN_LEFT);
+		}
+	}
+	else SetState(SIMON_STATE_IDLE);
 }
 
 void Simon::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
-	switch (state)
+	if (KeyCode == DIK_X)
 	{
-	case SIMON_STATE_IDLE:
-	case SIMON_STATE_WALKING_RIGHT:
-	case SIMON_STATE_WALKING_LEFT:
-		if (KeyCode == DIK_X)
-		SetState(SIMON_STATE_JUMPING);
-		break;
-	/*case DIK_Z:
-		SetState(SIMON_STATE_ATTACK_STAND);
-		break;*/
+		if (nx > 0)
+		{
+			SetState(SIMON_STATE_JUMPING_RIGHT);
+		}
+		else
+		{
+			SetState(SIMON_STATE_JUMPING_LEFT);
+		}
 	}
 }
 
 void Simon::OnKeyUp(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
-	switch (state)
-	{
-		case SIMON_STATE_WALKING_RIGHT:
-			if (KeyCode == DIK_K )
-				SetState(SIMON_STATE_IDLE);
-			break;
-		case SIMON_STATE_WALKING_LEFT:
-			if (KeyCode == DIK_H)
-				SetState(SIMON_STATE_IDLE);
-			break;
-		case SIMON_STATE_SITDOWN:
-			if (KeyCode == DIK_J)
-				SetState(SIMON_STATE_IDLE);
-			break;
-	}
 }
 
-void Simon::Render()
+void Simon::SetState(int state)
 {
+	GameObject::SetState(state);
 	switch (state)
 	{
-		case SIMON_STATE_IDLE:
-			if (nx == 1)
-			{
-				ani = SIMON_ANI_IDLE_RIGHT;
-			}
-			else
-			{
-				ani = SIMON_ANI_IDLE_LEFT;
-			}
-			break;
-		case SIMON_STATE_WALKING_RIGHT:
-			ani = SIMON_ANI_WALKING_RIGHT;
-			break;
-		case SIMON_STATE_WALKING_LEFT:
-			ani = SIMON_ANI_WALKING_LEFT;
-			break;
-		case SIMON_STATE_SITDOWN:
-			if (nx == 1)
-			{
-				ani = SIMON_ANI_SITDOWN_RIGHT;
-			}
-			else
-			{
-				ani = SIMON_ANI_SITDOWN_LEFT;
-			}
-			break;
-		case SIMON_STATE_JUMPING:
-			if (nx == 1)
-			{
-				ani = SIMON_ANI_JUMPING_RIGHT;
-			}
-			else
-			{
-				ani = SIMON_ANI_JUMPING_LEFT;
-			}
-			break;
+	case SIMON_STATE_WALKING_RIGHT:
+		isSitdown = 0;
+		vx = SIMON_MOVE_SPEED;
+		nx = 1;
+		break;
+	case SIMON_STATE_WALKING_LEFT:
+		isSitdown = 0;
+		vx = -SIMON_MOVE_SPEED;
+		nx = -1;
+		break;
+	case SIMON_STATE_JUMPING_RIGHT:
+		if (y == 300)
+			vy = -SIMON_JUMP_SPEED_Y;
+		isSitdown = 0;
+		break;
+	case SIMON_STATE_JUMPING_LEFT:
+		if (y == 300)
+			vy = -SIMON_JUMP_SPEED_Y;
+		isSitdown = 0;
+		break;
+	case SIMON_STATE_SITDOWN_RIGHT:
+		isSitdown = 1;
+		vx = 0;
+		nx = 1;
+		break;
+	case SIMON_STATE_SITDOWN_LEFT:
+		isSitdown = 1;
+		vx = 0;
+		nx =-1;
+		break;
+	case SIMON_STATE_IDLE:
+		isSitdown = 0;
+		vx = 0;
+		break;
 	}
-	
-	GameObject::animations[ani]->Render(x, y);
 }
 
 Simon::~Simon()

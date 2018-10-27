@@ -3,13 +3,13 @@
 
 Sprites * Sprites::__instance = nullptr;
 
-void Sprites::Add(std::string id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
+void Sprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {
 	LPSPRITE s = new Sprite(id, left, top, right, bottom, tex);
 	spritesList[id] = s;
 }
 
-LPSPRITE Sprites::Get(std::string id)
+LPSPRITE Sprites::Get(int id)
 {
 	return spritesList[id];
 }

@@ -1,20 +1,21 @@
 #include "CastleVania.h"
 #include "ScreenManager.h"
-
+#include "Screens/MenuScreen.h"
+#include "Screens/GameplayScreen.h"
 
 CastleVania* CastleVania::__instance = nullptr;
 
 
 CastleVania::CastleVania():Game()
 {
-	menuscreen = new MenuScreen();
 	screenmanager = new ScreenManager();
-	__hook(&MenuScreen::chooseScreenGamePlay, menuscreen, &CastleVania::playGame);
+	
 }
 void CastleVania::Init(HINSTANCE hInstance, int nCmdShow)
 {	
 	Game:init(hInstance, nCmdShow);
-	screenmanager->addScreen(new (GameplayScreen));
+	screenmanager->addScreen(new GameplayScreen());
+	screenmanager->init();
 }
 
 void CastleVania::renderObjects()
@@ -25,6 +26,11 @@ void CastleVania::renderObjects()
 void CastleVania::loadResource()
 {
 	screenmanager->loadResources();
+}
+
+void CastleVania::handleInput()
+{
+	screenmanager->handleInput();
 }
 
 void CastleVania::update(float dt)
@@ -43,12 +49,6 @@ void CastleVania::run()
 	Run();
 }
 
-void CastleVania::playGame(ScreenBase * screen)
-{
-	screenmanager->changeScreen(new GameplayScreen());
-}
-
 CastleVania::~CastleVania()
 {
-	__unhook(&MenuScreen::chooseScreenGamePlay, menuscreen, &CastleVania::playGame);
 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
