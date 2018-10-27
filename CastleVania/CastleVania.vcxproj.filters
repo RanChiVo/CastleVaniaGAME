@@ -81,6 +81,12 @@
     <ClCompile Include="AudioManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Library\DXUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\DSUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\GameObject.h">
@@ -146,5 +152,19 @@
     <ClInclude Include="AudioManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Library\DXUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\DSUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\Sounds\Musics\intro_scene.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Resources\Sounds\Musics\Game_Start_Prologue.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

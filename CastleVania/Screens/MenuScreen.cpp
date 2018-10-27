@@ -4,6 +4,7 @@
 #include "../Animations/Animations.h"
 #include "../Input/DirectInput.h"
 #include "../AudioManager.h"
+#include "../Direct3DManager.h"
 
 constexpr int  ID_TEX_MAINMENU = 1;
 
@@ -31,7 +32,19 @@ void MenuScreen::update(float dt)
 void MenuScreen::renderObject()
 {
 	loadBackGround->Draw(0, 0);
+
+	RECT R;
+	R.left = 180;
+	R.top = 300;
+	R.right = 2000;
+	R.bottom = 2000;
+
+	LPD3DXSPRITE spriteHandler = Direct3DManager::getInstance()->GetSpriteHandler();
+
+	if (resourceManagement->getFont())
+		resourceManagement->getFont()->DrawTextA(spriteHandler, "VO THI MOT", -1, &R, DT_LEFT, D3DCOLOR_XRGB(255, 0, 255));
 }
+
 
 void MenuScreen::loadResources()
 {
@@ -39,11 +52,17 @@ void MenuScreen::loadResources()
 	LPDIRECT3DTEXTURE9 texMenu = resourceManagement->textures->Get(ID_TEX_MAINMENU);
 	loadBackGround = new Sprite("Texture", 0, 0, 640, 480, texMenu);
 
-	//AudioManager::getInstance()->loadAudio({
-	//	{
-	//		"intro_scene", L"Resources\\Sounds\\Musics\\intro_scene.wav" }
-	//	});
-	//AudioManager::getInstance()->playAudioLoop("intro_scene");
+	resourceManagement->loadFont(L"Resources\\Fonts\\prstart.ttf");
+	auto font = resourceManagement->getFont();
+	auto aaa = resourceManagement->getFontSize(font, "V");
+	auto bbb = resourceManagement->getFontSize(font, "VO");
+	auto ccc = resourceManagement->getFontSize(font, "VO THI MOT");
+	
+	AudioManager::getInstance()->loadAudio({
+		{
+			"intro_scene", L"Resources\\Sounds\\Musics\\intro_scene.wav" }
+		});
+	AudioManager::getInstance()->playAudioLoop("intro_scene");
 
 }
 

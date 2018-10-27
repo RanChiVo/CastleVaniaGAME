@@ -14,7 +14,7 @@ CastleVania::CastleVania():Game()
 void CastleVania::Init(HINSTANCE hInstance, int nCmdShow)
 {	
 	Game:init(hInstance, nCmdShow);
-	screenmanager->addScreen(new (GameplayScreen));
+	screenmanager->addScreen(new (MenuScreen));
 }
 
 void CastleVania::renderObjects()

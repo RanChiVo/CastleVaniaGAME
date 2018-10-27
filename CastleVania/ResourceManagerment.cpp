@@ -1,6 +1,29 @@
 #include "ResourceManagement.h"
+#include "Direct3DManager.h"
 
 ResourceManagement * ResourceManagement::__instance = nullptr;
+
+D3DXVECTOR2 ResourceManagement::getFontSize(ID3DXFont* font, std::string text)
+{
+	RECT r;
+
+	if (font)
+		font->DrawTextA(nullptr, text.c_str(), -1,&r , DT_CALCRECT, D3DCOLOR_XRGB(255, 0, 255));
+	
+	return D3DXVECTOR2(r.right - r.left, r.bottom - r.top);
+}
+
+void ResourceManagement::loadFont(LPTSTR path)
+{
+	LPDIRECT3DDEVICE9 gDevice = Direct3DManager::getInstance()->GetDirect3DDevice();
+
+	AddFontResourceEx(path, FR_PRIVATE, NULL);
+
+	HRESULT result = D3DXCreateFont(
+		gDevice, 20, 0, FW_NORMAL, 1, false,
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
+		ANTIALIASED_QUALITY, FF_DONTCARE, L"Press Start", &font);
+}
 
 void ResourceManagement::loadTexture(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 {

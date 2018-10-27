@@ -82,12 +82,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <ConformanceMode>false</ConformanceMode>
-      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>
+      </ConformanceMode>
+      <PreprocessorDefinitions>_UNICODE; UNICODE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <InlineFunctionExpansion />
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3dx9.lib;d3d9.lib;dxguid.lib;dxerr.lib;dinput8.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dinput8.lib;dxguid.lib;dsound.lib;dxerr.lib;winmm.lib;%(AdditionalDependencies);legacy_stdio_definitions.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -139,6 +140,8 @@
     <ClCompile Include="Input\DirectInput.cpp" />
     <ClCompile Include="GameObjects\Brick.cpp" />
     <ClCompile Include="CastleVania.cpp" />
+    <ClCompile Include="Library\DSUtil.cpp" />
+    <ClCompile Include="Library\DXUtil.cpp" />
     <ClCompile Include="Screens\GameplayScreen.cpp" />
     <ClCompile Include="DebugOut\DebugOut.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -163,6 +166,8 @@
     <ClInclude Include="Input\DirectInput.h" />
     <ClInclude Include="GameObjects\Brick.h" />
     <ClInclude Include="CastleVania.h" />
+    <ClInclude Include="Library\DSUtil.h" />
+    <ClInclude Include="Library\DXUtil.h" />
     <ClInclude Include="Screens\GameplayScreen.h" />
     <ClInclude Include="DebugOut\DebugOut.h" />
     <ClInclude Include="Game.h" />
@@ -177,6 +182,10 @@
     <ClInclude Include="SpriteManagements\Sprites.h" />
     <ClInclude Include="Textures\Textures.h" />
     <ClInclude Include="WindowUtil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\Sounds\Musics\Game_Start_Prologue.wav" />
+    <Media Include="Resources\Sounds\Musics\intro_scene.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
