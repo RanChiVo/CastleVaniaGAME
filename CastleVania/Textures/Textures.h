@@ -1,7 +1,6 @@
 #pragma once
 #include <unordered_map>
 #include <d3dx9.h>
-#include <dinput.h>
 
 using namespace std;
 
