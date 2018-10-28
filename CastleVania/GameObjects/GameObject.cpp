@@ -7,6 +7,8 @@
 
 vector<LPANIMATION> GameObject::animations;
 
+
+
 void GameObject::AddAnimation(int aniId)
 {
 	LPANIMATION ani = Animations::GetInstance()->Get(aniId);
@@ -27,9 +29,26 @@ void GameObject::Update(DWORD dt)
 	y += vy * dt;
 }
 
-void GameObject::Render()
+void GameObject::handleCollision()
 {
 }
+
+void GameObject::RenderBoundingBox()
+{
+}
+
+//LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
+//{
+//	return LPCOLLISIONEVENT();
+//}
+
+//void GameObject::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCOLLISIONEVENT>& coEvents)
+//{
+//}
+//
+//void GameObject::FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLISIONEVENT>& coEventsResult, float & min_tx, float & min_ty, float & nx, float & ny)
+//{
+//}
 
 GameObject::~GameObject()
 {

@@ -19,6 +19,7 @@ constexpr int SIMON_STATE_IDLE = 0;
 constexpr int SIMON_STATE_WALKING_RIGHT = 100;
 constexpr int SIMON_STATE_WALKING_LEFT = 200;
 constexpr int SIMON_STATE_JUMPING = 300;
+constexpr int SIMON_STATE_JUMP = 400;
 constexpr int SIMON_STATE_SITDOWN = 500;
 constexpr int SIMON_STATE_ATTACK_STAND= 700;
 constexpr int SIMON_STATE_ATTACK_SITDOWN = 900;
@@ -51,12 +52,14 @@ private:
 		SIMON_STATE_WALKING_RIGHT,
 		SIMON_STATE_WALKING_LEFT,
 		SIMON_STATE_JUMPING,
+		SIMON_STATE_JUMPTOUCHGROUND,
 		SIMON_STATE_SITDOWN,
 		SIMON_STATE_ATTACK_STAND,
 		SIMON_STATE_ATTACK_SITDOWN,
 		SIMON_STATE_ATTACK_JUMP
 	};
 	int ani;
+	bool jumped = false;
 
 public:
 	Simon();
@@ -64,7 +67,10 @@ public:
 	void loadResource();
 	void Update(DWORD dt);
 	void Render();
+	
+	bool isOnGround();
 	int GetLevel() { return level; }
+	void handleState();
 
 	void OnKeyStateChange(BYTE *states);
 	void OnKeyDown(int KeyCode);

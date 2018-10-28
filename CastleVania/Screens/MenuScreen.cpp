@@ -54,9 +54,8 @@ void MenuScreen::loadResources()
 
 	resourceManagement->loadFont(L"Resources\\Fonts\\prstart.ttf");
 	auto font = resourceManagement->getFont();
-	auto aaa = resourceManagement->getFontSize(font, "V");
-	auto bbb = resourceManagement->getFontSize(font, "VO");
-	auto ccc = resourceManagement->getFontSize(font, "VO THI MOT");
+	
+	
 	
 	AudioManager::getInstance()->loadAudio({
 		{
