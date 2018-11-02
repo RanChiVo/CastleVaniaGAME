@@ -1,37 +1,33 @@
 #pragma once
 
 #include <vector>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
-
+#include "ViewPort.h"
 #include "SpriteManagements/Sprite.h"
-
-using namespace std;
+#include "Tile.h"
+#include <map>
 
 class TileMap
 {
 private:
+	D3DXVECTOR2 positionTile;// Xac dinh toa do ve
+	LPSPRITE sprite;//ve cac tile bang sprite
+	ViewPort* viewport;
 
-	int**  MAPDATA;
+	D3DXVECTOR2 positionWorld;
+	D3DXVECTOR2 positionView;
+
+	int** MAPDATA;
 	int collumns;
 	int rows;
-	int mapWidth;
-	int mapHeight;
 
 	int tileWidth;
 	int tileHeight;
-	RECT rect;
-	D3DXVECTOR2 positionTile;
 
+	std::vector<Tile*> Tiles;
 public:
 	TileMap();
-
-	void init();
-	void loadTiles();
-	void drawTiles();
-
+	RECT loadMap(std::string resourcepath, int id);
+	void draw(D3DXVECTOR2 postion);
 	~TileMap();
 };
 

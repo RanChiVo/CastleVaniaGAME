@@ -11,6 +11,9 @@ private:
 	vector<GameObject*> objects;
 	Simon* simon;
 	DirectInput* directInput;
+	TileMap * tile_map;
+	ResourceManagement* resourceManagement;
+	RECT RECT;
 
 public:
 

@@ -45,7 +45,6 @@ void MenuScreen::renderObject()
 		resourceManagement->getFont()->DrawTextA(spriteHandler, "VO THI MOT", -1, &R, DT_LEFT, D3DCOLOR_XRGB(255, 0, 255));
 }
 
-
 void MenuScreen::loadResources()
 {
 	resourceManagement->textures->Add(ID_TEX_MAINMENU, L"Resources\\Screens\\mainmenu.png", D3DCOLOR_XRGB(255, 0, 255));

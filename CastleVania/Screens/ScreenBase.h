@@ -4,11 +4,16 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "../Input/DirectInput.h"
+#include "../TileMap.h"
 
 class ScreenBase
 {
+protected:
+	//ViewPort * Viewport;
 public:
 	ScreenBase();
+	//ViewPort * getViewPort() { return Viewport; }
+	//void setViewPort(ViewPort* viewport) { viewport = Viewport; }
 
 	void virtual init() = 0;
 	void virtual update(float deltatime) = 0;

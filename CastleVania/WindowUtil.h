@@ -3,6 +3,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "DebugOut/DebugOut.h"
+#include "../CastleVania/ViewPort.h"
 
 class WindowUtil
 {
@@ -14,7 +15,6 @@ protected:
 	int nCmdShow;
 	int ScreenBaseWidth;
 	int ScreenBaseHeight;
-	
 public:
 
 	WindowUtil(HINSTANCE hInstance, int nCmdShow, int ScreenBaseWidth, int ScreenBaseHeight);

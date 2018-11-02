@@ -141,6 +141,7 @@
     <ClCompile Include="Input\DirectInput.cpp" />
     <ClCompile Include="GameObjects\Brick.cpp" />
     <ClCompile Include="CastleVania.cpp" />
+    <ClCompile Include="Library\pugixml.cpp" />
     <ClCompile Include="Screens\IntroScreen.cpp" />
     <ClCompile Include="Library\DSUtil.cpp" />
     <ClCompile Include="Library\DXUtil.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="SpriteManagements\Sprite.cpp" />
     <ClCompile Include="SpriteManagements\Sprites.cpp" />
     <ClCompile Include="Textures\Textures.cpp" />
+    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="ViewPort.cpp" />
     <ClCompile Include="WindowUtil.cpp" />
@@ -171,6 +173,8 @@
     <ClInclude Include="Input\DirectInput.h" />
     <ClInclude Include="GameObjects\Brick.h" />
     <ClInclude Include="CastleVania.h" />
+    <ClInclude Include="Library\pugiconfig.hpp" />
+    <ClInclude Include="Library\pugixml.hpp" />
     <ClInclude Include="Screens\IntroScreen.h" />
     <ClInclude Include="Library\DSUtil.h" />
     <ClInclude Include="Library\DXUtil.h" />
@@ -187,6 +191,7 @@
     <ClInclude Include="SpriteManagements\Sprite.h" />
     <ClInclude Include="SpriteManagements\Sprites.h" />
     <ClInclude Include="Textures\Textures.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="ViewPort.h" />
     <ClInclude Include="WindowUtil.h" />
@@ -194,6 +199,19 @@
   <ItemGroup>
     <Media Include="Resources\Sounds\Musics\Game_Start_Prologue.wav" />
     <Media Include="Resources\Sounds\Musics\intro_scene.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="map\mapEntrance.png" />
+    <Image Include="Resources\bat.png" />
+    <Image Include="Resources\Screens\intro.png" />
+    <Image Include="Resources\Screens\mainmenu.png" />
+    <Image Include="Resources\simon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="map\EntranceMap.tmx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\Fonts\prstart.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

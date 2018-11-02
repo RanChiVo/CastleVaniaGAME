@@ -219,6 +219,10 @@ void Simon::OnKeyDown(int KeyCode)
 	case SIMON_STATE_WALKING_LEFT:
 		if (KeyCode == DIK_X)
 		SetState(SIMON_STATE_JUMPING);
+		else if (KeyCode == DIK_Z)
+		{
+			SetState(SIMON_STATE_ATTACK_STAND);
+		}
 		break;
 	/*case DIK_Z:
 		SetState(SIMON_STATE_ATTACK_STAND);
@@ -285,6 +289,16 @@ void Simon::Render()
 		else
 		{
 			ani = SIMON_ANI_JUMPING_LEFT;
+		}
+		break;
+	case SIMON_STATE_ATTACK_STAND:
+		if (nx == 1)
+		{
+			ani = SIMON_ANI_ATTACK_STANDING_RIGHT;
+		}
+		else
+		{
+			ani = SIMON_ANI_ATTACK_STANDING_LEFT;
 		}
 		break;
 	}

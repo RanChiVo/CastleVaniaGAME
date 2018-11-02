@@ -5,7 +5,6 @@
 #include <d3dx9.h>
 #include "WindowUtil.h"
 
-
 class Direct3DManager
 {
 private: 

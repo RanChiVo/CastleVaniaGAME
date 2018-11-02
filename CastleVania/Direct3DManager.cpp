@@ -27,8 +27,8 @@ void Direct3DManager::init(WindowUtil * windowGame)
 	RECT r;
 	GetClientRect(hWnd, &r);	// retrieve Window width & height 
 
-	d3dpp.BackBufferHeight = r.bottom + 1;
-	d3dpp.BackBufferWidth = r.right + 1;
+	d3dpp.BackBufferHeight = r.bottom ;
+	d3dpp.BackBufferWidth = r.right ;
 
 	d3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
