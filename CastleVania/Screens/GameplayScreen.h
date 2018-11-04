@@ -3,6 +3,9 @@
 #include "../Screens/ScreenBase.h"
 #include "../GameObjects/GameObject.h"
 #include "../Input/DirectInput.h"
+#include "../ViewPort.h"
+#include "../Game.h"
+
 
 class GameplayScreen: public ScreenBase
 {
@@ -12,8 +15,11 @@ private:
 	Simon* simon;
 	DirectInput* directInput;
 	TileMap * tile_map;
+	Sprite * Map;
 	ResourceManagement* resourceManagement;
 	RECT RECT;
+	ViewPort* viewport;
+
 
 public:
 

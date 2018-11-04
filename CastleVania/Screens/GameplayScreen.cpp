@@ -22,23 +22,24 @@ void GameplayScreen::renderObject()
 	position.y = RECT.top;
 
 	tile_map->draw(position);
-
+	Map->Draw(0,0);
+	
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }
 
 void GameplayScreen::loadResources()
 {
-	resourceManagement->textures->Add(ID_TEX_GAMEPLAYSCREEN, L"map\\mapEntrance.png", D3DCOLOR_XRGB(0, 0, 0));
+	resourceManagement->textures->Add(ID_TEX_GAMEPLAYSCREEN, L"map\\mapEntrance.png", D3DCOLOR_XRGB(255, 0, 255));
 
 	LPDIRECT3DTEXTURE9 textPlayScreen = resourceManagement->textures->Get(ID_TEX_GAMEPLAYSCREEN);
 
-	RECT = tile_map->loadMap("map\\EntranceMap.tmx", 1);
+	tile_map->loadMap("map\\EntranceMap.tmx", 1, viewport);
 
-	Sprite * Map = new Sprite("Texture1", RECT.left, RECT.top, RECT.right, RECT.bottom, textPlayScreen);
+	Map = new Sprite("Texture1", 0, 0, 640, 480, textPlayScreen);
 
 	simon->loadResource();
-
+	
 	objects.push_back(simon);
 }
 
@@ -51,6 +52,8 @@ GameplayScreen::GameplayScreen()
 	simon = new Simon();
 
 	resourceManagement = ResourceManagement::GetInstance();
+
+	viewport = new ViewPort(0, ScreenBase_height, ScreenBase_width, ScreenBase_height);
 }
 
 GameplayScreen::~GameplayScreen()

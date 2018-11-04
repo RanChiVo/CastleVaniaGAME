@@ -35,3 +35,7 @@ void Animation::Render(float x, float y)
 
 	frames[currentFrame]->GetSprite()->Draw(x, y);
 }
+
+void Animation::update()
+{
+}

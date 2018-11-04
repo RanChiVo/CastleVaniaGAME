@@ -162,8 +162,6 @@
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="ViewPort.cpp" />
-    <ClCompile Include="GameObjects\Wall.cpp" />
-    <ClCompile Include="Whip.cpp" />
     <ClCompile Include="WindowUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -196,8 +194,6 @@
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="ViewPort.h" />
-    <ClInclude Include="GameObjects\Wall.h" />
-    <ClInclude Include="Whip.h" />
     <ClInclude Include="WindowUtil.h" />
   </ItemGroup>
   <ItemGroup>

@@ -3,13 +3,14 @@
 #include <vector>
 #include "Screens/ScreenBase.h"
 #include "DebugOut/DebugOut.h"
-
+#include "TileMap.h"
 
 class ScreenManager
 {
 private:
 
 	std::vector<ScreenBase*> screens;
+	
 
 public:
 	ScreenManager();

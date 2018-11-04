@@ -60,6 +60,8 @@ private:
 	};
 	int ani;
 	bool jumped = false;
+	bool attacking = false;
+	bool attacked = false;
 
 public:
 	Simon();

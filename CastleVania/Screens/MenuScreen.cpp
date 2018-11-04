@@ -54,8 +54,6 @@ void MenuScreen::loadResources()
 	resourceManagement->loadFont(L"Resources\\Fonts\\prstart.ttf");
 	auto font = resourceManagement->getFont();
 	
-	
-	
 	AudioManager::getInstance()->loadAudio({
 		{
 			"intro_scene", L"Resources\\Sounds\\Musics\\intro_scene.wav" }

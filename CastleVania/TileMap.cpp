@@ -2,14 +2,12 @@
 #include <d3dx9.h>
 #include "DebugOut/DebugOut.h"
 #include "Library/pugixml.hpp"
-#include "Game.h"
 
 TileMap::TileMap()
 {
-	 viewport = new ViewPort(0, ScreenBase_height, ScreenBase_width, ScreenBase_height);
 }
 
-RECT TileMap::loadMap(std::string resourcepath, int id)
+void TileMap::loadMap(std::string resourcepath, int id, ViewPort* viewport)
 {
 	pugi::xml_document doc;
 
@@ -29,7 +27,7 @@ RECT TileMap::loadMap(std::string resourcepath, int id)
 		D3DXVECTOR2 Object = viewport->WorldToScreen(Vector);
 
 		positionView = Object;
-
+			
 		//Load Grid
 
 		auto firstTildeId = sourceDoc.attribute("firstgid").as_int();
@@ -89,18 +87,12 @@ RECT TileMap::loadMap(std::string resourcepath, int id)
 	{
 		OutputDebugString(L"[ERROR] Reading failed\n");
 	}
-	RECT R;
-
-	R.left = int(positionView.x);
-	R.top = int(positionView.y);
-	R.right = int(positionView.x + viewport->getWidth());
-	R.bottom = int(positionView.y - viewport->getHeight());
-
-	return R;
 }
+
 
 void TileMap::draw(D3DXVECTOR2 position)
 {
+	
 	for (int j = 0; j < collumns; j++)
 	{
 		for (int i = 0; i < rows; i++)

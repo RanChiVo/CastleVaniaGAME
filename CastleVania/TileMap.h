@@ -9,9 +9,9 @@
 class TileMap
 {
 private:
+
 	D3DXVECTOR2 positionTile;// Xac dinh toa do ve
 	LPSPRITE sprite;//ve cac tile bang sprite
-	ViewPort* viewport;
 
 	D3DXVECTOR2 positionWorld;
 	D3DXVECTOR2 positionView;
@@ -26,7 +26,7 @@ private:
 	std::vector<Tile*> Tiles;
 public:
 	TileMap();
-	RECT loadMap(std::string resourcepath, int id);
+	void loadMap(std::string resourcepath, int id, ViewPort* viewport);
 	void draw(D3DXVECTOR2 postion);
 	~TileMap();
 };
