@@ -1,7 +1,17 @@
-#include "Animation.h"
+										#include "Animation.h"
 #include "../SpriteManagements/Sprites.h"
 #include "../Game.h"
 #include "../DebugOut/DebugOut.h"
+
+// Animation::loop = true -> walk
+// Animation::loop = false -> attack, jump, sitdown
+// Animation::completed = true if loop = false and frame = lastFrame
+// Animation::completed = true -> Simon::SetState(IDLE)
+
+void Animation::Rewind()
+{
+	currentFrame = 0;
+}
 
 void Animation::Add(std::string spriteId, DWORD time)
 {
@@ -11,9 +21,10 @@ void Animation::Add(std::string spriteId, DWORD time)
 	LPSPRITE sprite = Sprites::GetInstance()->Get(spriteId);
 	LPANIMATION_FRAME frame = new AnimationFrame(sprite, t);
 	frames.push_back(frame);
+	isCompleted = false;
 }
 
-void Animation::Render(float x, float y)
+bool Animation::Render(float x, float y, bool isLooped)
 {
 	DWORD now = GetTickCount();
 	if (currentFrame == -1)
@@ -28,12 +39,23 @@ void Animation::Render(float x, float y)
 		{
 			currentFrame++;
 			lastFrameTime = now;
-			if (currentFrame == frames.size()) currentFrame = 0;
+			if (currentFrame == frames.size())
+			{
+				Rewind();
+				
+				if(isLooped == false) isCompleted = true;
+			}
+			else {
+				isCompleted = false;
+			}
+			
 			//DebugOut(L"now: %d, lastFrameTime: %d, t: %d\n", now, lastFrameTime, t);
 		}
 	}
 
 	frames[currentFrame]->GetSprite()->Draw(x, y);
+
+	return isCompleted;
 }
 
 void Animation::update()

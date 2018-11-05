@@ -108,7 +108,10 @@
     <ClCompile Include="GameObjects\Wall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Whip.cpp">
+    <ClCompile Include="SinMovement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Whip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -206,7 +209,10 @@
     <ClInclude Include="GameObjects\Wall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Whip.h">
+    <ClInclude Include="SinMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Whip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

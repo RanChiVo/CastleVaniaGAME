@@ -155,15 +155,16 @@
     <ClCompile Include="ResourceManagerment.cpp" />
     <ClCompile Include="Screens\ScreenBase.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
+    <ClCompile Include="SinMovement.cpp" />
     <ClCompile Include="SpriteManagements\Sprite.cpp" />
     <ClCompile Include="SpriteManagements\Sprites.cpp" />
     <ClCompile Include="Textures\Textures.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="ViewPort.cpp" />
+    <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="GameObjects\Wall.cpp" />
-    <ClCompile Include="Whip.cpp" />
+    <ClCompile Include="GameObjects\Whip.cpp" />
     <ClCompile Include="WindowUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,15 +190,16 @@
     <ClInclude Include="ResourceManagement.h" />
     <ClInclude Include="Screens\ScreenBase.h" />
     <ClInclude Include="ScreenManager.h" />
+    <ClInclude Include="SinMovement.h" />
     <ClInclude Include="SpriteManagements\Sprite.h" />
     <ClInclude Include="SpriteManagements\Sprites.h" />
     <ClInclude Include="Textures\Textures.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="ViewPort.h" />
+    <ClInclude Include="Viewport.h" />
     <ClInclude Include="GameObjects\Wall.h" />
-    <ClInclude Include="Whip.h" />
+    <ClInclude Include="GameObjects\Whip.h" />
     <ClInclude Include="WindowUtil.h" />
   </ItemGroup>
   <ItemGroup>

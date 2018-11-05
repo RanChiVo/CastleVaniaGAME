@@ -3,7 +3,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "DebugOut/DebugOut.h"
-#include "../CastleVania/ViewPort.h"
+#include "../CastleVania/Viewport.h"
 
 class WindowUtil
 {

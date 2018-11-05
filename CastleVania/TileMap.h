@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "ViewPort.h"
+#include "Viewport.h"
 #include "SpriteManagements/Sprite.h"
 #include "Tile.h"
 #include <map>
@@ -26,7 +26,7 @@ private:
 	std::vector<Tile*> Tiles;
 public:
 	TileMap();
-	void loadMap(std::string resourcepath, int id, ViewPort* viewport);
+	void loadMap(std::string resourcepath, int id, Viewport* viewport);
 	void draw(D3DXVECTOR2 postion);
 	~TileMap();
 };

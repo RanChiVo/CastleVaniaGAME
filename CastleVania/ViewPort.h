@@ -2,7 +2,7 @@
 #include <d3dx9.h>
 
 
-class ViewPort
+class Viewport
 {
 protected:
 
@@ -11,9 +11,10 @@ protected:
 	float width;
 	float height;
 
+
 public:
 
-	ViewPort(int x, int y, int width, int height);
+	Viewport(int x, int y, int width, int height);
 
 	D3DXVECTOR2  WorldToScreen(D3DXVECTOR2 Object);
 
@@ -27,6 +28,6 @@ public:
 
 	float getHeight() { return height; }
 
-	~ViewPort();
+	~Viewport();
 };
 

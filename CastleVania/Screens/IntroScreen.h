@@ -1,6 +1,6 @@
 #pragma once
 #include "ScreenBase.h"
-#include "../ViewPort.h"
+#include "../Viewport.h"
 
 class IntroScreen : public ScreenBase
 {

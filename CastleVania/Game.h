@@ -31,7 +31,6 @@ public:
 	void virtual handleInput();
 
 	void Render();
-	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom);
 	int Run();
 
 	~Game();

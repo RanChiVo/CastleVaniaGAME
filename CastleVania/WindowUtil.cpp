@@ -20,7 +20,7 @@ LRESULT WindowUtil::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	return 0;
 }
 //
-//void WindowUtil::setViewPort()
+//void WindowUtil::setViewport()
 //{
 //}
 

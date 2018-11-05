@@ -3,7 +3,7 @@
 #include "../Screens/ScreenBase.h"
 #include "../GameObjects/GameObject.h"
 #include "../Input/DirectInput.h"
-#include "../ViewPort.h"
+#include "../Viewport.h"
 #include "../Game.h"
 
 
@@ -18,7 +18,7 @@ private:
 	Sprite * Map;
 	ResourceManagement* resourceManagement;
 	RECT RECT;
-	ViewPort* viewport;
+	Viewport* viewport;
 
 
 public:

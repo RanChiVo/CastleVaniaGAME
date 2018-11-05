@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include "../DebugOut/DebugOut.h"
 #include <string.h>
+#include "../Direct3DManager.h"
 using namespace std;
 
 class Sprite
@@ -16,11 +17,13 @@ private:
 	int bottom;
 
 	LPDIRECT3DTEXTURE9 texture;
+	D3DXVECTOR2 Position;
+	
 public:
 	//Init sprite
 	Sprite(std::string id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 	
-	void Set(std::string id, int left, int top, int right, int bottom)
+	void SetRECT(std::string id, int left, int top, int right, int bottom)
 	{
 		this->id = id;
 		this->left = left;
@@ -28,8 +31,9 @@ public:
 		this->bottom = bottom;
 	}
 
-	void Draw(float x, float y);
+	void SetPosition(D3DXVECTOR2 position) { this->Position = position; }
 
+	void Draw();
 };
 
 typedef Sprite * LPSPRITE;

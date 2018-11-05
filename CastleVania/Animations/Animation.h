@@ -17,6 +17,7 @@ public:
 	AnimationFrame(LPSPRITE sprite, int time) { this->sprite = sprite; this->time = time; }
 	DWORD GetTime() { return time; }
 	LPSPRITE GetSprite() { return sprite; }
+
 };
 
 typedef AnimationFrame *LPANIMATION_FRAME;
@@ -27,10 +28,17 @@ class Animation
 	int defaultTime;
 	int currentFrame;
 	vector<LPANIMATION_FRAME> frames;
+	bool isCompleted = false;
 public:
+
+	//static bool isCompleted;
+	//static bool isLooped;
+	void Rewind();
+
 	Animation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
+
 	void Add(std::string  spriteId, DWORD time = 0);
-	void Render(float x, float y);
+	bool Render(float x, float y, bool isLooped);
 	void update();
 };
 

@@ -15,7 +15,6 @@ void MenuScreen::init()
 
 void MenuScreen::update(float dt)
 {
-
 	int waitingTime = 5000;
 	DWORD startTime = GetTickCount();
 	DWORD interval = 20;
@@ -31,7 +30,7 @@ void MenuScreen::update(float dt)
 
 void MenuScreen::renderObject()
 {
-	loadBackGround->Draw(0, 0);
+	loadBackGround->Draw();
 
 	RECT R;
 	R.left = 180;
@@ -50,6 +49,7 @@ void MenuScreen::loadResources()
 	resourceManagement->textures->Add(ID_TEX_MAINMENU, L"Resources\\Screens\\mainmenu.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texMenu = resourceManagement->textures->Get(ID_TEX_MAINMENU);
 	loadBackGround = new Sprite("Texture", 0, 0, 640, 480, texMenu);
+	loadBackGround->SetPosition(0, 0);
 
 	resourceManagement->loadFont(L"Resources\\Fonts\\prstart.ttf");
 	auto font = resourceManagement->getFont();
@@ -59,7 +59,6 @@ void MenuScreen::loadResources()
 			"intro_scene", L"Resources\\Sounds\\Musics\\intro_scene.wav" }
 		});
 	AudioManager::getInstance()->playAudioLoop("intro_scene");
-
 }
 
 void MenuScreen::OnKeyDown(int keycode)

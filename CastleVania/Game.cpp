@@ -2,8 +2,6 @@
 #include "DebugOut/DebugOut.h"
 #include "AudioManager.h"
 
-
-
 Game::Game()
 {
 	direct3D = Direct3DManager::getInstance();
@@ -40,17 +38,6 @@ void Game::loadResource()
 
 void Game::handleInput()
 {
-}
-
-void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom)
-{
-	D3DXVECTOR3 p(x, y, 0);	
-	RECT r;
-	r.left = left;
-	r.top = top;
-	r.right = right;
-	r.bottom = bottom;
-	direct3D->GetSpriteHandler()->Draw(texture, &r, nullptr, &p, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 void Game::Render()

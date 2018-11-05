@@ -53,7 +53,7 @@ GameplayScreen::GameplayScreen()
 
 	resourceManagement = ResourceManagement::GetInstance();
 
-	viewport = new ViewPort(0, ScreenBase_height, ScreenBase_width, ScreenBase_height);
+	viewport = new Viewport(0, ScreenBase_height, ScreenBase_width, ScreenBase_height);
 }
 
 GameplayScreen::~GameplayScreen()
