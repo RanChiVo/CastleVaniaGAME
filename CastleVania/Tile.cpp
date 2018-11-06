@@ -9,8 +9,7 @@ Tile::Tile(LPSPRITE spriteTile, RECT rect, int id)
 
 void Tile::draw(int id, D3DXVECTOR2 position)
 {	
-	spriteTile->SetPosition(position);
-	spriteTile->Draw();
+	spriteTile->Draw(position);
 }
 
 Tile::~Tile()

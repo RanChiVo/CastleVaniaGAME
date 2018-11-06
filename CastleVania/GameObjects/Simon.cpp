@@ -1,5 +1,4 @@
 #include "Simon.h"
-constexpr int  ID_TEX_SIMON = 0;
 constexpr auto GROUND_POSITION = 300;
 
 Simon::Simon()
@@ -34,55 +33,8 @@ void Simon::Update(DWORD dt)
 void Simon::loadResource()
 {
 	ResourceManagement*resourceManagement = ResourceManagement::GetInstance();
-	resourceManagement->loadTexture(ID_TEX_SIMON, L"Resources\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
-	//right
-	resourceManagement->loadSprites("WalkingRight1", 730, 2, 790, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("WalkingRight2", 790, 3, 850, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("WalkingRight3", 850, 1, 910, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("WalkingRight4", 910, 3, 970, 65, ID_TEX_SIMON);
-
-	//left
-	resourceManagement->loadSprites("WalkingLeft1", 180, 2, 240, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("WalkingLeft2", 120, 3, 180, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("WalkingLeft3", 60, 1, 120, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("WalkingLeft4", 0, 3, 60, 65, ID_TEX_SIMON);
-
-	//jump right	
-	resourceManagement->loadSprites("JumpRight", 670, 0, 730, 48, ID_TEX_SIMON);
-
-	//jump left
-	resourceManagement->loadSprites("JumpLeft", 240, 0, 300, 48, ID_TEX_SIMON);
-
-	//sit down right
-	resourceManagement->loadSprites("SitdownRight", 670, -15, 730, 48, ID_TEX_SIMON);
-
-	//sit down left
-	resourceManagement->loadSprites("SitdownLeft", 240, -15, 300, 48, ID_TEX_SIMON);
-
-	//facing backward
-	//resourceManagement->loadSprites(10040, 857, 65, 891, 131, ID_TEX_SIMON);
-
-	//attack standing right
-	resourceManagement->loadSprites("AttackStandRight1", 490, 3, 550, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("AttackStandRight2", 550, 3, 610, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("AttackStandRight3", 610, 3, 670, 65, ID_TEX_SIMON);
-
-	//attack standing left
-	resourceManagement->loadSprites("AttackStandLeft1", 420, 3, 480, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("AttackStandLeft2", 360, 3, 420, 65, ID_TEX_SIMON);
-	resourceManagement->loadSprites("AttackStandLeft3", 300, 3, 360, 65, ID_TEX_SIMON);
-
-	//attack Sitdown right
-	resourceManagement->loadSprites("AttackSitdownRight1", 850, 134, 910, 200, ID_TEX_SIMON);
-	resourceManagement->loadSprites("AttackSitdownRight2", 910, 132, 970, 200, ID_TEX_SIMON);
-	resourceManagement->loadSprites("AttackSitdownRight3", 490, 66, 550, 114, ID_TEX_SIMON);
+	resourceManagement->loadResource();
 	
-
-	//attack Sitdown left
-	
-	resourceManagement->loadSprites("AttackSitdownLeft1", 60, 134, 120, 180, ID_TEX_SIMON);
-	resourceManagement->loadSprites("AttackSitdownLeft2", 0, 132, 60, 180, ID_TEX_SIMON);
-	resourceManagement->loadSprites("AttackSitdownLeft3", 420, 66, 480, 114, ID_TEX_SIMON);
 	LPANIMATION ani;
 	
 	//idle right

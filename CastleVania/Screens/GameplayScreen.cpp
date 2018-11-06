@@ -1,6 +1,5 @@
 #include "GameplayScreen.h"
 
-constexpr int  ID_TEX_GAMEPLAYSCREEN = 2;
 
 void GameplayScreen::init()
 {
@@ -22,7 +21,7 @@ void GameplayScreen::renderObject()
 	position.y = RECT.top;
 
 	tile_map->draw(position);
-	Map->Draw(0,0);
+	Map->Draw(position);
 	
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
@@ -36,7 +35,7 @@ void GameplayScreen::loadResources()
 
 	tile_map->loadMap("map\\EntranceMap.tmx", 1, viewport);
 
-	Map = new Sprite("Texture1", 0, 0, 640, 480, textPlayScreen);
+	//Map = new Sprite("Texture1", 0, 0, 640, 480, textPlayScreen);
 
 	simon->loadResource();
 	

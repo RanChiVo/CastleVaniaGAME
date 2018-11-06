@@ -14,7 +14,7 @@ class Sprites
 
 public:
 
-	void Add(std::string id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	void Add(std::string id, RECT r, LPDIRECT3DTEXTURE9 tex);
 	LPSPRITE Get(std::string id);
 
 	static Sprites * GetInstance();

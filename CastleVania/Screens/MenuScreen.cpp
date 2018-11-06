@@ -6,7 +6,6 @@
 #include "../AudioManager.h"
 #include "../Direct3DManager.h"
 
-constexpr int  ID_TEX_MAINMENU = 1;
 
 void MenuScreen::init()
 {
@@ -30,7 +29,7 @@ void MenuScreen::update(float dt)
 
 void MenuScreen::renderObject()
 {
-	loadBackGround->Draw();
+	loadBackGround->Draw(D3DXVECTOR2(0, 0));
 
 	RECT R;
 	R.left = 180;
@@ -46,11 +45,6 @@ void MenuScreen::renderObject()
 
 void MenuScreen::loadResources()
 {
-	resourceManagement->textures->Add(ID_TEX_MAINMENU, L"Resources\\Screens\\mainmenu.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 texMenu = resourceManagement->textures->Get(ID_TEX_MAINMENU);
-	loadBackGround = new Sprite("Texture", 0, 0, 640, 480, texMenu);
-	loadBackGround->SetPosition(0, 0);
-
 	resourceManagement->loadFont(L"Resources\\Fonts\\prstart.ttf");
 	auto font = resourceManagement->getFont();
 	

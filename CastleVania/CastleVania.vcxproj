@@ -173,6 +173,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="CollisionEvent.h" />
     <ClInclude Include="Direct3DManager.h" />
+    <ClInclude Include="EntityID.h" />
     <ClInclude Include="Input\DirectInput.h" />
     <ClInclude Include="CastleVania.h" />
     <ClInclude Include="Library\pugiconfig.hpp" />
@@ -212,6 +213,7 @@
     <Image Include="Resources\Screens\intro.png" />
     <Image Include="Resources\Screens\mainmenu.png" />
     <Image Include="Resources\simon.png" />
+    <Image Include="Resources\WHIP.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="map\EntranceMap.tmx" />

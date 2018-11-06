@@ -53,7 +53,7 @@ bool Animation::Render(float x, float y, bool isLooped)
 		}
 	}
 
-	frames[currentFrame]->GetSprite()->Draw(x, y);
+	frames[currentFrame]->GetSprite()->Draw(D3DXVECTOR2(x, y));
 
 	return isCompleted;
 }

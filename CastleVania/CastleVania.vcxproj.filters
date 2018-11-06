@@ -215,6 +215,9 @@
     <ClInclude Include="GameObjects\Whip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EntityID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\Musics\intro_scene.wav">
@@ -238,6 +241,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Resources\Screens\mainmenu.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\WHIP.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
