@@ -213,7 +213,7 @@
     <Image Include="Resources\Screens\intro.png" />
     <Image Include="Resources\Screens\mainmenu.png" />
     <Image Include="Resources\simon.png" />
-    <Image Include="Resources\WHIP.png" />
+    <Image Include="Resources\whip.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="map\EntranceMap.tmx" />

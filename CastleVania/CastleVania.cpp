@@ -1,6 +1,6 @@
 #include "CastleVania.h"
 #include "ScreenManager.h"
-
+#include "ResourceManagement.h"
 
 CastleVania* CastleVania::__instance = nullptr;
 
@@ -24,6 +24,8 @@ void CastleVania::renderObjects()
 
 void CastleVania::loadResource()
 {
+	ResourceManagement::GetInstance()->loadResource();
+
 	screenmanager->loadResources();
 }
 

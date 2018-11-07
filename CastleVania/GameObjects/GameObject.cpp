@@ -5,14 +5,14 @@
 #include "GameObject.h"
 #include "../Animations/Animations.h"
 
-vector<LPANIMATION> GameObject::animations;
+unordered_map<int, LPANIMATION> GameObject::animations;
 
 
 
 void GameObject::AddAnimation(int aniId)
 {
 	LPANIMATION ani = Animations::GetInstance()->Get(aniId);
-	animations.push_back(ani);
+	animations.insert(make_pair(aniId, ani));
 }
 
 GameObject::GameObject()
@@ -30,6 +30,10 @@ void GameObject::Update(DWORD dt)
 }
 
 void GameObject::handleCollision()
+{
+}
+
+void GameObject::Render()
 {
 }
 

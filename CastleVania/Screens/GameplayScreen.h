@@ -17,7 +17,7 @@ private:
 	TileMap * tile_map;
 	Sprite * Map;
 	ResourceManagement* resourceManagement;
-	RECT RECT;
+	RECT rect;
 	Viewport* viewport;
 
 

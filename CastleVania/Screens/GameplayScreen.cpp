@@ -17,8 +17,8 @@ void GameplayScreen::update(float dt)
 void GameplayScreen::renderObject()
 {
 	D3DXVECTOR2 position;
-	position.x = RECT.left;
-	position.y = RECT.top;
+	position.x = rect.left;
+	position.y = rect.top;
 
 	tile_map->draw(position);
 	Map->Draw(position);
@@ -35,7 +35,8 @@ void GameplayScreen::loadResources()
 
 	tile_map->loadMap("map\\EntranceMap.tmx", 1, viewport);
 
-	//Map = new Sprite("Texture1", 0, 0, 640, 480, textPlayScreen);
+	rect = { 0, 0, 640, 480 };
+	Map = new Sprite("Texture1", rect, textPlayScreen);
 
 	simon->loadResource();
 	

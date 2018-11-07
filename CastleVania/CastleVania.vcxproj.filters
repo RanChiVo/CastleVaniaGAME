@@ -228,9 +228,6 @@
     </Media>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\bat.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Resources\simon.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -243,7 +240,10 @@
     <Image Include="Resources\Screens\mainmenu.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\WHIP.png">
+    <Image Include="Resources\whip.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\bat.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

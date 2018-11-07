@@ -2,20 +2,17 @@
 #include "../ResourceManagement.h"
 
 
-Whip::Whip()
+Whip::Whip(D3DXVECTOR2 position)
 {
-	
-}
-
-void Whip::Innitialize()
-{
-	SetStateWhip(WHIP_HIT_STAND);
+	x = position.x;
+	y = position.y - 15;
+	SetState(WHIP_HIT_STAND);
+	ani = WHIT_ANI_HIT_STAND_RIGHT;
 }
 
 void Whip::loadResource()
 {
 	ResourceManagement*resourceManagement = ResourceManagement::GetInstance();
-	resourceManagement->loadResource();
 
 	LPANIMATION ani;
 
@@ -29,35 +26,55 @@ void Whip::loadResource()
 	GameObject::SetPosition(0.0f, 260);
 }
 
-void Whip::handleState()
+void Whip::draw(int state, int direct)
 {
 
-	switch (state)
+
+	if (state == WHIP_HIT_STAND)
 	{
-	case WHIP_HIT_STAND:
+		if (direct == 1)
+		{
+			ani = WHIT_ANI_HIT_STAND_RIGHT;
+		}
+		else
+		{
+			ani = WHIT_ANI_HIT_STAND_LEFT;
+		}
+	}
+	else if (state == WHIT_HIT_SITDOWN)
+	{
+		if (direct == 1)
+		{
+			ani = WHIT_ANI_HIT_SITDOWN_RIGHT;
+		}
+		else
+		{
+			ani = WHIT_ANI_HIT_SITDOWN_LEFT;
+		}
+	}
+	else if (state == WHIT_HIT_JUMP)
+	{
+		if (direct == 1)
+		{
+			ani = WHIT_ANI_HIT_JUMP_RIGHT;
+		}
+		else
+		{
+			ani = WHIT_ANI_HIT_JUMP_RIGHT;
+		}
+	}
 
-	case SIMON_STATE_WALKING_LEFT:
-		vx = -SIMON_MOVE_SPEED;
-		nx = -1;
-		checkRewind = true;
-		break;
-		case SIMON_STAT
-}
-
-void Whip::Update(D3DXVECTOR2 position)
-{
-	x = position.x;
-	y = position.y - 15;
+	//if (GameObject::animations.find(ani)->second != nullptr)
+	//{
+		GameObject::animations.find(ani)->second->Render(x, y);
+	//}
+	//else return;
 }
 
 void Whip::SetStateWhip(int state)
 {
 	this->state = state;
 }
-
-
-
-
 
 Whip::~Whip()
 {

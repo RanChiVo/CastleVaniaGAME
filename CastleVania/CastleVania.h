@@ -29,8 +29,8 @@ private:
 public:
 
 	void Init(HINSTANCE hInstance, int nCmdShow);
-	void renderObjects();
 	void loadResource();
+	void renderObjects();
 	void update(float dt);
 	void run();
 

@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <vector>
+#include <unordered_map>
 #include "../Animations/Animation.h"
 #include "../CollisionEvent.h"
 
@@ -28,7 +29,7 @@ protected:
 
 	int state;
 	
-	static vector<LPANIMATION> animations;
+	static unordered_map<int, LPANIMATION> animations;
 
 public:
 	GameObject();
@@ -43,7 +44,7 @@ public:
 		
 	virtual void Update(DWORD dt);
 	virtual void handleCollision();
-	virtual void Render() = 0;
+	virtual void Render();
 	//virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
 
 	void RenderBoundingBox();

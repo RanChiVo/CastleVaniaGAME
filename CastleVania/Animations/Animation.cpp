@@ -8,9 +8,24 @@
 // Animation::completed = true if loop = false and frame = lastFrame
 // Animation::completed = true -> Simon::SetState(IDLE)
 
+bool Animation::IsFinished()
+{
+	return isFinished;
+}
+
 void Animation::Rewind()
 {
 	currentFrame = 0;
+}
+
+void Animation::SetLoop(bool loop)
+{
+	isLooped = loop;
+}
+
+void Animation::SetFinish(bool finish)
+{
+	isFinished = finish;
 }
 
 void Animation::Add(std::string spriteId, DWORD time)
@@ -21,10 +36,10 @@ void Animation::Add(std::string spriteId, DWORD time)
 	LPSPRITE sprite = Sprites::GetInstance()->Get(spriteId);
 	LPANIMATION_FRAME frame = new AnimationFrame(sprite, t);
 	frames.push_back(frame);
-	isCompleted = false;
+	isFinished = false;
 }
 
-bool Animation::Render(float x, float y, bool isLooped)
+bool Animation::Render(float x, float y)
 {
 	DWORD now = GetTickCount();
 	if (currentFrame == -1)
@@ -32,7 +47,7 @@ bool Animation::Render(float x, float y, bool isLooped)
 		currentFrame = 0;
 		lastFrameTime = now;
 	}
-	else
+	else if (!isFinished)
 	{
 		DWORD t = frames[currentFrame]->GetTime();
 		if (now - lastFrameTime > t)
@@ -43,10 +58,7 @@ bool Animation::Render(float x, float y, bool isLooped)
 			{
 				Rewind();
 				
-				if(isLooped == false) isCompleted = true;
-			}
-			else {
-				isCompleted = false;
+				if(isLooped == false) isFinished = true;
 			}
 			
 			//DebugOut(L"now: %d, lastFrameTime: %d, t: %d\n", now, lastFrameTime, t);
@@ -55,7 +67,7 @@ bool Animation::Render(float x, float y, bool isLooped)
 
 	frames[currentFrame]->GetSprite()->Draw(D3DXVECTOR2(x, y));
 
-	return isCompleted;
+	return isFinished;
 }
 
 void Animation::update()

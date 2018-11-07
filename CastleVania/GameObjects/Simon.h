@@ -3,6 +3,7 @@
 #include "../ResourceManagement.h"
 #include "../Input/DirectInput.h"
 #include "../Animations/Animation.h"
+#include "../GameObjects/Whip.h"
 
 constexpr float SIMON_MOVE_SPEED = 0.1f;
 constexpr int SIMON_JUMP_VEL = 350;
@@ -54,18 +55,22 @@ private:
 		SIMON_STATE_WALKING_RIGHT,
 		SIMON_STATE_WALKING_LEFT,
 		SIMON_STATE_JUMPING,
+		SIMON_STATE_JUMPED,
 		SIMON_STATE_JUMPTOUCHGROUND,
 		SIMON_STATE_SITDOWN,
 		SIMON_STATE_ATTACK_STAND,
 		SIMON_STATE_ATTACK_SITDOWN,
-		SIMON_STATE_ATTACK_JUMP
+		SIMON_STATE_ATTACK_JUMP,
 	};
 	int ani;
 	bool jumped = false;
 	bool attacking = false;
 	bool attacked = false;
 	bool checkRewind = false;
+	
+	Whip* whip;
 
+	
 public:
 	Simon();
 
@@ -75,7 +80,9 @@ public:
 	
 	bool isOnGround();
 	int GetLevel() { return level; }
+	int currentAnimation;
 	void handleState();
+	void Reset(int currentAnimation);
 
 	void OnKeyStateChange(BYTE *states);
 	void OnKeyDown(int KeyCode);
