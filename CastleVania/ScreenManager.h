@@ -3,7 +3,7 @@
 #include <vector>
 #include "Screens/ScreenBase.h"
 #include "DebugOut/DebugOut.h"
-#include "TileMap.h"
+#include "TiledMap.h"
 
 class ScreenManager
 {

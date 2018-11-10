@@ -14,10 +14,14 @@ private:
 	LPDIRECT3DTEXTURE9 texture;
 
 public:
+	Sprite();
+
 	Sprite(std::string id, RECT r, LPDIRECT3DTEXTURE9 tex);
 	
-	void SetRECT(std::string id, RECT r);
-	
+	void SetRECT( RECT r);
+
+	RECT getRect();
+		
 	void Draw(D3DXVECTOR2 position);
 };
 

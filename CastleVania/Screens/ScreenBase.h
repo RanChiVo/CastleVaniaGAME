@@ -4,7 +4,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "../Input/DirectInput.h"
-#include "../TileMap.h"
+#include "../TiledMap.h"
 
 class ScreenBase
 {

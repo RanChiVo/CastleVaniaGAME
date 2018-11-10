@@ -3,12 +3,11 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "DebugOut/DebugOut.h"
-#include "../CastleVania/Viewport.h"
+#include "ViewPort.h"
 
 class WindowUtil
 {
 protected:
-
 	static LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	HINSTANCE hInstance;
 	HWND hWnd;
@@ -19,6 +18,8 @@ public:
 
 	WindowUtil(HINSTANCE hInstance, int nCmdShow, int ScreenBaseWidth, int ScreenBaseHeight);
 	HWND CreateGameWindow();
+	int getScreenBaseWidth();
+	int getScreenBaseHeight();
 	~WindowUtil();
 	WindowUtil();
 };

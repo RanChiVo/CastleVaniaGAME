@@ -93,13 +93,7 @@
     <ClCompile Include="CollisionEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TileMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Library\pugixml.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
@@ -112,6 +106,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameObjects\Whip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TileSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -191,16 +191,10 @@
     <ClInclude Include="CollisionEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Library\pugiconfig.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Library\pugixml.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
@@ -218,6 +212,12 @@
     <ClInclude Include="EntityID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TileSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\Musics\intro_scene.wav">
@@ -231,26 +231,34 @@
     <Image Include="Resources\simon.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="map\mapEntrance.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Resources\Screens\intro.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Resources\Screens\mainmenu.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\whip.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Resources\bat.png">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="map\EntranceMap.tmx" />
+    <Image Include="Resources\whip.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="TiledMap\Simon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="TiledMap\Intro.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\prstart.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="TiledMap\SimonAnimation.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TiledMap\Fire_Pit.tsx" />
+    <None Include="TiledMap\Intro.tmx" />
+    <None Include="TiledMap\Simon.tsx" />
   </ItemGroup>
 </Project>

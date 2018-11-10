@@ -74,9 +74,13 @@ void ResourceManagement::loadResource()
 
 	loadTexture(ID_TEX_WHIP, L"Resources\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texWhip = textures->Get(ID_TEX_WHIP);
-	sprites->Add("AttackRight1", RECT{ 130, 10, 190, 60 }, texWhip);
-	sprites->Add("AttackRight2", RECT{ 280, 10, 330, 60 }, texWhip);
-	sprites->Add("AttackRight3", RECT{ 350, 10, 410, 60 }, texWhip);
+	sprites->Add("AttackRight1", RECT{ 10, 10, 40, 70 }, texWhip);
+	sprites->Add("AttackRight2", RECT{ 490, 10, 520, 60 }, texWhip);
+	sprites->Add("AttackRight3", RECT{ 210, 10, 270, 60 }, texWhip);
+
+	sprites->Add("AttackLeft1", RECT{ 610, 10, 650, 60 }, texWhip);
+	sprites->Add("AttackLeft2", RECT{ 110, 10, 150, 60 }, texWhip);
+	sprites->Add("AttackLeft3", RECT{ 360, 10, 420, 60 }, texWhip);
 	
 	SpriteMapper[EntityID::ID_TEX_WHIP] = sprites;
 
@@ -92,7 +96,6 @@ void ResourceManagement::loadResource()
 	sprites->Add("Texture2", RECT{ 0, 0, 640, 480 }, textPlayScreen);
 
 	SpriteMapper[EntityID::ID_TEX_GAMEPLAYSCREEN] = sprites;
-
 }
 
 void ResourceManagement::loadFont(LPTSTR path)

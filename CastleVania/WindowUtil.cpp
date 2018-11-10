@@ -16,13 +16,8 @@ LRESULT WindowUtil::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
-
 	return 0;
 }
-//
-//void WindowUtil::setViewport()
-//{
-//}
 
 WindowUtil::WindowUtil(HINSTANCE hInstance, int nCmdShow, int ScreenBaseWidth, int ScreenBaseHeight)
 {
@@ -79,6 +74,15 @@ HWND WindowUtil::CreateGameWindow()
 	return hWnd;
 }
 
+int WindowUtil::getScreenBaseWidth()
+{
+	return ScreenBaseWidth;
+}
+
+int WindowUtil::getScreenBaseHeight()
+{
+	return ScreenBaseHeight;
+}
 
 WindowUtil::~WindowUtil()
 {

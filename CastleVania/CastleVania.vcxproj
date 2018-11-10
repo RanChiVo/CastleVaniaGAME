@@ -159,8 +159,8 @@
     <ClCompile Include="SpriteManagements\Sprite.cpp" />
     <ClCompile Include="SpriteManagements\Sprites.cpp" />
     <ClCompile Include="Textures\Textures.cpp" />
-    <ClCompile Include="Tile.cpp" />
-    <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="TiledMap.cpp" />
+    <ClCompile Include="TileSet.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="GameObjects\Wall.cpp" />
@@ -195,8 +195,8 @@
     <ClInclude Include="SpriteManagements\Sprite.h" />
     <ClInclude Include="SpriteManagements\Sprites.h" />
     <ClInclude Include="Textures\Textures.h" />
-    <ClInclude Include="Tile.h" />
-    <ClInclude Include="TileMap.h" />
+    <ClInclude Include="TiledMap.h" />
+    <ClInclude Include="TileSet.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="GameObjects\Wall.h" />
@@ -208,18 +208,24 @@
     <Media Include="Resources\Sounds\Musics\intro_scene.wav" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="map\mapEntrance.png" />
     <Image Include="Resources\bat.png" />
     <Image Include="Resources\Screens\intro.png" />
     <Image Include="Resources\Screens\mainmenu.png" />
     <Image Include="Resources\simon.png" />
     <Image Include="Resources\whip.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="map\EntranceMap.tmx" />
+    <Image Include="TiledMap\Intro.png" />
+    <Image Include="TiledMap\Simon.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\prstart.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="TiledMap\SimonAnimation.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TiledMap\Fire_Pit.tsx" />
+    <None Include="TiledMap\Intro.tmx" />
+    <None Include="TiledMap\Simon.tsx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

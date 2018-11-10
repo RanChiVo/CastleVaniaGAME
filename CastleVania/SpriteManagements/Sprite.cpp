@@ -1,6 +1,10 @@
 #include "Sprite.h"
 #include "../CastleVania.h"
 
+Sprite::Sprite()
+{
+}
+
 Sprite::Sprite(std::string id, RECT r, LPDIRECT3DTEXTURE9 tex)
 {
 	this->id = id;
@@ -8,9 +12,14 @@ Sprite::Sprite(std::string id, RECT r, LPDIRECT3DTEXTURE9 tex)
 	this->texture = tex;
 }
 
-void Sprite::SetRECT(std::string id, RECT r)
+void Sprite::SetRECT( RECT r)
 {
 	this->rect = r;
+}
+
+RECT Sprite::getRect()
+{
+	return rect;
 }
 
 void Sprite::Draw(D3DXVECTOR2 postition)

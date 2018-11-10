@@ -10,8 +10,10 @@ Direct3DManager::Direct3DManager()
 void Direct3DManager::init(WindowUtil * windowGame)
 {
 	HWND hWnd = windowGame->CreateGameWindow();
-
+	
 	this->hWnd = hWnd;
+
+	viewport = new Viewport{ 0, 0, windowGame->getScreenBaseWidth(), windowGame->getScreenBaseHeight() };
 
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
@@ -60,6 +62,11 @@ void Direct3DManager::clearBackBuffer()
 void Direct3DManager::callPresent()
 {//display the back buffer on the screen
 	this->d3ddv->Present(0, 0, 0, 0);
+}
+
+Viewport * Direct3DManager::getViewport()
+{
+	return viewport;
 }
 
 HWND Direct3DManager::gethWnd()

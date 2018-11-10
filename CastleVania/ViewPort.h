@@ -1,16 +1,13 @@
 #pragma once
 #include <d3dx9.h>
 
-
 class Viewport
 {
 protected:
-
 	float x;
 	float y;
 	float width;
 	float height;
-
 
 public:
 
@@ -27,6 +24,10 @@ public:
 	float getWidth() { return width; }
 
 	float getHeight() { return height; }
+
+	float getX() { return x; }
+
+	float getY(){ return y; }
 
 	~Viewport();
 };

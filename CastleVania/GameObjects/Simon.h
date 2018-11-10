@@ -65,12 +65,9 @@ private:
 	int ani;
 	bool jumped = false;
 	bool attacking = false;
-	bool attacked = false;
 	bool checkRewind = false;
 	
 	Whip* whip;
-
-	
 public:
 	Simon();
 
@@ -84,10 +81,13 @@ public:
 	void handleState();
 	void Reset(int currentAnimation);
 
+	void initWhip();
+	void RemoveWhip();
+
 	void OnKeyStateChange(BYTE *states);
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
-	
+
 	void SetState(int state);
 	~Simon();
 };

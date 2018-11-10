@@ -1,25 +1,22 @@
 #pragma once
 #include "../GameObjects/Simon.h"
+#include "../GameObjects/Whip.h"
 #include "../Screens/ScreenBase.h"
 #include "../GameObjects/GameObject.h"
 #include "../Input/DirectInput.h"
 #include "../Viewport.h"
 #include "../Game.h"
 
-
 class GameplayScreen: public ScreenBase
 {
 private:
-
 	vector<GameObject*> objects;
 	Simon* simon;
 	DirectInput* directInput;
-	TileMap * tile_map;
-	Sprite * Map;
+	TiledMap * tile_map;
 	ResourceManagement* resourceManagement;
 	RECT rect;
 	Viewport* viewport;
-
 
 public:
 

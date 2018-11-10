@@ -11,9 +11,6 @@ Simon::Simon()
 
 	SetState(SIMON_STATE_IDLE);
 	currentAnimation = SIMON_ANI_IDLE_RIGHT;
-	
-	whip = new Whip(D3DXVECTOR2(x,y));
-	whip->SetStateWhip(WHIP_HIT_STAND);
 }
 
 void Simon::Update(DWORD dt)
@@ -35,19 +32,17 @@ void Simon::Update(DWORD dt)
 
 void Simon::loadResource()
 {
-	ResourceManagement*resourceManagement = ResourceManagement::GetInstance();
-
 	LPANIMATION ani;
 	
 	//idle right
 	ani = new Animation(100);
 	ani->Add("WalkingRight4");
-	resourceManagement->Getanimations->Add(SIMON_ANI_IDLE_RIGHT, ani);
+	Animations::GetInstance()->Add(SIMON_ANI_IDLE_RIGHT, ani);
 
 	//idle left
 	ani = new Animation(100);
 	ani->Add("WalkingLeft4");
-	resourceManagement->Getanimations->Add(SIMON_ANI_IDLE_LEFT, ani);
+	Animations::GetInstance()->Add(SIMON_ANI_IDLE_LEFT, ani);
 
 	// walk right
 	ani = new Animation(100);
@@ -55,36 +50,35 @@ void Simon::loadResource()
 	ani->Add("WalkingRight2");
 	ani->Add("WalkingRight3");
 	ani->Add("WalkingRight4");
-	resourceManagement->Getanimations->Add(SIMON_ANI_WALKING_RIGHT, ani);
+	Animations::GetInstance()->Add(SIMON_ANI_WALKING_RIGHT, ani);
 
 	// walk left
 	ani = new Animation(100);
-
 	ani->Add("WalkingLeft1");
 	ani->Add("WalkingLeft2");
 	ani->Add("WalkingLeft3");
 	ani->Add("WalkingLeft4");
-	resourceManagement->Getanimations->Add(SIMON_ANI_WALKING_LEFT, ani);
+	Animations::GetInstance()->Add(SIMON_ANI_WALKING_LEFT, ani);
 
 	//jump right
 	ani = new Animation(100);
 	ani->Add("JumpRight");
-	resourceManagement->Getanimations->Add(SIMON_ANI_JUMPING_RIGHT, ani);
+	Animations::GetInstance()->Add(SIMON_ANI_JUMPING_RIGHT, ani);
 
 	//jump left
 	ani = new Animation(100);
 	ani->Add("JumpLeft");
-	resourceManagement->Getanimations->Add(SIMON_ANI_JUMPING_LEFT, ani);
+	Animations::GetInstance()->Add(SIMON_ANI_JUMPING_LEFT, ani);
 
 	//sit down right
 	ani = new Animation(100);
 	ani->Add("SitdownRight");
-	resourceManagement->Getanimations->Add(SIMON_ANI_SITDOWN_RIGHT, ani);
+	Animations::GetInstance()->Add(SIMON_ANI_SITDOWN_RIGHT, ani);
 
 	//sit down left
 	ani = new Animation(100);
 	ani->Add("SitdownLeft");
-	resourceManagement->Getanimations->Add(SIMON_ANI_SITDOWN_LEFT, ani);
+	Animations::GetInstance()->Add(SIMON_ANI_SITDOWN_LEFT, ani);
 
 	//facing backward
 	/*ani = new Animation(100);
@@ -92,32 +86,32 @@ void Simon::loadResource()
 	resourceManagement->Getanimations->Add(800, ani);
 */
 	//attack standing right
-	ani = new Animation(100);
+	ani = new Animation(150);
 	ani->Add("AttackStandRight1");
 	ani->Add("AttackStandRight2");
 	ani->Add("AttackStandRight3");
-	resourceManagement->Getanimations->Add(SIMON_ANI_ATTACK_STANDING_RIGHT, ani);
+	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_STANDING_RIGHT, ani);
 
 	//attack standing left
-	ani = new Animation(100);
+	ani = new Animation(150);
 	ani->Add("AttackStandLeft1");
 	ani->Add("AttackStandLeft2");
 	ani->Add("AttackStandLeft3");
-	resourceManagement->Getanimations->Add(SIMON_ANI_ATTACK_STANDING_LEFT, ani);
+	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_STANDING_LEFT, ani);
 
 	//attack Sitdown right
-	ani = new Animation(100);
+	ani = new Animation(150);
 	ani->Add("AttackSitdownRight1");
 	ani->Add("AttackSitdownRight2");
 	ani->Add("AttackSitdownRight3");
-	resourceManagement->Getanimations->Add(SIMON_ANI_ATTACK_SITDOWN_RIGHT, ani);
+	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_SITDOWN_RIGHT, ani);
 
 	//attack Sitdown right
-	ani = new Animation(100);
+	ani = new Animation(150);
 	ani->Add("AttackSitdownLeft1");
 	ani->Add("AttackSitdownLeft2");
 	ani->Add("AttackSitdownLeft3");
-	resourceManagement->Getanimations->Add(SIMON_ANI_ATTACK_SITDOWN_LEFT, ani);
+	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_SITDOWN_LEFT, ani);
 
 	AddAnimation(SIMON_ANI_IDLE_LEFT);		// idle right
 	AddAnimation(SIMON_ANI_IDLE_RIGHT);		// idle left
@@ -189,14 +183,12 @@ void Simon::OnKeyDown(int KeyCode)
 		else if (KeyCode == DIK_Z)
 		{
 			SetState(SIMON_STATE_ATTACK_STAND);
-			whip->SetStateWhip(WHIP_HIT_STAND);
 		}
 		break;
 	case SIMON_STATE_JUMPING:
 		if (KeyCode == DIK_Z)
 		{
 			SetState(SIMON_STATE_ATTACK_JUMP);
-			whip->SetStateWhip(WHIT_HIT_JUMP);
 		}
 		if (KeyCode == DIK_J)
 		{
@@ -207,7 +199,7 @@ void Simon::OnKeyDown(int KeyCode)
 		if (KeyCode == DIK_Z)
 		{
 			SetState(SIMON_STATE_ATTACK_SITDOWN);
-			whip->SetStateWhip(WHIT_HIT_SITDOWN);
+			
 		}
 	}
 }
@@ -237,8 +229,14 @@ void Simon::Render()
 	if (animations.find(currentAnimation)->second != nullptr)
 	{
 		animations.find(currentAnimation)->second->Render(x, y);
-		
-		whip->draw(state, nx);
+
+		if (attacking)
+		{
+			initWhip();
+			whip->draw(nx);
+			RemoveWhip();
+			attacking = false;
+		}
 	}
 	else return;
 }
@@ -294,13 +292,14 @@ void Simon::handleState()
 		}
 		checkRewind = false;
 		break;
-
+	case SIMON_STATE_ATTACK_JUMP:
 	case SIMON_STATE_ATTACK_STAND:
 		vx = 0;
 		checkRewind = false;
 		if (nx == 1) currentAnimation = SIMON_ANI_ATTACK_STANDING_RIGHT;
 		else currentAnimation = SIMON_ANI_ATTACK_STANDING_LEFT;
 		Reset(currentAnimation);
+		attacking = true;
 		break;
 
 	case SIMON_STATE_SITDOWN:
@@ -316,6 +315,7 @@ void Simon::handleState()
 		if (nx == 1) currentAnimation = SIMON_ANI_ATTACK_SITDOWN_RIGHT;
 		else currentAnimation = SIMON_ANI_ATTACK_SITDOWN_LEFT;
 		Reset(currentAnimation);
+		attacking = true;
 		break;
 
 	case SIMON_STATE_IDLE:
@@ -325,7 +325,7 @@ void Simon::handleState()
 		else currentAnimation = SIMON_ANI_IDLE_LEFT;
 		break;
 	}
-
+	
 	animations.find(currentAnimation)->second->SetLoop(checkRewind);
 }
 
@@ -336,6 +336,17 @@ void Simon::Reset(int currentAnimation)
 		SetState(SIMON_STATE_IDLE);
 		animations.find(currentAnimation)->second->SetFinish(false);
 	}
+}
+
+void Simon::initWhip()
+{
+	whip = new Whip(D3DXVECTOR2(x,y));
+}
+
+void Simon::RemoveWhip()
+{
+	if (whip != nullptr)
+	delete whip;
 }
 
 Simon::~Simon()
