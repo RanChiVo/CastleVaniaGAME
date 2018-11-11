@@ -80,6 +80,7 @@ public:
 	int currentAnimation;
 	void handleState();
 	void Reset(int currentAnimation);
+	D3DXVECTOR2 getPosSimon();
 
 	void initWhip();
 	void RemoveWhip();

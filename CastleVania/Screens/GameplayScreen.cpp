@@ -15,6 +15,19 @@ void GameplayScreen::update(float dt)
 	}
 }
 
+void GameplayScreen::updateViewport(float dt)
+{
+	D3DXVECTOR2 pos_Simon = simon->getPosSimon();
+	
+	D3DXVECTOR2 newPosViewport = D3DXVECTOR2{};
+	D3DXVECTOR2 pos_World =  viewport->ScreenToWorld(D3DXVECTOR2(viewport->getX(), viewport->getY()));
+	
+	newPosViewport.x = pos_World.x - pos_Simon.x / 2;
+	newPosViewport.y = viewport->getY();
+
+	viewport->SetPosition(float(newPosViewport.x), float(newPosViewport.y));
+}
+
 void GameplayScreen::renderObject()
 {
 	D3DXVECTOR2 position;
@@ -23,7 +36,9 @@ void GameplayScreen::renderObject()
 
 	Direct3DManager* direct3D = Direct3DManager::getInstance();
 	
-	tile_map->draw(direct3D->getViewport());
+	viewport = direct3D->getViewport();
+
+	tile_map->draw(viewport);
 	
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
@@ -51,8 +66,6 @@ GameplayScreen::GameplayScreen()
 	simon = new Simon();
 
 	resourceManagement = ResourceManagement::GetInstance();
-
-	viewport = new Viewport(0, ScreenBase_height, ScreenBase_width, ScreenBase_height);
 }
 
 GameplayScreen::~GameplayScreen()

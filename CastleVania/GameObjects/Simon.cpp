@@ -338,6 +338,11 @@ void Simon::Reset(int currentAnimation)
 	}
 }
 
+D3DXVECTOR2 Simon::getPosSimon()
+{
+	return D3DXVECTOR2(x, y);
+}
+
 void Simon::initWhip()
 {
 	whip = new Whip(D3DXVECTOR2(x,y));

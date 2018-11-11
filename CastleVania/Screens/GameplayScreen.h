@@ -16,15 +16,15 @@ private:
 	TiledMap * tile_map;
 	ResourceManagement* resourceManagement;
 	RECT rect;
-	Viewport* viewport;
 
 public:
 
 	void init() override;
 	void update(float dt) override;
+	void updateViewport(float dt);
 	void renderObject() override;
 	void loadResources() override;
-	
+
 	GameplayScreen();
 	~GameplayScreen();
 };
