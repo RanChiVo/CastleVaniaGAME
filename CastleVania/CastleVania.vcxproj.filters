@@ -114,6 +114,9 @@
     <ClCompile Include="TiledMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\BurnBarrel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\GameObject.h">
@@ -218,6 +221,9 @@
     <ClInclude Include="TiledMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameObjects\BurnBarrel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\Musics\intro_scene.wav">
@@ -249,12 +255,15 @@
     <Image Include="TiledMap\Intro.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="TiledMap\Fire_Pit.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="TiledMap\Heart.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\prstart.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="TiledMap\SimonAnimation.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TiledMap\Fire_Pit.tsx" />

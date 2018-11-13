@@ -3,7 +3,6 @@
 
 Animations * Animations::__instance = nullptr;
 
-
 void Animations::Add(int id, LPANIMATION ani)
 {
 	animations[id] = ani;

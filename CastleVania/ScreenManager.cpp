@@ -17,7 +17,6 @@ bool ScreenManager::init()
 	return true;
 }
 
-
 void ScreenManager::loadResources()
 {
 	if (!screens.empty())

@@ -28,19 +28,22 @@ Whip::Whip(D3DXVECTOR2 position)
 	AddAnimation(WHIT_ANI_HIT_RIGHT);
 	AddAnimation(WHIT_ANI_HIT_LEFT);
 
-	currentAnimationWhip = WHIT_ANI_HIT_RIGHT;
+	currentAnimation = WHIT_ANI_HIT_RIGHT;
 }
 
-void Whip::draw(int direct)
+void Whip::draw(int direct, Viewport* viewport)
 {
 	if (direct)
 	{
-		currentAnimationWhip = WHIT_ANI_HIT_RIGHT;
+		currentAnimation = WHIT_ANI_HIT_RIGHT;
 	}
-	else currentAnimationWhip = WHIT_ANI_HIT_LEFT;
+	else currentAnimation = WHIT_ANI_HIT_LEFT;
 
-	animations.find(currentAnimationWhip)->second->SetLoop(true);
-	animations.find(currentAnimationWhip)->second->Render(x, y);
+	animations.find(currentAnimation)->second->SetLoop(true);
+
+	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+
+	animations.find(currentAnimation)->second->Render(pos.x, pos.y);
 }
 
 Whip::~Whip()

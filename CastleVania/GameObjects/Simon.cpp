@@ -1,5 +1,6 @@
 #include "Simon.h"
-constexpr auto GROUND_POSITION = 300;
+constexpr auto GROUND_POSITION = 225;
+constexpr auto MAPSIZE_WIDTH = 1475;
 
 Simon::Simon()
 {
@@ -24,7 +25,7 @@ void Simon::Update(DWORD dt)
 		vy = 0; y = GROUND_POSITION;
 	}
 	// simple ScreenBase edge collision!!!
-	if (vx > 0 && x > 480) x = 480;
+	if (vx > 0 && x > MAPSIZE_WIDTH) x = MAPSIZE_WIDTH;
 	if (vx < 0 && x < 0) x = 0;
 
 	handleState();
@@ -32,9 +33,9 @@ void Simon::Update(DWORD dt)
 
 void Simon::loadResource()
 {
-	LPANIMATION ani;
-	
+	LPANIMATION ani;	
 	//idle right
+
 	ani = new Animation(100);
 	ani->Add("WalkingRight4");
 	Animations::GetInstance()->Add(SIMON_ANI_IDLE_RIGHT, ani);
@@ -131,7 +132,7 @@ void Simon::loadResource()
 	AddAnimation(SIMON_ANI_ATTACK_SITDOWN_RIGHT);		//attack sitdown left
 	AddAnimation(SIMON_ANI_ATTACK_SITDOWN_LEFT);		//attack sitdown right
 
-	SetPosition(0.0f, GROUND_POSITION);
+	SetPosition(D3DXVECTOR2(0.0f, GROUND_POSITION));
 }
 
 void Simon::SetState(int state)
@@ -199,7 +200,6 @@ void Simon::OnKeyDown(int KeyCode)
 		if (KeyCode == DIK_Z)
 		{
 			SetState(SIMON_STATE_ATTACK_SITDOWN);
-			
 		}
 	}
 }
@@ -224,16 +224,18 @@ void Simon::OnKeyUp(int KeyCode)
 	}
 }
 
-void Simon::Render()
+void Simon::Render(Viewport* viewport)
 {
+	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+
 	if (animations.find(currentAnimation)->second != nullptr)
 	{
-		animations.find(currentAnimation)->second->Render(x, y);
+		animations.find(currentAnimation)->second->Render(pos.x, pos.y);
 
 		if (attacking)
 		{
 			initWhip();
-			whip->draw(nx);
+			whip->draw(nx, viewport);
 			RemoveWhip();
 			attacking = false;
 		}
@@ -338,9 +340,9 @@ void Simon::Reset(int currentAnimation)
 	}
 }
 
-D3DXVECTOR2 Simon::getPosSimon()
+int Simon::getDx()
 {
-	return D3DXVECTOR2(x, y);
+	return dx;
 }
 
 void Simon::initWhip()

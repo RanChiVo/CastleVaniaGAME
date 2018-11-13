@@ -84,6 +84,11 @@ void ResourceManagement::loadResource()
 	
 	SpriteMapper[EntityID::ID_TEX_WHIP] = sprites;
 
+	loadTexture(ID_TEX_BURNBARREL, L"TiledMap\\Fire_Pit.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 texBurnBarrel = textures->Get(ID_TEX_BURNBARREL);
+	sprites->Add("Burn1", RECT{ 0, 0, 32, 64 }, texBurnBarrel);
+	sprites->Add("Burn2", RECT{ 32, 0, 64, 64 }, texBurnBarrel);
+
 	//load background of menugame.
 	textures->Add(ID_TEX_MAINMENU, L"Resources\\Screens\\mainmenu.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texMenu = textures->Get(ID_TEX_MAINMENU);
@@ -120,13 +125,6 @@ void ResourceManagement::loadSprites(std::string id, RECT r, int idCharater)
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(idCharater);
 	sprites->Add(id, r, texSimon);
 }
-
-//void ResourceManagerment::loadAnimation(int time
-//{
-//	Animations * animations = Animations::GetInstance();
-//	LPANIMATION ani;
-//
-//}
 
 ResourceManagement::ResourceManagement()
 {

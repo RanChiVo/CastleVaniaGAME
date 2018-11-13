@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 class AnimationFrame
 {
 	LPSPRITE sprite;
@@ -17,7 +16,6 @@ public:
 	AnimationFrame(LPSPRITE sprite, int time) { this->sprite = sprite; this->time = time; }
 	DWORD GetTime() { return time; }
 	LPSPRITE GetSprite() { return sprite; }
-
 };
 
 typedef AnimationFrame *LPANIMATION_FRAME;

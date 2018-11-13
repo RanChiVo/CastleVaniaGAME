@@ -4,10 +4,9 @@
 #include "../Game.h"
 #include "GameObject.h"
 #include "../Animations/Animations.h"
+#include "../Viewport.h"
 
 unordered_map<int, LPANIMATION> GameObject::animations;
-
-
 
 void GameObject::AddAnimation(int aniId)
 {
@@ -15,8 +14,14 @@ void GameObject::AddAnimation(int aniId)
 	animations.insert(make_pair(aniId, ani));
 }
 
+D3DXVECTOR2 GameObject::getPosition()
+{
+	return D3DXVECTOR2(x, y);
+}
+
 GameObject::GameObject()
 {
+	dx = 0; 
 	x = 0;
 	y = 0;
 	vx = vy = 0;
@@ -26,6 +31,7 @@ GameObject::GameObject()
 void GameObject::Update(DWORD dt)
 {
 	x += vx * dt;
+	dx += vx * dt;
 	y += vy * dt;
 }
 
@@ -33,7 +39,7 @@ void GameObject::handleCollision()
 {
 }
 
-void GameObject::Render()
+void GameObject::Render(Viewport* viewport)
 {
 }
 

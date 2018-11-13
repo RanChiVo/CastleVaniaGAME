@@ -4,7 +4,8 @@
 
 void GameplayScreen::init()
 {
-	tile_map = new TiledMap();
+	Direct3DManager* direct3D = Direct3DManager::getInstance();
+	viewport = direct3D->getViewport();
 }
 
 void GameplayScreen::update(float dt)
@@ -13,35 +14,35 @@ void GameplayScreen::update(float dt)
 	{
 		objects[i]->Update(dt);
 	}
+	updateViewport(dt);
 }
 
 void GameplayScreen::updateViewport(float dt)
 {
-	D3DXVECTOR2 pos_Simon = simon->getPosSimon();
-	
+	D3DXVECTOR2 pos_Simon = simon->getPosition();
+
 	D3DXVECTOR2 newPosViewport = D3DXVECTOR2{};
-	D3DXVECTOR2 pos_World =  viewport->ScreenToWorld(D3DXVECTOR2(viewport->getX(), viewport->getY()));
-	
-	newPosViewport.x = pos_World.x - pos_Simon.x / 2;
+
+	newPosViewport.x = simon->getPosition().x - viewport->getWidth() / 2;
 	newPosViewport.y = viewport->getY();
+
+	newPosViewport.x = min(tile_map->getWidthWorld() - viewport->getWidth(), newPosViewport.x);
+	newPosViewport.y = min(tile_map->getHeightWorld() - viewport->getHeight() , newPosViewport.y);
+	newPosViewport.x = max(0, newPosViewport.x);
+	newPosViewport.y = max(0, newPosViewport.y);
 
 	viewport->SetPosition(float(newPosViewport.x), float(newPosViewport.y));
 }
 
 void GameplayScreen::renderObject()
 {
-	D3DXVECTOR2 position;
-	position.x = rect.left;
-	position.y = rect.top;
-
-	Direct3DManager* direct3D = Direct3DManager::getInstance();
-	
-	viewport = direct3D->getViewport();
-
 	tile_map->draw(viewport);
 	
+	
 	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
+	{
+		objects[i]->Render(viewport);
+	}
 }
 
 void GameplayScreen::loadResources()
@@ -53,8 +54,19 @@ void GameplayScreen::loadResources()
 	tile_map->readMapfromfile("TiledMap\\Intro.tmx", textPlayScreen);
 
 	simon->loadResource();
-	
+
+	for (auto object : tile_map->getObjectInfo())
+	{
+		if (object.first.second == "FirePit")
+		{
+			burnbarrel = new BurnBarrel(object.second);
+			objects.push_back(burnbarrel);
+		}
+	}
+
 	objects.push_back(simon);
+
+	
 }
 
 GameplayScreen::GameplayScreen()

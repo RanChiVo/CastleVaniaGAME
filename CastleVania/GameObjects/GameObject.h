@@ -28,23 +28,25 @@ protected:
 	int nx;
 
 	int state;
+
+	int currentAnimation;
 	
 	static unordered_map<int, LPANIMATION> animations;
 
 public:
 	GameObject();
 
-	virtual void SetPosition(float x, float y) { this->x = x, this->y = y; }
+	virtual void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
 	virtual void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	virtual void SetState(int state) { this->state = state; }
 	virtual int GetState() { return this->state; }
-	virtual int GetDierection() { return this->nx; }
+	virtual int GetDirection() { return this->nx; }
 
 	static void AddAnimation(int aniId);
-		
+	D3DXVECTOR2 getPosition();
 	virtual void Update(DWORD dt);
 	virtual void handleCollision();
-	virtual void Render();
+	virtual void Render(Viewport* viewport);
 	//virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
 
 	void RenderBoundingBox();

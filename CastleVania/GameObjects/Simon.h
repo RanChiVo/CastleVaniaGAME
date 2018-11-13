@@ -5,7 +5,7 @@
 #include "../Animations/Animation.h"
 #include "../GameObjects/Whip.h"
 
-constexpr float SIMON_MOVE_SPEED = 0.1f;
+constexpr float SIMON_MOVE_SPEED = 0.15f;
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.5f;
 
@@ -73,14 +73,14 @@ public:
 
 	void loadResource();
 	void Update(DWORD dt);
-	void Render();
+	void Render(Viewport* viewport);
 	
 	bool isOnGround();
 	int GetLevel() { return level; }
-	int currentAnimation;
+	
 	void handleState();
 	void Reset(int currentAnimation);
-	D3DXVECTOR2 getPosSimon();
+	int getDx();
 
 	void initWhip();
 	void RemoveWhip();

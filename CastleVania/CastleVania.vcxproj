@@ -138,6 +138,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="CollisionEvent.cpp" />
     <ClCompile Include="Direct3DManager.cpp" />
+    <ClCompile Include="GameObjects\BurnBarrel.cpp" />
     <ClCompile Include="Input\DirectInput.cpp" />
     <ClCompile Include="CastleVania.cpp" />
     <ClCompile Include="Library\pugixml.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Animations\Animations.h" />
     <ClInclude Include="Animations\Animation.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="GameObjects\BurnBarrel.h" />
     <ClInclude Include="CollisionEvent.h" />
     <ClInclude Include="Direct3DManager.h" />
     <ClInclude Include="EntityID.h" />
@@ -213,14 +215,13 @@
     <Image Include="Resources\Screens\mainmenu.png" />
     <Image Include="Resources\simon.png" />
     <Image Include="Resources\whip.png" />
+    <Image Include="TiledMap\Fire_Pit.png" />
+    <Image Include="TiledMap\Heart.png" />
     <Image Include="TiledMap\Intro.png" />
     <Image Include="TiledMap\Simon.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\prstart.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="TiledMap\SimonAnimation.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TiledMap\Fire_Pit.tsx" />

@@ -8,10 +8,8 @@
 class ScreenManager
 {
 private:
-
 	std::vector<ScreenBase*> screens;
 	
-
 public:
 	ScreenManager();
 

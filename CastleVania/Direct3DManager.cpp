@@ -13,7 +13,7 @@ void Direct3DManager::init(WindowUtil * windowGame)
 	
 	this->hWnd = hWnd;
 
-	viewport = new Viewport{ 0, 0, windowGame->getScreenBaseWidth(), windowGame->getScreenBaseHeight() };
+	viewport = new Viewport{ 0, 0, windowGame->getScreenBaseWidth(), windowGame->getScreenBaseHeight()};
 
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
