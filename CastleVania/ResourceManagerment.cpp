@@ -74,9 +74,9 @@ void ResourceManagement::loadResource()
 
 	loadTexture(ID_TEX_WHIP, L"Resources\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texWhip = textures->Get(ID_TEX_WHIP);
-	sprites->Add("AttackRight1", RECT{ 10, 10, 40, 70 }, texWhip);
-	sprites->Add("AttackRight2", RECT{ 490, 10, 520, 60 }, texWhip);
-	sprites->Add("AttackRight3", RECT{ 210, 10, 270, 60 }, texWhip);
+	sprites->Add("AttackRight1", RECT{ 0, 48, 16, 96 }, texWhip);
+	sprites->Add("AttackRight2", RECT{ 16, 48, 48, 96 }, texWhip);
+	sprites->Add("AttackRight3", RECT{ 48, 57, 124, 70 }, texWhip);
 
 	sprites->Add("AttackLeft1", RECT{ 610, 10, 650, 60 }, texWhip);
 	sprites->Add("AttackLeft2", RECT{ 110, 10, 150, 60 }, texWhip);
@@ -84,7 +84,7 @@ void ResourceManagement::loadResource()
 	
 	SpriteMapper[EntityID::ID_TEX_WHIP] = sprites;
 
-	loadTexture(ID_TEX_BURNBARREL, L"TiledMap\\Fire_Pit.png", D3DCOLOR_XRGB(255, 0, 255));
+	loadTexture(ID_TEX_BURNBARREL, L"Resources\\Items\\burn_barrel.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texBurnBarrel = textures->Get(ID_TEX_BURNBARREL);
 	sprites->Add("Burn1", RECT{ 0, 0, 32, 64 }, texBurnBarrel);
 	sprites->Add("Burn2", RECT{ 32, 0, 64, 64 }, texBurnBarrel);
@@ -96,7 +96,7 @@ void ResourceManagement::loadResource()
 
 	SpriteMapper[EntityID::ID_TEX_MAINMENU] = sprites;
 
-	loadTexture(ID_TEX_GAMEPLAYSCREEN, L"map\\mapEntrance.png", D3DCOLOR_XRGB(255, 0, 255));
+	loadTexture(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\Entrance.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_TEX_GAMEPLAYSCREEN);
 	sprites->Add("Texture2", RECT{ 0, 0, 640, 480 }, textPlayScreen);
 

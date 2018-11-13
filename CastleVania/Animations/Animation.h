@@ -34,6 +34,7 @@ public:
 	void SetLoop(bool loop);
 	void SetFinish(bool finish);
 	Animation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
+	int getCurrentFrame();
 
 	void Add(std::string  spriteId, DWORD time = 0);
 	bool Render(float x, float y);

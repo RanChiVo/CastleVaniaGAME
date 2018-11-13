@@ -228,14 +228,17 @@ void Simon::Render(Viewport* viewport)
 {
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-	if (animations.find(currentAnimation)->second != nullptr)
+	LPANIMATION animation = animations.find(currentAnimation)->second;
+
+	if (animation != nullptr)
 	{
-		animations.find(currentAnimation)->second->Render(pos.x, pos.y);
+		animation->Render(pos.x, pos.y);
 
 		if (attacking)
-		{
+		{	
 			initWhip();
 			whip->draw(nx, viewport);
+			whip->updatePostision(D3DXVECTOR2(x, y), animation->getCurrentFrame());
 			RemoveWhip();
 			attacking = false;
 		}

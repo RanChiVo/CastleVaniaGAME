@@ -252,13 +252,13 @@
     <Image Include="TiledMap\Simon.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="TiledMap\Intro.png">
+    <Image Include="Resources\Items\burn_barrel.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="TiledMap\Fire_Pit.png">
+    <Image Include="Resources\Items\heart.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="TiledMap\Heart.png">
+    <Image Include="TiledMap\Entrance.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -266,8 +266,8 @@
     <Font Include="Resources\Fonts\prstart.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="TiledMap\Fire_Pit.tsx" />
-    <None Include="TiledMap\Intro.tmx" />
     <None Include="TiledMap\Simon.tsx" />
+    <None Include="TiledMap\burn_barrel.tsx" />
+    <None Include="TiledMap\Entrance.tmx" />
   </ItemGroup>
 </Project>

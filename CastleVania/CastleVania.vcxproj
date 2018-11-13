@@ -211,21 +211,21 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\bat.png" />
+    <Image Include="Resources\Items\burn_barrel.png" />
+    <Image Include="Resources\Items\heart.png" />
     <Image Include="Resources\Screens\intro.png" />
     <Image Include="Resources\Screens\mainmenu.png" />
     <Image Include="Resources\simon.png" />
     <Image Include="Resources\whip.png" />
-    <Image Include="TiledMap\Fire_Pit.png" />
-    <Image Include="TiledMap\Heart.png" />
-    <Image Include="TiledMap\Intro.png" />
+    <Image Include="TiledMap\Entrance.png" />
     <Image Include="TiledMap\Simon.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\prstart.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="TiledMap\Fire_Pit.tsx" />
-    <None Include="TiledMap\Intro.tmx" />
+    <None Include="TiledMap\burn_barrel.tsx" />
+    <None Include="TiledMap\Entrance.tmx" />
     <None Include="TiledMap\Simon.tsx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -28,6 +28,11 @@ void Animation::SetFinish(bool finish)
 	isFinished = finish;
 }
 
+int Animation::getCurrentFrame()
+{
+	return currentFrame;
+}
+
 void Animation::Add(std::string spriteId, DWORD time)
 {
 	int t = time;

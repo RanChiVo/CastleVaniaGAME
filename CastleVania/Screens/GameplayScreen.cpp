@@ -47,26 +47,23 @@ void GameplayScreen::renderObject()
 
 void GameplayScreen::loadResources()
 {
-	resourceManagement->textures->Add(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\Intro.png", D3DCOLOR_XRGB(255, 0, 255));
+	resourceManagement->textures->Add(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\Entrance.png", D3DCOLOR_XRGB(255, 0, 255));
 
 	LPDIRECT3DTEXTURE9 textPlayScreen = resourceManagement->textures->Get(ID_TEX_GAMEPLAYSCREEN);
 
-	tile_map->readMapfromfile("TiledMap\\Intro.tmx", textPlayScreen);
+	tile_map->readMapfromfile("TiledMap\\Entrance.tmx", textPlayScreen);
 
 	simon->loadResource();
 
 	for (auto object : tile_map->getObjectInfo())
 	{
-		if (object.first.second == "FirePit")
+		if (object.first.second == "BurnBarrel")
 		{
 			burnbarrel = new BurnBarrel(object.second);
 			objects.push_back(burnbarrel);
 		}
 	}
-
 	objects.push_back(simon);
-
-	
 }
 
 GameplayScreen::GameplayScreen()
