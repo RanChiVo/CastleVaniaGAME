@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include "../Animations/Animation.h"
 #include "../CollisionEvent.h"
+#include "../Viewport.h"
 
 using namespace std;
 
@@ -48,9 +49,9 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void handleCollision();
 	virtual void Render(Viewport* viewport);
-	//virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom)=0;
 
-	//void RenderBoundingBox();
+	void RenderBoundingBox(Viewport* viewport);
 	//LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	//void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
 	//void FilterCollision(

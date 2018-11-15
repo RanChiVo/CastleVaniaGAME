@@ -3,6 +3,10 @@
 #include "../ResourceManagement.h"
 constexpr int BURNBARREL_ANI = 14;
 
+BurnBarrel::BurnBarrel()
+{
+}
+
 BurnBarrel::BurnBarrel(D3DXVECTOR2 position)
 {
 	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_BURNBARREL)->Get("Burn1")->getRect();
@@ -19,6 +23,10 @@ BurnBarrel::BurnBarrel(D3DXVECTOR2 position)
 
 	Animations::GetInstance()->Add(BURNBARREL_ANI, ani);
 	AddAnimation(BURNBARREL_ANI);
+}
+
+void BurnBarrel::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+{
 }
 
 void BurnBarrel::Render(Viewport * viewport)

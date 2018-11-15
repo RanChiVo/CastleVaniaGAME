@@ -23,6 +23,8 @@ public:
 	RECT getRect();
 		
 	void Draw(D3DXVECTOR2 position);
+
+	void Draw(D3DXVECTOR2 position, int alpha);
 };
 
 typedef Sprite * LPSPRITE;

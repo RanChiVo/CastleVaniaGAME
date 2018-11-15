@@ -7,4 +7,5 @@ enum EntityID
 	ID_TEX_GAMEPLAYSCREEN = 2,
 	ID_TEX_WHIP = 3,
 	ID_TEX_BURNBARREL = 4,
+	ID_TEX_BBOX = 5,
 };

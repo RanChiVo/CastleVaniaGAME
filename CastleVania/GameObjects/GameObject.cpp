@@ -6,6 +6,7 @@
 #include "../Animations/Animations.h"
 #include "../Viewport.h"
 #include "../Direct3DManager.h"
+#include "../Textures/Textures.h"
 
 unordered_map<int, LPANIMATION> GameObject::animations;
 #define ID_TEX_BBOX -100
@@ -45,30 +46,30 @@ void GameObject::Render(Viewport* viewport)
 {
 }
 
-//void GameObject::GetBoundingBox(float & left, float & top, float & right, float & bottom)
-//{
-//}
-//
-//void GameObject::RenderBoundingBox()
-//{
-//	Sprite *sprite;
-//	D3DXVECTOR3 p(x, y, 0);
-//	RECT rect;
-//
-//	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_BBOX);
-//
-//	float l, t, r, b;
-//
-//	GetBoundingBox(l, t, r, b);
-//	rect.left = 0;
-//	rect.top = 0;
-//	rect.right = (int)r - (int)l;
-//	rect.bottom = (int)b - (int)t;
-//
-//	sprite = new Sprite("BoundingBox", RECT{ rect.left, rect.top, rect.right, rect.bottom }, bbox);
-//	sprite->Draw(D3DXVECTOR2{ x, y });
-//}
-//
+void GameObject::RenderBoundingBox(Viewport* viewport)
+{
+	Sprite *sprite;
+	D3DXVECTOR3 p(x, y, 0);
+	RECT rect;
+	Textures::GetInstance()->Add(ID_TEX_BBOX, L"Resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+
+	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_BBOX);
+
+	float l, t, r, b;
+
+	GetBoundingBox(l, t, r, b);
+	rect.left = 0;
+	rect.top = 0;
+	rect.right = (int)r - (int)l;
+	rect.bottom = (int)b - (int)t;
+
+	sprite = new Sprite("BoundingBox", RECT{ rect.left, rect.top, rect.right, rect.bottom }, bbox);
+
+	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+	
+	sprite->Draw(pos, 100);
+}
+
 //LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 //{
 //	float sl, st, sr, sb;		// static object bbox

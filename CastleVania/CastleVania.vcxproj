@@ -211,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\bat.png" />
+    <Image Include="Resources\bbox.png" />
     <Image Include="Resources\Items\burn_barrel.png" />
     <Image Include="Resources\Items\heart.png" />
     <Image Include="Resources\Screens\intro.png" />

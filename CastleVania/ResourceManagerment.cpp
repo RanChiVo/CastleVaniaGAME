@@ -58,9 +58,10 @@ void ResourceManagement::loadResource()
 	
 
 	//attack standing left
-	sprites->Add("AttackStandLeft1", RECT{ 560, 130, 620, 195 }, texSimon);
+	sprites->Add("AttackStandLeft1", RECT{ 920, 60, 980, 125 }, texSimon);
 	sprites->Add("AttackStandLeft2", RECT{ 500, 130, 560, 195 }, texSimon);
-	sprites->Add("AttackStandLeft3", RECT{ 920, 60, 980, 125 }, texSimon);
+	sprites->Add("AttackStandLeft3", RECT{ 560, 130, 620, 195 }, texSimon);
+	
 
 	//attack Sitdown right
 	sprites->Add("AttackSitdownRight1", RECT{ 15, -15, 75, 50 }, texSimon);
@@ -69,8 +70,8 @@ void ResourceManagement::loadResource()
 
 	//attack Sitdown left
 	sprites->Add("AttackSitdownLeft1", RECT{ 920, -15, 980, 50 }, texSimon);
-	sprites->Add("AttackSitdownLeft2", RECT{ 865, -15, 920, 50 }, texSimon);
-	sprites->Add("AttackSitdownLeft3", RECT{ 805, -15, 865, 50 }, texSimon);
+	sprites->Add("AttackSitdownLeft2", RECT{ 805, -15, 865, 50 }, texSimon);
+	sprites->Add("AttackSitdownLeft3", RECT{ 865, -15, 920, 50 }, texSimon);
 
 	SpriteMapper[EntityID::ID_TEX_SIMON] = sprites;
 
@@ -80,9 +81,9 @@ void ResourceManagement::loadResource()
 	sprites->Add("1AttackRight2", RECT{ 87, 11, 119, 49 }, texWhip);
 	sprites->Add("1AttackRight3", RECT{ 215, 14, 261, 30 }, texWhip);
 
-	sprites->Add("1AttackLeft1", RECT{ 620, 10, 640, 60 }, texWhip);
+	sprites->Add("1AttackLeft1", RECT{ 580, 10, 600, 60 }, texWhip);
 	sprites->Add("1AttackLeft2", RECT{ 490, 10, 520, 50 }, texWhip);
-	sprites->Add("1AttackLeft3", RECT{ 360, 10, 420, 30 }, texWhip);
+	sprites->Add("1AttackLeft3", RECT{ 340, 10, 392, 30 }, texWhip);
 
 	//sprites->Add("2AttackRight1", RECT{ 13, 85, 29, 133 }, texWhip);
 	//sprites->Add("2AttackRight2", RECT{ 87, 79, 119, 117 }, texWhip);

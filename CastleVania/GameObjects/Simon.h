@@ -82,12 +82,13 @@ public:
 	void Reset(int currentAnimation);
 	int getDx();
 
-	void initWhip();
 	void RemoveWhip();
-
 	void OnKeyStateChange(BYTE *states);
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
+
+	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+
 
 	void SetState(int state);
 	~Simon();

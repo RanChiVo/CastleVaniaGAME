@@ -8,9 +8,11 @@ class Whip : public GameObject
 public:
 
 	Whip(D3DXVECTOR2 position);
-	void updatePostision(D3DXVECTOR2 position, int currentFrameSimon, int currentAni);
+	void updatePostision( int currentFrameSimon, int currentAni);
 	int getframe();
+	int getCurrentAnimation();
 	void draw(int direct, Viewport* viewport);
+	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	
 	~Whip();
 };

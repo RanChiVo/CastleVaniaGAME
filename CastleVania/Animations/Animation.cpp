@@ -24,7 +24,8 @@ void Animation::SetLoop(bool loop)
 }
 
 void Animation::SetFinish(bool finish)
-{
+{ 
+	currentFrame = -1;
 	isFinished = finish;
 }
 

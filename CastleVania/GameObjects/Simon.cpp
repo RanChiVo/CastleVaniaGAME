@@ -87,29 +87,28 @@ void Simon::loadResource()
 	resourceManagement->Getanimations->Add(800, ani);
 */
 	//attack standing right
-	ani = new Animation(500);
-	//ani->Add("AttackStandRight1");
+	ani = new Animation(200);	//ani->Add("AttackStandRight1");
 	ani->Add("AttackStandRight1");
 	ani->Add("AttackStandRight2");
 	ani->Add("AttackStandRight3");
 	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_STANDING_RIGHT, ani);
 
 	//attack standing left
-	ani = new Animation(150);
+	ani = new Animation(200);
 	ani->Add("AttackStandLeft1");
 	ani->Add("AttackStandLeft2");
 	ani->Add("AttackStandLeft3");
 	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_STANDING_LEFT, ani);
 
 	//attack Sitdown right
-	ani = new Animation(500);
+	ani = new Animation(200);
 	ani->Add("AttackSitdownRight1");
 	ani->Add("AttackSitdownRight2");
 	ani->Add("AttackSitdownRight3");
 	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_SITDOWN_RIGHT, ani);
 
-	//attack Sitdown right
-	ani = new Animation(500);
+	//attack Sitdown Left
+	ani = new Animation(200);
 	ani->Add("AttackSitdownLeft1");
 	ani->Add("AttackSitdownLeft2");
 	ani->Add("AttackSitdownLeft3");
@@ -225,6 +224,18 @@ void Simon::OnKeyUp(int KeyCode)
 	}
 }
 
+void Simon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+{
+	left = x ;
+	top = y;
+
+	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_SIMON)->Get("WalkingRight1")->getRect();
+	int height = r.bottom - r.top;
+	int width = r.right - r.left;
+	right = x + width - 20;
+	bottom = y + height - 10;
+}
+
 void Simon::Render(Viewport* viewport)
 {
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
@@ -236,14 +247,15 @@ void Simon::Render(Viewport* viewport)
 		animation->Render(pos.x, pos.y);
 		if (attacking)
 		{	
-			initWhip();
-			whip->updatePostision(D3DXVECTOR2(x, y), animation->getCurrentFrame(), currentAnimation);
-			//whip->draw(nx, viewport);
+			whip = new Whip(D3DXVECTOR2(x, y));
+			whip->updatePostision(animation->getCurrentFrame(), currentAnimation);
+			whip->draw(nx, viewport);
+			if (whip->getframe() == 2) whip->animations.find(currentAnimation)->second->SetFinish(true);
 			RemoveWhip();
 		}
-		
 	}
 	else return;
+	RenderBoundingBox(viewport);
 }
 
 bool Simon::isOnGround()
@@ -339,19 +351,14 @@ void Simon::Reset(int currentAnimation)
 	if (animations.find(currentAnimation)->second->IsFinished())
 	{
 		attacking = false;
-		SetState(SIMON_STATE_IDLE);
 		animations.find(currentAnimation)->second->SetFinish(false);
+		SetState(SIMON_STATE_IDLE);
 	}
 }
 
 int Simon::getDx()
 {
 	return dx;
-}
-
-void Simon::initWhip()
-{
-	whip = new Whip(D3DXVECTOR2(x,y));
 }
 
 void Simon::RemoveWhip()

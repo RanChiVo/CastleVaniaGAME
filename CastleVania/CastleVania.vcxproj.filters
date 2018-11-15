@@ -261,6 +261,9 @@
     <Image Include="TiledMap\Entrance.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\bbox.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\prstart.ttf" />
