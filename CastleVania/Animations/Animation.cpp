@@ -1,4 +1,4 @@
-										#include "Animation.h"
+#include "Animation.h"
 #include "../SpriteManagements/Sprites.h"
 #include "../Game.h"
 #include "../DebugOut/DebugOut.h"
@@ -33,6 +33,11 @@ int Animation::getCurrentFrame()
 	return currentFrame;
 }
 
+void Animation::setCurrentFrame(int index)
+{
+	currentFrame = index;
+}
+
 void Animation::Add(std::string spriteId, DWORD time)
 {
 	int t = time;
@@ -47,6 +52,7 @@ void Animation::Add(std::string spriteId, DWORD time)
 bool Animation::Render(float x, float y)
 {
 	DWORD now = GetTickCount();
+
 	if (currentFrame == -1)
 	{
 		currentFrame = 0;
@@ -59,15 +65,14 @@ bool Animation::Render(float x, float y)
 		{
 			currentFrame++;
 			lastFrameTime = now;
-			if (currentFrame == frames.size())
+			if (currentFrame == frames.size() )
 			{
 				Rewind();
-				
-				if(isLooped == false) isFinished = true;
+
+				if (isLooped == false) isFinished = true;
 			}
-			
-			//DebugOut(L"now: %d, lastFrameTime: %d, t: %d\n", now, lastFrameTime, t);
 		}
+
 	}
 
 	frames[currentFrame]->GetSprite()->Draw(D3DXVECTOR2(x, y));

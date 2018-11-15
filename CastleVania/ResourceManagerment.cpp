@@ -13,9 +13,10 @@ D3DXVECTOR2 ResourceManagement::getFontSize(ID3DXFont* font, std::string text)
 	return D3DXVECTOR2(r.right - r.left, r.bottom - r.top);
 }
 
-Sprites * ResourceManagement::getSprite(EntityID id)
+Sprites* ResourceManagement::getSprite(EntityID id)
 {
-	 return this->SpriteMapper.find(id)->second;
+	if (SpriteMapper.find(id)->second != nullptr)
+	 return SpriteMapper.find(id)->second;
 }
 
 void ResourceManagement::loadResource()
@@ -51,9 +52,10 @@ void ResourceManagement::loadResource()
 	//resourceManagement->loadSprites(10040, 857, 65, 891, 131, ID_TEX_SIMON);
 
 	//attack standing right
-	sprites->Add("AttackStandRight1", RECT{ 370, 130, 430, 195}, texSimon);
+	sprites->Add("AttackStandRight1", RECT{ 10, 60, 70, 125 }, texSimon);
 	sprites->Add("AttackStandRight2", RECT{ 430, 130, 490, 195 }, texSimon);
-	sprites->Add("AttackStandRight3", RECT{ 10, 60, 70, 125 }, texSimon);
+	sprites->Add("AttackStandRight3", RECT{ 370, 130, 430, 195}, texSimon);
+	
 
 	//attack standing left
 	sprites->Add("AttackStandLeft1", RECT{ 560, 130, 620, 195 }, texSimon);
@@ -62,8 +64,8 @@ void ResourceManagement::loadResource()
 
 	//attack Sitdown right
 	sprites->Add("AttackSitdownRight1", RECT{ 15, -15, 75, 50 }, texSimon);
-	sprites->Add("AttackSitdownRight2", RECT{ 70, -15, 130, 50 }, texSimon);
-	sprites->Add("AttackSitdownRight3", RECT{ 130, -15, 180, 50 }, texSimon);
+	sprites->Add("AttackSitdownRight2", RECT{ 130, -15, 180, 50 }, texSimon);
+	sprites->Add("AttackSitdownRight3", RECT{ 70, -15, 130, 50 }, texSimon);
 
 	//attack Sitdown left
 	sprites->Add("AttackSitdownLeft1", RECT{ 920, -15, 980, 50 }, texSimon);
@@ -74,13 +76,23 @@ void ResourceManagement::loadResource()
 
 	loadTexture(ID_TEX_WHIP, L"Resources\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texWhip = textures->Get(ID_TEX_WHIP);
-	sprites->Add("AttackRight1", RECT{ 0, 48, 16, 96 }, texWhip);
-	sprites->Add("AttackRight2", RECT{ 16, 48, 48, 96 }, texWhip);
-	sprites->Add("AttackRight3", RECT{ 48, 57, 124, 70 }, texWhip);
+	sprites->Add("1AttackRight1", RECT{ 13, 17, 29, 65 }, texWhip);
+	sprites->Add("1AttackRight2", RECT{ 87, 11, 119, 49 }, texWhip);
+	sprites->Add("1AttackRight3", RECT{ 215, 14, 261, 30 }, texWhip);
 
-	sprites->Add("AttackLeft1", RECT{ 610, 10, 650, 60 }, texWhip);
-	sprites->Add("AttackLeft2", RECT{ 110, 10, 150, 60 }, texWhip);
-	sprites->Add("AttackLeft3", RECT{ 360, 10, 420, 60 }, texWhip);
+	sprites->Add("1AttackLeft1", RECT{ 620, 10, 640, 60 }, texWhip);
+	sprites->Add("1AttackLeft2", RECT{ 490, 10, 520, 50 }, texWhip);
+	sprites->Add("1AttackLeft3", RECT{ 360, 10, 420, 30 }, texWhip);
+
+	//sprites->Add("2AttackRight1", RECT{ 13, 85, 29, 133 }, texWhip);
+	//sprites->Add("2AttackRight2", RECT{ 87, 79, 119, 117 }, texWhip);
+	//sprites->Add("2AttackRight3", RECT{ 215, 88, 261, 160 }, texWhip);
+
+	//sprites->Add("3AttackRight1", RECT{ 13, 130, 29, 201 }, texWhip);
+	//sprites->Add("3AttackRight2", RECT{ 87, 147, 119, 185 }, texWhip);
+	//sprites->Add("3AttackRight3", RECT{ 215, 156, 293, 268 }, texWhip);
+
+	
 	
 	SpriteMapper[EntityID::ID_TEX_WHIP] = sprites;
 
@@ -88,6 +100,8 @@ void ResourceManagement::loadResource()
 	LPDIRECT3DTEXTURE9 texBurnBarrel = textures->Get(ID_TEX_BURNBARREL);
 	sprites->Add("Burn1", RECT{ 0, 0, 32, 64 }, texBurnBarrel);
 	sprites->Add("Burn2", RECT{ 32, 0, 64, 64 }, texBurnBarrel);
+
+	SpriteMapper[EntityID::ID_TEX_BURNBARREL] = sprites;
 
 	//load background of menugame.
 	textures->Add(ID_TEX_MAINMENU, L"Resources\\Screens\\mainmenu.png", D3DCOLOR_XRGB(255, 0, 255));

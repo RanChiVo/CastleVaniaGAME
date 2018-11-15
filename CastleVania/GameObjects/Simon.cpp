@@ -1,5 +1,5 @@
 #include "Simon.h"
-constexpr auto GROUND_POSITION = 225;
+constexpr auto GROUND_POSITION = 293;
 constexpr auto MAPSIZE_WIDTH = 1475;
 
 Simon::Simon()
@@ -87,7 +87,8 @@ void Simon::loadResource()
 	resourceManagement->Getanimations->Add(800, ani);
 */
 	//attack standing right
-	ani = new Animation(150);
+	ani = new Animation(500);
+	//ani->Add("AttackStandRight1");
 	ani->Add("AttackStandRight1");
 	ani->Add("AttackStandRight2");
 	ani->Add("AttackStandRight3");
@@ -101,14 +102,14 @@ void Simon::loadResource()
 	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_STANDING_LEFT, ani);
 
 	//attack Sitdown right
-	ani = new Animation(150);
+	ani = new Animation(500);
 	ani->Add("AttackSitdownRight1");
 	ani->Add("AttackSitdownRight2");
 	ani->Add("AttackSitdownRight3");
 	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_SITDOWN_RIGHT, ani);
 
 	//attack Sitdown right
-	ani = new Animation(150);
+	ani = new Animation(500);
 	ani->Add("AttackSitdownLeft1");
 	ani->Add("AttackSitdownLeft2");
 	ani->Add("AttackSitdownLeft3");
@@ -233,15 +234,14 @@ void Simon::Render(Viewport* viewport)
 	if (animation != nullptr)
 	{
 		animation->Render(pos.x, pos.y);
-
 		if (attacking)
 		{	
 			initWhip();
-			whip->draw(nx, viewport);
-			whip->updatePostision(D3DXVECTOR2(x, y), animation->getCurrentFrame());
+			whip->updatePostision(D3DXVECTOR2(x, y), animation->getCurrentFrame(), currentAnimation);
+			//whip->draw(nx, viewport);
 			RemoveWhip();
-			attacking = false;
 		}
+		
 	}
 	else return;
 }
@@ -299,12 +299,12 @@ void Simon::handleState()
 		break;
 	case SIMON_STATE_ATTACK_JUMP:
 	case SIMON_STATE_ATTACK_STAND:
+		attacking = true;
 		vx = 0;
 		checkRewind = false;
 		if (nx == 1) currentAnimation = SIMON_ANI_ATTACK_STANDING_RIGHT;
 		else currentAnimation = SIMON_ANI_ATTACK_STANDING_LEFT;
 		Reset(currentAnimation);
-		attacking = true;
 		break;
 
 	case SIMON_STATE_SITDOWN:
@@ -315,12 +315,12 @@ void Simon::handleState()
 		break;
 
 	case SIMON_STATE_ATTACK_SITDOWN:
+		attacking = true;
 		vx = 0;
 		checkRewind = false;
 		if (nx == 1) currentAnimation = SIMON_ANI_ATTACK_SITDOWN_RIGHT;
 		else currentAnimation = SIMON_ANI_ATTACK_SITDOWN_LEFT;
 		Reset(currentAnimation);
-		attacking = true;
 		break;
 
 	case SIMON_STATE_IDLE:
@@ -338,6 +338,7 @@ void Simon::Reset(int currentAnimation)
 {
 	if (animations.find(currentAnimation)->second->IsFinished())
 	{
+		attacking = false;
 		SetState(SIMON_STATE_IDLE);
 		animations.find(currentAnimation)->second->SetFinish(false);
 	}

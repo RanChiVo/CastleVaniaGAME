@@ -1,20 +1,29 @@
 //#include "CollisionEvent.h"
 //
-//
-//CollisionEvent::CollisionEvent(float time, float nx, float ny, GameObject* obj)
+//CollisionEvent::CollisionEvent(float t, float nx, float ny, GameObject * obj)
 //{
-//	this->t = t;
-//	this->nx = nx;
-//	this->ny = ny;
-//	this->obj = obj;
 //}
 //
-//bool CollisionEvent::compare(CollisionEvent*  a, CollisionEvent*  b)
+//float CollisionEvent::get_t()
+//{
+//	return t;
+//}
+//
+//float CollisionEvent::get_nx()
+//{
+//	return nx;
+//}
+//
+//float CollisionEvent::get_ny()
+//{
+//	return ny;
+//}
+//
+//bool CollisionEvent::compare(LPCOLLISIONEVENT& a, LPCOLLISIONEVENT &b)
 //{
 //	return a->t < b->t;
 //}
 //
 //CollisionEvent::~CollisionEvent()
 //{
-//
 //}

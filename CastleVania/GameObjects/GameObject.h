@@ -9,7 +9,8 @@
 
 using namespace std;
 
-class CollisionEvent;
+//class CollisionEvent;
+//typedef GameObject* LPGAMEOBJECT;
 
 
 class GameObject	
@@ -26,9 +27,9 @@ protected:
 	float vy;
 
 	int nx;
+	DWORD dt;
 
 	int state;
-
 	int currentAnimation;
 	
 	static unordered_map<int, LPANIMATION> animations;
@@ -47,20 +48,20 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void handleCollision();
 	virtual void Render(Viewport* viewport);
-	//virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
+	//virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
-	void RenderBoundingBox();
+	//void RenderBoundingBox();
 	//LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
-	/*void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
-	void FilterCollision(
-		vector<LPCOLLISIONEVENT> &coEvents,
-		vector<LPCOLLISIONEVENT> &coEventsResult,
-		float &min_tx,
-		float &min_ty,
-		float &nx,
-		float &ny);
-*/
+	//void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
+	//void FilterCollision(
+	//	vector<LPCOLLISIONEVENT> &coEvents,
+	//	vector<LPCOLLISIONEVENT> &coEventsResult,
+	//	float &min_tx,
+	//	float &min_ty,
+	//	float &nx,
+	//	float &ny);
+
 	virtual ~GameObject();
 };
 
-//typedef GameObject* LPGAMEOBJECT;
+

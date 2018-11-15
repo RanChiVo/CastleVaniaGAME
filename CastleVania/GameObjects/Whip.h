@@ -6,9 +6,10 @@ class Whip : public GameObject
 	int type;
 	int ani;
 public:
-	int getCurrentFrame();
+
 	Whip(D3DXVECTOR2 position);
-	void updatePostision(D3DXVECTOR2 position, int currentFrameSimon);
+	void updatePostision(D3DXVECTOR2 position, int currentFrameSimon, int currentAni);
+	int getframe();
 	void draw(int direct, Viewport* viewport);
 	
 	~Whip();

@@ -3,7 +3,6 @@
 //
 //class GameObjects;
 //
-//
 //class CollisionEvent
 //{
 //private:
@@ -15,11 +14,15 @@
 //public:
 //	CollisionEvent(float t, float nx, float ny, GameObject* obj );
 //	
-//	static bool compare(CollisionEvent* a, CollisionEvent* b);
+//	float get_t();
+//	float get_nx();
+//	float get_ny();
+//
+//	static bool compare(LPCOLLISIONEVENT &a, LPCOLLISIONEVENT &b);
 //
 //	~CollisionEvent();
 //};
 //
-////typedef CollisionEvent* LPCOLLISIONEVENT;
+//typedef CollisionEvent* LPCOLLISIONEVENT;
 //
 //

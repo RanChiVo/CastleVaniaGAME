@@ -1,12 +1,15 @@
 #include "BurnBarrel.h"
 #include "../Animations/Animations.h"
-
+#include "../ResourceManagement.h"
 constexpr int BURNBARREL_ANI = 14;
 
 BurnBarrel::BurnBarrel(D3DXVECTOR2 position)
 {
+	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_BURNBARREL)->Get("Burn1")->getRect();
+	int height = r.bottom - r.top;
+
 	x = position.x;
-	y = position.y - 64;
+	y = position.y - height;
 
 	LPANIMATION ani;
 
