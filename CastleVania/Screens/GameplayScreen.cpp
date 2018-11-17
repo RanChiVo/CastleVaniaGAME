@@ -10,11 +10,17 @@ void GameplayScreen::init()
 
 void GameplayScreen::update(float dt)
 {
+	updateViewport(dt);
+
 	for (int i = 0; i < objects.size(); i++)
 	{
-		objects[i]->Update(dt);
+		coObjects.push_back(objects[i]);
 	}
-	updateViewport(dt);
+
+	for (int i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Update(dt, &coObjects);
+	}
 }
 
 void GameplayScreen::updateViewport(float dt)

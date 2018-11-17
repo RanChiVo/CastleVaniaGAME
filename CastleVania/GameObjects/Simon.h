@@ -44,6 +44,8 @@ constexpr int SIMON_ANI_ATTACK_STANDING_LEFT = 9;
 constexpr int SIMON_ANI_ATTACK_SITDOWN_RIGHT = 10;
 constexpr int SIMON_ANI_ATTACK_SITDOWN_LEFT = 11;
 
+constexpr int SIMON_UNTOUCHABLE_TIME = 5000;
+
 class Simon: public GameObject
 {
 private: 
@@ -66,13 +68,17 @@ private:
 	bool jumped = false;
 	bool attacking = false;
 	bool checkRewind = false;
-	
+	int untouchable;
+	DWORD untouchable_start;
+
 	Whip* whip;
+
+	std::vector<LPGAMEOBJECT> objectList;
 public:
 	Simon();
 
 	void loadResource();
-	void Update(DWORD dt);
+	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	void Render(Viewport* viewport);
 	
 	bool isOnGround();
@@ -81,7 +87,9 @@ public:
 	void handleState();
 	void Reset(int currentAnimation);
 	int getDx();
+	int IsAttacking();
 
+	RECT getBoundingboxWhip();
 	void RemoveWhip();
 	void OnKeyStateChange(BYTE *states);
 	void OnKeyDown(int KeyCode);

@@ -55,13 +55,19 @@ void Direct3DManager::init(WindowUtil * windowGame)
 }
 
 void Direct3DManager::clearBackBuffer()
-{	
+{		
 	this->d3ddv->ColorFill(backBuffer, nullptr, D3DCOLOR_XRGB(0, 0, 0));
 }
 
 void Direct3DManager::callPresent()
 {//display the back buffer on the screen
 	this->d3ddv->Present(0, 0, 0, 0);
+}
+
+void Direct3DManager::drawBoundingBox(int x, int y, int width, int height, D3DCOLOR color, IDirect3DDevice9 * d3ddvev)
+{
+	D3DRECT rect = { x, y, x + width, y + height };
+	d3ddv->Clear(1, &rect, D3DCLEAR_TARGET, color, 1.0f, NULL);
 }
 
 Viewport * Direct3DManager::getViewport()

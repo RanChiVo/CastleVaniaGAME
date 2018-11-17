@@ -136,7 +136,6 @@
     <ClCompile Include="Animations\Animations.cpp" />
     <ClCompile Include="Animations\Animation.cpp" />
     <ClCompile Include="AudioManager.cpp" />
-    <ClCompile Include="CollisionEvent.cpp" />
     <ClCompile Include="Direct3DManager.cpp" />
     <ClCompile Include="GameObjects\BurnBarrel.cpp" />
     <ClCompile Include="Input\DirectInput.cpp" />
@@ -173,7 +172,6 @@
     <ClInclude Include="Animations\Animation.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="GameObjects\BurnBarrel.h" />
-    <ClInclude Include="CollisionEvent.h" />
     <ClInclude Include="Direct3DManager.h" />
     <ClInclude Include="EntityID.h" />
     <ClInclude Include="Input\DirectInput.h" />

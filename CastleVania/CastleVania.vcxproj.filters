@@ -90,9 +90,6 @@
     <ClCompile Include="Screens\IntroScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Library\pugixml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -189,9 +186,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Screens\IntroScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Library\pugiconfig.hpp">

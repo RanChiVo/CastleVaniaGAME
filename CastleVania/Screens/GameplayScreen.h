@@ -12,8 +12,10 @@ class GameplayScreen: public ScreenBase
 {
 private:
 	vector<GameObject*> objects;
+	vector<LPGAMEOBJECT> coObjects;
 	Simon* simon;
 	BurnBarrel* burnbarrel;
+	Whip* whip;
 	DirectInput* directInput;
 	TiledMap * tile_map;
 	ResourceManagement* resourceManagement;

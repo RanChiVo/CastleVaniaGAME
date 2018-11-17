@@ -1,6 +1,8 @@
 #include "Simon.h"
+#include "BurnBarrel.h"
 constexpr auto GROUND_POSITION = 293;
 constexpr auto MAPSIZE_WIDTH = 1475;
+
 
 Simon::Simon()
 {
@@ -14,12 +16,13 @@ Simon::Simon()
 	currentAnimation = SIMON_ANI_IDLE_RIGHT;
 }
 
-void Simon::Update(DWORD dt)
+void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt);
 
 	// simple JUMP
 	vy += SIMON_GRAVITY;
+
 	if (y > GROUND_POSITION)
 	{
 		vy = 0; y = GROUND_POSITION;
@@ -29,11 +32,19 @@ void Simon::Update(DWORD dt)
 	if (vx < 0 && x < 0) x = 0;
 
 	handleState();
+
+	if (objectList.size() == 0 && objectList.size() != coObjects->size())
+	{
+		for (int i = 0; i < coObjects->size(); i++)
+		{
+			objectList.push_back(coObjects->at(i));
+		}
+	}
 }
 
 void Simon::loadResource()
 {
-	LPANIMATION ani;	
+	LPANIMATION ani;
 	//idle right
 
 	ani = new Animation(100);
@@ -86,7 +97,7 @@ void Simon::loadResource()
 	ani->Add(10040);
 	resourceManagement->Getanimations->Add(800, ani);
 */
-	//attack standing right
+//attack standing right
 	ani = new Animation(200);	//ani->Add("AttackStandRight1");
 	ani->Add("AttackStandRight1");
 	ani->Add("AttackStandRight2");
@@ -155,7 +166,7 @@ void Simon::OnKeyStateChange(BYTE * states)
 		{
 			SetState(SIMON_STATE_WALKING_LEFT);
 		}
-		else if (directInput->IsKeyDown(DIK_J)  && isOnGround())
+		else if (directInput->IsKeyDown(DIK_J) && isOnGround())
 		{
 			SetState(SIMON_STATE_SITDOWN);
 		}
@@ -226,7 +237,7 @@ void Simon::OnKeyUp(int KeyCode)
 
 void Simon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	left = x ;
+	left = x;
 	top = y;
 
 	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_SIMON)->Get("WalkingRight1")->getRect();
@@ -246,16 +257,34 @@ void Simon::Render(Viewport* viewport)
 	{
 		animation->Render(pos.x, pos.y);
 		if (attacking)
-		{	
+		{
 			whip = new Whip(D3DXVECTOR2(x, y));
 			whip->updatePostision(animation->getCurrentFrame(), currentAnimation);
 			whip->draw(nx, viewport);
 			if (whip->getframe() == 2) whip->animations.find(currentAnimation)->second->SetFinish(true);
+		
+			for (int i = 0; i < objectList.size() - 1; i++)
+			{
+				float l, t, r, b;
+				objectList[i]->GetBoundingBox(l, t, r, b);
+				RECT rect1 = RECT{ int(l), int(t), int(r), int(b) };
+
+				float L, T, R, B;
+				whip->GetBoundingBox(L, T, R, B);
+				RECT rect2 = RECT{ int(L), int(T), int(R), int(B) };
+
+				bool result = whip->checkCollision(rect1, rect2);
+
+				if (result)
+				{
+					objectList[i]->SetPosition(D3DXVECTOR2(0, -100));
+					objectList.erase(objectList.begin() + i);
+				}
+			}
 			RemoveWhip();
 		}
 	}
 	else return;
-	RenderBoundingBox(viewport);
 }
 
 bool Simon::isOnGround()
@@ -290,7 +319,7 @@ void Simon::handleState()
 			vy = -SIMON_JUMP_SPEED_Y;
 			break;
 		}
-		
+
 		if (vy < 0)
 		{
 			if (nx == 1) currentAnimation = SIMON_ANI_JUMPING_RIGHT;
@@ -342,7 +371,7 @@ void Simon::handleState()
 		else currentAnimation = SIMON_ANI_IDLE_LEFT;
 		break;
 	}
-	
+
 	animations.find(currentAnimation)->second->SetLoop(checkRewind);
 }
 
@@ -361,10 +390,20 @@ int Simon::getDx()
 	return dx;
 }
 
+int Simon::IsAttacking()
+{
+	return attacking;
+}
+
+RECT Simon::getBoundingboxWhip()
+{
+	return whip->getBounding();
+}
+
 void Simon::RemoveWhip()
 {
 	if (whip != nullptr)
-	delete whip;
+		delete whip;
 }
 
 Simon::~Simon()
