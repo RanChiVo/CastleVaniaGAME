@@ -2,7 +2,6 @@
 #include "../WindowUtil.h"
 #include "../Direct3DManager.h"
 
-
 void GameplayScreen::init()
 {
 	Direct3DManager* direct3D = Direct3DManager::getInstance();
@@ -94,24 +93,14 @@ void GameplayScreen::loadResources()
 	MiraculousBag* miraculousBag = new MiraculousBag(D3DXVECTOR2(0, -100));
 	staticObjects.push_back(miraculousBag);
 
-	for (int i = 0; i < 96; i++)
+	Floor* floor = new Floor();
+	floor->SetPosition(D3DXVECTOR2(0, 350));
+	staticObjects.push_back(floor);
+	
+	for (int i = 0; i < 2; i++)
 	{
 		CBrick* brick = new CBrick();
-		brick->SetPosition(D3DXVECTOR2(0 + i * 16.0f, 350));
-		staticObjects.push_back(brick);
-	}
-
-	for (int i = 0; i < 20; i++)
-	{
-		CBrick* brick = new CBrick();
-		brick->SetPosition(D3DXVECTOR2(0, 0 + i * 16.0f));
-		staticObjects.push_back(brick);
-	}
-
-	for (int i = 0; i < 20; i++)
-	{
-		CBrick* brick = new CBrick();
-		brick->SetPosition(D3DXVECTOR2(1500, 0 + i * 16.0f));
+		brick->SetPosition(D3DXVECTOR2(0 + i*1500, 0));
 		staticObjects.push_back(brick);
 	}
 }

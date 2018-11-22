@@ -34,12 +34,12 @@ WeaponReward::WeaponReward(D3DXVECTOR2 position)
 	currentAnimation = WEAPONREWARD_ANI_HIDE;
 }
 
-void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT>* ObjectList, vector<LPGAMEOBJECT> *coObjects)
+void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
 	std::vector<LPGAMEOBJECT> brickList;
-	for (int i = 11; i < coObjects->size(); i++)
+	for (int i = 11; i < coObjects->size() - 2; i++)
 	{
 		brickList.push_back(coObjects->at(i));
 	}
@@ -48,7 +48,7 @@ void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT>* ObjectList, vector<LPG
 	{
 		currentAnimation = WEAPONREWARD_ANI_HIDE;
 	}
-	else if (state = WEAPONREWARD_STATE_SHOW)
+	else if (state == WEAPONREWARD_STATE_SHOW)
 	{
 		currentAnimation = WEAPONREWARD_ANI_SHOW;
 
@@ -91,22 +91,14 @@ void WeaponReward::GetBoundingBox(float & left, float & top, float & right, floa
 	int height = r.bottom - r.top;
 	int width = r.right - r.left;
 	right = x + width;
-	bottom = y + height;
+	bottom = y + height- 10 ;
 }
 
 void WeaponReward::Render(Viewport * viewport)
 {
-	animations.find(currentAnimation)->second->SetLoop(true);
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	animations.find(currentAnimation)->second->Render(position.x, position.y);
-
-	if (currentAnimation == WEAPONREWARD_ANI_SHOW)
-	{
-		if (animations.find(currentAnimation)->second->getCurrentFrame() == 4)
-
-			animations.find(currentAnimation)->second->SetFinish1(true);
-	}
 }
 
 WeaponReward::~WeaponReward()

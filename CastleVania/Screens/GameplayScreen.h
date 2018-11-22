@@ -6,6 +6,7 @@
 #include "../GameObjects/WeaponReward.h"
 #include "../GameObjects/Katana.h"
 #include "../GameObjects/MiraculousBag.h"
+#include "../GameObjects/Floor.h"
 #include "../Brick.h"
 #include "../Screens/ScreenBase.h"
 #include "../GameObjects/GameObject.h"

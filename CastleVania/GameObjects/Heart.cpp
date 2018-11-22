@@ -44,7 +44,7 @@ void Heart::Update(DWORD dt,  vector<LPGAMEOBJECT> *coObjects)
 
 	std::vector<LPGAMEOBJECT> brickList;
 
-	for (int i = 11; i < coObjects->size(); i++)
+	for (int i = 11; i < coObjects->size() - 2 ; i++)
 	{
 		brickList.push_back(coObjects->at(i));
 	}
@@ -53,7 +53,7 @@ void Heart::Update(DWORD dt,  vector<LPGAMEOBJECT> *coObjects)
 	{
 		currentAnimation = HEART_ANI_HIDE;
 	}
-	else if (state = HEART_STATE_SHOW)
+	else if (state == HEART_STATE_SHOW)
 	{
 		currentAnimation = HEART_ANI_SHOW;
 
@@ -96,8 +96,8 @@ void Heart::GetBoundingBox(float & left, float & top, float & right, float & bot
 	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_HEART)->Get("Heart1")->getRect();
 	int height = r.bottom - r.top;
 	int width = r.right - r.left;
-	right = x + 24;
-	bottom = y + 24 ;
+	right = x + width;
+	bottom = y + height ;
 }
 
 void Heart::Render(Viewport * viewport)

@@ -2,7 +2,7 @@
 #include "../CastleVania/GameObjects/GameObject.h"
 
 constexpr int BRICK_BBOX_WIDTH = 16;
-constexpr int BRICK_BBOX_HEIGHT = 16;
+constexpr int BRICK_BBOX_HEIGHT = 500;
 constexpr int BRICK_ANI = 25;
 
 class CBrick : public GameObject

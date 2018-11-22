@@ -5,11 +5,11 @@
 #include "../Animations/Animation.h"
 #include "../GameObjects/Whip.h"
 
-constexpr float SIMON_MOVE_SPEED = 0.5f;
+constexpr float SIMON_MOVE_SPEED = 0.1f;
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.5f;
 
-constexpr float SIMON_GRAVITY = 0.008f;
+constexpr float SIMON_GRAVITY = 0.001f;
 constexpr int SIMON_ATTACK_TIME = 600;
 constexpr int SIMON_PROTECT_TIME = 2000;
 
@@ -41,7 +41,6 @@ constexpr int SIMON_ANI_JUMPING_LEFT = 5;
 constexpr int SIMON_ANI_SITDOWN_RIGHT = 6;
 constexpr int SIMON_ANI_SITDOWN_LEFT = 7;
 
-//constexpr int SIMON_ANI_FACINGBACKWARD = 8;
 constexpr int SIMON_ANI_ATTACK_STANDING_RIGHT = 8;
 constexpr int SIMON_ANI_ATTACK_STANDING_LEFT = 9;
 constexpr int SIMON_ANI_ATTACK_SITDOWN_RIGHT = 10;
@@ -72,6 +71,7 @@ private:
 		SIMON_STATE_DIE,
 		SIMON_STATE_CHANGECOLOR
 	};
+
 	int ani;
 	bool jumped = false;
 	bool attacking = false;

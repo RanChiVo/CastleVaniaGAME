@@ -3,7 +3,7 @@
 #include "Katana.h"
 
 
-Katana::Katana() 
+Katana::Katana()
 {
 }
 
@@ -40,13 +40,12 @@ void Katana::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
-
 	std::vector<LPGAMEOBJECT> brickList;
+
 	for (int i = 11; i < coObjects->size(); i++)
 	{
 		brickList.push_back(coObjects->at(i));
 	}
-
 
 	if (state == KATANA_STATE_HIDE)
 	{
@@ -54,47 +53,35 @@ void Katana::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else if (state = KATANA_STATE_SHOW)
 	{
-		//y += KATANA_GRAVITY * dt;
 		currentAnimation = KATANA_ANI_SHOW;
-		GameObject::Update(dt, coObjects);
 
-		std::vector<LPGAMEOBJECT> brickList;
-		for (int i = 10; i < coObjects->size(); i++)
+		if (animations.find(currentAnimation)->second->getCurrentFrame() == 4)
+
+			animations.find(currentAnimation)->second->SetFinish1(true);
+
+		vy += KATANA_GRAVITY * dt;
+
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+
+		coEvents.clear();
+
+		if (state != KATANA_STATE_HIDE)
+			CalcPotentialCollisions(&brickList, coEvents);
+
+		if (coEvents.size() == 0)
 		{
-			brickList.push_back(coObjects->at(i));
+			y += dy;
+		}
+		else
+		{
+			float min_tx, min_ty, nx, ny;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			y += min_ty * dy + ny * 0.4f;
+			if (ny != 0) vy = 0;
 		}
 
-		{
-			currentAnimation = KATANA_ANI_SHOW;
-
-			if (animations.find(currentAnimation)->second->getCurrentFrame() == 4)
-
-				animations.find(currentAnimation)->second->SetFinish1(true);
-
-			vy += KATANA_GRAVITY * dt;
-
-			vector<LPCOLLISIONEVENT> coEvents;
-			vector<LPCOLLISIONEVENT> coEventsResult;
-
-			coEvents.clear();
-
-			if (state != KATANA_STATE_HIDE)
-				CalcPotentialCollisions(&brickList, coEvents);
-
-			if (coEvents.size() == 0)
-			{
-				y += dy;
-			}
-			else
-			{
-				float min_tx, min_ty, nx, ny;
-				FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-				y += min_ty * dy + ny * 0.4f;
-				if (ny != 0) vy = 0;
-			}
-
-			for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-		}
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
 }
 
@@ -112,16 +99,9 @@ void Katana::GetBoundingBox(float & left, float & top, float & right, float & bo
 
 void Katana::Render(Viewport * viewport)
 {
-	animations.find(currentAnimation)->second->SetLoop(true);
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	animations.find(currentAnimation)->second->Render(position.x, position.y);
-	if (currentAnimation == KATANA_ANI_SHOW)
-	{
-		if (animations.find(currentAnimation)->second->getCurrentFrame() == 4)
-
-			animations.find(currentAnimation)->second->SetFinish1(true);
-	}
 }
 
 Katana::~Katana()

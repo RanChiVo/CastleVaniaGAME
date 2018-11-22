@@ -51,7 +51,7 @@ protected:
 	int id;
 
 public:
-
+		
 	virtual void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
 	virtual void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	virtual void SetCurrentAni(int currentAni) { this->currentAnimation = currentAni; }

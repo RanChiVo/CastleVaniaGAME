@@ -12,28 +12,28 @@ Whip::Whip(D3DXVECTOR2 position)
 
 	LPANIMATION ani;
 
-	ani = new Animation(200);
+	ani = new Animation(100);
 	ani->Add("1AttackRight1");
 	ani->Add("1AttackRight2");
 	ani->Add("1AttackRight3");
 
 	Animations::GetInstance()->Add(WHIT_ANI_HIT_RIGHT1, ani);
 
-	ani = new Animation(200);
+	ani = new Animation(100);
 	ani->Add("1AttackLeft1");
 	ani->Add("1AttackLeft2");
 	ani->Add("1AttackLeft3");
 
 	Animations::GetInstance()->Add(WHIT_ANI_HIT_LEFT1, ani);
 
-	ani = new Animation(200);
+	ani = new Animation(100);
 	ani->Add("2AttackRight1");
 	ani->Add("2AttackRight2");
 	ani->Add("2AttackRight3");
 
 	Animations::GetInstance()->Add(WHIT_ANI_HIT_RIGHT2, ani);
 
-	ani = new Animation(200);
+	ani = new Animation(100);
 	ani->Add("2AttackLeft1");
 	ani->Add("2AttackLeft2");
 	ani->Add("2AttackLeft3");

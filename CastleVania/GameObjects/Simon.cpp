@@ -7,7 +7,7 @@
 #include "../Brick.h"
 #include "../EntityID.h"
 
-constexpr auto GROUND_POSITION = 293;
+constexpr auto GROUND_POSITION = 350;
 constexpr auto MAPSIZE_WIDTH = 1475;
 
 Simon::Simon()
@@ -26,21 +26,17 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt);
 
-	if (y > GROUND_POSITION)
-	{
-		y = GROUND_POSITION;
-	}
 	handleState();
 
 	if (objectList.size() == 0 && objectList.size() != coObjects->size())
 	{
-		for (int i = 0; i < coObjects->size() - 136; i++)
+		for (int i = 0; i < coObjects->size() - 3; i++)
 		{
 			objectList.push_back(coObjects->at(i));
 		}
 	}
 
-	vy += SIMON_GRAVITY ;
+	vy += SIMON_GRAVITY* dt ;
 
 	std::vector<LPGAMEOBJECT> brickList;
 
@@ -73,18 +69,24 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		float min_tx, min_ty, nx, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
+
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
 
 		for (int i = 0; i < coEvents.size(); i++)
 		{
 			switch (coEvents[i]->obj->getID())
 			{
 			case ID_TEX_HEART:
+				if (nx != 0) vx = 0;
 
 				for (int i = 0; i < coObjects->size(); i++)
 				{
 					if (coObjects->at(i)->getID() == ID_TEX_HEART)
 					{
-						coObjects->at(i)->SetPosition(D3DXVECTOR2(0, -100));
+						coObjects->at(i)->SetPosition(D3DXVECTOR2(-100, -100));
 					}
 				}
 				break;
@@ -97,7 +99,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						coObjects->at(i)->SetPosition(D3DXVECTOR2(0, -100));
 					}
 				}
-				
 				SetState(SIMON_STATE_CHANGECOLOR);
 				break;
 
@@ -111,8 +112,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 				}
 				break;
-			case ID_TEX_MIRACULOUS_BAG:
 
+			case ID_TEX_MIRACULOUS_BAG:
 				for (int i = 0; i < coObjects->size(); i++)
 				{
 					if (coObjects->at(i)->getID() == ID_TEX_MIRACULOUS_BAG)
@@ -122,7 +123,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				WHIP_STATE = 2;
 				break;
-			case ID_TEX_BRICK:
+			case ID_TEX_FLOOR:
 				if (x >= 1430)
 				{
 					for (int i = 0; i < coObjects->size(); i++)
@@ -137,14 +138,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				break;
 			}
 		}
-
-		x += min_tx * dx + nx * 0.4f;
-		y += dy;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
 	}
-
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
@@ -199,28 +193,28 @@ void Simon::loadResource()
 	Animations::GetInstance()->Add(SIMON_ANI_SITDOWN_LEFT, ani);
 
 //attack standing right
-	ani = new Animation(200);	//ani->Add("AttackStandRight1");
+	ani = new Animation(100);	//ani->Add("AttackStandRight1");
 	ani->Add("AttackStandRight1");
 	ani->Add("AttackStandRight2");
 	ani->Add("AttackStandRight3");
 	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_STANDING_RIGHT, ani);
 
 	//attack standing left
-	ani = new Animation(200);
+	ani = new Animation(100);
 	ani->Add("AttackStandLeft1");
 	ani->Add("AttackStandLeft2");
 	ani->Add("AttackStandLeft3");
 	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_STANDING_LEFT, ani);
 
 	//attack Sitdown right
-	ani = new Animation(200);
+	ani = new Animation(100);
 	ani->Add("AttackSitdownRight1");
 	ani->Add("AttackSitdownRight2");
 	ani->Add("AttackSitdownRight3");
 	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_SITDOWN_RIGHT, ani);
 
 	//attack Sitdown Left
-	ani = new Animation(200);
+	ani = new Animation(100);
 	ani->Add("AttackSitdownLeft1");
 	ani->Add("AttackSitdownLeft2");
 	ani->Add("AttackSitdownLeft3");
@@ -257,7 +251,7 @@ void Simon::loadResource()
 	AddAnimation(SIMON_ANI_COLOR_RIGHT);
 	AddAnimation(SIMON_ANI_COLOR_LEFT);
 
-	SetPosition(D3DXVECTOR2(0.0f, GROUND_POSITION));
+	SetPosition(D3DXVECTOR2(50.0f, 0));
 }
 
 void Simon::SetState(int state)
@@ -326,6 +320,8 @@ void Simon::OnKeyDown(int KeyCode)
 		{
 			SetState(SIMON_STATE_ATTACK_SITDOWN);
 		}
+		break;
+
 	}
 }
 
@@ -470,7 +466,7 @@ void Simon::handleState()
 			else currentAnimation = SIMON_ANI_IDLE_LEFT;
 		}
 
-		if ( jumped)
+		if (isOnGround() && jumped)
 		{
 			SetState(SIMON_STATE_IDLE);
 			jumped = false;
