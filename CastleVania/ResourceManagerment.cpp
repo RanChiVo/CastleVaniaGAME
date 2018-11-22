@@ -72,6 +72,16 @@ void ResourceManagement::loadResource()
 	sprites->Add("AttackSitdownLeft1", RECT{ 920, -15, 980, 50 }, texSimon);
 	sprites->Add("AttackSitdownLeft2", RECT{ 805, -15, 865, 50 }, texSimon);
 	sprites->Add("AttackSitdownLeft3", RECT{ 865, -15, 920, 50 }, texSimon);
+	//change color right
+	sprites->Add("ChangeColorRight1", RECT{ 260, 200, 300, 275 }, texSimon);
+	sprites->Add("ChangeColorRight2", RECT{ 320, 200, 360, 275 }, texSimon);
+	sprites->Add("ChangeColorRight3", RECT{ 380, 200, 420, 275 }, texSimon);
+	sprites->Add("ChangeColorRight4", RECT{ 440, 200, 480, 275 }, texSimon);
+	//change color left
+	sprites->Add("ChangeColorLeft1", RECT{ 690, 200, 730, 275 }, texSimon);
+	sprites->Add("ChangeColorLeft2", RECT{ 630, 200, 670, 275 }, texSimon);
+	sprites->Add("ChangeColorLeft3", RECT{ 570, 200, 610, 275 }, texSimon);
+	sprites->Add("ChangeColorLeft4", RECT{ 510, 200, 550, 275 }, texSimon);
 
 	SpriteMapper[EntityID::ID_TEX_SIMON] = sprites;
 
@@ -85,26 +95,31 @@ void ResourceManagement::loadResource()
 	sprites->Add("1AttackLeft2", RECT{ 490, 10, 520, 50 }, texWhip);
 	sprites->Add("1AttackLeft3", RECT{ 340, 10, 392, 30 }, texWhip);
 
-	//sprites->Add("2AttackRight1", RECT{ 13, 85, 29, 133 }, texWhip);
-	//sprites->Add("2AttackRight2", RECT{ 87, 79, 119, 117 }, texWhip);
-	//sprites->Add("2AttackRight3", RECT{ 215, 88, 261, 160 }, texWhip);
+	sprites->Add("2AttackRight1", RECT{ 10, 150, 30, 200 }, texWhip);
+	sprites->Add("2AttackRight2", RECT{ 80, 70, 120, 120 }, texWhip);
+	sprites->Add("2AttackRight3", RECT{ 215, 88, 155, 170 }, texWhip);
 
-	//sprites->Add("3AttackRight1", RECT{ 13, 130, 29, 201 }, texWhip);
-	//sprites->Add("3AttackRight2", RECT{ 87, 147, 119, 185 }, texWhip);
-	//sprites->Add("3AttackRight3", RECT{ 215, 156, 293, 268 }, texWhip);
-
-	
+	sprites->Add("3AttackRight1", RECT{ 580, 130, 600, 200 }, texWhip);
+	sprites->Add("3AttackRight2", RECT{ 490, 147, 520, 185 }, texWhip);
+	sprites->Add("3AttackRight3", RECT{ 310, 156, 390, 170 }, texWhip);
 	
 	SpriteMapper[EntityID::ID_TEX_WHIP] = sprites;
 
 	loadTexture(ID_TEX_BURNBARREL, L"Resources\\Items\\burn_barrel.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texBurnBarrel = textures->Get(ID_TEX_BURNBARREL);
+	loadTexture(ID_TEX_EFFECT, L"Resources\\Items\\effect.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 texEffect = textures->Get(ID_TEX_EFFECT);
 	sprites->Add("Burn1", RECT{ 0, 0, 32, 64 }, texBurnBarrel);
 	sprites->Add("Burn2", RECT{ 32, 0, 64, 64 }, texBurnBarrel);
+	sprites->Add("Effect1", RECT{ 20, 0, 50, 40}, texEffect);
+	sprites->Add("Effect2", RECT{ 60, 0, 70, 40 }, texEffect);
+	sprites->Add("Effect3", RECT{ 100, 0, 120, 40 }, texEffect);
+	sprites->Add("Effect4", RECT{ 140, 0, 160, 40 }, texEffect);
 
 	SpriteMapper[EntityID::ID_TEX_BURNBARREL] = sprites;
 
-	//load background of menugame.
+	
+
 	textures->Add(ID_TEX_MAINMENU, L"Resources\\Screens\\mainmenu.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texMenu = textures->Get(ID_TEX_MAINMENU);
 	sprites->Add("Texture1", RECT{ 0, 0, 640, 480 }, texMenu);
@@ -116,6 +131,39 @@ void ResourceManagement::loadResource()
 	sprites->Add("Texture2", RECT{ 0, 0, 640, 480 }, textPlayScreen);
 
 	SpriteMapper[EntityID::ID_TEX_GAMEPLAYSCREEN] = sprites;
+
+	loadTexture(ID_TEX_HEART, L"Resources\\Items\\heart.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 texHeart = textures->Get(ID_TEX_HEART);
+	sprites->Add("Heart1", RECT{ 0, 0, 24, 20 }, texHeart);
+
+	SpriteMapper[EntityID::ID_TEX_HEART] = sprites;
+
+	loadTexture(ID_TEX_WEAPON_REWARD, L"Resources\\Items\\weapon_reward.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 texWeapon_reward = textures->Get(ID_TEX_WEAPON_REWARD);
+	sprites->Add("weapon_reward1", RECT{ 0, 0, 30, 30 }, texWeapon_reward);
+
+	SpriteMapper[EntityID::ID_TEX_WEAPON_REWARD] = sprites;
+
+	loadTexture(ID_TEX_KATANA, L"Resources\\Items\\katana.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 texKatana = textures->Get(ID_TEX_KATANA);
+	sprites->Add("katana1", RECT{ 0, 0, 30, 20 }, texKatana);
+
+	SpriteMapper[EntityID::ID_TEX_KATANA] = sprites;
+
+	loadTexture(ID_TEX_MIRACULOUS_BAG, L"Resources\\Items\\miraculous_bag.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 texMiraculous_bag = textures->Get(ID_TEX_MIRACULOUS_BAG);
+	sprites->Add("miraculous_bag1", RECT{ 0, 0, 30, 30 }, texMiraculous_bag);
+	sprites->Add("miraculous_bag2", RECT{ 30, 0, 60, 30 }, texMiraculous_bag);
+	sprites->Add("miraculous_bag3", RECT{ 60, 0, 90, 30 }, texMiraculous_bag);
+
+	SpriteMapper[EntityID::ID_TEX_MIRACULOUS_BAG] = sprites;
+
+	loadTexture(ID_TEX_BRICK, L"Resources\\misc.png", D3DCOLOR_XRGB(176, 224, 248));
+	LPDIRECT3DTEXTURE9 texBrick = textures->Get(ID_TEX_BRICK);
+	sprites->Add("brick1", RECT{ 408, 225, 424, 241 }, texBrick);
+
+	SpriteMapper[EntityID::ID_TEX_BRICK] = sprites;
+
 }
 
 void ResourceManagement::loadFont(LPTSTR path)

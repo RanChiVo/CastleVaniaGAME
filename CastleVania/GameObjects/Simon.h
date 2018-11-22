@@ -5,11 +5,11 @@
 #include "../Animations/Animation.h"
 #include "../GameObjects/Whip.h"
 
-constexpr float SIMON_MOVE_SPEED = 0.15f;
+constexpr float SIMON_MOVE_SPEED = 0.5f;
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.5f;
 
-constexpr float SIMON_GRAVITY = 0.02f;
+constexpr float SIMON_GRAVITY = 0.002f;
 constexpr int SIMON_ATTACK_TIME = 600;
 constexpr int SIMON_PROTECT_TIME = 2000;
 
@@ -26,6 +26,9 @@ constexpr int SIMON_STATE_SITDOWN = 500;
 constexpr int SIMON_STATE_ATTACK_STAND= 700;
 constexpr int SIMON_STATE_ATTACK_SITDOWN = 900;
 constexpr int SIMON_STATE_ATTACK_JUMP = 1100;
+constexpr int SIMON_STATE_DIE = 1200;
+constexpr int SIMON_STATE_CHANGECOLOR = 1300;
+
 
 constexpr int SIMON_ANI_IDLE_RIGHT = 0;
 constexpr int SIMON_ANI_IDLE_LEFT = 1;
@@ -43,6 +46,9 @@ constexpr int SIMON_ANI_ATTACK_STANDING_RIGHT = 8;
 constexpr int SIMON_ANI_ATTACK_STANDING_LEFT = 9;
 constexpr int SIMON_ANI_ATTACK_SITDOWN_RIGHT = 10;
 constexpr int SIMON_ANI_ATTACK_SITDOWN_LEFT = 11;
+
+constexpr int SIMON_ANI_COLOR_RIGHT = 12;
+constexpr int SIMON_ANI_COLOR_LEFT = 13;
 
 constexpr int SIMON_UNTOUCHABLE_TIME = 5000;
 
@@ -63,11 +69,14 @@ private:
 		SIMON_STATE_ATTACK_STAND,
 		SIMON_STATE_ATTACK_SITDOWN,
 		SIMON_STATE_ATTACK_JUMP,
+		SIMON_STATE_DIE,
+		SIMON_STATE_CHANGECOLOR
 	};
 	int ani;
 	bool jumped = false;
 	bool attacking = false;
 	bool checkRewind = false;
+	bool isRenderItem = false;
 	int untouchable;
 	DWORD untouchable_start;
 
@@ -78,8 +87,8 @@ public:
 	Simon();
 
 	void loadResource();
-	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
-	void Render(Viewport* viewport);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+	virtual void Render(Viewport* viewport);
 	
 	bool isOnGround();
 	int GetLevel() { return level; }
@@ -95,8 +104,7 @@ public:
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
 
-	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-
+	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
 	void SetState(int state);
 	~Simon();

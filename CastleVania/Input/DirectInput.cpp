@@ -1,7 +1,5 @@
 #include "DirectInput.h"
 
-#define BUTTON_DOWN(obj,button)(obj.rbgButtons[button] &0x80)
-
 DirectInput* DirectInput::__instance = nullptr;
 
 void DirectInput::initKeyboard(HWND hWnd)

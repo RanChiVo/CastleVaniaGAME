@@ -15,7 +15,7 @@ public:
 	void updatePostision( int currentFrameSimon, int currentAni);
 	int getframe();
 	int getCurrentAnimation();
-	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* ObjectList, vector<LPGAMEOBJECT> *coObjects = NULL);
 	void Render(Viewport* viewport);
 	bool checkCollision(RECT A, RECT B);
 	RECT getBounding();

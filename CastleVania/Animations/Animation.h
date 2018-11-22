@@ -33,6 +33,8 @@ public:
 	void Rewind();
 	void SetLoop(bool loop);
 	void SetFinish(bool finish);
+	void SetFinish1(bool finish);
+
 	Animation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
 
 	int getCurrentFrame();

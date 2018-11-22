@@ -11,6 +11,11 @@
 unordered_map<int, LPANIMATION> GameObject::animations;
 #define ID_TEX_BBOX -100
 
+int GameObject::getID()
+{
+	return id;
+}
+
 void GameObject::AddAnimation(int aniId)
 {
 	LPANIMATION ani = Animations::GetInstance()->Get(aniId);
@@ -24,16 +29,14 @@ D3DXVECTOR2 GameObject::getPosition()
 
 void GameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	x += vx * dt;
-	dx += vx * dt;
-	y += vy * dt;
+	this->dt = dt;
+	dx = vx * dt;
+	dy = vy * dt;
 }
 
 GameObject::GameObject()
 {
-	dx = 0;
-	x = 0;
-	y = 0;
+	x = y = 0;
 	vx = vy = 0;
 	nx = 1;
 }
@@ -64,7 +67,6 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	
 	sprite->Draw(pos, 100);
-	
 }
 
 LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
@@ -100,7 +102,6 @@ LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 
 void GameObject::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCOLLISIONEVENT>& coEvents)
 {
-
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
@@ -114,7 +115,8 @@ void GameObject::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector
 	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
 }
 
-void GameObject::FilterCollision(vector<LPCOLLISIONEVENT>& coEvents,
+void GameObject::FilterCollision(
+	vector<LPCOLLISIONEVENT>& coEvents,
 	vector<LPCOLLISIONEVENT>& coEventsResult,
 	float & min_tx, float & min_ty, float & nx, float & ny)
 {

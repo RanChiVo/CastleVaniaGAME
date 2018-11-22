@@ -29,6 +29,12 @@ void Animation::SetFinish(bool finish)
 	isFinished = finish;
 }
 
+void Animation::SetFinish1(bool finish)
+{
+	currentFrame = frames.size() - 1 ;
+	isFinished = finish;
+}
+
 int Animation::getCurrentFrame()
 {
 	return currentFrame;
@@ -73,7 +79,6 @@ bool Animation::Render(float x, float y)
 				if (isLooped == false) isFinished = true;
 			}
 		}
-
 	}
 
 	frames[currentFrame]->GetSprite()->Draw(D3DXVECTOR2(x, y));

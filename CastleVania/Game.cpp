@@ -55,8 +55,6 @@ void Game::Render()
 
 		renderObjects();
 
-		direct3D->drawBoundingBox(300, 100, 100, 100, D3DCOLOR_XRGB(255, 255, 0), d3ddv);
-
 		spriteHandler->End();
 
 		direct3D->GetDirect3DDevice()->EndScene();

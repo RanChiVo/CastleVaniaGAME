@@ -68,12 +68,10 @@ void MenuScreen::OnKeyDown(int keycode)
 MenuScreen::MenuScreen()
 {
 	DirectInput* directInput = DirectInput::getInstance();
-	__hook(&DirectInput::OnKeyDown, directInput, &MenuScreen::OnKeyDown);
 }
 
 MenuScreen::~MenuScreen()
 {
 	DirectInput* directInput = DirectInput::getInstance();
-	__unhook(&DirectInput::OnKeyDown, directInput, &MenuScreen::OnKeyDown);
 }
 

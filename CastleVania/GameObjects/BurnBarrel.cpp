@@ -3,7 +3,7 @@
 #include "Whip.h"
 #include "../Animations/Animations.h"
 #include "../ResourceManagement.h"
-constexpr int BURNBARREL_ANI = 14;
+
 
 BurnBarrel::BurnBarrel()
 {
@@ -11,6 +11,7 @@ BurnBarrel::BurnBarrel()
 
 BurnBarrel::BurnBarrel(D3DXVECTOR2 position)
 {
+	id = ID_TEX_BURNBARREL;
 	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_BURNBARREL)->Get("Burn1")->getRect();
 	int height = r.bottom - r.top;
 
@@ -22,60 +23,40 @@ BurnBarrel::BurnBarrel(D3DXVECTOR2 position)
 	ani = new Animation(150);
 	ani->Add("Burn1");
 	ani->Add("Burn2");
-
 	Animations::GetInstance()->Add(BURNBARREL_ANI, ani);
+
+	ani = new Animation(150);
+
+	ani->Add("Effect1");
+	ani->Add("Effect2");
+	ani->Add("Effect3");
+	ani->Add("Effect4");
+
+	Animations::GetInstance()->Add(BURNBARREL_ANI_EFFECT, ani);
+
 	AddAnimation(BURNBARREL_ANI);
+	AddAnimation(BURNBARREL_ANI_EFFECT);
+
+	state = BURNBARREL_STATE_NORMAL;
+	currentAnimation = BURNBARREL_ANI;
 }
 
 void BurnBarrel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
+	if (state == BURNBARREL_STATE_NORMAL)
 	{
-		untouchable_start = 0;
-		untouchable = 0;
+		currentAnimation = BURNBARREL_ANI;
 	}
-
-	if (coEvents.size() == 0)
+	else if (state == BURNBARREL_STATE_EFFECT)
 	{
-		return;
+		currentAnimation = BURNBARREL_ANI_EFFECT;
+		
+		if (animations.find(currentAnimation)->second->getCurrentFrame()== 3)
+
+		animations.find(currentAnimation)->second->SetFinish(true);
 	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		//y += 10; x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		//y += min_ty * dy + ny * 0.4f;
-
-		//if (nx != 0) vx = 0;
-		//if (ny != 0) vy = 0;
-
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (dynamic_cast<Whip *>(e->obj))
-			{
-				Whip  *whip = dynamic_cast<Whip *>(e->obj);
-					if ((e->nx > 0) || (e->nx < 0))
-					{
-						y += 2;
-					}
-			}
-		}
-	}
-
-
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void BurnBarrel::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -92,14 +73,16 @@ void BurnBarrel::GetBoundingBox(float & left, float & top, float & right, float 
 
 void BurnBarrel::Render(Viewport * viewport)
 {
-	currentAnimation = BURNBARREL_ANI;
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-
-	animations.find(currentAnimation)->second->SetLoop(true);
-
+	
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
 	animations.find(currentAnimation)->second->Render(position.x, position.y);
+}
+
+int BurnBarrel::getCurrentFrame()
+{
+	return animations.find(currentAnimation)->second->getCurrentFrame();
 }
 
 BurnBarrel::~BurnBarrel()

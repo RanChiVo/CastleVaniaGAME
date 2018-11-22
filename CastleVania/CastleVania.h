@@ -14,7 +14,6 @@
 class CastleVania : public Game
 {
 private:
-
 	static CastleVania * __instance;
 
 	HINSTANCE hInstance;

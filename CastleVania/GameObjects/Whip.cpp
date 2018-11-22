@@ -3,11 +3,12 @@
 #include "Simon.h"
 #include "BurnBarrel.h"
 
-constexpr int WHIT_ANI_HIT_RIGHT = 12;
-constexpr int WHIT_ANI_HIT_LEFT = 13;
+constexpr int WHIT_ANI_HIT_RIGHT = 14;
+constexpr int WHIT_ANI_HIT_LEFT = 15;
 
 Whip::Whip(D3DXVECTOR2 position)
 {
+	id = ID_TEX_WHIP;
 	x = position.x;
 	y = position.y;
 
@@ -113,9 +114,9 @@ int Whip::getCurrentAnimation()
 	return currentAnimation;
 }
 
-void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* ObjectList, vector<LPGAMEOBJECT>* coObjects)
 {
-	GameObject::Update(dt);
+	GameObject::Update(dt, ObjectList);
 }
 
 void Whip::Render(Viewport * viewport)

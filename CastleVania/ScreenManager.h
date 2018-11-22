@@ -1,5 +1,4 @@
 #pragma once
-
 #include <vector>
 #include "Screens/ScreenBase.h"
 #include "DebugOut/DebugOut.h"

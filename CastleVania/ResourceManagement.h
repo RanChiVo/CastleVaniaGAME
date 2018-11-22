@@ -1,7 +1,6 @@
 #include <windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-
 #include "DebugOut/DebugOut.h"
 #include "Textures/Textures.h"	
 #include "SpriteManagements/Sprites.h"

@@ -1,18 +1,22 @@
 #pragma once
 #include "GameObject.h"
+constexpr int BURNBARREL_ANI = 16;
+constexpr int BURNBARREL_ANI_EFFECT = 17;
+constexpr int BURNBARREL_STATE_NORMAL = 1;
+constexpr int BURNBARREL_STATE_EFFECT = 2;
+
 
 class BurnBarrel: public GameObject
 {
-	int untouchable;
-	DWORD untouchable_start;
-
 public:
+
 	BurnBarrel();
 	BurnBarrel(D3DXVECTOR2 position);
-	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
-	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-	void Render( Viewport* viewport);
-	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects) ;
+	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	virtual void Render( Viewport* viewport);
+	int getCurrentFrame();
 
 	~BurnBarrel();
 };

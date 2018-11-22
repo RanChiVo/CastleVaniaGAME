@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include "../Animations/Animation.h"
 #include "../Viewport.h"
+#include "../EntityID.h"
+
 
 using namespace std;
 
@@ -46,13 +48,17 @@ protected:
 	
 	static unordered_map<int, LPANIMATION> animations;
 
+	int id;
+
 public:
 	GameObject();
 
 	virtual void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
 	virtual void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	virtual void SetState(int state) { this->state = state; }
+	virtual void SetCurrentAni(int currentAni) { this->currentAnimation = currentAni; }
 	virtual int GetState() { return this->state; }
+	virtual int getID();
 	virtual int GetDirection() { return this->nx; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 

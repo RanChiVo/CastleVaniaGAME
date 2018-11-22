@@ -2,6 +2,7 @@
 #include "../WindowUtil.h"
 #include "../Direct3DManager.h"
 
+
 void GameplayScreen::init()
 {
 	Direct3DManager* direct3D = Direct3DManager::getInstance();
@@ -12,14 +13,14 @@ void GameplayScreen::update(float dt)
 {
 	updateViewport(dt);
 
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < staticObjects.size(); i++)
 	{
-		coObjects.push_back(objects[i]);
+		objects.push_back(staticObjects[i]);
 	}
 
 	for (int i = 0; i < objects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		objects[i]->Update(dt, &staticObjects);
 	}
 }
 
@@ -33,7 +34,7 @@ void GameplayScreen::updateViewport(float dt)
 	newPosViewport.y = viewport->getY();
 
 	newPosViewport.x = min(tile_map->getWidthWorld() - viewport->getWidth(), newPosViewport.x);
-	newPosViewport.y = min(tile_map->getHeightWorld() - viewport->getHeight() , newPosViewport.y);
+	newPosViewport.y = min(tile_map->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
 	newPosViewport.x = max(0, newPosViewport.x);
 	newPosViewport.y = max(0, newPosViewport.y);
 
@@ -43,11 +44,14 @@ void GameplayScreen::updateViewport(float dt)
 void GameplayScreen::renderObject()
 {
 	tile_map->draw(viewport);
-	
-	
+
 	for (int i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Render(viewport);
+	}
+	for (int i = 0; i < staticObjects.size(); i++)
+	{
+		staticObjects[i]->Render(viewport);
 	}
 }
 
@@ -60,16 +64,55 @@ void GameplayScreen::loadResources()
 	tile_map->readMapfromfile("TiledMap\\Entrance.tmx", textPlayScreen);
 
 	simon->loadResource();
+	objects.push_back(simon);
 
 	for (auto object : tile_map->getObjectInfo())
 	{
 		if (object.first.second == "BurnBarrel")
 		{
-			burnbarrel = new BurnBarrel(object.second);
-			objects.push_back(burnbarrel);
+			BurnBarrel* burnbarrel = new BurnBarrel(object.second);
+			staticObjects.push_back(burnbarrel);
 		}
 	}
-	objects.push_back(simon);
+
+	Heart* heart = new Heart(D3DXVECTOR2(0, -100));
+	staticObjects.push_back(heart);
+
+	WeaponReward* weaponReward = new WeaponReward(D3DXVECTOR2(0, -100));
+	staticObjects.push_back(weaponReward);
+
+	heart = new Heart(D3DXVECTOR2(0, -100));
+	staticObjects.push_back(heart);
+
+	weaponReward = new WeaponReward(D3DXVECTOR2(0, -100));
+	staticObjects.push_back(weaponReward);
+
+	Katana* katana = new Katana(D3DXVECTOR2(0, -100));
+	staticObjects.push_back(katana);
+
+	MiraculousBag* miraculousBag = new MiraculousBag(D3DXVECTOR2(0, -100));
+	staticObjects.push_back(miraculousBag);
+
+	for (int i = 0; i < 96; i++)
+	{
+		CBrick* brick = new CBrick();
+		brick->SetPosition(D3DXVECTOR2(0 + i * 16.0f, 350));
+		staticObjects.push_back(brick);
+	}
+
+	for (int i = 0; i < 20; i++)
+	{
+		CBrick* brick = new CBrick();
+		brick->SetPosition(D3DXVECTOR2(0, 0 + i * 16.0f));
+		staticObjects.push_back(brick);
+	}
+
+	for (int i = 0; i < 20; i++)
+	{
+		CBrick* brick = new CBrick();
+		brick->SetPosition(D3DXVECTOR2(1500, 0 + i * 16.0f));
+		staticObjects.push_back(brick);
+	}
 }
 
 GameplayScreen::GameplayScreen()

@@ -22,8 +22,6 @@ public:
 	void init(WindowUtil *windowGame);
 	void clearBackBuffer();
 	void callPresent();
-	void drawBoundingBox(int x, int y, int width, int height, D3DCOLOR color, IDirect3DDevice9* d3ddvev);
-
 	
 	Viewport* getViewport();
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }

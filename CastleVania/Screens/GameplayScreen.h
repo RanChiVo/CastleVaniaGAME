@@ -2,6 +2,11 @@
 #include "../GameObjects/Simon.h"
 #include "../GameObjects/Whip.h"
 #include "../GameObjects/BurnBarrel.h"
+#include "../GameObjects/Heart.h"
+#include "../GameObjects/WeaponReward.h"
+#include "../GameObjects/Katana.h"
+#include "../GameObjects/MiraculousBag.h"
+#include "../Brick.h"
 #include "../Screens/ScreenBase.h"
 #include "../GameObjects/GameObject.h"
 #include "../Input/DirectInput.h"
@@ -11,11 +16,11 @@
 class GameplayScreen: public ScreenBase
 {
 private:
-	vector<GameObject*> objects;
-	vector<LPGAMEOBJECT> coObjects;
+	vector<LPGAMEOBJECT> objects;
+	vector< LPGAMEOBJECT> staticObjects;
+	vector<LPGAMEOBJECT> movecoObjects;
 	Simon* simon;
-	BurnBarrel* burnbarrel;
-	Whip* whip;
+
 	DirectInput* directInput;
 	TiledMap * tile_map;
 	ResourceManagement* resourceManagement;
@@ -24,10 +29,10 @@ private:
 public:
 
 	void init() override;
+	void loadResources() override;
 	void update(float dt) override;
 	void updateViewport(float dt);
 	void renderObject() override;
-	void loadResources() override;
 
 	GameplayScreen();
 	~GameplayScreen();

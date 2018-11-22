@@ -1,7 +1,6 @@
 #include "TileSet.h"
 #include <string>
 
-
 TileSet::TileSet(LPDIRECT3DTEXTURE9 IDTex, int tileWidth, int tileHeight)
 {
 	this->tileWidth = tileWidth;
