@@ -51,25 +51,17 @@ protected:
 	int id;
 
 public:
-	GameObject();
 
 	virtual void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
 	virtual void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
-	virtual void SetState(int state) { this->state = state; }
 	virtual void SetCurrentAni(int currentAni) { this->currentAnimation = currentAni; }
 	virtual int GetState() { return this->state; }
 	virtual int getID();
 	virtual int GetDirection() { return this->nx; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
-
-
-	static void AddAnimation(int aniId);
-	D3DXVECTOR2 getPosition();
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
-	virtual void Render(Viewport* viewport);
-	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom)=0;
-
 	void RenderBoundingBox(Viewport* viewport);
+
+
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
 	void FilterCollision(
@@ -79,6 +71,16 @@ public:
 		float &min_ty,
 		float &nx,
 		float &ny);
+	static void AddAnimation(int aniId);
+	D3DXVECTOR2 getPosition();
+	GameObject();
+
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	virtual void Render(Viewport* viewport) = 0;
+	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom)=0;
+	virtual void SetState(int state) { this->state = state; }
+
+	
 
 	virtual ~GameObject();
 };

@@ -117,7 +117,6 @@ void ResourceManagement::loadResource()
 	sprites->Add("Effect4", RECT{ 140, 0, 160, 40 }, texEffect);
 
 	SpriteMapper[EntityID::ID_TEX_BURNBARREL] = sprites;
-
 	
 
 	textures->Add(ID_TEX_MAINMENU, L"Resources\\Screens\\mainmenu.png", D3DCOLOR_XRGB(255, 0, 255));

@@ -1,5 +1,11 @@
 #pragma once
 #include "GameObject.h"
+constexpr int WHIT_STATE_1 = 1;
+constexpr int WHIT_STATE_2 = 2;
+constexpr int WHIT_ANI_HIT_RIGHT1 = 14;
+constexpr int WHIT_ANI_HIT_LEFT1 = 15;
+constexpr int WHIT_ANI_HIT_RIGHT2 = 16;
+constexpr int WHIT_ANI_HIT_LEFT2 = 17;
 
 class Whip : public GameObject
 {

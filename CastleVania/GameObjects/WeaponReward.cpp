@@ -39,7 +39,7 @@ void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT>* ObjectList, vector<LPG
 	GameObject::Update(dt, coObjects);
 
 	std::vector<LPGAMEOBJECT> brickList;
-	for (int i = 10; i < coObjects->size(); i++)
+	for (int i = 11; i < coObjects->size(); i++)
 	{
 		brickList.push_back(coObjects->at(i));
 	}

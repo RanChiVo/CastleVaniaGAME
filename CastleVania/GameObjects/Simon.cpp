@@ -26,6 +26,10 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt);
 
+	if (y > GROUND_POSITION)
+	{
+		y = GROUND_POSITION;
+	}
 	handleState();
 
 	if (objectList.size() == 0 && objectList.size() != coObjects->size())
@@ -36,7 +40,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 
-	vy += SIMON_GRAVITY* dt ;
+	vy += SIMON_GRAVITY ;
 
 	std::vector<LPGAMEOBJECT> brickList;
 
@@ -70,8 +74,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		float min_tx, min_ty, nx, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		
-
 		for (int i = 0; i < coEvents.size(); i++)
 		{
 			switch (coEvents[i]->obj->getID())
@@ -95,6 +97,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						coObjects->at(i)->SetPosition(D3DXVECTOR2(0, -100));
 					}
 				}
+				
 				SetState(SIMON_STATE_CHANGECOLOR);
 				break;
 
@@ -117,6 +120,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						coObjects->at(i)->SetPosition(D3DXVECTOR2(0, -100));
 					}
 				}
+				WHIP_STATE = 2;
 				break;
 			case ID_TEX_BRICK:
 				if (x >= 1430)
@@ -135,7 +139,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 
 		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+		y += dy;
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
@@ -369,6 +373,7 @@ void Simon::Render(Viewport* viewport)
 		if (attacking)
 		{
 			whip = new Whip(D3DXVECTOR2(x, y));
+			whip->SetState(WHIP_STATE);
 			whip->updatePostision(animation->getCurrentFrame(), currentAnimation);
 			whip->draw(nx, viewport);
 			if (whip->getframe() == 2) whip->animations.find(currentAnimation)->second->SetFinish(true);
@@ -423,7 +428,7 @@ void Simon::Render(Viewport* viewport)
 
 bool Simon::isOnGround()
 {
-	if (y == GROUND_POSITION)
+	if (y >= GROUND_POSITION)
 		return true;
 	return false;
 }

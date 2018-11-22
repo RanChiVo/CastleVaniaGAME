@@ -22,6 +22,7 @@ void GameplayScreen::update(float dt)
 	{
 		objects[i]->Update(dt, &staticObjects);
 	}
+
 }
 
 void GameplayScreen::updateViewport(float dt)

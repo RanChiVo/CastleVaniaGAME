@@ -5,7 +5,7 @@ constexpr int HEART_STATE_HIDE = 1;
 constexpr int HEART_STATE_SHOW = 2;
 constexpr int HEART_ANI_HIDE = 18;
 constexpr int HEART_ANI_SHOW = 19;
-constexpr float HEART_GRAVITY = 0.002f;
+constexpr float HEART_GRAVITY = 0.02f;
 
 
 class Heart: public GameObject

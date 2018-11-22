@@ -3,8 +3,6 @@
 #include "Simon.h"
 #include "BurnBarrel.h"
 
-constexpr int WHIT_ANI_HIT_RIGHT = 14;
-constexpr int WHIT_ANI_HIT_LEFT = 15;
 
 Whip::Whip(D3DXVECTOR2 position)
 {
@@ -19,89 +17,180 @@ Whip::Whip(D3DXVECTOR2 position)
 	ani->Add("1AttackRight2");
 	ani->Add("1AttackRight3");
 
-	Animations::GetInstance()->Add(WHIT_ANI_HIT_RIGHT, ani);
+	Animations::GetInstance()->Add(WHIT_ANI_HIT_RIGHT1, ani);
 
 	ani = new Animation(200);
 	ani->Add("1AttackLeft1");
 	ani->Add("1AttackLeft2");
 	ani->Add("1AttackLeft3");
 
-	Animations::GetInstance()->Add(WHIT_ANI_HIT_LEFT, ani);
+	Animations::GetInstance()->Add(WHIT_ANI_HIT_LEFT1, ani);
 
-	AddAnimation(WHIT_ANI_HIT_RIGHT);
-	AddAnimation(WHIT_ANI_HIT_LEFT);
+	ani = new Animation(200);
+	ani->Add("2AttackRight1");
+	ani->Add("2AttackRight2");
+	ani->Add("2AttackRight3");
 
-	currentAnimation = WHIT_ANI_HIT_RIGHT;
+	Animations::GetInstance()->Add(WHIT_ANI_HIT_RIGHT2, ani);
+
+	ani = new Animation(200);
+	ani->Add("2AttackLeft1");
+	ani->Add("2AttackLeft2");
+	ani->Add("2AttackLeft3");
+
+	Animations::GetInstance()->Add(WHIT_ANI_HIT_LEFT2, ani);
+
+	AddAnimation(WHIT_ANI_HIT_RIGHT1);
+	AddAnimation(WHIT_ANI_HIT_LEFT1);
+
+	AddAnimation(WHIT_ANI_HIT_RIGHT2);
+	AddAnimation(WHIT_ANI_HIT_LEFT2);
+
+	state = WHIT_STATE_1;
+	currentAnimation = WHIT_ANI_HIT_RIGHT1;
 }
 
 void Whip::updatePostision(int currentFrameSimon, int currentAni)
 {
-	if (currentAni == SIMON_ANI_ATTACK_STANDING_RIGHT)
-		switch (currentFrameSimon)
-		{
-		case 0:
-			SetPosition(D3DXVECTOR2(x - 10, y + 20));
-			break;
-		case 1:
-			SetPosition(D3DXVECTOR2(x, y));
-			break;
-		case 2:
-			SetPosition(D3DXVECTOR2(x + 57, y + 15));
-			break;
-		default:
-			break;
-		}
-	else if (currentAni == SIMON_ANI_ATTACK_SITDOWN_RIGHT)
+	if (state == WHIT_STATE_1)
 	{
-		switch (currentFrameSimon)
+		if (currentAni == SIMON_ANI_ATTACK_STANDING_RIGHT)
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x - 10, y + 20));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x, y));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x + 57, y + 15));
+				break;
+			default:
+				break;
+			}
+		else if (currentAni == SIMON_ANI_ATTACK_SITDOWN_RIGHT)
 		{
-		case 0:
-			SetPosition(D3DXVECTOR2(x - 10, y + 30));
-			break;
-		case 1:
-			SetPosition(D3DXVECTOR2(x + 5, y + 30));
-			break;
-		case 2:
-			SetPosition(D3DXVECTOR2(x + 57, y + 20));
-			break;
-		default:
-			break;
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x - 10, y + 30));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x + 5, y + 30));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x + 57, y + 20));
+				break;
+			default:
+				break;
+			}
+		}
+		else if (currentAni == SIMON_ANI_ATTACK_STANDING_LEFT)
+		{
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x + 60, y + 15));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x + 30, y));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x - 40, y + 13));
+				break;
+			default:
+				break;
+			}
+		}
+		else if (currentAni == SIMON_ANI_ATTACK_SITDOWN_LEFT)
+		{
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x + 60, y + 28));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x + 15, y + 20));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x - 40, y + 20));
+				break;
+			default:
+				break;
+			}
 		}
 	}
-	else if (currentAni == SIMON_ANI_ATTACK_STANDING_LEFT)
+	else if (state == WHIT_STATE_2)
 	{
-		switch (currentFrameSimon)
+		if (currentAni == SIMON_ANI_ATTACK_STANDING_RIGHT)
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x - 10, y + 20));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x, y));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x + 57, y + 15));
+				break;
+			default:
+				break;
+			}
+		else if (currentAni == SIMON_ANI_ATTACK_SITDOWN_RIGHT)
 		{
-		case 0:
-			SetPosition(D3DXVECTOR2(x + 60, y + 15));
-			break;
-		case 1:
-			SetPosition(D3DXVECTOR2(x + 30, y));
-			break;
-		case 2:
-			SetPosition(D3DXVECTOR2(x - 40, y + 13));
-			break;
-		default:
-			break;
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x - 10, y + 30));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x + 5, y + 30));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x + 57, y + 20));
+				break;
+			default:
+				break;
+			}
+		}
+		else if (currentAni == SIMON_ANI_ATTACK_STANDING_LEFT)
+		{
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x + 60, y + 15));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x + 30, y));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x - 40, y + 13));
+				break;
+			default:
+				break;
+			}
+		}
+		else if (currentAni == SIMON_ANI_ATTACK_SITDOWN_LEFT)
+		{
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x + 60, y + 28));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x + 15, y + 20));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x - 40, y + 20));
+				break;
+			default:
+				break;
+			}
 		}
 	}
-	else if (currentAni == SIMON_ANI_ATTACK_SITDOWN_LEFT)
-	{
-		switch (currentFrameSimon)
-		{
-		case 0:
-			SetPosition(D3DXVECTOR2(x + 60, y + 28));
-			break;
-		case 1:
-			SetPosition(D3DXVECTOR2(x + 15, y + 20));
-			break;
-		case 2:
-			SetPosition(D3DXVECTOR2(x - 40, y + 20));
-			break;
-		default:
-			break;
-		}
-	}
+
 }
 
 int Whip::getframe()
@@ -141,11 +230,22 @@ RECT Whip::getBounding()
 
 void Whip::draw(int direct, Viewport* viewport)
 {
-	if (direct == 1)
+	if (state == WHIT_STATE_1)
 	{
-		currentAnimation = WHIT_ANI_HIT_RIGHT;
+		if (direct == 1)
+		{
+			currentAnimation = WHIT_ANI_HIT_RIGHT1;
+		}
+		else currentAnimation = WHIT_ANI_HIT_LEFT1;
 	}
-	else currentAnimation = WHIT_ANI_HIT_LEFT;
+	else if (state == WHIT_STATE_2)
+	{
+		if (direct == 1)
+		{
+			currentAnimation = WHIT_ANI_HIT_RIGHT2;
+		}
+		else currentAnimation = WHIT_ANI_HIT_LEFT2;
+	}
 
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 

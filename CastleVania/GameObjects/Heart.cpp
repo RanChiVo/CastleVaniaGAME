@@ -44,7 +44,7 @@ void Heart::Update(DWORD dt,  vector<LPGAMEOBJECT> *coObjects)
 
 	std::vector<LPGAMEOBJECT> brickList;
 
-	for (int i = 10; i < coObjects->size(); i++)
+	for (int i = 11; i < coObjects->size(); i++)
 	{
 		brickList.push_back(coObjects->at(i));
 	}
@@ -61,7 +61,7 @@ void Heart::Update(DWORD dt,  vector<LPGAMEOBJECT> *coObjects)
 
 			animations.find(currentAnimation)->second->SetFinish1(true);
 
-		vy += HEART_GRAVITY * dt;
+		vy += HEART_GRAVITY*dt ;
 
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
@@ -96,8 +96,8 @@ void Heart::GetBoundingBox(float & left, float & top, float & right, float & bot
 	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_HEART)->Get("Heart1")->getRect();
 	int height = r.bottom - r.top;
 	int width = r.right - r.left;
-	right = x + width + 10;
-	bottom = y + height  + 10;
+	right = x + 24;
+	bottom = y + 24 ;
 }
 
 void Heart::Render(Viewport * viewport)

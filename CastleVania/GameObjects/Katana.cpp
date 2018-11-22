@@ -42,7 +42,7 @@ void Katana::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 	std::vector<LPGAMEOBJECT> brickList;
-	for (int i = 10; i < coObjects->size(); i++)
+	for (int i = 11; i < coObjects->size(); i++)
 	{
 		brickList.push_back(coObjects->at(i));
 	}

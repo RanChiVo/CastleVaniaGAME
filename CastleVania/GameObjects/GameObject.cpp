@@ -41,10 +41,6 @@ GameObject::GameObject()
 	nx = 1;
 }
 
-void GameObject::Render(Viewport* viewport)
-{
-}
-
 void GameObject::RenderBoundingBox(Viewport* viewport)
 {
 	Sprite *sprite;
@@ -100,7 +96,9 @@ LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 	return e;
 }
 
-void GameObject::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCOLLISIONEVENT>& coEvents)
+void GameObject::CalcPotentialCollisions(
+	vector<LPGAMEOBJECT>* coObjects,
+	vector<LPCOLLISIONEVENT>& coEvents)
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
@@ -118,7 +116,8 @@ void GameObject::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector
 void GameObject::FilterCollision(
 	vector<LPCOLLISIONEVENT>& coEvents,
 	vector<LPCOLLISIONEVENT>& coEventsResult,
-	float & min_tx, float & min_ty, float & nx, float & ny)
+	float & min_tx, float & min_ty,
+	float & nx, float & ny)
 {
 	min_tx = 1.0f;
 	min_ty = 1.0f;

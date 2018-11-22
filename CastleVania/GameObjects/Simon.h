@@ -9,7 +9,7 @@ constexpr float SIMON_MOVE_SPEED = 0.5f;
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.5f;
 
-constexpr float SIMON_GRAVITY = 0.002f;
+constexpr float SIMON_GRAVITY = 0.008f;
 constexpr int SIMON_ATTACK_TIME = 600;
 constexpr int SIMON_PROTECT_TIME = 2000;
 
@@ -81,6 +81,7 @@ private:
 	DWORD untouchable_start;
 
 	Whip* whip;
+	int WHIP_STATE = 1;
 
 	std::vector<LPGAMEOBJECT> objectList;
 public:
@@ -104,6 +105,7 @@ public:
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
 
+	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
 	void SetState(int state);
