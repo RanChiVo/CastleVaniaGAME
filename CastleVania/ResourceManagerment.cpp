@@ -73,15 +73,36 @@ void ResourceManagement::loadResource()
 	sprites->Add("AttackSitdownLeft2", RECT{ 805, -15, 865, 50 }, texSimon);
 	sprites->Add("AttackSitdownLeft3", RECT{ 865, -15, 920, 50 }, texSimon);
 	//change color right
-	sprites->Add("ChangeColorRight1", RECT{ 260, 200, 300, 275 }, texSimon);
+	sprites->Add("ChangeColorRight1", RECT{ 10, 200, 300, 275 }, texSimon);
 	sprites->Add("ChangeColorRight2", RECT{ 320, 200, 360, 275 }, texSimon);
 	sprites->Add("ChangeColorRight3", RECT{ 380, 200, 420, 275 }, texSimon);
 	sprites->Add("ChangeColorRight4", RECT{ 440, 200, 480, 275 }, texSimon);
+	sprites->Add("ChangeColorRight5", RECT{ 440, 200, 480, 275 }, texSimon);
+	sprites->Add("ChangeColorRight6", RECT{ 440, 200, 480, 275 }, texSimon);
+
 	//change color left
 	sprites->Add("ChangeColorLeft1", RECT{ 690, 200, 730, 275 }, texSimon);
 	sprites->Add("ChangeColorLeft2", RECT{ 630, 200, 670, 275 }, texSimon);
 	sprites->Add("ChangeColorLeft3", RECT{ 570, 200, 610, 275 }, texSimon);
 	sprites->Add("ChangeColorLeft4", RECT{ 510, 200, 550, 275 }, texSimon);
+	sprites->Add("ChangeColorLeft5", RECT{ 510, 200, 550, 275 }, texSimon);
+	sprites->Add("ChangeColorLeft6", RECT{ 510, 200, 550, 275 }, texSimon);
+
+	sprites->Add("ChangeColorRight1", RECT{ 10, 200, 300, 275 }, texSimon);
+	sprites->Add("ChangeColorRight2", RECT{ 320, 200, 360, 275 }, texSimon);
+	sprites->Add("ChangeColorRight3", RECT{ 380, 200, 420, 275 }, texSimon);
+	sprites->Add("ChangeColorRight4", RECT{ 440, 200, 480, 275 }, texSimon);
+	sprites->Add("ChangeColorRight5", RECT{ 440, 200, 480, 275 }, texSimon);
+	sprites->Add("ChangeColorRight6", RECT{ 440, 200, 480, 275 }, texSimon);
+
+	//change color left
+	sprites->Add("ChangeColorLeft1", RECT{ 690, 200, 730, 275 }, texSimon);
+	sprites->Add("ChangeColorLeft2", RECT{ 630, 200, 670, 275 }, texSimon);
+	sprites->Add("ChangeColorLeft3", RECT{ 570, 200, 610, 275 }, texSimon);
+	sprites->Add("ChangeColorLeft4", RECT{ 510, 200, 550, 275 }, texSimon);
+	sprites->Add("ChangeColorLeft5", RECT{ 510, 200, 550, 275 }, texSimon);
+	sprites->Add("ChangeColorLeft6", RECT{ 510, 200, 550, 275 }, texSimon);
+
 
 	SpriteMapper[EntityID::ID_TEX_SIMON] = sprites;
 
@@ -95,13 +116,21 @@ void ResourceManagement::loadResource()
 	sprites->Add("1AttackLeft2", RECT{ 490, 10, 520, 50 }, texWhip);
 	sprites->Add("1AttackLeft3", RECT{ 340, 10, 392, 30 }, texWhip);
 
-	sprites->Add("2AttackRight1", RECT{ 10, 150, 30, 200 }, texWhip);
-	sprites->Add("2AttackRight2", RECT{ 80, 70, 120, 120 }, texWhip);
-	sprites->Add("2AttackRight3", RECT{ 215, 88, 155, 170 }, texWhip);
+	sprites->Add("2AttackRight1", RECT{ 10, 80, 30, 130 }, texWhip);
+	sprites->Add("2AttackRight2", RECT{ 87, 70, 112, 110 }, texWhip);
+	sprites->Add("2AttackRight3", RECT{ 215, 80, 242, 100 }, texWhip);
 
-	sprites->Add("3AttackRight1", RECT{ 580, 130, 600, 200 }, texWhip);
-	sprites->Add("3AttackRight2", RECT{ 490, 147, 520, 185 }, texWhip);
-	sprites->Add("3AttackRight3", RECT{ 310, 156, 390, 170 }, texWhip);
+	sprites->Add("2AttackLeft1", RECT{ 580, 80, 600, 130 }, texWhip);
+	sprites->Add("2ttackLeft2", RECT{ 490, 80, 520, 120 }, texWhip);
+	sprites->Add("2AttackLeft3", RECT{ 340, 80, 395, 100 }, texWhip);
+
+	sprites->Add("3AttackRight1", RECT{ 10, 150, 30, 200 }, texWhip);
+	sprites->Add("3AttackRight2", RECT{ 87, 70, 120, 120 }, texWhip);
+	sprites->Add("3AttackRight3", RECT{ 215, 156, 300, 170 }, texWhip);
+
+	sprites->Add("3AttackLeft1", RECT{ 580, 130, 600, 200 }, texWhip);
+	sprites->Add("3AttackLeft2", RECT{ 490, 147, 520, 185 }, texWhip);
+	sprites->Add("3AttackLeft3", RECT{ 340, 156, 390, 170 }, texWhip);
 	
 	SpriteMapper[EntityID::ID_TEX_WHIP] = sprites;
 

@@ -11,17 +11,17 @@ void GameplayScreen::init()
 void GameplayScreen::update(float dt)
 {
 	updateViewport(dt);
+	vector< LPGAMEOBJECT> staticObjects;
 
-	for (int i = 0; i < staticObjects.size(); i++)
+	for (int i = 0; i < objects.size(); i++)
 	{
-		objects.push_back(staticObjects[i]);
+		staticObjects.push_back(objects[i]);
 	}
 
 	for (int i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Update(dt, &staticObjects);
 	}
-
 }
 
 void GameplayScreen::updateViewport(float dt)
@@ -49,10 +49,6 @@ void GameplayScreen::renderObject()
 	{
 		objects[i]->Render(viewport);
 	}
-	for (int i = 0; i < staticObjects.size(); i++)
-	{
-		staticObjects[i]->Render(viewport);
-	}
 }
 
 void GameplayScreen::loadResources()
@@ -71,37 +67,37 @@ void GameplayScreen::loadResources()
 		if (object.first.second == "BurnBarrel")
 		{
 			BurnBarrel* burnbarrel = new BurnBarrel(object.second);
-			staticObjects.push_back(burnbarrel);
+			objects.push_back(burnbarrel);
 		}
 	}
 
 	Heart* heart = new Heart(D3DXVECTOR2(0, -100));
-	staticObjects.push_back(heart);
+	objects.push_back(heart);
 
 	WeaponReward* weaponReward = new WeaponReward(D3DXVECTOR2(0, -100));
-	staticObjects.push_back(weaponReward);
+	objects.push_back(weaponReward);
 
 	heart = new Heart(D3DXVECTOR2(0, -100));
-	staticObjects.push_back(heart);
+	objects.push_back(heart);
 
 	weaponReward = new WeaponReward(D3DXVECTOR2(0, -100));
-	staticObjects.push_back(weaponReward);
+	objects.push_back(weaponReward);
 
 	Katana* katana = new Katana(D3DXVECTOR2(0, -100));
-	staticObjects.push_back(katana);
+	objects.push_back(katana);
 
 	MiraculousBag* miraculousBag = new MiraculousBag(D3DXVECTOR2(0, -100));
-	staticObjects.push_back(miraculousBag);
+	objects.push_back(miraculousBag);
 
 	Floor* floor = new Floor();
 	floor->SetPosition(D3DXVECTOR2(0, 350));
-	staticObjects.push_back(floor);
+	objects.push_back(floor);
 	
 	for (int i = 0; i < 2; i++)
 	{
 		CBrick* brick = new CBrick();
 		brick->SetPosition(D3DXVECTOR2(0 + i*1500, 0));
-		staticObjects.push_back(brick);
+		objects.push_back(brick);
 	}
 }
 

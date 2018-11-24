@@ -3,9 +3,7 @@
 
 	constexpr int  MIRACULOUSBAG_STATE_HIDE = 1;
 	constexpr int  MIRACULOUSBAG_STATE_SHOW = 2;
-	constexpr int  MIRACULOUSBAG_ANI_HIDE = 24;
-	constexpr int  MIRACULOUSBAG_ANI_SHOW = 25;
-	constexpr float MIRACULOUSBAG_GRAVITY = 0.002f;
+
 
 class MiraculousBag : public GameObject
 {

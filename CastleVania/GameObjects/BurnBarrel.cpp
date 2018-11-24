@@ -4,6 +4,8 @@
 #include "../Animations/Animations.h"
 #include "../ResourceManagement.h"
 
+constexpr int BURNBARREL_ANI = 20;
+constexpr int BURNBARREL_ANI_EFFECT = 21;
 
 BurnBarrel::BurnBarrel()
 {

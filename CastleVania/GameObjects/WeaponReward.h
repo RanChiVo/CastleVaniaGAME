@@ -3,9 +3,7 @@
 
 constexpr int WEAPONREWARD_STATE_HIDE = 1;
 constexpr int WEAPONREWARD_STATE_SHOW = 2;
-constexpr int WEAPONREWARD_ANI_HIDE = 20;
-constexpr int WEAPONREWARD_ANI_SHOW = 21;
-constexpr float WEAPONREWARD_GRAVITY = 0.002f;
+
 
 class WeaponReward : public GameObject
 {

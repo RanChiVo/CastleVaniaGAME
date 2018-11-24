@@ -2,6 +2,10 @@
 #include "../ResourceManagement.h"
 #include "Katana.h"
 
+constexpr int  KATANA_ANI_HIDE = 25;
+constexpr int  KATANA_ANI_SHOW = 26;
+constexpr float KATANA_GRAVITY = 0.02f;
+
 
 Katana::Katana()
 {
@@ -40,13 +44,6 @@ void Katana::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
-	std::vector<LPGAMEOBJECT> brickList;
-
-	for (int i = 11; i < coObjects->size(); i++)
-	{
-		brickList.push_back(coObjects->at(i));
-	}
-
 	if (state == KATANA_STATE_HIDE)
 	{
 		currentAnimation = KATANA_ANI_HIDE;
@@ -67,7 +64,7 @@ void Katana::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		coEvents.clear();
 
 		if (state != KATANA_STATE_HIDE)
-			CalcPotentialCollisions(&brickList, coEvents);
+			CalcPotentialCollisions(coObjects, coEvents);
 
 		if (coEvents.size() == 0)
 		{

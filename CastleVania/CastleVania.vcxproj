@@ -144,6 +144,7 @@
     <ClCompile Include="Input\DirectInput.cpp" />
     <ClCompile Include="CastleVania.cpp" />
     <ClCompile Include="GameObjects\Katana.cpp" />
+    <ClCompile Include="ItemManger.cpp" />
     <ClCompile Include="Library\pugixml.cpp" />
     <ClCompile Include="GameObjects\MiraculousBag.cpp" />
     <ClCompile Include="Screens\IntroScreen.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Input\DirectInput.h" />
     <ClInclude Include="CastleVania.h" />
     <ClInclude Include="GameObjects\Katana.h" />
+    <ClInclude Include="ItemManger.h" />
     <ClInclude Include="Library\pugiconfig.hpp" />
     <ClInclude Include="Library\pugixml.hpp" />
     <ClInclude Include="GameObjects\MiraculousBag.h" />
@@ -214,6 +216,7 @@
   <ItemGroup>
     <Image Include="Resources\bat.png" />
     <Image Include="Resources\bbox.png" />
+    <Image Include="Resources\floor.png" />
     <Image Include="Resources\Items\burn_barrel.png" />
     <Image Include="Resources\Items\effect.png" />
     <Image Include="Resources\Items\heart.png" />

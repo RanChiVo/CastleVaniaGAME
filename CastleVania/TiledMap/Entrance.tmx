@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="24" height="6" tilewidth="64" tileheight="64" infinite="0" backgroundcolor="#3c3c3c" nextlayerid="7" nextobjectid="25">
- <tileset firstgid="1" source="Simon.tsx"/>
- <tileset firstgid="25" source="burn_barrel.tsx"/>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="24" height="6" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="15">
+ <tileset firstgid="1" source="burn_barrel.tsx"/>
  <imagelayer id="2" name="Background">
-  <image source="Entrance.png" width="1538" height="386"/>
+  <image source="Entrance.png" width="1532" height="384"/>
  </imagelayer>
- <layer id="1" name="TileLayer01" width="24" height="6">
+ <layer id="1" name="Tile Layer 1" width="24" height="6">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACmNgGAWjgHwAAPMY7ENAAgAA
+   H4sIAAAAAAAAC2NgGAWjgHwAAPMY7ENAAgAA
   </data>
  </layer>
- <objectgroup id="3" name="EnterTrace">
-  <object id="14" name="Simon" gid="8" x="20" y="357" width="60" height="66"/>
-  <object id="15" name="BurnBarrel" gid="25" x="175" y="355" width="32" height="64"/>
-  <object id="16" name="BurnBarrel" gid="25" x="434" y="355" width="32" height="64"/>
-  <object id="17" name="BurnBarrel" gid="25" x="685" y="355" width="32" height="64"/>
-  <object id="18" name="BurnBarrel" gid="25" x="942" y="355" width="32" height="64"/>
-  <object id="19" name="BurnBarrel" gid="25" x="1199" y="355" width="32" height="64"/>
+ <objectgroup id="4" name="EnterTrace">
+  <object id="6" name="Door" x="1372" y="187" width="31" height="166"/>
+  <object id="9" name="BurnBarrel" gid="2" x="175" y="355" width="32" height="64"/>
+  <object id="10" name="BurnBarrel" gid="2" x="434" y="355" width="32" height="64"/>
+  <object id="11" name="BurnBarrel" gid="2" x="685" y="355" width="32" height="64"/>
+  <object id="12" name="BurnBarrel" gid="2" x="942" y="355" width="32" height="64"/>
+  <object id="13" name="BurnBarrel" gid="2" x="1199" y="355" width="32" height="64"/>
  </objectgroup>
 </map>

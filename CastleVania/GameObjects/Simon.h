@@ -4,6 +4,8 @@
 #include "../Input/DirectInput.h"
 #include "../Animations/Animation.h"
 #include "../GameObjects/Whip.h"
+#include "../GameObjects/Katana.h"
+
 
 constexpr float SIMON_MOVE_SPEED = 0.1f;
 constexpr int SIMON_JUMP_VEL = 350;
@@ -55,7 +57,8 @@ class Simon: public GameObject
 {
 private: 
 
-	int level;
+	int level = 1;
+
 	enum State 
 	{
 		SIMON_STATE_IDLE,
@@ -76,16 +79,19 @@ private:
 	bool jumped = false;
 	bool attacking = false;
 	bool checkRewind = false;
-	bool isRenderItem = false;
+	bool throwKatana = false;
 	int untouchable;
 	DWORD untouchable_start;
 
 	Whip* whip;
-	int WHIP_STATE = 1;
+	Katana* katana;
 
 	std::vector<LPGAMEOBJECT> objectList;
+	std::vector<LPGAMEOBJECT> itemList;
+
 public:
 	Simon();
+	 int WHIP_STATE;
 
 	void loadResource();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

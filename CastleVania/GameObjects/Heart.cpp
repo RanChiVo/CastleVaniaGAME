@@ -2,6 +2,9 @@
 #include "../ResourceManagement.h"
 #include "../GameObjects/Simon.h"
 
+constexpr int HEART_ANI_HIDE = 22;
+constexpr int HEART_ANI_SHOW = 23;
+constexpr float HEART_GRAVITY = 0.05f;
 
 Heart::Heart()
 {
@@ -42,13 +45,6 @@ void Heart::Update(DWORD dt,  vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt);
 
-	std::vector<LPGAMEOBJECT> brickList;
-
-	for (int i = 11; i < coObjects->size() - 2 ; i++)
-	{
-		brickList.push_back(coObjects->at(i));
-	}
-
 	if (state == HEART_STATE_HIDE)
 	{
 		currentAnimation = HEART_ANI_HIDE;
@@ -69,7 +65,7 @@ void Heart::Update(DWORD dt,  vector<LPGAMEOBJECT> *coObjects)
 		coEvents.clear();
 
 		if (state != HEART_STATE_HIDE)
-			CalcPotentialCollisions(&brickList, coEvents);
+			CalcPotentialCollisions(coObjects, coEvents);
 
 		if (coEvents.size() == 0)
 		{

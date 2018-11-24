@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
-constexpr int BURNBARREL_ANI = 16;
-constexpr int BURNBARREL_ANI_EFFECT = 17;
+
 constexpr int BURNBARREL_STATE_NORMAL = 1;
 constexpr int BURNBARREL_STATE_EFFECT = 2;
 

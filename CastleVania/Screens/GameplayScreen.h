@@ -18,7 +18,6 @@ class GameplayScreen: public ScreenBase
 {
 private:
 	vector<LPGAMEOBJECT> objects;
-	vector< LPGAMEOBJECT> staticObjects;
 	vector<LPGAMEOBJECT> movecoObjects;
 	Simon* simon;
 

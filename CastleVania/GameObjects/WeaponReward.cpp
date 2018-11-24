@@ -1,6 +1,10 @@
 #include "../ResourceManagement.h"
 #include "WeaponReward.h"
 
+constexpr int WEAPONREWARD_ANI_HIDE = 24;
+constexpr int WEAPONREWARD_ANI_SHOW = 25;
+constexpr float WEAPONREWARD_GRAVITY = 0.002f;
+
 WeaponReward::WeaponReward()
 {
 }
@@ -38,11 +42,6 @@ void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
-	std::vector<LPGAMEOBJECT> brickList;
-	for (int i = 11; i < coObjects->size() - 2; i++)
-	{
-		brickList.push_back(coObjects->at(i));
-	}
 
 	if (state == WEAPONREWARD_STATE_HIDE)
 	{
@@ -64,7 +63,7 @@ void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		coEvents.clear();
 
 		if (state != WEAPONREWARD_STATE_HIDE)
-			CalcPotentialCollisions(&brickList, coEvents);
+			CalcPotentialCollisions(coObjects, coEvents);
 
 		if (coEvents.size() == 0)
 		{

@@ -27,7 +27,6 @@ Sprite& TileSet::getPositionTile(int row, int col)
 	return tiles.at(std::make_pair(row, col));
 }
 
-
 TileSet::~TileSet()
 {
 }
