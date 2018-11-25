@@ -45,6 +45,7 @@ protected:
 
 	int state;
 	int currentAnimation;
+	D3DXVECTOR2 newpos = { 0, 0 };
 	
 	static unordered_map<int, LPANIMATION> animations;
 
@@ -60,7 +61,8 @@ public:
 	virtual int GetDirection() { return this->nx; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	void RenderBoundingBox(Viewport* viewport);
-
+	void setNewposition(D3DXVECTOR2 pos);
+	D3DXVECTOR2 getNewPos();
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);

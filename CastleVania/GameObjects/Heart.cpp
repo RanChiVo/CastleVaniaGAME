@@ -2,8 +2,8 @@
 #include "../ResourceManagement.h"
 #include "../GameObjects/Simon.h"
 
-constexpr int HEART_ANI_HIDE = 22;
-constexpr int HEART_ANI_SHOW = 23;
+constexpr int HEART_ANI_HIDE = 24;
+constexpr int HEART_ANI_SHOW = 25;
 constexpr float HEART_GRAVITY = 0.05f;
 
 Heart::Heart()

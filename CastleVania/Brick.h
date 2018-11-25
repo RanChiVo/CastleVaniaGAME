@@ -3,7 +3,6 @@
 
 constexpr int BRICK_BBOX_WIDTH = 20;
 constexpr int BRICK_BBOX_HEIGHT = 500;
-constexpr int BRICK_ANI = 25;
 
 class CBrick : public GameObject
 {

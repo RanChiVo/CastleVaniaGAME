@@ -5,7 +5,7 @@
 #include "../Animations/Animation.h"
 #include "../GameObjects/Whip.h"
 #include "../GameObjects/Katana.h"
-
+#include "../KatanaWeapon.h"
 
 constexpr float SIMON_MOVE_SPEED = 0.1f;
 constexpr int SIMON_JUMP_VEL = 350;
@@ -14,23 +14,6 @@ constexpr float SIMON_JUMP_SPEED_Y = 0.5f;
 constexpr float SIMON_GRAVITY = 0.001f;
 constexpr int SIMON_ATTACK_TIME = 600;
 constexpr int SIMON_PROTECT_TIME = 2000;
-
-constexpr int SIMON_LEVEL_SMALL = 0;
-constexpr int SIMON_LEVEL_SUPER = 1;
-constexpr int SIMON_LEVEL_FIRE = 2;
-
-constexpr int SIMON_STATE_IDLE = 0;
-constexpr int SIMON_STATE_WALKING_RIGHT = 100;
-constexpr int SIMON_STATE_WALKING_LEFT = 200;
-constexpr int SIMON_STATE_JUMPING = 300;
-constexpr int SIMON_STATE_JUMP = 400;
-constexpr int SIMON_STATE_SITDOWN = 500;
-constexpr int SIMON_STATE_ATTACK_STAND= 700;
-constexpr int SIMON_STATE_ATTACK_SITDOWN = 900;
-constexpr int SIMON_STATE_ATTACK_JUMP = 1100;
-constexpr int SIMON_STATE_DIE = 1200;
-constexpr int SIMON_STATE_CHANGECOLOR = 1300;
-
 
 constexpr int SIMON_ANI_IDLE_RIGHT = 0;
 constexpr int SIMON_ANI_IDLE_LEFT = 1;
@@ -50,6 +33,10 @@ constexpr int SIMON_ANI_ATTACK_SITDOWN_LEFT = 11;
 
 constexpr int SIMON_ANI_COLOR_RIGHT = 12;
 constexpr int SIMON_ANI_COLOR_LEFT = 13;
+
+constexpr int SIMON_ANI_COLOR_RIGHT1 = 14;
+constexpr int SIMON_ANI_COLOR_LEFT1 = 15;
+
 
 constexpr int SIMON_UNTOUCHABLE_TIME = 5000;
 
@@ -72,7 +59,8 @@ private:
 		SIMON_STATE_ATTACK_SITDOWN,
 		SIMON_STATE_ATTACK_JUMP,
 		SIMON_STATE_DIE,
-		SIMON_STATE_CHANGECOLOR
+		SIMON_STATE_CHANGECOLOR,
+		SIMON_STATE_CHANGECOLOR1,
 	};
 
 	int ani;
@@ -80,11 +68,12 @@ private:
 	bool attacking = false;
 	bool checkRewind = false;
 	bool throwKatana = false;
+	bool isRender = true;
 	int untouchable;
 	DWORD untouchable_start;
 
 	Whip* whip;
-	Katana* katana;
+	KatanaWeapon* katanaWeapon;
 
 	std::vector<LPGAMEOBJECT> objectList;
 	std::vector<LPGAMEOBJECT> itemList;
@@ -102,7 +91,6 @@ public:
 	
 	void handleState();
 	void Reset(int currentAnimation);
-	int getDx();
 	int IsAttacking();
 
 	RECT getBoundingboxWhip();

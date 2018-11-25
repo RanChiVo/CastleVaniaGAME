@@ -65,6 +65,17 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 	sprite->Draw(pos, 100);
 }
 
+void GameObject::setNewposition(D3DXVECTOR2 pos)
+{
+	newpos.x = pos.x;
+	newpos.y = pos.y;
+}
+
+D3DXVECTOR2 GameObject::getNewPos()
+{
+	return newpos;
+}
+
 LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 {
 	float sl, st, sr, sb;		// static object bbox

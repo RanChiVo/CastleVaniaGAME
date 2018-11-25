@@ -1,9 +1,10 @@
 #include "MiraculousBag.h"
 #include "../ResourceManagement.h"
 
-constexpr int  MIRACULOUSBAG_ANI_HIDE = 27;
-constexpr int  MIRACULOUSBAG_ANI_SHOW = 28;
+constexpr int  MIRACULOUSBAG_ANI_HIDE = 30;
+constexpr int  MIRACULOUSBAG_ANI_SHOW = 31;
 constexpr float MIRACULOUSBAG_GRAVITY = 0.002f;
+
 
 MiraculousBag::MiraculousBag()
 {

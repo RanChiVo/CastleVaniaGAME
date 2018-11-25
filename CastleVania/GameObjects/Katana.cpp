@@ -2,8 +2,8 @@
 #include "../ResourceManagement.h"
 #include "Katana.h"
 
-constexpr int  KATANA_ANI_HIDE = 25;
-constexpr int  KATANA_ANI_SHOW = 26;
+constexpr int  KATANA_ANI_HIDE = 28;
+constexpr int  KATANA_ANI_SHOW = 29;
 constexpr float KATANA_GRAVITY = 0.02f;
 
 
@@ -21,7 +21,7 @@ Katana::Katana(D3DXVECTOR2 position)
 	LPANIMATION ani;
 
 	ani = new Animation(40);
-	ani->Add("katana1");
+	ani->Add("katanaright");
 	Animations::GetInstance()->Add(KATANA_ANI_HIDE, ani);
 
 	ani = new Animation(40);
@@ -29,7 +29,7 @@ Katana::Katana(D3DXVECTOR2 position)
 	ani->Add("Effect2");
 	ani->Add("Effect3");
 	ani->Add("Effect4");
-	ani->Add("katana1");
+	ani->Add("katanaright");
 
 	Animations::GetInstance()->Add(KATANA_ANI_SHOW, ani);
 
@@ -87,7 +87,7 @@ void Katana::GetBoundingBox(float & left, float & top, float & right, float & bo
 	left = x;
 	top = y;
 
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_KATANA)->Get("katana1")->getRect();
+	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_KATANA)->Get("katanaright")->getRect();
 	int height = r.bottom - r.top;
 	int width = r.right - r.left;
 	right = x + width;

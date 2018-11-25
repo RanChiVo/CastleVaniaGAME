@@ -3,10 +3,7 @@
 #include "../Game.h"
 #include "../DebugOut/DebugOut.h"
 
-// Animation::loop = true -> walk
-// Animation::loop = false -> attack, jump, sitdown
-// Animation::completed = true if loop = false and frame = lastFrame
-// Animation::completed = true -> Simon::SetState(IDLE)
+
 
 bool Animation::IsFinished()
 {

@@ -6,7 +6,8 @@
 #include "../Brick.h"
 #include "../EntityID.h"
 
-constexpr auto GROUND_POSITION = 350;
+
+constexpr auto GROUND_POSITION = 294;
 constexpr auto MAPSIZE_WIDTH = 1475;
 
 Simon::Simon()
@@ -24,19 +25,19 @@ Simon::Simon()
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	GameObject::Update(dt);
+	GameObject::Update(dt, coObjects);
 
 	handleState();
 
 	if (objectList.size() == 0 && objectList.size() != coObjects->size())
 	{
-		for (int i = 1; i < coObjects->size() - 3; i++)
+		for (int i = 1; i < coObjects->size() - 5; i++)
 		{
 			objectList.push_back(coObjects->at(i));
 		}
 	}
 
-	vy += SIMON_GRAVITY* dt ;
+	vy += SIMON_GRAVITY * dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -59,7 +60,23 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else
 	{
+		if (attacking && DirectInput::getInstance()->IsKeyDown(DIK_UP) && itemList.size() != 0)
+		{
+			for (int i = 0; i < coObjects->size(); i++)
+			{
+				if (coObjects->at(i)->getID() == ID_TEX_KATANA_WEAPON)
+				{
+					if (nx == 1) coObjects->at(i)->SetState(KATANAWEAPON_STATE_RIGHT);
+					else if (nx == -1) coObjects->at(i)->SetState(KATANAWEAPON_STATE_LEFT);
+					coObjects->at(i)->SetPosition(D3DXVECTOR2(x, y));
+
+				}
+			}
+		}
+
 		float min_tx, min_ty, nx, ny;
+		float Dx = dx, Dy = dy;
+
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		for (int i = 0; i < coEvents.size(); i++)
@@ -67,10 +84,10 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			switch (coEvents[i]->obj->getID())
 			{
 			case ID_TEX_BRICK:
-				x += min_tx * dx + nx * 0.4f;
-				if (ny != 0) vy = 0;
+				Dx = min_tx * dx + nx * 0.4f;
+				if (nx != 0) vx = 0;
+				break;
 			case ID_TEX_HEART:
-				x += dx;
 				if (nx != 0) vx = 0;
 				for (int i = 0; i < coObjects->size(); i++)
 				{
@@ -81,52 +98,52 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				break;
 			case ID_TEX_WEAPON_REWARD:
-				x += dx;
 				if (nx != 0) vx = 0;
 				for (int i = 0; i < coObjects->size(); i++)
 				{
 					if (coObjects->at(i)->getID() == ID_TEX_WEAPON_REWARD)
 					{
-						coObjects->at(i)->SetPosition(D3DXVECTOR2(0, -100));
+						coObjects->at(i)->SetPosition(D3DXVECTOR2(-100, -100));
 					}
 				}
-				SetState(SIMON_STATE_CHANGECOLOR);
 				if (level == 1)
 				{
 					level = 2;
+					SetState(SIMON_STATE_CHANGECOLOR);
 				}
 				else if (level == 2)
 				{
 					level = 3;
+					SetState(SIMON_STATE_CHANGECOLOR1);
 				}
 				break;
 			case ID_TEX_KATANA:
-				x += dx;
 				if (nx != 0) vx = 0;
 				for (int i = 0; i < coObjects->size(); i++)
 				{
 					if (coObjects->at(i)->getID() == ID_TEX_KATANA)
 					{
-						coObjects->at(i)->SetPosition(D3DXVECTOR2(0, -100));
+						coObjects->at(i)->SetPosition(D3DXVECTOR2(-100, -100));
 					}
 				}
 				break;
-
 			case ID_TEX_MIRACULOUS_BAG:
-				x += dx;
-				if (nx != 0) vx = 0;
 				for (int i = 0; i < coObjects->size(); i++)
 				{
 					if (coObjects->at(i)->getID() == ID_TEX_MIRACULOUS_BAG)
 					{
-						coObjects->at(i)->SetPosition(D3DXVECTOR2(0, -100));
+						coObjects->at(i)->SetPosition(D3DXVECTOR2(-100, -100));
 					}
+
+					if (coObjects->at(i)->getID() == ID_TEX_ENTRANCE)
+					{
+						D3DXVECTOR2 pos = coObjects->at(i)->getNewPos();
+						coObjects->at(i)->SetPosition(pos);
 				}
+					}
 				break;
 			case ID_TEX_FLOOR:
-				x += dx;
-				if (nx != 0) vx = 0;
-				y += min_ty * dy + ny * 0.4f;
+				Dy = min_ty * dy + ny * 0.4f;
 				if (ny != 0) vy = 0;
 				if (x >= 1430)
 				{
@@ -140,11 +157,19 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 				}
 				break;
+
+			case ID_TEX_ENTRANCE:
+				if (nx != 0) vx = 0;
+				//Dx = min_tx * dx + nx * 0.4f ;
+				SetState(SIMON_STATE_WALKING_RIGHT);
+
+				break;
 			case ID_TEX_BURNBARREL:
-				x += dx;
 				break;
 			}
 		}
+		x += Dx;
+		y += Dy;
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
@@ -199,7 +224,7 @@ void Simon::loadResource()
 	ani->Add("SitdownLeft");
 	Animations::GetInstance()->Add(SIMON_ANI_SITDOWN_LEFT, ani);
 
-//attack standing right
+	//attack standing right
 	ani = new Animation(200);	//ani->Add("AttackStandRight1");
 	ani->Add("AttackStandRight1");
 	ani->Add("AttackStandRight2");
@@ -225,19 +250,50 @@ void Simon::loadResource()
 	ani->Add("AttackSitdownLeft1");
 	ani->Add("AttackSitdownLeft2");
 	ani->Add("AttackSitdownLeft3");
+
 	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_SITDOWN_LEFT, ani);
 
 	ani = new Animation(100);
 	ani->Add("ChangeColorRight1");
 	ani->Add("ChangeColorRight2");
 	ani->Add("ChangeColorRight3");
+	ani->Add("ChangeColorRight4");
+	ani->Add("ChangeColorRight5");
+	ani->Add("ChangeColorRight6");
+
 	Animations::GetInstance()->Add(SIMON_ANI_COLOR_RIGHT, ani);
 
 	ani = new Animation(100);
 	ani->Add("ChangeColorLeft1");
 	ani->Add("ChangeColorLeft2");
 	ani->Add("ChangeColorLeft3");
+	ani->Add("ChangeColorLeft4");
+	ani->Add("ChangeColorLeft5");
+	ani->Add("ChangeColorLeft6");
+
 	Animations::GetInstance()->Add(SIMON_ANI_COLOR_LEFT, ani);
+
+
+	ani = new Animation(100);
+	ani->Add("1ChangeColorRight1");
+	ani->Add("1ChangeColorRight2");
+	ani->Add("1ChangeColorRight3");
+	ani->Add("1ChangeColorRight4");
+	ani->Add("1ChangeColorRight5");
+	ani->Add("1ChangeColorRight6");
+
+	Animations::GetInstance()->Add(SIMON_ANI_COLOR_RIGHT1, ani);
+
+	ani = new Animation(100);
+	ani->Add("1ChangeColorLeft1");
+	ani->Add("1ChangeColorLeft2");
+	ani->Add("1ChangeColorLeft3");
+	ani->Add("1ChangeColorLeft4");
+	ani->Add("1ChangeColorLeft5");
+	ani->Add("1ChangeColorLeft6");
+
+	Animations::GetInstance()->Add(SIMON_ANI_COLOR_LEFT1, ani);
+
 
 	AddAnimation(SIMON_ANI_IDLE_LEFT);		// idle right
 	AddAnimation(SIMON_ANI_IDLE_RIGHT);		// idle left
@@ -258,6 +314,11 @@ void Simon::loadResource()
 	AddAnimation(SIMON_ANI_COLOR_RIGHT);
 	AddAnimation(SIMON_ANI_COLOR_LEFT);
 
+
+	AddAnimation(SIMON_ANI_COLOR_RIGHT1);
+	AddAnimation(SIMON_ANI_COLOR_LEFT1);
+
+
 	SetPosition(D3DXVECTOR2(50.0f, 0));
 }
 
@@ -273,11 +334,11 @@ void Simon::OnKeyStateChange(BYTE * states)
 	switch (state)
 	{
 	case SIMON_STATE_IDLE:
-		if (directInput->IsKeyDown(DIK_K))
+		if (directInput->IsKeyDown(DIK_K) && isOnGround())
 		{
 			SetState(SIMON_STATE_WALKING_RIGHT);
 		}
-		else if (directInput->IsKeyDown(DIK_H))
+		else if (directInput->IsKeyDown(DIK_H) && isOnGround())
 		{
 			SetState(SIMON_STATE_WALKING_LEFT);
 		}
@@ -316,10 +377,6 @@ void Simon::OnKeyDown(int KeyCode)
 		}
 		break;
 	case SIMON_STATE_JUMPING:
-		if (KeyCode == DIK_Z )
-		{
-			SetState(SIMON_STATE_ATTACK_JUMP);
-		}
 		if (KeyCode == DIK_J)
 		{
 			SetState(SIMON_STATE_IDLE);
@@ -375,7 +432,8 @@ void Simon::Render(Viewport* viewport)
 	if (animation != nullptr)
 	{
 		animation->Render(pos.x, pos.y);
-		if (attacking)
+		
+		if (attacking && !(DirectInput::getInstance()->IsKeyDown(DIK_UP)))
 		{
 			whip = new Whip(D3DXVECTOR2(x, y));
 			if (level == 1)
@@ -384,9 +442,12 @@ void Simon::Render(Viewport* viewport)
 			}
 			else if (level == 2)
 			{
+				whip->SetState(WHIT_STATE_2);
+			}
+			else if (level == 3)
+			{
 				whip->SetState(WHIT_STATE_3);
 			}
-
 			whip->updatePostision(animation->getCurrentFrame(), currentAnimation);
 			whip->draw(nx, viewport);
 			if (whip->getframe() == 2) whip->animations.find(currentAnimation)->second->SetFinish(true);
@@ -412,7 +473,6 @@ void Simon::Render(Viewport* viewport)
 					case 0:
 						objectList[5]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
 						objectList[5]->SetState(HEART_STATE_SHOW);
-						itemList.push_back(objectList[5]);
 						break;
 					case 1:
 						objectList[6]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
@@ -435,14 +495,8 @@ void Simon::Render(Viewport* viewport)
 				}
 			}
 		}
-		else if (attacking && DirectInput::getInstance()->IsKeyDown(DIK_UP) && itemList.size() != 0)
-		{
-			katana = new Katana(D3DXVECTOR2(x, y));
-			katana->Render(viewport);
-			int x_new = katana->getPosition().x;
-			x_new += dx;
-			katana->SetPosition(D3DXVECTOR2(x_new, katana->getPosition().y));
-		}
+
+	
 	}
 	else return;
 }
@@ -480,7 +534,7 @@ void Simon::handleState()
 			break;
 		}
 
-		if (vy < 0)
+		if (vy < 0 )
 		{
 			if (nx == 1) currentAnimation = SIMON_ANI_JUMPING_RIGHT;
 			else currentAnimation = SIMON_ANI_JUMPING_LEFT;
@@ -538,6 +592,13 @@ void Simon::handleState()
 		else currentAnimation = SIMON_ANI_COLOR_LEFT;
 		Reset(currentAnimation);
 		break;
+	case SIMON_STATE_CHANGECOLOR1:
+		vx = 0;
+		checkRewind = false;
+		if (nx == 1) currentAnimation = SIMON_ANI_COLOR_RIGHT1;
+		else currentAnimation = SIMON_ANI_COLOR_LEFT1;
+		Reset(currentAnimation);
+		break;
 	}
 	animations.find(currentAnimation)->second->SetLoop(checkRewind);
 }
@@ -550,11 +611,6 @@ void Simon::Reset(int currentAnimation)
 		animations.find(currentAnimation)->second->SetFinish(false);
 		SetState(SIMON_STATE_IDLE);
 	}
-}
-
-int Simon::getDx()
-{
-	return dx;
 }
 
 int Simon::IsAttacking()
@@ -576,7 +632,7 @@ void Simon::RemoveWhip()
 Simon::~Simon()
 {
 	DirectInput* directInput = DirectInput::getInstance();
-
+	RemoveWhip();
 	__unhook(&DirectInput::KeyState, directInput, &Simon::OnKeyStateChange);
 	__unhook(&DirectInput::OnKeyDown, directInput, &Simon::OnKeyDown);
 	__unhook(&DirectInput::OnKeyUp, directInput, &Simon::OnKeyUp);

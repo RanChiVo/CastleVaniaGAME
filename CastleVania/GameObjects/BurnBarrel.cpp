@@ -4,8 +4,9 @@
 #include "../Animations/Animations.h"
 #include "../ResourceManagement.h"
 
-constexpr int BURNBARREL_ANI = 20;
-constexpr int BURNBARREL_ANI_EFFECT = 21;
+constexpr int BURNBARREL_ANI = 22;
+constexpr int BURNBARREL_ANI_EFFECT = 23;
+
 
 BurnBarrel::BurnBarrel()
 {
@@ -75,11 +76,13 @@ void BurnBarrel::GetBoundingBox(float & left, float & top, float & right, float 
 
 void BurnBarrel::Render(Viewport * viewport)
 {
+	
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
 	animations.find(currentAnimation)->second->Render(position.x, position.y);
+//	RenderBoundingBox(viewport);
 }
 
 int BurnBarrel::getCurrentFrame()

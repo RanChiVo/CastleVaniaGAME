@@ -62,12 +62,18 @@ void GameplayScreen::loadResources()
 	simon->loadResource();
 	objects.push_back(simon);
 
+	D3DXVECTOR2 posEntrance;
+
 	for (auto object : tile_map->getObjectInfo())
 	{
 		if (object.first.second == "BurnBarrel")
 		{
 			BurnBarrel* burnbarrel = new BurnBarrel(object.second);
 			objects.push_back(burnbarrel);
+		}
+		else if (object.first.second == "Entrance")
+		{
+			posEntrance = object.second;
 		}
 	}
 
@@ -99,6 +105,13 @@ void GameplayScreen::loadResources()
 		brick->SetPosition(D3DXVECTOR2(0 + i*1500, 0));
 		objects.push_back(brick);
 	}
+
+	Entrance* entrance = new Entrance(D3DXVECTOR2(-200, -100));
+	entrance->setNewposition(posEntrance);
+	objects.push_back(entrance);
+
+	KatanaWeapon * katanaWeapon = new KatanaWeapon(D3DXVECTOR2(-200, -100));
+	objects.push_back(katanaWeapon);
 }
 
 GameplayScreen::GameplayScreen()

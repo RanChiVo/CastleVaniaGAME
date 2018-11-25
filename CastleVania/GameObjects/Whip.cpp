@@ -1,14 +1,15 @@
 ﻿#include "Whip.h"
 #include "../ResourceManagement.h"
-#include "Simon.h"
 #include "BurnBarrel.h"
+#include "Simon.h"
 
-constexpr int WHIT_ANI_HIT_RIGHT1 = 14;
-constexpr int WHIT_ANI_HIT_LEFT1 = 15;
-constexpr int WHIT_ANI_HIT_RIGHT2 = 16;
-constexpr int WHIT_ANI_HIT_LEFT2 = 17;
-constexpr int WHIT_ANI_HIT_RIGHT3 = 18;
-constexpr int WHIT_ANI_HIT_LEFT3 = 19;
+
+constexpr int WHIT_ANI_HIT_RIGHT1 = 16;
+constexpr int WHIT_ANI_HIT_LEFT1 = 17;
+constexpr int WHIT_ANI_HIT_RIGHT2 = 18;
+constexpr int WHIT_ANI_HIT_LEFT2 = 19;
+constexpr int WHIT_ANI_HIT_RIGHT3 = 20;
+constexpr int WHIT_ANI_HIT_LEFT3 = 21;
 
 
 Whip::Whip(D3DXVECTOR2 position)
@@ -155,9 +156,9 @@ int Whip::getCurrentAnimation()
 	return currentAnimation;
 }
 
-void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* ObjectList, vector<LPGAMEOBJECT>* coObjects)
+void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	GameObject::Update(dt, ObjectList);
+	GameObject::Update(dt, coObjects);
 }
 
 void Whip::Render(Viewport * viewport)
@@ -182,7 +183,6 @@ RECT Whip::getBounding()
 
 void Whip::draw(int direct, Viewport* viewport)
 {
-
 	if (state == WHIT_STATE_1)
 	{
 		if (direct == 1)

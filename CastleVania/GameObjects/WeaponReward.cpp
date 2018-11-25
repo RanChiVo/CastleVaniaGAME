@@ -1,8 +1,9 @@
 #include "../ResourceManagement.h"
 #include "WeaponReward.h"
 
-constexpr int WEAPONREWARD_ANI_HIDE = 24;
-constexpr int WEAPONREWARD_ANI_SHOW = 25;
+
+constexpr int WEAPONREWARD_ANI_HIDE = 26;
+constexpr int WEAPONREWARD_ANI_SHOW = 27;
 constexpr float WEAPONREWARD_GRAVITY = 0.002f;
 
 WeaponReward::WeaponReward()

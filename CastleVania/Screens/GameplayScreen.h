@@ -8,6 +8,7 @@
 #include "../GameObjects/MiraculousBag.h"
 #include "../GameObjects/Floor.h"
 #include "../Brick.h"
+#include "../GameObjects/Entrance.h"
 #include "../Screens/ScreenBase.h"
 #include "../GameObjects/GameObject.h"
 #include "../Input/DirectInput.h"

@@ -9,8 +9,8 @@
    H4sIAAAAAAAAC2NgGAWjgHwAAPMY7ENAAgAA
   </data>
  </layer>
- <objectgroup id="4" name="EnterTrace">
-  <object id="6" name="Door" x="1372" y="187" width="31" height="166"/>
+ <objectgroup id="4" name="EnterGate">
+  <object id="6" name="Entrance" x="1406" y="190" width="31" height="166"/>
   <object id="9" name="BurnBarrel" gid="2" x="175" y="355" width="32" height="64"/>
   <object id="10" name="BurnBarrel" gid="2" x="434" y="355" width="32" height="64"/>
   <object id="11" name="BurnBarrel" gid="2" x="685" y="355" width="32" height="64"/>

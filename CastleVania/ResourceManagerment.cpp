@@ -73,35 +73,35 @@ void ResourceManagement::loadResource()
 	sprites->Add("AttackSitdownLeft2", RECT{ 805, -15, 865, 50 }, texSimon);
 	sprites->Add("AttackSitdownLeft3", RECT{ 865, -15, 920, 50 }, texSimon);
 	//change color right
-	sprites->Add("ChangeColorRight1", RECT{ 10, 200, 300, 275 }, texSimon);
-	sprites->Add("ChangeColorRight2", RECT{ 320, 200, 360, 275 }, texSimon);
-	sprites->Add("ChangeColorRight3", RECT{ 380, 200, 420, 275 }, texSimon);
-	sprites->Add("ChangeColorRight4", RECT{ 440, 200, 480, 275 }, texSimon);
-	sprites->Add("ChangeColorRight5", RECT{ 440, 200, 480, 275 }, texSimon);
-	sprites->Add("ChangeColorRight6", RECT{ 440, 200, 480, 275 }, texSimon);
+	sprites->Add("ChangeColorRight1", RECT{ 10, 210, 60, 275 }, texSimon);
+	sprites->Add("ChangeColorRight2", RECT{ 60, 210, 120, 275 }, texSimon);
+	sprites->Add("ChangeColorRight3", RECT{ 120, 210, 180, 275 }, texSimon);
+	sprites->Add("ChangeColorRight4", RECT{ 180, 210, 240, 275 }, texSimon);
+	sprites->Add("ChangeColorRight5", RECT{ 240, 210, 300, 275 }, texSimon);
+	sprites->Add("ChangeColorRight6", RECT{ 300, 210, 460, 275 }, texSimon);
 
 	//change color left
-	sprites->Add("ChangeColorLeft1", RECT{ 690, 200, 730, 275 }, texSimon);
-	sprites->Add("ChangeColorLeft2", RECT{ 630, 200, 670, 275 }, texSimon);
-	sprites->Add("ChangeColorLeft3", RECT{ 570, 200, 610, 275 }, texSimon);
-	sprites->Add("ChangeColorLeft4", RECT{ 510, 200, 550, 275 }, texSimon);
-	sprites->Add("ChangeColorLeft5", RECT{ 510, 200, 550, 275 }, texSimon);
-	sprites->Add("ChangeColorLeft6", RECT{ 510, 200, 550, 275 }, texSimon);
+	sprites->Add("ChangeColorLeft1", RECT{ 920, 210, 980, 350 }, texSimon);
+	sprites->Add("ChangeColorLeft2", RECT{ 860, 200, 920, 350 }, texSimon);
+	sprites->Add("ChangeColorLeft3", RECT{ 800, 200, 860, 350 }, texSimon);
+	sprites->Add("ChangeColorLeft4", RECT{ 740, 200, 800, 350 }, texSimon);
+	sprites->Add("ChangeColorLeft5", RECT{ 680, 200, 740, 350 }, texSimon);
+	sprites->Add("ChangeColorLeft6", RECT{ 620, 200, 680, 350 }, texSimon);
 
-	sprites->Add("ChangeColorRight1", RECT{ 10, 200, 300, 275 }, texSimon);
-	sprites->Add("ChangeColorRight2", RECT{ 320, 200, 360, 275 }, texSimon);
-	sprites->Add("ChangeColorRight3", RECT{ 380, 200, 420, 275 }, texSimon);
-	sprites->Add("ChangeColorRight4", RECT{ 440, 200, 480, 275 }, texSimon);
-	sprites->Add("ChangeColorRight5", RECT{ 440, 200, 480, 275 }, texSimon);
-	sprites->Add("ChangeColorRight6", RECT{ 440, 200, 480, 275 }, texSimon);
+	sprites->Add("1ChangeColorRight1", RECT{ 10, 280, 60, 350 }, texSimon);
+	sprites->Add("1ChangeColorRight2", RECT{ 60, 280, 120, 350 }, texSimon);
+	sprites->Add("1ChangeColorRight3", RECT{ 120, 280, 180, 350 }, texSimon);
+	sprites->Add("1ChangeColorRight4", RECT{ 180, 280, 240, 350 }, texSimon);
+	sprites->Add("1ChangeColorRight5", RECT{ 240, 280, 300, 350 }, texSimon);
+	sprites->Add("1ChangeColorRight6", RECT{ 300, 280, 460, 350 }, texSimon);
 
-	//change color left
-	sprites->Add("ChangeColorLeft1", RECT{ 690, 200, 730, 275 }, texSimon);
-	sprites->Add("ChangeColorLeft2", RECT{ 630, 200, 670, 275 }, texSimon);
-	sprites->Add("ChangeColorLeft3", RECT{ 570, 200, 610, 275 }, texSimon);
-	sprites->Add("ChangeColorLeft4", RECT{ 510, 200, 550, 275 }, texSimon);
-	sprites->Add("ChangeColorLeft5", RECT{ 510, 200, 550, 275 }, texSimon);
-	sprites->Add("ChangeColorLeft6", RECT{ 510, 200, 550, 275 }, texSimon);
+
+	sprites->Add("1ChangeColorLeft1", RECT{ 920, 280, 980, 350 }, texSimon);
+	sprites->Add("1ChangeColorLeft2", RECT{ 860, 280, 920, 350 }, texSimon);
+	sprites->Add("1ChangeColorLeft3", RECT{ 800, 280, 860, 350 }, texSimon);
+	sprites->Add("1ChangeColorLeft4", RECT{ 740, 280, 800, 350 }, texSimon);
+	sprites->Add("1ChangeColorLeft5", RECT{ 680, 280, 740, 350 }, texSimon);
+	sprites->Add("1ChangeColorLeft6", RECT{ 620, 280, 680, 350 }, texSimon);
 
 
 	SpriteMapper[EntityID::ID_TEX_SIMON] = sprites;
@@ -171,10 +171,11 @@ void ResourceManagement::loadResource()
 	sprites->Add("weapon_reward1", RECT{ 0, 0, 30, 30 }, texWeapon_reward);
 
 	SpriteMapper[EntityID::ID_TEX_WEAPON_REWARD] = sprites;
-
+	
 	loadTexture(ID_TEX_KATANA, L"Resources\\Items\\katana.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texKatana = textures->Get(ID_TEX_KATANA);
-	sprites->Add("katana1", RECT{ 0, 0, 30, 20 }, texKatana);
+	sprites->Add("katanaright", RECT{ 0, 0, 30, 20 }, texKatana);
+	sprites->Add("katanaleft", RECT{ 60, 0, 94, 20 }, texKatana);
 
 	SpriteMapper[EntityID::ID_TEX_KATANA] = sprites;
 
