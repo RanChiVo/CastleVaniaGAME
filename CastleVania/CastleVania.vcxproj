@@ -177,6 +177,7 @@
     <ClInclude Include="Animations\Animation.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="Flip.h" />
     <ClInclude Include="GameObjects\Entrance.h" />
     <ClInclude Include="GameObjects\Floor.h" />
     <ClInclude Include="GameObjects\BurnBarrel.h" />
@@ -233,6 +234,7 @@
     <Image Include="Resources\simon.png" />
     <Image Include="Resources\whip.png" />
     <Image Include="TiledMap\Entrance.png" />
+    <Image Include="TiledMap\GamePlay1.png" />
     <Image Include="TiledMap\Simon.png" />
   </ItemGroup>
   <ItemGroup>
@@ -240,7 +242,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="TiledMap\burn_barrel.tsx" />
+    <None Include="TiledMap\Candle.tsx" />
     <None Include="TiledMap\Entrance.tmx" />
+    <None Include="TiledMap\GamePlay.tmx" />
+    <None Include="TiledMap\PlayState1.tmx" />
     <None Include="TiledMap\Simon.tsx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

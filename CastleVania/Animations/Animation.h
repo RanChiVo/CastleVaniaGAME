@@ -41,7 +41,7 @@ public:
 	void setCurrentFrame(int index);
 
 	void Add(std::string  spriteId, DWORD time = 0);
-	bool Render(float x, float y);
+	bool Render(float x, float y, Flip flip);
 	void update();
 };
 

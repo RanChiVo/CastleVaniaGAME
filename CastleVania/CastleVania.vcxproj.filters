@@ -248,6 +248,9 @@
     <ClInclude Include="KatanaWeapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Flip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\Musics\intro_scene.wav">
@@ -268,9 +271,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Resources\bat.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\whip.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="TiledMap\Simon.png">
@@ -306,6 +306,12 @@
     <Image Include="Resources\floor.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\whip.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="TiledMap\GamePlay1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\prstart.ttf" />
@@ -314,5 +320,8 @@
     <None Include="TiledMap\Simon.tsx" />
     <None Include="TiledMap\burn_barrel.tsx" />
     <None Include="TiledMap\Entrance.tmx" />
+    <None Include="TiledMap\GamePlay.tmx" />
+    <None Include="TiledMap\PlayState1.tmx" />
+    <None Include="TiledMap\Candle.tsx" />
   </ItemGroup>
 </Project>

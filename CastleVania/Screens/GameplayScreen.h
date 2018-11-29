@@ -20,8 +20,8 @@ class GameplayScreen: public ScreenBase
 private:
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> movecoObjects;
+	EntityID id;
 	Simon* simon;
-
 	DirectInput* directInput;
 	TiledMap * tile_map;
 	ResourceManagement* resourceManagement;

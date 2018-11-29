@@ -13,7 +13,7 @@ void Game::init(HINSTANCE hInstance, int nCmdShow)
 	int extra_width = 15;
 	int extra_height = 38;
 
-	WindowUtil* window = new WindowUtil(hInstance, nCmdShow, ScreenBase_width + extra_width, ScreenBase_height + extra_height);
+	WindowUtil* window = new WindowUtil(hInstance, nCmdShow, ScreenBase_width , ScreenBase_height);
 
 	direct3D->init(window);
 

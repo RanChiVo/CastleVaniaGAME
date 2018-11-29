@@ -16,6 +16,11 @@ int GameObject::getID()
 	return id;
 }
 
+bool GameObject::IsChangeLevel()
+{
+	return isChangeLevel;
+}
+
 void GameObject::AddAnimation(int aniId)
 {
 	LPANIMATION ani = Animations::GetInstance()->Get(aniId);

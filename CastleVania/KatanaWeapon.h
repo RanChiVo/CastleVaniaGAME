@@ -4,8 +4,7 @@
 constexpr int  KATANAWEAPON_STATE_LEFT = 1;
 constexpr int  KATANAWEAPON_STATE_RIGHT = 2;
 
-constexpr int  KATANAWEAPON_ANI_RIGHT = 32;
-constexpr int  KATANAWEAPON_ANI_LEFT = 33;
+constexpr int  KATANAWEAPON_ANI = 32;
 constexpr float KATANAWEAPON_SPEED_HIT = 0.6f;
 
 class KatanaWeapon : public GameObject

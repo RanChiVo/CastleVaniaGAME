@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="50" height="6" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="27">
+ <tileset firstgid="1" source="Candle.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="50" height="6">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIKhAQAEsAAB
+  </data>
+ </layer>
+ <imagelayer id="2" name="Background" offsetx="0" offsety="0.666667">
+  <image source="GamePlay1.png" width="3200" height="384"/>
+ </imagelayer>
+ <objectgroup id="3" name="GamePlay">
+  <object id="2" name="Candle" gid="1" x="200" y="270" width="16" height="32"/>
+  <object id="3" name="Candle" gid="1" x="67" y="328" width="16" height="32"/>
+  <object id="4" name="Candle" gid="1" x="327" y="328" width="16" height="32"/>
+  <object id="5" name="Candle" gid="1" x="464" y="270" width="16" height="32"/>
+  <object id="6" name="Candle" gid="1" x="592.667" y="328" width="16" height="32"/>
+  <object id="7" name="Candle" gid="1" x="729.67" y="270" width="16" height="32"/>
+  <object id="8" name="Candle" gid="1" x="856.667" y="328" width="16" height="32"/>
+  <object id="9" name="Candle" gid="1" x="992.67" y="270" width="16" height="32"/>
+  <object id="10" name="Candle" gid="1" x="1122" y="328" width="16" height="32"/>
+  <object id="11" name="Candle" gid="1" x="1248.33" y="269" width="16" height="32"/>
+  <object id="12" name="Candle" gid="1" x="1385" y="152" width="16" height="32"/>
+  <object id="13" name="Candle" gid="1" x="1514.67" y="324.667" width="16" height="32"/>
+  <object id="14" name="Candle" gid="1" x="1642.33" y="97.67" width="16" height="32"/>
+  <object id="15" name="Candle" gid="1" x="1777" y="153.67" width="16" height="32"/>
+  <object id="16" name="Candle" gid="1" x="2048.67" y="328" width="16" height="32"/>
+  <object id="17" name="Candle" gid="1" x="1907.33" y="328" width="16" height="32"/>
+  <object id="18" name="Candle" gid="1" x="2173" y="328" width="16" height="32"/>
+  <object id="19" name="Candle" gid="1" x="2304.33" y="328" width="16" height="32"/>
+  <object id="20" name="Candle" gid="1" x="2432" y="328" width="16" height="32"/>
+  <object id="21" name="Candle" gid="1" x="2560.33" y="328" width="16" height="32"/>
+  <object id="22" name="Candle" gid="1" x="2699.67" y="328" width="16" height="32"/>
+  <object id="23" name="Candle" gid="1" x="2828.67" y="270" width="16" height="32"/>
+  <object id="24" name="Candle" gid="1" x="2963.33" y="149.333" width="16" height="32"/>
+  <object id="25" name="Candle" gid="1" x="3095.33" y="98.6667" width="16" height="32"/>
+  <object id="26" name="Candle" gid="1" x="2040.33" y="151" width="16" height="32"/>
+ </objectgroup>
+</map>

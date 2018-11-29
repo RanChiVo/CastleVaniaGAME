@@ -102,7 +102,9 @@ void Heart::Render(Viewport * viewport)
 
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-	animations.find(currentAnimation)->second->Render(position.x, position.y);
+	Flip flip = flip_horiz;
+
+	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 }
 
 Heart::~Heart()

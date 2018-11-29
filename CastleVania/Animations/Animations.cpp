@@ -5,12 +5,12 @@ Animations * Animations::__instance = nullptr;
 
 void Animations::Add(int id, LPANIMATION ani)
 {
-	animations[id] = ani;
+	animations.emplace(id, ani);
 }
 
 LPANIMATION Animations::Get(int id)
 {
-	return animations[id];
+	return animations.find(id)->second;
 }
 
 Animations * Animations::GetInstance()

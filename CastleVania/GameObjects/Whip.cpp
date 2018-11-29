@@ -4,12 +4,9 @@
 #include "Simon.h"
 
 
-constexpr int WHIT_ANI_HIT_RIGHT1 = 16;
-constexpr int WHIT_ANI_HIT_LEFT1 = 17;
-constexpr int WHIT_ANI_HIT_RIGHT2 = 18;
-constexpr int WHIT_ANI_HIT_LEFT2 = 19;
-constexpr int WHIT_ANI_HIT_RIGHT3 = 20;
-constexpr int WHIT_ANI_HIT_LEFT3 = 21;
+constexpr int WHIT_ANI_HIT_1 = 16;
+constexpr int WHIT_ANI_HIT_2 = 17;
+constexpr int WHIT_ANI_HIT_3 = 18;
 
 
 Whip::Whip(D3DXVECTOR2 position)
@@ -21,127 +18,109 @@ Whip::Whip(D3DXVECTOR2 position)
 	LPANIMATION ani;
 
 	ani = new Animation(200);
-	ani->Add("1AttackRight1");
-	ani->Add("1AttackRight2");
-	ani->Add("1AttackRight3");
+	ani->Add("1Attack1");
+	ani->Add("1Attack2");
+	ani->Add("1Attack3");
 
-	Animations::GetInstance()->Add(WHIT_ANI_HIT_RIGHT1, ani);
-
-	ani = new Animation(200);
-	ani->Add("1AttackLeft1");
-	ani->Add("1AttackLeft2");
-	ani->Add("1AttackLeft3");
-
-	Animations::GetInstance()->Add(WHIT_ANI_HIT_LEFT1, ani);
+	Animations::GetInstance()->Add(WHIT_ANI_HIT_1, ani);
 
 	ani = new Animation(200);
-	ani->Add("2AttackRight1");
-	ani->Add("2AttackRight2");
-	ani->Add("2AttackRight3");
+	ani->Add("2Attack1");
+	ani->Add("2Attack2");
+	ani->Add("2Attack3");
 
-	Animations::GetInstance()->Add(WHIT_ANI_HIT_RIGHT2, ani);
-
-	ani = new Animation(200);
-	ani->Add("2AttackLeft1");
-	ani->Add("2AttackLeft2");
-	ani->Add("2AttackLeft3");
-
-	Animations::GetInstance()->Add(WHIT_ANI_HIT_LEFT2, ani);
+	Animations::GetInstance()->Add(WHIT_ANI_HIT_2, ani);
 
 	ani = new Animation(200);
-	ani->Add("3AttackRight1");
-	ani->Add("3AttackRight2");
-	ani->Add("3AttackRight3");
+	ani->Add("3Attack1");
+	ani->Add("3Attack2");
+	ani->Add("3Attack3");
 
-	Animations::GetInstance()->Add(WHIT_ANI_HIT_RIGHT3, ani);
+	Animations::GetInstance()->Add(WHIT_ANI_HIT_3, ani);
 
-	ani = new Animation(200);
-	ani->Add("3AttackLeft1");
-	ani->Add("3AttackLeft2");
-	ani->Add("3AttackLeft3");
-
-	Animations::GetInstance()->Add(WHIT_ANI_HIT_LEFT3, ani);
-
-	AddAnimation(WHIT_ANI_HIT_RIGHT1);
-	AddAnimation(WHIT_ANI_HIT_LEFT1);
-
-	AddAnimation(WHIT_ANI_HIT_RIGHT2);
-	AddAnimation(WHIT_ANI_HIT_LEFT2);
-
-	AddAnimation(WHIT_ANI_HIT_RIGHT3);
-	AddAnimation(WHIT_ANI_HIT_LEFT3);
+	AddAnimation(WHIT_ANI_HIT_1);
+	AddAnimation(WHIT_ANI_HIT_2);
+	AddAnimation(WHIT_ANI_HIT_3);
 
 	state = WHIT_STATE_1;
-	currentAnimation = WHIT_ANI_HIT_RIGHT1;
+	currentAnimation = WHIT_ANI_HIT_1;
 }
 
-void Whip::updatePostision(int currentFrameSimon, int currentAni)
+void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 {
 
-	if (currentAni == SIMON_ANI_ATTACK_STANDING_RIGHT)
-		switch (currentFrameSimon)
-		{
-		case 0:
-			SetPosition(D3DXVECTOR2(x - 10, y + 20));
-			break;
-		case 1:
-			SetPosition(D3DXVECTOR2(x, y));
-			break;
-		case 2:
-			SetPosition(D3DXVECTOR2(x + 57, y + 15));
-			break;
-		default:
-			break;
-		}
-	else if (currentAni == SIMON_ANI_ATTACK_SITDOWN_RIGHT)
+	if (currentAni == SIMON_ANI_ATTACK_STANDING)
 	{
-		switch (currentFrameSimon)
+		if (direct == 1)
 		{
-		case 0:
-			SetPosition(D3DXVECTOR2(x - 10, y + 30));
-			break;
-		case 1:
-			SetPosition(D3DXVECTOR2(x + 5, y + 30));
-			break;
-		case 2:
-			SetPosition(D3DXVECTOR2(x + 57, y + 20));
-			break;
-		default:
-			break;
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x - 10, y + 18));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x, y + 5));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x + 57, y + 15));
+				break;
+			default:
+				break;
+			}
 		}
-	}
-	else if (currentAni == SIMON_ANI_ATTACK_STANDING_LEFT)
-	{
-		switch (currentFrameSimon)
+		else 
 		{
-		case 0:
-			SetPosition(D3DXVECTOR2(x + 60, y + 15));
-			break;
-		case 1:
-			SetPosition(D3DXVECTOR2(x + 30, y));
-			break;
-		case 2:
-			SetPosition(D3DXVECTOR2(x - 40, y + 13));
-			break;
-		default:
-			break;
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x + 53, y + 20 ));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x + 30, y + 10));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x - 50, y + 15));
+				break;
+			default:
+				break;
+			}
 		}
 	}
-	else if (currentAni == SIMON_ANI_ATTACK_SITDOWN_LEFT)
+	else if (currentAni == SIMON_ANI_ATTACK_SITDOWN)
 	{
-		switch (currentFrameSimon)
+		if (direct == 1)
 		{
-		case 0:
-			SetPosition(D3DXVECTOR2(x + 60, y + 28));
-			break;
-		case 1:
-			SetPosition(D3DXVECTOR2(x + 15, y + 20));
-			break;
-		case 2:
-			SetPosition(D3DXVECTOR2(x - 40, y + 20));
-			break;
-		default:
-			break;
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x - 10, y + 30));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x - 5, y + 30));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x + 57, y + 25));
+				break;
+			default:
+				break;
+			}
+		}
+		else
+		{
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x + 57, y + 30));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x + 35, y + 30));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x - 50, y + 30));
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }
@@ -185,31 +164,26 @@ void Whip::draw(int direct, Viewport* viewport)
 {
 	if (state == WHIT_STATE_1)
 	{
-		if (direct == 1)
-		{
-			currentAnimation = WHIT_ANI_HIT_RIGHT1;
-		}
-		else currentAnimation = WHIT_ANI_HIT_LEFT1;
+			currentAnimation = WHIT_ANI_HIT_1;
 	}
 	else if (state == WHIT_STATE_2)
 	{
-		if (direct == 1)
-		{
-			currentAnimation = WHIT_ANI_HIT_RIGHT2;
-		}
-		else currentAnimation = WHIT_ANI_HIT_LEFT2;
+			currentAnimation = WHIT_ANI_HIT_2;
 	}
 	else if (state == WHIT_STATE_3)
 	{
-		if (direct == 1)
-		{
-			currentAnimation = WHIT_ANI_HIT_RIGHT3;
-		}
-		else currentAnimation = WHIT_ANI_HIT_LEFT3;
+			currentAnimation = WHIT_ANI_HIT_3;
 	}
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-	animations.find(currentAnimation)->second->Render(pos.x, pos.y);
+	Flip flip = flip_horiz;
+	if (direct == 1)
+	{
+		flip = normal;
+	}
+	else flip = flip_horiz;
+
+	animations.find(currentAnimation)->second->Render(pos.x, pos.y, flip);
 
 	float l, t, r, b;
 	GetBoundingBox(l, t, r, b);
@@ -222,7 +196,7 @@ void Whip::GetBoundingBox(float & left, float & top, float & right, float & bott
 	left = x;
 	top = y;
 
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("1AttackRight3")->getRect();
+	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("1Attack3")->getRect();
 	float height = r.bottom - r.top;
 	float width = r.right - r.left;
 	right = x + width;

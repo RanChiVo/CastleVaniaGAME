@@ -9,7 +9,7 @@ Floor::Floor()
 
 void Floor::Render(Viewport * viewport)
 {
-//enderBoundingBox(viewport);
+	//RenderBoundingBox(viewport);
 }
 
 void Floor::GetBoundingBox(float & l, float & t, float & r, float & b)

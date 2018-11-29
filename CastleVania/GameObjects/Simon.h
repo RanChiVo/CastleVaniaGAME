@@ -15,27 +15,19 @@ constexpr float SIMON_GRAVITY = 0.001f;
 constexpr int SIMON_ATTACK_TIME = 600;
 constexpr int SIMON_PROTECT_TIME = 2000;
 
-constexpr int SIMON_ANI_IDLE_RIGHT = 0;
-constexpr int SIMON_ANI_IDLE_LEFT = 1;
-constexpr int SIMON_ANI_WALKING_RIGHT = 2;
-constexpr int SIMON_ANI_WALKING_LEFT = 3;
+constexpr int SIMON_ANI_IDLE = 0;
+constexpr int SIMON_ANI_WALKING = 1;
 
-constexpr int SIMON_ANI_JUMPING_RIGHT = 4;
-constexpr int SIMON_ANI_JUMPING_LEFT = 5;
+constexpr int SIMON_ANI_JUMPING = 2;
 
-constexpr int SIMON_ANI_SITDOWN_RIGHT = 6;
-constexpr int SIMON_ANI_SITDOWN_LEFT = 7;
+constexpr int SIMON_ANI_SITDOWN = 3;
 
-constexpr int SIMON_ANI_ATTACK_STANDING_RIGHT = 8;
-constexpr int SIMON_ANI_ATTACK_STANDING_LEFT = 9;
-constexpr int SIMON_ANI_ATTACK_SITDOWN_RIGHT = 10;
-constexpr int SIMON_ANI_ATTACK_SITDOWN_LEFT = 11;
+constexpr int SIMON_ANI_ATTACK_STANDING = 4;
+constexpr int SIMON_ANI_ATTACK_SITDOWN = 5;
 
-constexpr int SIMON_ANI_COLOR_RIGHT = 12;
-constexpr int SIMON_ANI_COLOR_LEFT = 13;
+constexpr int SIMON_ANI_COLOR = 6;
 
-constexpr int SIMON_ANI_COLOR_RIGHT1 = 14;
-constexpr int SIMON_ANI_COLOR_LEFT1 = 15;
+constexpr int SIMON_ANI_COLOR1 = 7;
 
 
 constexpr int SIMON_UNTOUCHABLE_TIME = 5000;
@@ -64,13 +56,13 @@ private:
 	};
 
 	int ani;
+	int untouchable;
+	DWORD untouchable_start;
 	bool jumped = false;
 	bool attacking = false;
 	bool checkRewind = false;
 	bool throwKatana = false;
 	bool isRender = true;
-	int untouchable;
-	DWORD untouchable_start;
 
 	Whip* whip;
 	KatanaWeapon* katanaWeapon;

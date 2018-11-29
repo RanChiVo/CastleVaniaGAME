@@ -19,118 +19,73 @@ Sprites* ResourceManagement::getSprite(EntityID id)
 	 return SpriteMapper.find(id)->second;
 }
 
+TiledMap * ResourceManagement::getTiledMap(EntityID id)
+{
+	if (TiledMapList.find(id)->second != nullptr)
+		return TiledMapList.find(id)->second;
+}
+
 void ResourceManagement::loadResource()
 {
 	loadTexture(ID_TEX_SIMON, L"Resources\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 
-	sprites->Add("WalkingRight1", RECT{ 250, 0, 310, 65 }, texSimon);
-	sprites->Add("WalkingRight2", RECT{ 310, 0, 370, 65 }, texSimon);
-	sprites->Add("WalkingRight3", RECT{ 370, 0, 430, 65 }, texSimon);
-	sprites->Add("WalkingRight4", RECT{ 430, 0, 490, 65 }, texSimon);
+	sprites->Add("Walking1", RECT{ 0, 0, 60, 66 }, texSimon);
+	sprites->Add("Walking2", RECT{ 60, 0, 120, 66 }, texSimon);
+	sprites->Add("Walking3", RECT{ 120, 0, 180, 66 }, texSimon);
+	sprites->Add("Walking4", RECT{ 180, 0, 240, 66 }, texSimon);
 
-	//left
-	sprites->Add("WalkingLeft1", RECT{ 680, 0, 740, 65 }, texSimon);
-	sprites->Add("WalkingLeft2", RECT{ 620, 0, 680, 65 }, texSimon);
-	sprites->Add("WalkingLeft3", RECT{ 560, 0, 620, 65  }, texSimon);
-	sprites->Add("WalkingLeft4", RECT{ 500, 0, 560, 65 }, texSimon);
 
 	//jump right	
-	sprites->Add("JumpRight", RECT{ 190, 0, 250, 48 }, texSimon);
-
-	//jump left
-	sprites->Add("JumpLeft", RECT{ 740, 0, 800, 48 }, texSimon);
+	sprites->Add("Jump", RECT{ 240, 0, 300, 66 }, texSimon);
 
 	//sit down right
-	sprites->Add("SitdownRight", RECT{ 190, -15, 250, 48 }, texSimon);
-
-	//sit down left
-	sprites->Add("SitdownLeft", RECT{ 740, -15, 800, 48 }, texSimon);
-
+	sprites->Add("Sitdown", RECT{ 240, -9, 300, 57 }, texSimon);
 
 	//facing backward
 	//resourceManagement->loadSprites(10040, 857, 65, 891, 131, ID_TEX_SIMON);
 
 	//attack standing right
-	sprites->Add("AttackStandRight1", RECT{ 10, 60, 70, 125 }, texSimon);
-	sprites->Add("AttackStandRight2", RECT{ 430, 130, 490, 195 }, texSimon);
-	sprites->Add("AttackStandRight3", RECT{ 370, 130, 430, 195}, texSimon);
+	sprites->Add("AttackStand1", RECT{ 300, 66, 360, 132 }, texSimon);
+	sprites->Add("AttackStand2", RECT{ 360, 66, 420, 132 }, texSimon);
+	sprites->Add("AttackStand3", RECT{ 420, 66, 480, 132}, texSimon);
 	
-
-	//attack standing left
-	sprites->Add("AttackStandLeft1", RECT{ 920, 60, 980, 125 }, texSimon);
-	sprites->Add("AttackStandLeft2", RECT{ 500, 130, 560, 195 }, texSimon);
-	sprites->Add("AttackStandLeft3", RECT{ 560, 130, 620, 195 }, texSimon);
-	
-
 	//attack Sitdown right
-	sprites->Add("AttackSitdownRight1", RECT{ 15, -15, 75, 50 }, texSimon);
-	sprites->Add("AttackSitdownRight2", RECT{ 130, -15, 180, 50 }, texSimon);
-	sprites->Add("AttackSitdownRight3", RECT{ 70, -15, 130, 50 }, texSimon);
+	sprites->Add("AttackSitdown1", RECT{ 300, -9, 360, 57 }, texSimon);
+	sprites->Add("AttackSitdown2", RECT{ 360, -9, 420, 57 }, texSimon);
+	sprites->Add("AttackSitdown3", RECT{ 420, -9, 480, 57 }, texSimon);
 
-	//attack Sitdown left
-	sprites->Add("AttackSitdownLeft1", RECT{ 920, -15, 980, 50 }, texSimon);
-	sprites->Add("AttackSitdownLeft2", RECT{ 805, -15, 865, 50 }, texSimon);
-	sprites->Add("AttackSitdownLeft3", RECT{ 865, -15, 920, 50 }, texSimon);
 	//change color right
-	sprites->Add("ChangeColorRight1", RECT{ 10, 210, 60, 275 }, texSimon);
-	sprites->Add("ChangeColorRight2", RECT{ 60, 210, 120, 275 }, texSimon);
-	sprites->Add("ChangeColorRight3", RECT{ 120, 210, 180, 275 }, texSimon);
-	sprites->Add("ChangeColorRight4", RECT{ 180, 210, 240, 275 }, texSimon);
-	sprites->Add("ChangeColorRight5", RECT{ 240, 210, 300, 275 }, texSimon);
-	sprites->Add("ChangeColorRight6", RECT{ 300, 210, 460, 275 }, texSimon);
+	sprites->Add("1ChangeColor1", RECT{ 180, 264, 240, 330 }, texSimon);
+	sprites->Add("1ChangeColor2", RECT{ 240, 264, 300, 330 }, texSimon);
+	sprites->Add("1ChangeColor3", RECT{ 300, 264, 360, 330 }, texSimon);
 
 	//change color left
-	sprites->Add("ChangeColorLeft1", RECT{ 920, 210, 980, 350 }, texSimon);
-	sprites->Add("ChangeColorLeft2", RECT{ 860, 200, 920, 350 }, texSimon);
-	sprites->Add("ChangeColorLeft3", RECT{ 800, 200, 860, 350 }, texSimon);
-	sprites->Add("ChangeColorLeft4", RECT{ 740, 200, 800, 350 }, texSimon);
-	sprites->Add("ChangeColorLeft5", RECT{ 680, 200, 740, 350 }, texSimon);
-	sprites->Add("ChangeColorLeft6", RECT{ 620, 200, 680, 350 }, texSimon);
 
-	sprites->Add("1ChangeColorRight1", RECT{ 10, 280, 60, 350 }, texSimon);
-	sprites->Add("1ChangeColorRight2", RECT{ 60, 280, 120, 350 }, texSimon);
-	sprites->Add("1ChangeColorRight3", RECT{ 120, 280, 180, 350 }, texSimon);
-	sprites->Add("1ChangeColorRight4", RECT{ 180, 280, 240, 350 }, texSimon);
-	sprites->Add("1ChangeColorRight5", RECT{ 240, 280, 300, 350 }, texSimon);
-	sprites->Add("1ChangeColorRight6", RECT{ 300, 280, 460, 350 }, texSimon);
-
-
-	sprites->Add("1ChangeColorLeft1", RECT{ 920, 280, 980, 350 }, texSimon);
-	sprites->Add("1ChangeColorLeft2", RECT{ 860, 280, 920, 350 }, texSimon);
-	sprites->Add("1ChangeColorLeft3", RECT{ 800, 280, 860, 350 }, texSimon);
-	sprites->Add("1ChangeColorLeft4", RECT{ 740, 280, 800, 350 }, texSimon);
-	sprites->Add("1ChangeColorLeft5", RECT{ 680, 280, 740, 350 }, texSimon);
-	sprites->Add("1ChangeColorLeft6", RECT{ 620, 280, 680, 350 }, texSimon);
-
+	sprites->Add("2ChangeColor1", RECT{ 0, 198, 60, 264 }, texSimon);
+	sprites->Add("2ChangeColor2", RECT{ 60, 198, 120, 264 }, texSimon);
+	sprites->Add("2ChangeColor3", RECT{ 120, 198, 180, 264 }, texSimon);
 
 	SpriteMapper[EntityID::ID_TEX_SIMON] = sprites;
 
 	loadTexture(ID_TEX_WHIP, L"Resources\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texWhip = textures->Get(ID_TEX_WHIP);
-	sprites->Add("1AttackRight1", RECT{ 13, 17, 29, 65 }, texWhip);
-	sprites->Add("1AttackRight2", RECT{ 87, 11, 119, 49 }, texWhip);
-	sprites->Add("1AttackRight3", RECT{ 215, 14, 261, 30 }, texWhip);
 
-	sprites->Add("1AttackLeft1", RECT{ 580, 10, 600, 60 }, texWhip);
-	sprites->Add("1AttackLeft2", RECT{ 490, 10, 520, 50 }, texWhip);
-	sprites->Add("1AttackLeft3", RECT{ 340, 10, 392, 30 }, texWhip);
+	sprites->Add("1Attack1", RECT{ 0, 7, 18, 55 }, texWhip);
+	sprites->Add("1Attack2", RECT{ 41, 1, 73, 39 }, texWhip);
+	sprites->Add("1Attack3", RECT{ 95, 5, 141, 21 }, texWhip);
 
-	sprites->Add("2AttackRight1", RECT{ 10, 80, 30, 130 }, texWhip);
-	sprites->Add("2AttackRight2", RECT{ 87, 70, 112, 110 }, texWhip);
-	sprites->Add("2AttackRight3", RECT{ 215, 80, 242, 100 }, texWhip);
+	sprites->Add("2Attack1", RECT{ 0, 60, 18, 110 }, texWhip);
+	sprites->Add("2Attack2", RECT{ 40, 58, 72, 96 }, texWhip);
+	sprites->Add("2Attack3", RECT{ 94, 68, 172, 80 }, texWhip);
 
-	sprites->Add("2AttackLeft1", RECT{ 580, 80, 600, 130 }, texWhip);
-	sprites->Add("2ttackLeft2", RECT{ 490, 80, 520, 120 }, texWhip);
-	sprites->Add("2AttackLeft3", RECT{ 340, 80, 395, 100 }, texWhip);
+	sprites->Add("3Attack1", RECT{ 0, 124, 18, 170 }, texWhip);
+	sprites->Add("3Attack2", RECT{ 40, 118, 72, 156 }, texWhip);
+	sprites->Add("3Attack3", RECT{ 94, 128, 172, 140 }, texWhip);
 
-	sprites->Add("3AttackRight1", RECT{ 10, 150, 30, 200 }, texWhip);
-	sprites->Add("3AttackRight2", RECT{ 87, 70, 120, 120 }, texWhip);
-	sprites->Add("3AttackRight3", RECT{ 215, 156, 300, 170 }, texWhip);
-
-	sprites->Add("3AttackLeft1", RECT{ 580, 130, 600, 200 }, texWhip);
-	sprites->Add("3AttackLeft2", RECT{ 490, 147, 520, 185 }, texWhip);
-	sprites->Add("3AttackLeft3", RECT{ 340, 156, 390, 170 }, texWhip);
+	sprites->Add("4Attack1", RECT{ 0, 184, 18, 230 }, texWhip);
+	sprites->Add("4Attack2", RECT{ 40, 178, 72, 216 }, texWhip);
+	sprites->Add("4Attack3", RECT{ 94, 188, 172, 200 }, texWhip);
 	
 	SpriteMapper[EntityID::ID_TEX_WHIP] = sprites;
 
@@ -147,18 +102,11 @@ void ResourceManagement::loadResource()
 
 	SpriteMapper[EntityID::ID_TEX_BURNBARREL] = sprites;
 	
-
 	textures->Add(ID_TEX_MAINMENU, L"Resources\\Screens\\mainmenu.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texMenu = textures->Get(ID_TEX_MAINMENU);
 	sprites->Add("Texture1", RECT{ 0, 0, 640, 480 }, texMenu);
 
 	SpriteMapper[EntityID::ID_TEX_MAINMENU] = sprites;
-
-	loadTexture(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\Entrance.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_TEX_GAMEPLAYSCREEN);
-	sprites->Add("Texture2", RECT{ 0, 0, 640, 480 }, textPlayScreen);
-
-	SpriteMapper[EntityID::ID_TEX_GAMEPLAYSCREEN] = sprites;
 
 	loadTexture(ID_TEX_HEART, L"Resources\\Items\\heart.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texHeart = textures->Get(ID_TEX_HEART);
@@ -174,8 +122,7 @@ void ResourceManagement::loadResource()
 	
 	loadTexture(ID_TEX_KATANA, L"Resources\\Items\\katana.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texKatana = textures->Get(ID_TEX_KATANA);
-	sprites->Add("katanaright", RECT{ 0, 0, 30, 20 }, texKatana);
-	sprites->Add("katanaleft", RECT{ 60, 0, 94, 20 }, texKatana);
+	sprites->Add("katana1", RECT{ 0, 0, 30, 20 }, texKatana);
 
 	SpriteMapper[EntityID::ID_TEX_KATANA] = sprites;
 
@@ -193,6 +140,25 @@ void ResourceManagement::loadResource()
 
 	SpriteMapper[EntityID::ID_TEX_BRICK] = sprites;
 
+	TiledMap* tiled_map = new TiledMap();
+
+	textures->Add(ID_TEX_MAP_ENTRANCE, L"TiledMap\\Entrance.png", D3DCOLOR_XRGB(255, 0, 255));
+
+	LPDIRECT3DTEXTURE9 textMap_Entrance = textures->Get(ID_TEX_MAP_ENTRANCE);
+
+	tiled_map->readMapfromfile("TiledMap\\Entrance.tmx", textMap_Entrance);
+
+	TiledMapList[EntityID::ID_TEX_MAP_ENTRANCE] = tiled_map;
+
+	tiled_map = new TiledMap();
+
+	textures->Add(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\GamePlay1.png", D3DCOLOR_XRGB(255, 0, 255));
+
+	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_TEX_GAMEPLAYSCREEN);
+
+	tiled_map->readMapfromfile("TiledMap\\GamePlay.tmx", textPlayScreen);
+
+	TiledMapList[EntityID::ID_TEX_MAP_PLAYGAME] = tiled_map;
 }
 
 void ResourceManagement::loadFont(LPTSTR path)

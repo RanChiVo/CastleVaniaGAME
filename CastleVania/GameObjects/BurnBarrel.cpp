@@ -42,6 +42,7 @@ BurnBarrel::BurnBarrel(D3DXVECTOR2 position)
 
 	state = BURNBARREL_STATE_NORMAL;
 	currentAnimation = BURNBARREL_ANI;
+	nx = 1;
 }
 
 void BurnBarrel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -81,8 +82,9 @@ void BurnBarrel::Render(Viewport * viewport)
 	
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-	animations.find(currentAnimation)->second->Render(position.x, position.y);
-//	RenderBoundingBox(viewport);
+	Flip flip = flip_horiz;
+	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	//RenderBoundingBox(viewport);
 }
 
 int BurnBarrel::getCurrentFrame()

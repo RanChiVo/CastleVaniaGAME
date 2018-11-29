@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include "../DebugOut/DebugOut.h"
 #include "../Direct3DManager.h"
+#include "../Flip.h"
 
 class Sprite
 {
@@ -25,6 +26,8 @@ public:
 	void Draw(D3DXVECTOR2 position);
 
 	void Draw(D3DXVECTOR2 position, int alpha);
+
+	void Draw(D3DXVECTOR2 position, Flip flip);
 };
 
 typedef Sprite * LPSPRITE;

@@ -21,7 +21,7 @@ Katana::Katana(D3DXVECTOR2 position)
 	LPANIMATION ani;
 
 	ani = new Animation(40);
-	ani->Add("katanaright");
+	ani->Add("katana1");
 	Animations::GetInstance()->Add(KATANA_ANI_HIDE, ani);
 
 	ani = new Animation(40);
@@ -29,7 +29,7 @@ Katana::Katana(D3DXVECTOR2 position)
 	ani->Add("Effect2");
 	ani->Add("Effect3");
 	ani->Add("Effect4");
-	ani->Add("katanaright");
+	ani->Add("katana1");
 
 	Animations::GetInstance()->Add(KATANA_ANI_SHOW, ani);
 
@@ -87,7 +87,7 @@ void Katana::GetBoundingBox(float & left, float & top, float & right, float & bo
 	left = x;
 	top = y;
 
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_KATANA)->Get("katanaright")->getRect();
+	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_KATANA)->Get("katana1")->getRect();
 	int height = r.bottom - r.top;
 	int width = r.right - r.left;
 	right = x + width;
@@ -98,7 +98,10 @@ void Katana::Render(Viewport * viewport)
 {
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	animations.find(currentAnimation)->second->Render(position.x, position.y);
+	Flip flip;
+	if (nx == 1) flip = normal;
+	else flip = flip_horiz;
+	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 }
 
 Katana::~Katana()

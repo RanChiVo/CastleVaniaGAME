@@ -51,6 +51,8 @@ protected:
 
 	int id;
 
+	bool isChangeLevel = false;
+
 public:
 		
 	virtual void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
@@ -59,6 +61,7 @@ public:
 	virtual int GetState() { return this->state; }
 	virtual int getID();
 	virtual int GetDirection() { return this->nx; }
+	virtual bool IsChangeLevel();
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	void RenderBoundingBox(Viewport* viewport);
 	void setNewposition(D3DXVECTOR2 pos);

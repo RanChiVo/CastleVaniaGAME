@@ -14,18 +14,12 @@ KatanaWeapon::KatanaWeapon(D3DXVECTOR2 position)
 	LPANIMATION ani;
 
 	ani = new Animation(40);
-	ani->Add("katanaright");
-	Animations::GetInstance()->Add(KATANAWEAPON_ANI_RIGHT, ani);
+	ani->Add("katana1");
+	Animations::GetInstance()->Add(KATANAWEAPON_ANI, ani);
 
-	ani = new Animation(40);
-	ani->Add("katanaleft");
-	Animations::GetInstance()->Add(KATANAWEAPON_ANI_LEFT, ani);
+	AddAnimation(KATANAWEAPON_ANI);
 
-	AddAnimation(KATANAWEAPON_ANI_RIGHT);
-	AddAnimation(KATANAWEAPON_ANI_LEFT);
-
-	currentAnimation = KATANAWEAPON_ANI_LEFT;
-	state = KATANAWEAPON_STATE_LEFT;
+	currentAnimation = KATANAWEAPON_ANI;
 }
 
 void KatanaWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -48,6 +42,7 @@ void KatanaWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
+
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
@@ -67,12 +62,15 @@ void KatanaWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void KatanaWeapon::Render(Viewport * viewport)
 {
+	Flip flip;
+	if (nx == 1) flip = normal;
+	else flip = flip_horiz;
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	if (x < viewport->getX() || x >(viewport->getX() + viewport->getWidth()))
 		return;
-
-	else animations.find(currentAnimation)->second->Render(position.x, position.y);
+	
+	else animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 }
 
 void KatanaWeapon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -80,7 +78,7 @@ void KatanaWeapon::GetBoundingBox(float & left, float & top, float & right, floa
 	left = x;
 	top = y;
 
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_KATANA)->Get("katanaright")->getRect();
+	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_KATANA)->Get("katana1")->getRect();
 	int height = r.bottom - r.top;
 	int width = r.right - r.left;
 	right = x + width;
@@ -95,12 +93,12 @@ void KatanaWeapon::SetState(int state)
 	case KATANAWEAPON_STATE_RIGHT:
 		nx = 1;
 		vx = KATANAWEAPON_SPEED_HIT;
-		currentAnimation = KATANAWEAPON_ANI_RIGHT;
+		currentAnimation = KATANAWEAPON_ANI;
 		break;
 	case KATANAWEAPON_STATE_LEFT:
 		nx = -1;
 		vx = -KATANAWEAPON_SPEED_HIT;
-		currentAnimation = KATANAWEAPON_ANI_LEFT;
+		currentAnimation = KATANAWEAPON_ANI;
 		break;
 	}
 }
