@@ -1,9 +1,6 @@
 #pragma once
 #include "GameObject.h"
 
-constexpr int BURNBARREL_STATE_NORMAL = 1;
-constexpr int BURNBARREL_STATE_EFFECT = 2;
-
 
 class BurnBarrel: public GameObject
 {

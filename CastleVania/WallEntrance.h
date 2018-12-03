@@ -1,16 +1,12 @@
 #pragma once
-#include "GameObject.h"
+#include "GameObjects/GameObject.h"
 
-class Entrance : public GameObject
+class WallEntrance : public GameObject
 {
-	
 public:
-	Entrance();
-	Entrance(D3DXVECTOR2 pos);
-
+	WallEntrance(D3DXVECTOR2 position);
 	virtual void Render(Viewport* viewport);
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
-
-	~Entrance();
+	~WallEntrance();
 };
 

@@ -3,6 +3,8 @@
 #include "../CastleVania/GameObjects/BurnBarrel.h"
 
 constexpr int KATANAWEAPON_Y = 309;
+constexpr int KATA_WIDTH = 30;
+constexpr int KATA_HEIGHT = 20;
 
 KatanaWeapon::KatanaWeapon(D3DXVECTOR2 position)
 {
@@ -20,6 +22,9 @@ KatanaWeapon::KatanaWeapon(D3DXVECTOR2 position)
 	AddAnimation(KATANAWEAPON_ANI);
 
 	currentAnimation = KATANAWEAPON_ANI;
+
+	this->width = KATA_WIDTH;
+	this->height = KATA_HEIGHT;
 }
 
 void KatanaWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -36,26 +41,26 @@ void KatanaWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	CalcPotentialCollisions(coObjects, coEvents);
 
-		float min_tx, min_ty, nx, ny;
-		float Dx = dx;
+	float min_tx, min_ty, nx, ny;
+	float Dx = dx;
 
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		for (UINT i = 0; i < coEventsResult.size(); i++)
+	for (UINT i = 0; i < coEventsResult.size(); i++)
 
+	{
+		LPCOLLISIONEVENT e = coEventsResult[i];
+
+		if (dynamic_cast<BurnBarrel *>(e->obj))
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (dynamic_cast<BurnBarrel *>(e->obj))
+			BurnBarrel *burn_barrel = dynamic_cast<BurnBarrel *>(e->obj);
+			if (e->nx != 0)
 			{
-				BurnBarrel *burn_barrel = dynamic_cast<BurnBarrel *>(e->obj);
-				if (e->nx != 0)
-				{
-					burn_barrel->SetPosition(D3DXVECTOR2(-100, -100));
-				}
+				burn_barrel->SetPosition(D3DXVECTOR2(-100, -100));
 			}
 		}
-		x += Dx;
+	}
+	x += Dx;
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
@@ -65,24 +70,26 @@ void KatanaWeapon::Render(Viewport * viewport)
 	Flip flip;
 	if (nx == 1) flip = normal;
 	else flip = flip_horiz;
-	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	if (x < viewport->getX() || x >(viewport->getX() + viewport->getWidth()))
-		return;
+	if (checkInsideViewPort(viewport, D3DXVECTOR2(x, y)))
+	{
+		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	}
+	else
+	{
+		x = -100;
+		y = -100;
+	}
 	
-	else animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	 RenderBoundingBox(viewport);
 }
 
 void KatanaWeapon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	left = x;
 	top = y;
-
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_KATANA)->Get("katana1")->getRect();
-	int height = r.bottom - r.top;
-	int width = r.right - r.left;
-	right = x + width;
-	bottom = y + height;
+	right = x + this->width;
+	bottom = y + this->height;
 }
 
 void KatanaWeapon::SetState(int state)
@@ -101,6 +108,15 @@ void KatanaWeapon::SetState(int state)
 		currentAnimation = KATANAWEAPON_ANI;
 		break;
 	}
+}
+
+bool KatanaWeapon::checkInsideViewPort(Viewport* viewport, D3DXVECTOR2 position)
+{
+	if ((position.x + width) < viewport->getX() || position.x >(viewport->getX() + viewport->getWidth()))
+	{
+		return false;
+	}
+	return true;
 }
 
 KatanaWeapon::~KatanaWeapon()

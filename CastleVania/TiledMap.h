@@ -30,6 +30,7 @@ public:
 	void draw(Viewport* viewport);
 	float getWidthWorld();
 	float getHeightWorld();
+	
 	~TiledMap();
 };
 

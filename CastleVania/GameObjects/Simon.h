@@ -9,9 +9,9 @@
 
 constexpr float SIMON_MOVE_SPEED = 0.1f;
 constexpr int SIMON_JUMP_VEL = 350;
-constexpr float SIMON_JUMP_SPEED_Y = 0.5f;
+constexpr float SIMON_JUMP_SPEED_Y = 0.4f;
 
-constexpr float SIMON_GRAVITY = 0.001f;
+constexpr float SIMON_GRAVITY = 0.01f;
 constexpr int SIMON_ATTACK_TIME = 600;
 constexpr int SIMON_PROTECT_TIME = 2000;
 
@@ -32,9 +32,12 @@ constexpr int SIMON_ANI_COLOR1 = 7;
 
 constexpr int SIMON_UNTOUCHABLE_TIME = 5000;
 
+constexpr int SIMON_ENTRANCE_TIME = 3000;
+
 class Simon: public GameObject
 {
 private: 
+	DWORD comeEntranceStart = 0;
 
 	int level = 1;
 
@@ -68,6 +71,7 @@ private:
 	KatanaWeapon* katanaWeapon;
 
 	std::vector<LPGAMEOBJECT> objectList;
+	std::vector< LPGAMEOBJECT> objectFloor;
 	std::vector<LPGAMEOBJECT> itemList;
 
 public:
@@ -90,6 +94,10 @@ public:
 	void OnKeyStateChange(BYTE *states);
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
+
+	int getWidthWorld();
+	
+
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);

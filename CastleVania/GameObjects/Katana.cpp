@@ -96,7 +96,6 @@ void Katana::GetBoundingBox(float & left, float & top, float & right, float & bo
 
 void Katana::Render(Viewport * viewport)
 {
-	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip;
 	if (nx == 1) flip = normal;

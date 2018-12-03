@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="24" height="6" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="15">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="24" height="6" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="20">
  <tileset firstgid="1" source="burn_barrel.tsx"/>
+ <tileset firstgid="3" source="WallCastle.tsx"/>
  <imagelayer id="2" name="Background">
   <image source="Entrance.png" width="1532" height="384"/>
  </imagelayer>
@@ -10,11 +11,14 @@
   </data>
  </layer>
  <objectgroup id="4" name="EnterGate">
-  <object id="6" name="Entrance" x="1406" y="190" width="31" height="166"/>
+  <object id="6" name="Entrance" x="1369" y="190" width="31" height="166"/>
   <object id="9" name="BurnBarrel" gid="2" x="175" y="355" width="32" height="64"/>
   <object id="10" name="BurnBarrel" gid="2" x="434" y="355" width="32" height="64"/>
   <object id="11" name="BurnBarrel" gid="2" x="685" y="355" width="32" height="64"/>
   <object id="12" name="BurnBarrel" gid="2" x="942" y="355" width="32" height="64"/>
   <object id="13" name="BurnBarrel" gid="2" x="1199" y="355" width="32" height="64"/>
+  <object id="17" name="CastleWall" gid="3" x="1403" y="358" width="99" height="288"/>
+  <object id="18" name="wall_behind_entrance" x="1483" y="48" width="16" height="312"/>
+  <object id="19" name="wall_frontof_entrance" x="1" y="70" width="16" height="312"/>
  </objectgroup>
 </map>

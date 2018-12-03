@@ -129,6 +129,18 @@
     <ClCompile Include="KatanaWeapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CastleWall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Candle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PodiumOnWall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WallEntrance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\GameObject.h">
@@ -251,6 +263,18 @@
     <ClInclude Include="Flip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CastleWall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Candle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PodiumOnWall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WallEntrance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\Musics\intro_scene.wav">
@@ -310,6 +334,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="TiledMap\GamePlay1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="TiledMap\WallCastle.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="TiledMap\Candle.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

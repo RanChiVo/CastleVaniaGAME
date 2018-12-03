@@ -3,6 +3,10 @@
 constexpr float ETRANCE_BBOX_WIDTH = 31.0f;
 constexpr float ETRANCE_BBOX_HEIGHT = 166.0f;
 
+Entrance::Entrance()
+{
+}
+
 Entrance::Entrance(D3DXVECTOR2 pos)
 {
 	id = ID_TEX_ENTRANCE;

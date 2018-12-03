@@ -14,6 +14,8 @@ class KatanaWeapon : public GameObject
 	int untouchable;
 	DWORD untouchable_start;
 	RECT bounding = RECT{ 0, 0, 0, 0 };
+	int width;
+	int height;
 
 public:
 	KatanaWeapon(D3DXVECTOR2 position);
@@ -21,6 +23,8 @@ public:
 	void Render(Viewport* viewport);
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void SetState(int state);
+
+	bool checkInsideViewPort(Viewport* viewport, D3DXVECTOR2 position);
 	~KatanaWeapon();
 };
 

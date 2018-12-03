@@ -152,7 +152,12 @@ bool Whip::checkCollision(RECT A, RECT B)
 	float right = B.right - A.left;
 	float bottom = B.top - A.bottom;
 
-	return !(left > 0 || right < 0 || top < 0 || bottom > 0);
+	if (left < 0 && right > 0 && top > 0 && bottom < 0)
+	{
+		return true;
+	}
+	return false;
+	//return !(left > 0 || right < 0 || top < 0 || bottom > 0);
 }
 
 RECT Whip::getBounding()

@@ -72,10 +72,10 @@ void MiraculousBag::GetBoundingBox(float & left, float & top, float & right, flo
 void MiraculousBag::Render(Viewport * viewport)
 {
 	animations.find(currentAnimation)->second->SetLoop(true);
-	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip = flip_horiz;
 	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	RenderBoundingBox(viewport);
 }
 
 

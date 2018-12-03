@@ -75,9 +75,10 @@ void Heart::Update(DWORD dt,  vector<LPGAMEOBJECT> *coObjects)
 		{
 			float min_tx, min_ty, nx, ny;
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			if (ny != 0) vy = 0;
+
 			y += min_ty * dy + ny * 0.4f;
 
-			if (ny != 0) vy = 0;
 		}
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -98,13 +99,14 @@ void Heart::GetBoundingBox(float & left, float & top, float & right, float & bot
 
 void Heart::Render(Viewport * viewport)
 {
-	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
 	Flip flip = flip_horiz;
 
 	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+
+//	RenderBoundingBox(viewport);
 }
 
 Heart::~Heart()

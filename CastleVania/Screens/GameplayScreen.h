@@ -19,14 +19,15 @@ class GameplayScreen: public ScreenBase
 {
 private:
 	vector<LPGAMEOBJECT> objects;
-	vector<LPGAMEOBJECT> movecoObjects;
+	vector<LPGAMEOBJECT> objectslv2;
+	D3DXVECTOR2 posWall;
 	EntityID id;
 	Simon* simon;
 	DirectInput* directInput;
 	TiledMap * tile_map;
 	ResourceManagement* resourceManagement;
 	RECT rect;
-
+	
 public:
 
 	void init() override;

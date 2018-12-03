@@ -9,9 +9,8 @@
 #include "../Textures/Textures.h"
 
 unordered_map<int, LPANIMATION> GameObject::animations;
-#define ID_TEX_BBOX -100
 
-int GameObject::getID()
+int GameObject::getID()	
 {
 	return id;
 }
@@ -51,7 +50,6 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 	Sprite *sprite;
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
-	Textures::GetInstance()->Add(ID_TEX_BBOX, L"Resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_BBOX);
 
@@ -79,6 +77,11 @@ void GameObject::setNewposition(D3DXVECTOR2 pos)
 D3DXVECTOR2 GameObject::getNewPos()
 {
 	return newpos;
+}
+
+void GameObject::setWidthWorld(int widthWorld)
+{
+	this->widthworld = widthWorld;
 }
 
 LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)

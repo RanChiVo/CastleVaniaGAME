@@ -28,6 +28,7 @@ TiledMap * ResourceManagement::getTiledMap(EntityID id)
 void ResourceManagement::loadResource()
 {
 	loadTexture(ID_TEX_SIMON, L"Resources\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
+	Textures::GetInstance()->Add(ID_TEX_BBOX, L"Resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 
 	sprites->Add("Walking1", RECT{ 0, 0, 60, 66 }, texSimon);
@@ -101,7 +102,15 @@ void ResourceManagement::loadResource()
 	sprites->Add("Effect4", RECT{ 140, 0, 160, 40 }, texEffect);
 
 	SpriteMapper[EntityID::ID_TEX_BURNBARREL] = sprites;
-	
+
+
+	loadTexture(ID_TEX_CANDLE, L"TiledMap\\Candle.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 texCandle = textures->Get(ID_TEX_CANDLE);
+	sprites->Add("Candle1", RECT{ 0, 0, 16, 32 }, texCandle);
+	sprites->Add("Candle2", RECT{ 16, 0, 32, 32 }, texCandle);
+
+	SpriteMapper[EntityID::ID_TEX_CANDLE] = sprites;
+
 	textures->Add(ID_TEX_MAINMENU, L"Resources\\Screens\\mainmenu.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texMenu = textures->Get(ID_TEX_MAINMENU);
 	sprites->Add("Texture1", RECT{ 0, 0, 640, 480 }, texMenu);
@@ -134,11 +143,18 @@ void ResourceManagement::loadResource()
 
 	SpriteMapper[EntityID::ID_TEX_MIRACULOUS_BAG] = sprites;
 
-	loadTexture(ID_TEX_BRICK, L"Resources\\misc.png", D3DCOLOR_XRGB(176, 224, 248));
-	LPDIRECT3DTEXTURE9 texBrick = textures->Get(ID_TEX_BRICK);
+	loadTexture(ID_TEX_WALL, L"Resources\\misc.png", D3DCOLOR_XRGB(176, 224, 248));
+	LPDIRECT3DTEXTURE9 texBrick = textures->Get(ID_TEX_WALL);
 	sprites->Add("brick1", RECT{ 408, 225, 424, 241 }, texBrick);
 
-	SpriteMapper[EntityID::ID_TEX_BRICK] = sprites;
+	SpriteMapper[EntityID::ID_TEX_WALL] = sprites;
+
+
+	loadTexture(ID_TEX_CASTLEVANIA_WALL, L"TiledMap\\WallCastle.png", D3DCOLOR_XRGB(176, 224, 248));
+	LPDIRECT3DTEXTURE9 texCastle_Wall = textures->Get(ID_TEX_CASTLEVANIA_WALL);
+	sprites->Add("CASTLEVANIA_WALL", RECT{ 0, 0, 97, 288 }, texCastle_Wall);
+
+	SpriteMapper[EntityID::ID_TEX_CASTLEVANIA_WALL] = sprites;
 
 	TiledMap* tiled_map = new TiledMap();
 
@@ -149,6 +165,7 @@ void ResourceManagement::loadResource()
 	tiled_map->readMapfromfile("TiledMap\\Entrance.tmx", textMap_Entrance);
 
 	TiledMapList[EntityID::ID_TEX_MAP_ENTRANCE] = tiled_map;
+
 
 	tiled_map = new TiledMap();
 

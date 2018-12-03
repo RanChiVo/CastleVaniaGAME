@@ -7,6 +7,10 @@ Floor::Floor()
 	id = ID_TEX_FLOOR;
 }
 
+Floor::Floor(D3DXVECTOR2 position)
+{
+}
+
 void Floor::Render(Viewport * viewport)
 {
 	//RenderBoundingBox(viewport);

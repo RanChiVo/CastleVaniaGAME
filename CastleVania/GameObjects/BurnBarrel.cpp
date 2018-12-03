@@ -5,7 +5,6 @@
 #include "../ResourceManagement.h"
 
 constexpr int BURNBARREL_ANI = 22;
-constexpr int BURNBARREL_ANI_EFFECT = 23;
 
 
 BurnBarrel::BurnBarrel()
@@ -28,19 +27,9 @@ BurnBarrel::BurnBarrel(D3DXVECTOR2 position)
 	ani->Add("Burn2");
 	Animations::GetInstance()->Add(BURNBARREL_ANI, ani);
 
-	ani = new Animation(150);
-
-	ani->Add("Effect1");
-	ani->Add("Effect2");
-	ani->Add("Effect3");
-	ani->Add("Effect4");
-
-	Animations::GetInstance()->Add(BURNBARREL_ANI_EFFECT, ani);
 
 	AddAnimation(BURNBARREL_ANI);
-	AddAnimation(BURNBARREL_ANI_EFFECT);
 
-	state = BURNBARREL_STATE_NORMAL;
 	currentAnimation = BURNBARREL_ANI;
 	nx = 1;
 }
@@ -48,19 +37,6 @@ BurnBarrel::BurnBarrel(D3DXVECTOR2 position)
 void BurnBarrel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
-
-	if (state == BURNBARREL_STATE_NORMAL)
-	{
-		currentAnimation = BURNBARREL_ANI;
-	}
-	else if (state == BURNBARREL_STATE_EFFECT)
-	{
-		currentAnimation = BURNBARREL_ANI_EFFECT;
-		
-		if (animations.find(currentAnimation)->second->getCurrentFrame()== 3)
-
-		animations.find(currentAnimation)->second->SetFinish(true);
-	}
 }
 
 void BurnBarrel::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -71,20 +47,17 @@ void BurnBarrel::GetBoundingBox(float & left, float & top, float & right, float 
 	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_BURNBARREL)->Get("Burn1")->getRect();
 	int height = r.bottom - r.top;
 	int width = r.right - r.left;
-	right = x + width;
-	bottom = y + height;
+	right = x + height;
+	bottom = y + width;
 }
 
 void BurnBarrel::Render(Viewport * viewport)
 {
-	
-	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
 	Flip flip = flip_horiz;
+
 	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
-	//RenderBoundingBox(viewport);
 }
 
 int BurnBarrel::getCurrentFrame()

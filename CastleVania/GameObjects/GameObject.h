@@ -20,7 +20,6 @@ struct CCollisionEvent
 	LPGAMEOBJECT obj;
 	float t, nx, ny;
 	CCollisionEvent(float t, float nx, float ny, LPGAMEOBJECT obj = NULL) { this->t = t; this->nx = nx; this->ny = ny; this->obj = obj; }
-
 	static bool compare(const LPCOLLISIONEVENT &a, LPCOLLISIONEVENT &b)
 	{
 		return a->t < b->t;
@@ -50,7 +49,7 @@ protected:
 	static unordered_map<int, LPANIMATION> animations;
 
 	int id;
-
+	int widthworld;
 	bool isChangeLevel = false;
 
 public:
@@ -66,6 +65,7 @@ public:
 	void RenderBoundingBox(Viewport* viewport);
 	void setNewposition(D3DXVECTOR2 pos);
 	D3DXVECTOR2 getNewPos();
+	void setWidthWorld(int widthWorld);
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
@@ -84,8 +84,6 @@ public:
 	virtual void Render(Viewport* viewport) = 0;
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom)=0;
 	virtual void SetState(int state) { this->state = state; }
-
-	
 
 	virtual ~GameObject();
 };
