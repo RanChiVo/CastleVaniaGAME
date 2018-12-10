@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<loadresource>
+ <imagelayer id="ID_TEX_ZOMBIE" name="Zombie">
+   <image source="Resources\Enemy\zombie.png" width="68" height="64"/>
+ </imagelayer>
+  
+ <sprites>
+   <spriteframe id="zombie_walking1" left = "0" top="0" right="34" bottom="64"/>
+   <spriteframe id="zombie_walking2" left = "34" top="0" right="68" bottom="64"/>
+ </sprites>
+</loadresource>

@@ -2,9 +2,7 @@
 #include "WeaponReward.h"
 
 
-constexpr int WEAPONREWARD_ANI_HIDE = 26;
-constexpr int WEAPONREWARD_ANI_SHOW = 27;
-constexpr float WEAPONREWARD_GRAVITY = 0.002f;
+constexpr float WEAPONREWARD_GRAVITY = 0.0006f;
 
 WeaponReward::WeaponReward()
 {
@@ -19,42 +17,18 @@ WeaponReward::WeaponReward(D3DXVECTOR2 position)
 
 	LPANIMATION ani;
 
-	ani = new Animation(40);
-	ani->Add("weapon_reward1");
-	Animations::GetInstance()->Add(WEAPONREWARD_ANI_HIDE, ani);
-
-	ani = new Animation(40);
-	ani->Add("Effect1");
-	ani->Add("Effect2");
-	ani->Add("Effect3");
-	ani->Add("Effect4");
-	ani->Add("weapon_reward1");
-
-	Animations::GetInstance()->Add(WEAPONREWARD_ANI_SHOW, ani);
-
-	AddAnimation(WEAPONREWARD_ANI_HIDE);
-	AddAnimation(WEAPONREWARD_ANI_SHOW);
+	AddAnimation(WEAPONREWARD_ANI);
 
 	state = WEAPONREWARD_STATE_HIDE;
-	currentAnimation = WEAPONREWARD_ANI_HIDE;
+	currentAnimation = WEAPONREWARD_ANI;
 }
 
 void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
-
-	if (state == WEAPONREWARD_STATE_HIDE)
+	if (state == WEAPONREWARD_STATE_SHOW)
 	{
-		currentAnimation = WEAPONREWARD_ANI_HIDE;
-	}
-	else if (state == WEAPONREWARD_STATE_SHOW)
-	{
-		currentAnimation = WEAPONREWARD_ANI_SHOW;
-
-		if (animations.find(currentAnimation)->second->getCurrentFrame() == 4)
-
-			animations.find(currentAnimation)->second->SetFinish1(true);
 
 		vy += WEAPONREWARD_GRAVITY * dt;
 
@@ -96,9 +70,13 @@ void WeaponReward::GetBoundingBox(float & left, float & top, float & right, floa
 
 void WeaponReward::Render(Viewport * viewport)
 {
-	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	Flip flip = flip_horiz;
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	if (state == WEAPONREWARD_STATE_SHOW)
+	{
+		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+		Flip flip = flip_horiz;
+		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	}
+	else return;
 }
 
 WeaponReward::~WeaponReward()

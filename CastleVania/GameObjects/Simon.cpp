@@ -6,57 +6,102 @@
 #include "../GameObjects/Katana.h"
 #include "../GameObjects/Floor.h"
 #include "../PodiumOnWall.h"
+#include "../GameObjects/Cross.h"
+#include "../GameObjects/SmallHeart.h"
+#include "../GameObjects/FireBomb.h"
+#include "../GameObjects/StopWatch.h"
 #include "../Brick.h"
 #include "../GameObjects/Entrance.h"
 #include "../EntityID.h"
 #include "../Flip.h"
 
-constexpr auto GROUND_POSITION = 293.600006;
+constexpr float SIMON_MOVE_SPEED = 0.1f;
+constexpr int SIMON_JUMP_VEL = 350;
+constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
+constexpr float SIMON_GRAVITY = 0.0009f;
+constexpr int SIMON_PROTECT_TIME = 2000;
+constexpr float SIMON_UP_STAIR_SPEED = 0.09f;
+
+constexpr auto GROUND_POSITION = 293;
 constexpr auto MAPSIZE_WIDTH = 1475;
 constexpr auto P0SITION_ENTRANCE = 1300;
 
+constexpr int SIMON_UNTOUCHABLE_TIME = 5000;
+constexpr int SIMON_ENTRANCE_TIME = 3000;
+
 Simon::Simon()
-{
+{	
 	DirectInput* directInput = DirectInput::getInstance();
 
 	__hook(&DirectInput::KeyState, directInput, &Simon::OnKeyStateChange);
 	__hook(&DirectInput::OnKeyDown, directInput, &Simon::OnKeyDown);
 	__hook(&DirectInput::OnKeyUp, directInput, &Simon::OnKeyUp);
 
-	SetPosition(D3DXVECTOR2(50.0f, 250));
+	SetPosition(D3DXVECTOR2(1200, 250));
 
 	SetState(SIMON_STATE_IDLE);
 	currentAnimation = SIMON_ANI_IDLE;
 	WHIP_STATE = 1;
+	isChangeLevel = true;
 }
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt, coObjects);
-
 	handleState();
 
-	if (GetTickCount() - comeEntranceStart <= SIMON_ENTRANCE_TIME)
+	if (GetTickCount() - comeEntranceStart < SIMON_ENTRANCE_TIME)
 		SetState(SIMON_STATE_WALKING_RIGHT);
 	else if (comeEntranceStart > 0)
 		comeEntranceStart = 0;
 	
-	if (objectList.size() < 10)
+	
+	vy += SIMON_GRAVITY*dt ;
+
+
+	for (int i = 0; i < coObjects->size(); i++)
 	{
-		for (int i = 0; i < coObjects->size(); i++)
+		switch (coObjects->at(i)->getID())
 		{
-			switch (coObjects->at(i)->getID())
+		case ID_COLLISION_STAIR:
+
+			float l, t, r, b;
+			coObjects->at(i)->GetBoundingBox(l, t, r, b);
+			RECT rect1 = RECT{ int(l), int(t), int(r), int(b) };
+
+			float L, T, R, B;
+			GetBoundingBox(L, T, R, B);
+			RECT rect2 = RECT{ int(L), int(T), int(R), int(B) };
+
+			bool result = checkCollision(rect1, rect2);
+
+			if (result)
 			{
-			case ID_TEX_HEART:
-			case ID_TEX_WEAPON_REWARD:
-			case ID_TEX_KATANA:
-			case ID_TEX_BURNBARREL:
-				objectList.push_back(coObjects->at(i));
-				break;
+				if (state != SIMON_STATE_GO_UP_STAIR_RIGHT)
+				{
+					if (DirectInput::getInstance()->IsKeyDown(DIK_UP))
+					{
+						SetState(SIMON_STATE_GO_UP_STAIR_RIGHT);
+					}
+
+					else if (DirectInput::getInstance()->IsKeyDown(DIK_DOWN))
+					{
+						SetState(SIMON_STATE_GO_DOWN_STAIR_LEFT);
+					}
+				}
+				else if (state == SIMON_STATE_GO_UP_STAIR_RIGHT)
+				{
+					SetState(SIMON_STATE_IDLE);
+
+					if (DirectInput::getInstance()->IsKeyUp(DIK_UP))
+					{
+						SetState(SIMON_STATE_IDLE_UP_STAIR_RIGHT);
+					}
+				}
 			}
+			break;
 		}
 	}
-	vy += SIMON_GRAVITY ;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -111,7 +156,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				break;
 			case ID_TEX_WALL_ENTRANCE:
 				isChangeLevel = true;
-				x = 50;
+				x = 800;
 				break;
 			case ID_TEX_HEART:
 				for (int i = 0; i < coObjects->size(); i++)
@@ -121,6 +166,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						coObjects->at(i)->SetPosition(D3DXVECTOR2(-100, -100));
 					}
 				}
+				SetState(SIMON_STATE_CHANGECOLOR);
 				break;
 			case ID_TEX_WEAPON_REWARD:
 				for (int i = 0; i < coObjects->size(); i++)
@@ -159,8 +205,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				break;
 			case ID_TEX_PODIUM_ON_WALL:
-				Dx = min_tx * dx + nx * 0.4f;
-				if (nx != 0) vx = 0;
 				Dy = min_ty * dy + ny * 0.4f;
 				if (ny != 0) vy = 0;
 				break;
@@ -170,25 +214,15 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				break;
 			case ID_TEX_BURNBARREL:
 				break;
+			case ID_TEX_CANDLE:
+				break;
 			default:
 				break;
 			}
 		}
 		x += Dx;
 		y += Dy;
-		/*if (!isChangeLevel && (x > P0SITION_ENTRANCE) && (x < P0SITION_ENTRANCE + 200))
-		{
-			SetState(SIMON_STATE_WALKING_RIGHT);
-		}
-		if ((x >= widthworld - 100) && !isChangeLevel)
-		{
-			isChangeLevel = true;
-			x = 50;
-		}
-		else if (isChangeLevel && x >= widthworld)
-		{
-			x += min_tx * dx + nx * 1.0f;
-		}*/
+		
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	//for (UINT i = 0; i < coEventsResult.size(); i++)
@@ -289,72 +323,54 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}*/
 	//}
 	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	
+	if (objectList.size() < 10 && !isChangeLevel)
+	{
+		for (int i = 0; i < coObjects->size(); i++)
+		{
+			switch (coObjects->at(i)->getID())
+			{
+			case ID_TEX_HEART:
+			case ID_TEX_WEAPON_REWARD:
+			case ID_TEX_KATANA:
+			case ID_TEX_BURNBARREL:
+				objectList.push_back(coObjects->at(i));
+				break;
+			}
+		}
+	}
+	else if (objectList.size() < 60 && isChangeLevel)
+	{
+		for (int i = 0; i < coObjects->size(); i++)
+		{
+			switch (coObjects->at(i)->getID())
+			{
+			case ID_TEX_CANDLE:
+			case ID_TEX_HEART:
+			case ID_TEX_WEAPON_REWARD:
+			case ID_TEX_SMALL_HEART:
+			case ID_TEX_CROSS:
+			case ID_TEX_FIRE_BOMB:
+				objectList.push_back(coObjects->at(i));
+				break;
+			}
+		}
+	}
 }
 
 void Simon::loadResource()
 {
-	LPANIMATION ani;
-	//idle right
-
-	ani = new Animation(100);
-	ani->Add("Walking4");
-	Animations::GetInstance()->Add(SIMON_ANI_IDLE, ani);
-
-	// walk right
-	ani = new Animation(100);
-	ani->Add("Walking1");
-	ani->Add("Walking2");
-	ani->Add("Walking3");
-	ani->Add("Walking4");
-	Animations::GetInstance()->Add(SIMON_ANI_WALKING, ani);
-
-	//jump right
-	ani = new Animation(100);
-	ani->Add("Jump");
-	Animations::GetInstance()->Add(SIMON_ANI_JUMPING, ani);
-
-	//sit down right
-	ani = new Animation(100);
-	ani->Add("Sitdown");
-	Animations::GetInstance()->Add(SIMON_ANI_SITDOWN, ani);
-
-	//attack standing right
-	ani = new Animation(200);	//ani->Add("AttackStandRight1");
-	ani->Add("AttackStand1");
-	ani->Add("AttackStand2");
-	ani->Add("AttackStand3");
-	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_STANDING, ani);
-
-	//attack Sitdown right
-	ani = new Animation(200);
-	ani->Add("AttackSitdown1");
-	ani->Add("AttackSitdown2");
-	ani->Add("AttackSitdown3");
-	Animations::GetInstance()->Add(SIMON_ANI_ATTACK_SITDOWN, ani);
-
-	ani = new Animation(100);
-	ani->Add("1ChangeColor1");
-	ani->Add("1ChangeColor2");
-	ani->Add("1ChangeColor3");
-
-	Animations::GetInstance()->Add(SIMON_ANI_COLOR, ani);
-
-	ani = new Animation(100);
-	ani->Add("2ChangeColor1");
-	ani->Add("2ChangeColor2");
-	ani->Add("2ChangeColor3");
-
-	Animations::GetInstance()->Add(SIMON_ANI_COLOR1, ani);
-
-	AddAnimation(SIMON_ANI_IDLE);		// idle left
-	AddAnimation(SIMON_ANI_WALKING);		// walk left
-	AddAnimation(SIMON_ANI_JUMPING);		//jump right
-	AddAnimation(SIMON_ANI_SITDOWN);		//sitdown right
-	AddAnimation(SIMON_ANI_ATTACK_STANDING);		//attack standing right
-	AddAnimation(SIMON_ANI_ATTACK_SITDOWN);		//attack sitdown left
+	AddAnimation(SIMON_ANI_IDLE);		
+	AddAnimation(SIMON_ANI_WALKING);		
+	AddAnimation(SIMON_ANI_JUMPING);		
+	AddAnimation(SIMON_ANI_SITDOWN);		
+	AddAnimation(SIMON_ANI_ATTACK_STANDING);		
+	AddAnimation(SIMON_ANI_ATTACK_SITDOWN);		
 	AddAnimation(SIMON_ANI_COLOR);
 	AddAnimation(SIMON_ANI_COLOR1);
-
+	AddAnimation(SIMON_ANI_GO_STAIR);
+	AddAnimation(SIMON_ANI_IDLE_STAIR);
 }
 
 void Simon::SetState(int state)
@@ -410,6 +426,8 @@ void Simon::OnKeyDown(int KeyCode)
 			SetState(SIMON_STATE_ATTACK_STAND);
 		}
 		break;
+		if (KeyCode == DIK_UP )
+
 	case SIMON_STATE_JUMPING:
 		if (KeyCode == DIK_Z)
 		{
@@ -468,11 +486,6 @@ void Simon::GetBoundingBox(float & left, float & top, float & right, float & bot
 
 void Simon::Render(Viewport* viewport)
 {
-	if (isOnGround() && jumped && state != SIMON_STATE_CHANGECOLOR && state != SIMON_STATE_CHANGECOLOR1)
-	{
-		SetState(SIMON_STATE_IDLE);
-		jumped = false;
-	}
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
 	LPANIMATION animation = animations.find(currentAnimation)->second;
@@ -503,8 +516,8 @@ void Simon::Render(Viewport* viewport)
 			whip->draw(nx, viewport);
 			if (whip->getframe() == 2) whip->animations.find(currentAnimation)->second->SetFinish(true);
 
-			 if (!isChangeLevel)
-			{ 
+			if (!isChangeLevel)
+			{
 				for (int i = 0; i < objectList.size() - 5; i++)
 				{
 					float l, t, r, b;
@@ -520,7 +533,8 @@ void Simon::Render(Viewport* viewport)
 					if (result)
 					{
 						D3DXVECTOR2 pos = objectList[i]->getPosition();
-						objectList[i]->SetPosition(D3DXVECTOR2(0, -200));
+						objectList[i]->SetPosition(D3DXVECTOR2(-100, -100));
+
 						switch (i)
 						{
 						case 0:
@@ -548,11 +562,57 @@ void Simon::Render(Viewport* viewport)
 					}
 				}
 			}
-			RemoveWhip();
-			objectList.clear();
+
+			else if (isChangeLevel)
+			{
+				for (int i = 0; i < objectList.size(); i++)
+				{
+					float l, t, r, b;					objectList[i]->GetBoundingBox(l, t, r, b);
+					RECT rect1 = RECT{ int(l), int(t), int(r), int(b) };
+
+					float L, T, R, B;
+					whip->GetBoundingBox(L, T, R, B);
+					RECT rect2 = RECT{ int(L), int(T), int(R), int(B) };
+
+					bool result = whip->checkCollision(rect1, rect2);
+
+					if (result)
+					{
+						D3DXVECTOR2 pos = objectList[i]->getPosition();
+						objectList[i]->SetPosition(D3DXVECTOR2(-100, -100));
+						switch (i)
+						{
+						case 0:
+							objectList[5]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
+							objectList[5]->SetState(HEART_STATE_SHOW);
+							break;
+						case 1:
+							objectList[6]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
+							objectList[6]->SetState(WEAPONREWARD_STATE_SHOW);
+							break;
+						case 2:
+							objectList[7]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
+							objectList[7]->SetState(HEART_STATE_SHOW);
+							break;
+						case 3:
+							objectList[8]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
+							objectList[8]->SetState(WEAPONREWARD_STATE_SHOW);
+							break;
+						case 4:
+							objectList[9]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
+							objectList[9]->SetState(KATANA_STATE_SHOW);
+							itemList.push_back(objectList[9]);
+							break;
+						}
+					}
+
+				}
+				RemoveWhip();
+				objectList.clear();
+			}
 		}
+		else return;
 	}
-	else return;
 }
 
 bool Simon::isOnGround()
@@ -567,7 +627,6 @@ void Simon::handleState()
 	switch (state)
 	{
 	case SIMON_STATE_WALKING_RIGHT:
-		jumped = true;
 		vx = SIMON_MOVE_SPEED;
 		nx = 1;
 		checkRewind = true;
@@ -575,7 +634,6 @@ void Simon::handleState()
 		break;
 
 	case SIMON_STATE_WALKING_LEFT:
-		jumped = true;
 		vx = -SIMON_MOVE_SPEED;
 		nx = -1;
 		checkRewind = true;
@@ -587,14 +645,27 @@ void Simon::handleState()
 		{
 			jumped = true;
 			vy = -SIMON_JUMP_SPEED_Y;
-			currentAnimation = SIMON_ANI_JUMPING;
 			break;
+		}
+
+		if (vy < 0)
+		{
+			currentAnimation = SIMON_ANI_JUMPING;
+		}
+		else if (isOnGround() && jumped)
+		{
+			SetState(SIMON_STATE_IDLE);
+			jumped = false;
 		}
 		checkRewind = false;
 		break;
 	case SIMON_STATE_ATTACK_JUMP:
+		attacking = true;
+		checkRewind = false;
+		currentAnimation = SIMON_ANI_ATTACK_STANDING;
+		Reset(currentAnimation);
+		break;
 	case SIMON_STATE_ATTACK_STAND:
-		jumped = false;
 		attacking = true;
 		vx = 0;
 		checkRewind = false;
@@ -607,7 +678,7 @@ void Simon::handleState()
 		checkRewind = false;
 		currentAnimation = SIMON_ANI_SITDOWN;
 		break;
-
+			
 	case SIMON_STATE_ATTACK_SITDOWN:
 		attacking = true;
 		vx = 0;
@@ -617,7 +688,6 @@ void Simon::handleState()
 		break;
 
 	case SIMON_STATE_IDLE:
-		jumped = true;
 		vx = 0;
 		checkRewind = false;
 		currentAnimation = SIMON_ANI_IDLE;
@@ -636,7 +706,36 @@ void Simon::handleState()
 		currentAnimation = SIMON_ANI_COLOR1;
 		Reset(currentAnimation);
 		break;
+
+	case SIMON_STATE_GO_UP_STAIR:
+		checkRewind = true;
+		vy = -SIMON_UP_STAIR_SPEED;
+		vx = SIMON_MOVE_SPEED;
+		currentAnimation = SIMON_ANI_GO_STAIR;
+		checkUp = true;
+		break;
+
+	case SIMON_STATE_GO_DOWN_STAIR:
+		checkRewind = true;
+		vy = SIMON_UP_STAIR_SPEED;
+		vx =-SIMON_MOVE_SPEED;
+		currentAnimation = SIMON_ANI_GO_STAIR;
+		checkUp = false;
+		break;
+
+	case SIMON_STATE_IDLE_UP_STAIR:
+		currentAnimation = SIMON_ANI_IDLE_STAIR;
+		vx = 0;
+		checkUp = true;
+		break;
+
+	case SIMON_STATE_IDLE_DOWN_STAIR:
+		currentAnimation = SIMON_ANI_IDLE_STAIR;
+		vx = 0;
+		checkUp = false;
+		break;
 	}
+	
 	animations.find(currentAnimation)->second->SetLoop(checkRewind);
 }
 

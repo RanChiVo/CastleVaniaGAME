@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_TEX_STAR"  name="EffectFire">
+    <image source="star.png" width="16" height="20"/>
+  </imagelayer>
+  <sprites>
+
+    <spriteframe id="star_effect" left = "0" top="0" right="16" bottom="20"/>
+
+  </sprites>
+</loadresource>

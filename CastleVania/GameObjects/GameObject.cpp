@@ -84,6 +84,20 @@ void GameObject::setWidthWorld(int widthWorld)
 	this->widthworld = widthWorld;
 }
 
+bool GameObject::checkCollision(RECT A, RECT B)
+{
+	float left = B.left - A.right;
+	float top = B.bottom - A.top;
+	float right = B.right - A.left;
+	float bottom = B.top - A.bottom;
+
+	if (left < 0 && right > 0 && top > 0 && bottom < 0)
+	{
+		return true;
+	}
+	return false;
+}
+
 LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 {
 	float sl, st, sr, sb;		// static object bbox

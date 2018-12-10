@@ -9,7 +9,7 @@
 
 constexpr unsigned int ScreenBase_width = 640;
 constexpr unsigned int ScreenBase_height = 480;
-constexpr int max_frame_rate = 90;
+constexpr int max_frame_rate = 60;
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0,0,0)
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<loadresource>
+  
+ <imagelayer id="ID_TEX_WHIP"  name="WHIP">
+   <image source="Resources\whip.png" width="176" height="241"/>
+ </imagelayer>
+  
+ <sprites>
+   <spriteframe id="type1_whip_1" left = "0" top="7" right="18" bottom="55"/>
+   <spriteframe id="type1_whip_2" left = "41" top="1" right="73" bottom="39"/>
+   <spriteframe id="type1_whip_3" left = "95" top="5" right="141" bottom="21"/>
+   
+   <spriteframe id="type2_whip_1" left = "0" top="60" right="18" bottom="110"/>
+   <spriteframe id="type2_whip_2" left = "40" top="58" right="72" bottom="96"/>
+   <spriteframe id="type2_whip_3" left = "94" top="68" right="172" bottom="80"/>
+   
+   <spriteframe id="type3_whip_1" left = "0" top="124" right="18" bottom="170"/>
+   <spriteframe id="type3_whip_2" left = "40" top="118" right="72" bottom="156"/>
+   <spriteframe id="type3_whip_3" left = "94" top="128" right="172" bottom="140"/>
+   
+   <spriteframe id="type4_whip_1" left = "0" top="184" right="18" bottom="230"/>
+   <spriteframe id="type4_whip_2" left = "40" top="178" right="72" bottom="216"/>
+   <spriteframe id="type4_whip_3" left = "94" top="188" right="172" bottom="200"/>
+   
+ </sprites>
+  
+  </loadresource>

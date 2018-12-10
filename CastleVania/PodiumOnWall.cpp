@@ -13,7 +13,7 @@ PodiumOnWall::PodiumOnWall(D3DXVECTOR2 position)
 
 void PodiumOnWall::Render(Viewport * viewport)
 {
-	//RenderBoundingBox(viewport);
+	RenderBoundingBox(viewport);
 }
 
 void PodiumOnWall::GetBoundingBox(float & l, float & t, float & r, float & b)

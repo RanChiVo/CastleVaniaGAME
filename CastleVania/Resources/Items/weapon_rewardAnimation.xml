@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+<animations>
+  <animation name ="WEAPONREWARD_ANI" default_time="100" rewind="true">
+    <animation_frame sprite_id ="weapon_reward1"/>
+  </animation >
+</animations>
+
+</loadresource>

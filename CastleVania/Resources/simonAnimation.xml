@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<loadresource>
+  <animations>
+    <animation name ="SIMON_ANI_WALKING" default_time="100" rewind="true">
+      <animation_frame sprite_id ="Walking1"/>
+      <animation_frame sprite_id ="Walking2"/>
+      <animation_frame sprite_id ="Walking3"/>
+      <animation_frame sprite_id ="Walking4"/>
+    </animation>
+    
+    <animation name ="SIMON_ANI_ATTACK_STANDING" default_time="200" rewind="false">
+      <animation_frame sprite_id ="AttackStand1"/>
+      <animation_frame sprite_id ="AttackStand2"/>
+      <animation_frame sprite_id ="AttackStand3"/>
+    </animation>
+    
+    <animation name ="SIMON_ANI_ATTACK_SITDOWN" default_time="200" rewind="false">
+      <animation_frame sprite_id ="AttackSitdown1"/>
+      <animation_frame sprite_id ="AttackSitdown2"/>
+      <animation_frame sprite_id ="AttackSitdown3"/>
+    </animation>
+    
+    <animation name ="SIMON_ANI_IDLE" default_time="100" rewind="false">
+      <animation_frame sprite_id ="Walking4"/>
+    </animation>
+
+    <animation name ="SIMON_ANI_JUMPING" default_time="100" rewind="false">
+      <animation_frame sprite_id ="Jump"/>
+    </animation>
+
+    <animation name ="SIMON_ANI_SITDOWN" default_time="100" rewind="false">
+      <animation_frame sprite_id ="Sitdown"/>
+    </animation>
+    
+      <animation name ="SIMON_ANI_COLOR" default_time="100" rewind="false">
+      <animation_frame sprite_id ="1ChangeColor1"/>
+      <animation_frame sprite_id ="1ChangeColor2"/>
+      <animation_frame sprite_id ="1ChangeColor3"/>
+    </animation>
+
+    <animation name ="SIMON_ANI_COLOR1" default_time="100" rewind="false">
+      <animation_frame sprite_id ="2ChangeColor1"/>
+      <animation_frame sprite_id ="2ChangeColor2"/>
+      <animation_frame sprite_id ="2ChangeColor3"/>
+    </animation>
+
+    <animation name ="SIMON_ANI_GO_STAIR" default_time="100" rewind="true">
+      <animation_frame sprite_id ="GoUpStair1"/>
+      <animation_frame sprite_id ="GoUpStair2"/>
+      <animation_frame sprite_id ="GoUpStair3"/>
+    </animation>
+
+   <animation name ="SIMON_ANI_IDLE_STAIR" default_time="100" rewind="true">
+      <animation_frame sprite_id ="GoUpStair1"/>
+      </animation>
+  
+  </animations>
+</loadresource>

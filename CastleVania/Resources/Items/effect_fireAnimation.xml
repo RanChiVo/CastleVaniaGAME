@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+
+  <animations>
+  <animation name ="ANI_EFFECT" default_time="100" rewind="false">
+    <animation_frame sprite_id ="effect1"/>
+    <animation_frame sprite_id ="effect2"/>
+    <animation_frame sprite_id ="effect3"/>
+  </animation >
+</animations>
+  </loadresource>
+  

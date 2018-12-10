@@ -5,6 +5,13 @@
 #include "../Candle.h"
 #include "../PodiumOnWall.h"
 #include "../WallEntrance.h"
+#include "../CollisionStair.h"
+#include "../GameObjects/Zombie.h"
+#include "../GameObjects/Cross.h"
+#include "../GameObjects/SmallHeart.h"
+#include "../GameObjects/FireBomb.h"
+#include "../GameObjects/StopWatch.h"
+#include "../GameObjects/MiraculousBag.h"
 
 void GameplayScreen::init()
 {
@@ -36,7 +43,6 @@ void GameplayScreen::update(float dt)
 	}
 	else
 	{
-
 		for (int i = 0; i < objectslv2.size(); i++)
 		{
 			staticObjects.push_back(objectslv2[i]);
@@ -145,26 +151,25 @@ void GameplayScreen::loadResources()
 			WallEntrance* wallEntrance = new WallEntrance(object.second);
 			objects.push_back(wallEntrance);
 		}
+		else if (object.first.second == "heart")
+		{
+			Heart* heart = new Heart(object.second);
+			objects.push_back(heart);
+		}
+		else if (object.first.second == "weapon_reward")
+		{
+			WeaponReward* weaponReward = new WeaponReward(object.second);
+			objects.push_back(weaponReward);
+		}
+		else if (object.first.second == "katana")
+		{
+			Katana* katana = new Katana(object.second);
+			objects.push_back(katana);
+		}
 		
 	}
-
-	Heart* heart = new Heart(D3DXVECTOR2(0, -100));
-	objects.push_back(heart);
-
-	WeaponReward* weaponReward = new WeaponReward(D3DXVECTOR2(0, -100));
-	objects.push_back(weaponReward);
-
-	heart = new Heart(D3DXVECTOR2(0, -100));
-	objects.push_back(heart);
-
-	weaponReward = new WeaponReward(D3DXVECTOR2(0, -100));
-	objects.push_back(weaponReward);
-
-	Katana* katana = new Katana(D3DXVECTOR2(0, -100));
-	objects.push_back(katana);
-
-	MiraculousBag* miraculousBag = new MiraculousBag(D3DXVECTOR2(0, -100));
-	objects.push_back(miraculousBag);
+	
+	
 
 	KatanaWeapon * katanaWeapon = new KatanaWeapon(D3DXVECTOR2(-200, -100));
 	objects.push_back(katanaWeapon);
@@ -180,7 +185,7 @@ void GameplayScreen::loadResources()
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				PodiumOnWall* podium = new PodiumOnWall(D3DXVECTOR2((i + 1)* object.second.x, object.second.y));
+				PodiumOnWall* podium = new PodiumOnWall(D3DXVECTOR2( object.second.x  + PODIUM_WIDTH* i, object.second.y));
 				objectslv2.push_back(podium);
 			}
 		}
@@ -188,7 +193,7 @@ void GameplayScreen::loadResources()
 		{
 			for (int i = 0; i < 10; i++)
 			{
-				PodiumOnWall* podium = new PodiumOnWall(D3DXVECTOR2((i + 1)* object.second.x, object.second.y));
+				PodiumOnWall* podium = new PodiumOnWall(D3DXVECTOR2(object.second.x + PODIUM_WIDTH * i, object.second.y));
 				objectslv2.push_back(podium);
 			}
 		}
@@ -196,7 +201,7 @@ void GameplayScreen::loadResources()
 		{
 			for (int i = 0; i < 6; i++)
 			{
-				PodiumOnWall* podium = new PodiumOnWall(D3DXVECTOR2((i + 1)* object.second.x, object.second.y));
+				PodiumOnWall* podium = new PodiumOnWall(D3DXVECTOR2(object.second.x + PODIUM_WIDTH * i, object.second.y));
 				objectslv2.push_back(podium);
 			}
 		}
@@ -204,11 +209,68 @@ void GameplayScreen::loadResources()
 		{
 			for (int i = 0; i < 10; i++)
 			{
-				PodiumOnWall* podium = new PodiumOnWall(D3DXVECTOR2((i + 1)* object.second.x, object.second.y));
+				PodiumOnWall* podium = new PodiumOnWall(D3DXVECTOR2(object.second.x + PODIUM_WIDTH * i, object.second.y));
 				objectslv2.push_back(podium);
 			}
 		}
+		else if (object.first.second == "collisionStair")
+		{
+			CollisionStair* collisionStair = new CollisionStair(object.second);
+			objectslv2.push_back(collisionStair);
+		}
+		else if (object.first.second == "wall_frontof_entrance")
+		{
+			CBrick* Brick = new CBrick(object.second);
+			objectslv2.push_back(Brick);
+		}
+		else if (object.first.second == "wall_behind_entrance")
+		{
+			WallEntrance* wallEntrance = new WallEntrance(object.second);
+			objectslv2.push_back(wallEntrance);
+		}
+		else if (object.first.second == "heart")
+		{
+			Heart* heart = new Heart(object.second);
+			objectslv2.push_back(heart);
+		}
+		else if (object.first.second == "weapon_reward")
+		{
+			WeaponReward* weaponReward = new WeaponReward(object.second);
+			objectslv2.push_back(weaponReward);
+		}
+		else if (object.first.second == "smallheart")
+		{
+			SmallHeart* small_heart = new SmallHeart(object.second);
+			objectslv2.push_back(small_heart);
+		}
+		else if (object.first.second == "cross")
+		{
+			Cross* cross = new Cross(object.second);
+			objectslv2.push_back(cross);
+		}
+		else if (object.first.second == "fire_bomb")
+		{
+			FireBomb* fire_bomb = new FireBomb(object.second);
+			objectslv2.push_back(fire_bomb);
+		}
+		else if (object.first.second == "money_bag")
+		{
+			MiraculousBag* miraculousBag = new MiraculousBag(object.second);
+			objectslv2.push_back(miraculousBag);
+		}
 	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		Zombie* zombie = new Zombie();
+		zombie->SetPosition(D3DXVECTOR2(3000 - i * 60, 0));
+		objectslv2.push_back(zombie);
+
+		zombie = new Zombie();
+		zombie->SetPosition(D3DXVECTOR2(2500 - i * 60, 0));
+		objectslv2.push_back(zombie);
+	}
+	
 }
 
 GameplayScreen::GameplayScreen()

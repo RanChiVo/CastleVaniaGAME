@@ -3,47 +3,18 @@
 #include "BurnBarrel.h"
 #include "Simon.h"
 
-
-constexpr int WHIT_ANI_HIT_1 = 16;
-constexpr int WHIT_ANI_HIT_2 = 17;
-constexpr int WHIT_ANI_HIT_3 = 18;
-
-
 Whip::Whip(D3DXVECTOR2 position)
 {
 	id = ID_TEX_WHIP;
 	x = position.x;
 	y = position.y;
 
-	LPANIMATION ani;
-
-	ani = new Animation(200);
-	ani->Add("1Attack1");
-	ani->Add("1Attack2");
-	ani->Add("1Attack3");
-
-	Animations::GetInstance()->Add(WHIT_ANI_HIT_1, ani);
-
-	ani = new Animation(200);
-	ani->Add("2Attack1");
-	ani->Add("2Attack2");
-	ani->Add("2Attack3");
-
-	Animations::GetInstance()->Add(WHIT_ANI_HIT_2, ani);
-
-	ani = new Animation(200);
-	ani->Add("3Attack1");
-	ani->Add("3Attack2");
-	ani->Add("3Attack3");
-
-	Animations::GetInstance()->Add(WHIT_ANI_HIT_3, ani);
-
-	AddAnimation(WHIT_ANI_HIT_1);
-	AddAnimation(WHIT_ANI_HIT_2);
-	AddAnimation(WHIT_ANI_HIT_3);
+	AddAnimation(TYPE1_WHIP);
+	AddAnimation(TYPE2_WHIP);
+	AddAnimation(TYPE3_WHIP);
 
 	state = WHIT_STATE_1;
-	currentAnimation = WHIT_ANI_HIT_1;
+	currentAnimation = TYPE1_WHIP;
 }
 
 void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
@@ -145,20 +116,19 @@ void Whip::Render(Viewport * viewport)
 
 }
 
-bool Whip::checkCollision(RECT A, RECT B)
-{
-	float left = B.left - A.right;
-	float top = B.bottom - A.top;
-	float right = B.right - A.left;
-	float bottom = B.top - A.bottom;
-
-	if (left < 0 && right > 0 && top > 0 && bottom < 0)
-	{
-		return true;
-	}
-	return false;
-	//return !(left > 0 || right < 0 || top < 0 || bottom > 0);
-}
+//bool Whip::checkCollision(RECT A, RECT B)
+//{
+//	float left = B.left - A.right;
+//	float top = B.bottom - A.top;
+//	float right = B.right - A.left;
+//	float bottom = B.top - A.bottom;
+//
+//	if (left < 0 && right > 0 && top > 0 && bottom < 0)
+//	{
+//		return true;
+//	}
+//	return false;
+//}
 
 RECT Whip::getBounding()
 {
@@ -169,15 +139,15 @@ void Whip::draw(int direct, Viewport* viewport)
 {
 	if (state == WHIT_STATE_1)
 	{
-			currentAnimation = WHIT_ANI_HIT_1;
+			currentAnimation = TYPE1_WHIP;
 	}
 	else if (state == WHIT_STATE_2)
 	{
-			currentAnimation = WHIT_ANI_HIT_2;
+			currentAnimation = TYPE2_WHIP;
 	}
 	else if (state == WHIT_STATE_3)
 	{
-			currentAnimation = WHIT_ANI_HIT_3;
+			currentAnimation = TYPE3_WHIP;
 	}
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
@@ -200,8 +170,21 @@ void Whip::GetBoundingBox(float & left, float & top, float & right, float & bott
 {
 	left = x;
 	top = y;
+	RECT r;
 
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("1Attack3")->getRect();
+	switch (state)
+	{
+	case WHIT_STATE_1:
+		r = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("type1_whip_3")->getRect();
+		break;
+	case WHIT_STATE_2:
+		r = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("type2_whip_3")->getRect();
+		break;
+	case WHIT_STATE_3:
+		r = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("type3_whip_3")->getRect();
+		break;
+	}
+	
 	float height = r.bottom - r.top;
 	float width = r.right - r.left;
 	right = x + width;

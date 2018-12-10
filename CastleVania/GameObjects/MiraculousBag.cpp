@@ -1,9 +1,7 @@
 #include "MiraculousBag.h"
 #include "../ResourceManagement.h"
 
-constexpr int  MIRACULOUSBAG_ANI_HIDE = 30;
-constexpr int  MIRACULOUSBAG_ANI_SHOW = 31;
-constexpr float MIRACULOUSBAG_GRAVITY = 0.002f;
+constexpr float MIRACULOUSBAG_GRAVITY = 0.0001f;
 
 
 MiraculousBag::MiraculousBag()
@@ -19,42 +17,16 @@ MiraculousBag::MiraculousBag(D3DXVECTOR2 position)
 	x = position.x;
 	y = position.y;
 
-	LPANIMATION ani;
 
-	ani = new Animation(150);
-	ani->Add("miraculous_bag1");
-	Animations::GetInstance()->Add(MIRACULOUSBAG_ANI_HIDE, ani);
-
-	ani = new Animation(150);
-	ani->Add("miraculous_bag1");
-	ani->Add("miraculous_bag2");
-	ani->Add("miraculous_bag3");
-
-	Animations::GetInstance()->Add(MIRACULOUSBAG_ANI_SHOW, ani);
-
-	AddAnimation(MIRACULOUSBAG_ANI_HIDE);
-	AddAnimation(MIRACULOUSBAG_ANI_SHOW);
+	AddAnimation(MIRACULOUSBAG_ANI);
 
 	state = MIRACULOUSBAG_STATE_HIDE;
-	currentAnimation = MIRACULOUSBAG_ANI_HIDE;
+	currentAnimation = MIRACULOUSBAG_ANI;
 }
 
 void MiraculousBag::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt, coObjects);
-
-	if (state == MIRACULOUSBAG_STATE_HIDE)
-	{
-		currentAnimation = MIRACULOUSBAG_ANI_HIDE;
-	}
-	else if (state = MIRACULOUSBAG_STATE_SHOW)
-	{
-		currentAnimation = MIRACULOUSBAG_ANI_SHOW;
-
-		if (animations.find(currentAnimation)->second->getCurrentFrame() == 3)
-
-			animations.find(currentAnimation)->second->SetFinish1(true);
-	}
 }
 
 void MiraculousBag::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -71,11 +43,15 @@ void MiraculousBag::GetBoundingBox(float & left, float & top, float & right, flo
 
 void MiraculousBag::Render(Viewport * viewport)
 {
-	animations.find(currentAnimation)->second->SetLoop(true);
-	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	Flip flip = flip_horiz;
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
-	RenderBoundingBox(viewport);
+	if (state == MIRACULOUSBAG_STATE_SHOW)
+	{
+		animations.find(currentAnimation)->second->SetLoop(true);
+		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+		Flip flip = flip_horiz;
+		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		RenderBoundingBox(viewport);
+	}
+	else return;
 }
 
 

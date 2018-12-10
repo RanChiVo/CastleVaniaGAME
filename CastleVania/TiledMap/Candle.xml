@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_TEX_CANDLE"  name="Candle">
+    <image source="TiledMap\Candle.png" width="32" height="32"/>
+  </imagelayer>
+
+  <sprites>
+    <spriteframe id="Candle1" left = "0" top="0" right="16" bottom="32"/>
+    <spriteframe id="Candle2" left = "16" top="0" right="32" bottom="32"/>
+  </sprites>
+  
+</loadresource>

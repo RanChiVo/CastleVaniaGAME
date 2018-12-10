@@ -2,10 +2,7 @@
 #include "../ResourceManagement.h"
 #include "Katana.h"
 
-constexpr int  KATANA_ANI_HIDE = 28;
-constexpr int  KATANA_ANI_SHOW = 29;
-constexpr float KATANA_GRAVITY = 0.02f;
-
+constexpr float KATANA_GRAVITY = 0.0006f;
 
 Katana::Katana()
 {
@@ -18,43 +15,18 @@ Katana::Katana(D3DXVECTOR2 position)
 	x = position.x;
 	y = position.y;
 
-	LPANIMATION ani;
-
-	ani = new Animation(40);
-	ani->Add("katana1");
-	Animations::GetInstance()->Add(KATANA_ANI_HIDE, ani);
-
-	ani = new Animation(40);
-	ani->Add("Effect1");
-	ani->Add("Effect2");
-	ani->Add("Effect3");
-	ani->Add("Effect4");
-	ani->Add("katana1");
-
-	Animations::GetInstance()->Add(KATANA_ANI_SHOW, ani);
-
-	AddAnimation(KATANA_ANI_HIDE);
-	AddAnimation(KATANA_ANI_SHOW);
+	AddAnimation(KATANA_ANI);
 
 	state = KATANA_STATE_HIDE;
-	currentAnimation = KATANA_ANI_HIDE;
+	currentAnimation = KATANA_ANI;
 }
 
 void Katana::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt, coObjects);
-
-	if (state == KATANA_STATE_HIDE)
+	
+	if (state == KATANA_STATE_SHOW)
 	{
-		currentAnimation = KATANA_ANI_HIDE;
-	}
-	else if (state = KATANA_STATE_SHOW)
-	{
-		currentAnimation = KATANA_ANI_SHOW;
-
-		if (animations.find(currentAnimation)->second->getCurrentFrame() == 4)
-
-			animations.find(currentAnimation)->second->SetFinish1(true);
 
 		vy += KATANA_GRAVITY * dt;
 
@@ -80,6 +52,7 @@ void Katana::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
+	else return;
 }
 
 void Katana::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -96,11 +69,18 @@ void Katana::GetBoundingBox(float & left, float & top, float & right, float & bo
 
 void Katana::Render(Viewport * viewport)
 {
-	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	Flip flip;
-	if (nx == 1) flip = normal;
-	else flip = flip_horiz;
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	if (state == KATANA_STATE_SHOW)
+	{
+		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+		Flip flip;
+		if (nx == 1) flip = normal;
+		else flip = flip_horiz;
+		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	}
+	else
+	{
+		return;
+	}
 }
 
 Katana::~Katana()

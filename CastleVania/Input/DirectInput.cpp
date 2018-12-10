@@ -74,6 +74,11 @@ int DirectInput::IsKeyDown(int KeyCode)
 	return ((keyStates[KeyCode] & 0x80) > 0);
 }
 
+int DirectInput::IsKeyUp(int KeyCode)
+{
+	return ((keyStates[KeyCode] & 0x80) <= 0);
+}
+
 void DirectInput::ProcessKeyboard()
 {
 	HRESULT hr;

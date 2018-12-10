@@ -1,8 +1,5 @@
 #include "Candle.h"
 
-
-constexpr int CANDLE_ANI = 33;
-
 Candle::Candle()
 {
 }
@@ -17,11 +14,6 @@ Candle::Candle(D3DXVECTOR2 position)
 	y = position.y - height;
 
 	LPANIMATION ani;
-
-	ani = new Animation(150);
-	ani->Add("Candle1");
-	ani->Add("Candle2");
-	Animations::GetInstance()->Add(CANDLE_ANI, ani);
 
 	AddAnimation(CANDLE_ANI);
 

@@ -1,5 +1,7 @@
 #include "ResourceManagement.h"
 #include "Direct3DManager.h"
+#include "Library/pugixml.hpp"
+#include "TO_LPCWSTR.h"
 
 ResourceManagement * ResourceManagement::__instance = nullptr;
 
@@ -27,134 +29,68 @@ TiledMap * ResourceManagement::getTiledMap(EntityID id)
 
 void ResourceManagement::loadResource()
 {
-	loadTexture(ID_TEX_SIMON, L"Resources\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
 	Textures::GetInstance()->Add(ID_TEX_BBOX, L"Resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 
-	sprites->Add("Walking1", RECT{ 0, 0, 60, 66 }, texSimon);
-	sprites->Add("Walking2", RECT{ 60, 0, 120, 66 }, texSimon);
-	sprites->Add("Walking3", RECT{ 120, 0, 180, 66 }, texSimon);
-	sprites->Add("Walking4", RECT{ 180, 0, 240, 66 }, texSimon);
+	readSpriteFromFile("Resources\\simon.xml");
+	readAnimationFromFile("Resources\\simonAnimation.xml");
 
+	readSpriteFromFile("Resources\\whip.xml");
+	readAnimationFromFile("Resources\\whipAnimation.xml");
 
-	//jump right	
-	sprites->Add("Jump", RECT{ 240, 0, 300, 66 }, texSimon);
+	readSpriteFromFile("Resources\\Items\\burn_barrel.xml");
+	readAnimationFromFile("Resources\\Items\\burn_barrelAnimation.xml");
 
-	//sit down right
-	sprites->Add("Sitdown", RECT{ 240, -9, 300, 57 }, texSimon);
+	readSpriteFromFile("Resources\\Items\\effect_fire.xml");
+	readAnimationFromFile("Resources\\Items\\effect_fireAnimation.xml");
 
-	//facing backward
-	//resourceManagement->loadSprites(10040, 857, 65, 891, 131, ID_TEX_SIMON);
+	readSpriteFromFile("Resources\\Items\\star.xml");
+	readAnimationFromFile("Resources\\Items\\starAnimation.xml");
 
-	//attack standing right
-	sprites->Add("AttackStand1", RECT{ 300, 66, 360, 132 }, texSimon);
-	sprites->Add("AttackStand2", RECT{ 360, 66, 420, 132 }, texSimon);
-	sprites->Add("AttackStand3", RECT{ 420, 66, 480, 132}, texSimon);
-	
-	//attack Sitdown right
-	sprites->Add("AttackSitdown1", RECT{ 300, -9, 360, 57 }, texSimon);
-	sprites->Add("AttackSitdown2", RECT{ 360, -9, 420, 57 }, texSimon);
-	sprites->Add("AttackSitdown3", RECT{ 420, -9, 480, 57 }, texSimon);
+	readSpriteFromFile("Resources\\Items\\heart.xml");
+	readAnimationFromFile("Resources\\Items\\heartAnimation.xml");
 
-	//change color right
-	sprites->Add("1ChangeColor1", RECT{ 180, 264, 240, 330 }, texSimon);
-	sprites->Add("1ChangeColor2", RECT{ 240, 264, 300, 330 }, texSimon);
-	sprites->Add("1ChangeColor3", RECT{ 300, 264, 360, 330 }, texSimon);
+	readSpriteFromFile("Resources\\Items\\weapon_reward.xml");
+	readAnimationFromFile("Resources\\Items\\weapon_rewardAnimation.xml");
 
-	//change color left
+	readSpriteFromFile("Resources\\Items\\katana.xml");
+	readAnimationFromFile("Resources\\Items\\katanaAnimation.xml");
 
-	sprites->Add("2ChangeColor1", RECT{ 0, 198, 60, 264 }, texSimon);
-	sprites->Add("2ChangeColor2", RECT{ 60, 198, 120, 264 }, texSimon);
-	sprites->Add("2ChangeColor3", RECT{ 120, 198, 180, 264 }, texSimon);
+	readSpriteFromFile("Resources\\Items\\miraculous_bag.xml");
+	readAnimationFromFile("Resources\\Items\\miraculous_bagAnimation.xml");
 
-	SpriteMapper[EntityID::ID_TEX_SIMON] = sprites;
+	readSpriteFromFile("Resources\\Enemy\\zombie.xml");
+	readAnimationFromFile("Resources\\Enemy\\zombieAnimation.xml");
 
-	loadTexture(ID_TEX_WHIP, L"Resources\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 texWhip = textures->Get(ID_TEX_WHIP);
+	readSpriteFromFile("TiledMap\\Candle.xml");
+	readAnimationFromFile("TiledMap\\CandleAnimation.xml");
 
-	sprites->Add("1Attack1", RECT{ 0, 7, 18, 55 }, texWhip);
-	sprites->Add("1Attack2", RECT{ 41, 1, 73, 39 }, texWhip);
-	sprites->Add("1Attack3", RECT{ 95, 5, 141, 21 }, texWhip);
+	readSpriteFromFile("TiledMap\\WallCastle.xml");
+	readAnimationFromFile("TiledMap\\WallCastleAnimation.xml");
 
-	sprites->Add("2Attack1", RECT{ 0, 60, 18, 110 }, texWhip);
-	sprites->Add("2Attack2", RECT{ 40, 58, 72, 96 }, texWhip);
-	sprites->Add("2Attack3", RECT{ 94, 68, 172, 80 }, texWhip);
+	readSpriteFromFile("Resources\\Items\\small_heart.xml");
+	readAnimationFromFile("Resources\\Items\\small_heartAnimation.xml");
 
-	sprites->Add("3Attack1", RECT{ 0, 124, 18, 170 }, texWhip);
-	sprites->Add("3Attack2", RECT{ 40, 118, 72, 156 }, texWhip);
-	sprites->Add("3Attack3", RECT{ 94, 128, 172, 140 }, texWhip);
+	readSpriteFromFile("Resources\\Items\\fire_bomb.xml");
+	readAnimationFromFile("Resources\\Items\\firebombAnimation.xml");
 
-	sprites->Add("4Attack1", RECT{ 0, 184, 18, 230 }, texWhip);
-	sprites->Add("4Attack2", RECT{ 40, 178, 72, 216 }, texWhip);
-	sprites->Add("4Attack3", RECT{ 94, 188, 172, 200 }, texWhip);
-	
-	SpriteMapper[EntityID::ID_TEX_WHIP] = sprites;
+	readSpriteFromFile("Resources\\Items\\cross.xml");
+	readAnimationFromFile("Resources\\Items\\crossAnimation.xml");
 
-	loadTexture(ID_TEX_BURNBARREL, L"Resources\\Items\\burn_barrel.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 texBurnBarrel = textures->Get(ID_TEX_BURNBARREL);
-	loadTexture(ID_TEX_EFFECT, L"Resources\\Items\\effect.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 texEffect = textures->Get(ID_TEX_EFFECT);
-	sprites->Add("Burn1", RECT{ 0, 0, 32, 64 }, texBurnBarrel);
-	sprites->Add("Burn2", RECT{ 32, 0, 64, 64 }, texBurnBarrel);
-	sprites->Add("Effect1", RECT{ 20, 0, 50, 40}, texEffect);
-	sprites->Add("Effect2", RECT{ 60, 0, 70, 40 }, texEffect);
-	sprites->Add("Effect3", RECT{ 100, 0, 120, 40 }, texEffect);
-	sprites->Add("Effect4", RECT{ 140, 0, 160, 40 }, texEffect);
+	readSpriteFromFile("Resources\\Items\\stop_watch.xml");
+	readAnimationFromFile("Resources\\Items\\stop_watchAnimation.xml");
 
-	SpriteMapper[EntityID::ID_TEX_BURNBARREL] = sprites;
+	LPANIMATION ani;
 
-
-	loadTexture(ID_TEX_CANDLE, L"TiledMap\\Candle.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 texCandle = textures->Get(ID_TEX_CANDLE);
-	sprites->Add("Candle1", RECT{ 0, 0, 16, 32 }, texCandle);
-	sprites->Add("Candle2", RECT{ 16, 0, 32, 32 }, texCandle);
-
-	SpriteMapper[EntityID::ID_TEX_CANDLE] = sprites;
-
-	textures->Add(ID_TEX_MAINMENU, L"Resources\\Screens\\mainmenu.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 texMenu = textures->Get(ID_TEX_MAINMENU);
-	sprites->Add("Texture1", RECT{ 0, 0, 640, 480 }, texMenu);
-
-	SpriteMapper[EntityID::ID_TEX_MAINMENU] = sprites;
-
-	loadTexture(ID_TEX_HEART, L"Resources\\Items\\heart.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 texHeart = textures->Get(ID_TEX_HEART);
-	sprites->Add("Heart1", RECT{ 0, 0, 24, 20 }, texHeart);
-
-	SpriteMapper[EntityID::ID_TEX_HEART] = sprites;
-
-	loadTexture(ID_TEX_WEAPON_REWARD, L"Resources\\Items\\weapon_reward.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 texWeapon_reward = textures->Get(ID_TEX_WEAPON_REWARD);
-	sprites->Add("weapon_reward1", RECT{ 0, 0, 30, 30 }, texWeapon_reward);
-
-	SpriteMapper[EntityID::ID_TEX_WEAPON_REWARD] = sprites;
-	
-	loadTexture(ID_TEX_KATANA, L"Resources\\Items\\katana.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 texKatana = textures->Get(ID_TEX_KATANA);
-	sprites->Add("katana1", RECT{ 0, 0, 30, 20 }, texKatana);
-
-	SpriteMapper[EntityID::ID_TEX_KATANA] = sprites;
-
-	loadTexture(ID_TEX_MIRACULOUS_BAG, L"Resources\\Items\\miraculous_bag.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 texMiraculous_bag = textures->Get(ID_TEX_MIRACULOUS_BAG);
-	sprites->Add("miraculous_bag1", RECT{ 0, 0, 30, 30 }, texMiraculous_bag);
-	sprites->Add("miraculous_bag2", RECT{ 30, 0, 60, 30 }, texMiraculous_bag);
-	sprites->Add("miraculous_bag3", RECT{ 60, 0, 90, 30 }, texMiraculous_bag);
-
-	SpriteMapper[EntityID::ID_TEX_MIRACULOUS_BAG] = sprites;
-
-	loadTexture(ID_TEX_WALL, L"Resources\\misc.png", D3DCOLOR_XRGB(176, 224, 248));
-	LPDIRECT3DTEXTURE9 texBrick = textures->Get(ID_TEX_WALL);
-	sprites->Add("brick1", RECT{ 408, 225, 424, 241 }, texBrick);
-
-	SpriteMapper[EntityID::ID_TEX_WALL] = sprites;
-
-
-	loadTexture(ID_TEX_CASTLEVANIA_WALL, L"TiledMap\\WallCastle.png", D3DCOLOR_XRGB(176, 224, 248));
-	LPDIRECT3DTEXTURE9 texCastle_Wall = textures->Get(ID_TEX_CASTLEVANIA_WALL);
-	sprites->Add("CASTLEVANIA_WALL", RECT{ 0, 0, 97, 288 }, texCastle_Wall);
-
-	SpriteMapper[EntityID::ID_TEX_CASTLEVANIA_WALL] = sprites;
+	for (auto idAnimation : AnimationMapper)
+	{
+			ani = new Animation(idAnimation.first.second);
+			for (int i = 0; i < idAnimation.second.size(); i++)
+			{
+				ani->Add(idAnimation.second[i]);
+			}
+			ANI_ID aniID = stringToAniID[idAnimation.first.first];
+			Getanimations->Add(aniID, ani);
+	}
 
 	TiledMap* tiled_map = new TiledMap();
 
@@ -166,7 +102,6 @@ void ResourceManagement::loadResource()
 
 	TiledMapList[EntityID::ID_TEX_MAP_ENTRANCE] = tiled_map;
 
-
 	tiled_map = new TiledMap();
 
 	textures->Add(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\GamePlay1.png", D3DCOLOR_XRGB(255, 0, 255));
@@ -176,6 +111,71 @@ void ResourceManagement::loadResource()
 	tiled_map->readMapfromfile("TiledMap\\GamePlay.tmx", textPlayScreen);
 
 	TiledMapList[EntityID::ID_TEX_MAP_PLAYGAME] = tiled_map;
+}
+
+void ResourceManagement::readAnimationFromFile(std::string resourcepath)
+{
+	pugi::xml_document doc;
+
+	pugi::xml_parse_result result = doc.load_file(resourcepath.c_str());
+
+	if (!result)
+	{
+		OutputDebugString(L"[ERROR] Reading failed\n");
+		return;
+	}
+
+	auto sourceDoc = doc.child("loadresource").child("animations");
+
+	for (auto ani : sourceDoc.children("animation"))
+	{
+		std::string idAnimation = ani.attribute("name").as_string();
+		int defaultTime = ani.attribute("default_time").as_int();
+		std::vector <std::string> idSpriteList;
+		for (auto aniFrame: ani.children("animation_frame"))
+		{
+			idSpriteList.push_back(aniFrame.attribute("sprite_id").as_string());
+		}
+		AnimationMapper.emplace(std::make_pair(idAnimation, defaultTime), idSpriteList);
+	}
+}
+
+void ResourceManagement::readSpriteFromFile(std::string resourcepath)
+{
+	pugi::xml_document doc;
+
+	pugi::xml_parse_result result = doc.load_file(resourcepath.c_str());
+
+	if (!result)
+	{
+		OutputDebugString(L"[ERROR] Reading failed\n");
+		return;
+	}
+
+	auto sourceDoc = doc.child("loadresource");
+	std::string idText = sourceDoc.child("imagelayer").attribute("id").as_string();
+	EntityID idTextfromfile = stringToEntityID[idText];
+
+	std::string pathImage = sourceDoc.child("imagelayer").child("image").attribute("source").as_string();
+	std::wstring pathImagefromfile = StringToLPCWSTR(pathImage);
+	LPCWSTR pathImageLoad = pathImagefromfile.c_str();
+
+	loadTexture(idTextfromfile, pathImageLoad, D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 texID = textures->Get(idTextfromfile);
+
+	auto sprites = sourceDoc.child("sprites");
+	for (auto sprite : sprites.children("spriteframe"))
+	{
+		std::string id_sprite_from_file = sprite.attribute("id").as_string();
+		int l, t, r, b;
+		RECT rect = RECT{};
+		l = sprite.attribute("left").as_int();	t = sprite.attribute("top").as_int();
+		b = sprite.attribute("bottom").as_int(); r = sprite.attribute("right").as_int();
+		rect.left = l; rect.top = t;
+		rect.right = r; rect.bottom = b;
+		this->sprites->Add(id_sprite_from_file, rect, texID);
+	}
+	SpriteMapper[idTextfromfile] = this->sprites;
 }
 
 void ResourceManagement::loadFont(LPTSTR path)
@@ -206,6 +206,66 @@ ResourceManagement::ResourceManagement()
 	textures = Textures::GetInstance();
 	sprites = Sprites::GetInstance();
 	Getanimations = Animations::GetInstance();
+
+	stringToEntityID = {
+	{"ID_TEX_SIMON",EntityID::ID_TEX_SIMON },
+	{"ID_TEX_MAINMENU",EntityID::ID_TEX_MAINMENU },
+	{"ID_TEX_GAMEPLAYSCREEN",EntityID::ID_TEX_GAMEPLAYSCREEN },
+	{"ID_TEX_WHIP",EntityID::ID_TEX_WHIP },
+	{"ID_TEX_BURNBARREL",EntityID::ID_TEX_BURNBARREL },
+	{"ID_TEX_BBOX",EntityID::ID_TEX_BBOX },
+	{"ID_TEX_HEART",EntityID::ID_TEX_HEART },
+	{"ID_TEX_EFFECT",EntityID::ID_TEX_EFFECT },
+	{"ID_TEX_STAR",EntityID::ID_TEX_STAR },
+	{"ID_TEX_WEAPON_REWARD",EntityID::ID_TEX_WEAPON_REWARD },
+	{"ID_TEX_KATANA",EntityID::ID_TEX_KATANA },
+	{"ID_TEX_MIRACULOUS_BAG",EntityID::ID_TEX_MIRACULOUS_BAG },
+	{"ID_TEX_WALL",EntityID::ID_TEX_WALL },
+	{"ID_TEX_FLOOR",EntityID::ID_TEX_FLOOR },
+	{"ID_TEX_ENTRANCE",EntityID::ID_TEX_ENTRANCE },
+	{"ID_TEX_KATANA_WEAPON",EntityID::ID_TEX_KATANA_WEAPON },
+	{"ID_TEX_MAP_ENTRANCE",EntityID::ID_TEX_MAP_ENTRANCE },
+	{"ID_TEX_MAP_PLAYGAME",EntityID::ID_TEX_MAP_PLAYGAME },
+	{"ID_TEX_CASTLEVANIA_WALL",EntityID::ID_TEX_CASTLEVANIA_WALL },
+	{"ID_TEX_CANDLE",EntityID::ID_TEX_CANDLE },
+	{"ID_TEX_PODIUM_ON_WALL",EntityID::ID_TEX_PODIUM_ON_WALL },
+	{"ID_TEX_WALL_ENTRANCE",EntityID::ID_TEX_WALL_ENTRANCE },
+	{"ID_TEX_ZOMBIE",EntityID::ID_TEX_ZOMBIE },
+	{"ID_TEX_SMALL_HEART",EntityID::ID_TEX_SMALL_HEART },
+	{"ID_TEX_CROSS",EntityID::ID_TEX_CROSS },
+	{"ID_TEX_FIRE_BOMB",EntityID::ID_TEX_FIRE_BOMB },
+	};
+
+	stringToAniID = {
+	{"SIMON_ANI_IDLE", ANI_ID::SIMON_ANI_IDLE },
+	{"SIMON_ANI_WALKING", ANI_ID::SIMON_ANI_WALKING},
+	{"SIMON_ANI_JUMPING", ANI_ID::SIMON_ANI_JUMPING},
+	{"SIMON_ANI_SITDOWN", ANI_ID::SIMON_ANI_SITDOWN},
+	{"SIMON_ANI_ATTACK_STANDING", ANI_ID::SIMON_ANI_ATTACK_STANDING},
+	{"SIMON_ANI_ATTACK_SITDOWN", ANI_ID::SIMON_ANI_ATTACK_SITDOWN},
+	{"SIMON_ANI_COLOR", ANI_ID::SIMON_ANI_COLOR},
+	{"SIMON_ANI_COLOR1", ANI_ID::SIMON_ANI_COLOR1},
+	{"TYPE1_WHIP",ANI_ID::TYPE1_WHIP},
+	{"TYPE2_WHIP", ANI_ID::TYPE2_WHIP},
+	{"TYPE3_WHIP",ANI_ID::TYPE3_WHIP},
+	{"TYPE4_WHIP",ANI_ID::TYPE4_WHIP},
+	{"BURNBARREL_ANI", ANI_ID::BURNBARREL_ANI},
+	{"CANDLE_ANI", ANI_ID::CANDLE_ANI},
+	{"ANI_EFFECT", ANI_ID::ANI_EFFECT},
+	{"HEART_ANI", ANI_ID::HEART_ANI},
+	{"WEAPONREWARD_ANI", ANI_ID::WEAPONREWARD_ANI},
+	{"KATANA_ANI", ANI_ID::KATANA_ANI},
+	{"MIRACULOUSBAG_ANI", ANI_ID::MIRACULOUSBAG_ANI},
+	{"CASTLE_ANI", ANI_ID::CASTLE_ANI},
+	{"SIMON_ANI_GO_STAIR", ANI_ID::SIMON_ANI_GO_STAIR},
+	{"SIMON_ANI_IDLE_STAIR", ANI_ID::SIMON_ANI_IDLE_STAIR},
+	{"ZOMBIE_ANI_WALKING", ANI_ID::ZOMBIE_ANI_WALKING},
+	{"SMALL_HEART_ANI", ANI_ID::SMALL_HEART_ANI},
+	{"STOP_WATCH_ANI", ANI_ID::STOP_WATCH_ANI},
+	{"CROSS_ANI", ANI_ID::CROSS_ANI},
+	{"FIRE_BOMB_ANI", ANI_ID::FIRE_BOMB_ANI},
+
+	};
 }
 
 ResourceManagement * ResourceManagement::GetInstance()

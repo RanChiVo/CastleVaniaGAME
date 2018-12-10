@@ -21,7 +21,7 @@ public:
 	int getCurrentAnimation();
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	void Render(Viewport* viewport);
-	bool checkCollision(RECT A, RECT B);
+	//bool checkCollision(RECT A, RECT B);
 	RECT getBounding();
 
 	void draw(int direct, Viewport* viewport);

@@ -2,7 +2,7 @@
 #include "GameObjects/GameObject.h"
 
 constexpr int PODIUM_WIDTH = 32;
-constexpr int PODIUM_HEIGHT = 25;
+constexpr int PODIUM_HEIGHT = 32;
 
 class PodiumOnWall : public GameObject
 {

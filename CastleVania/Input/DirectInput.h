@@ -31,6 +31,7 @@ public:
 
 	void initKeyboard(HWND hWnd);
 	int IsKeyDown(int KeyCode);
+	int IsKeyUp(int KeyCode);
 	void ProcessKeyboard();
 	LPDIRECTINPUTDEVICE8 getdidv() { return didv; }
 	DIDEVICEOBJECTDATA getKeyEvents(int i) { return keyEvents[i]; }

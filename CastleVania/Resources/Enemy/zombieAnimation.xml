@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<loadresource>
+  <animations>
+    <animation name ="ZOMBIE_ANI_WALKING" default_time="100" rewind="true">
+      <animation_frame sprite_id ="zombie_walking1"/>
+      <animation_frame sprite_id ="zombie_walking2"/>
+    </animation>
+  </animations>
+</loadresource>

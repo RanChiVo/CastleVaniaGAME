@@ -22,7 +22,11 @@ public:
 	void SetRECT( RECT r);
 
 	RECT getRect();
-		
+	
+	std::string getID();
+
+	LPDIRECT3DTEXTURE9 getText();
+
 	void Draw(D3DXVECTOR2 position);
 
 	void Draw(D3DXVECTOR2 position, int alpha);

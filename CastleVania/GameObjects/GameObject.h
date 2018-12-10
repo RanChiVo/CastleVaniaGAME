@@ -61,6 +61,8 @@ public:
 	virtual int getID();
 	virtual int GetDirection() { return this->nx; }
 	virtual bool IsChangeLevel();
+	virtual bool checkCollision(RECT A, RECT B);
+
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	void RenderBoundingBox(Viewport* viewport);
 	void setNewposition(D3DXVECTOR2 pos);

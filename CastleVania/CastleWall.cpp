@@ -1,6 +1,5 @@
 #include "CastleWall.h"
 #include "Animations/Animations.h"
-constexpr int CASTLE_ANI = 100;
 
 CastleWall::CastleWall()
 {

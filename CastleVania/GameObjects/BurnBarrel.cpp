@@ -4,9 +4,6 @@
 #include "../Animations/Animations.h"
 #include "../ResourceManagement.h"
 
-constexpr int BURNBARREL_ANI = 22;
-
-
 BurnBarrel::BurnBarrel()
 {
 }
@@ -20,23 +17,25 @@ BurnBarrel::BurnBarrel(D3DXVECTOR2 position)
 	x = position.x;
 	y = position.y - height;
 
-	LPANIMATION ani;
-
-	ani = new Animation(150);
-	ani->Add("Burn1");
-	ani->Add("Burn2");
-	Animations::GetInstance()->Add(BURNBARREL_ANI, ani);
-
-
 	AddAnimation(BURNBARREL_ANI);
+	AddAnimation(ANI_EFFECT);
 
+	state = BURN_STATE_NOMAL;
 	currentAnimation = BURNBARREL_ANI;
 	nx = 1;
 }
 
 void BurnBarrel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	GameObject::Update(dt, coObjects);
+	GameObject::Update(dt);
+	//if (state == BURN_STATE_NOMAL)
+	//{
+	//	currentAnimation == BURNBARREL_ANI;
+	//}
+	//else if(state == BURN_STATE_EFFECT)
+	//{
+	//	currentAnimation == ANI_EFFECT;
+	//}
 }
 
 void BurnBarrel::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -55,7 +54,7 @@ void BurnBarrel::Render(Viewport * viewport)
 {
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-	Flip flip = flip_horiz;
+	Flip flip = normal;
 
 	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 }

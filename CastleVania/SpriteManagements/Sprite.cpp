@@ -22,6 +22,16 @@ RECT Sprite::getRect()
 	return rect;
 }
 
+std::string Sprite::getID()
+{
+	return id;
+}
+
+LPDIRECT3DTEXTURE9 Sprite::getText()
+{
+	return texture;
+}
+
 void Sprite::Draw(D3DXVECTOR2 position)
 {
 	D3DXVECTOR3 p(position.x, position.y, 0);

@@ -7,33 +7,6 @@
 #include "../GameObjects/Katana.h"
 #include "../KatanaWeapon.h"
 
-constexpr float SIMON_MOVE_SPEED = 0.1f;
-constexpr int SIMON_JUMP_VEL = 350;
-constexpr float SIMON_JUMP_SPEED_Y = 0.4f;
-
-constexpr float SIMON_GRAVITY = 0.01f;
-constexpr int SIMON_ATTACK_TIME = 600;
-constexpr int SIMON_PROTECT_TIME = 2000;
-
-constexpr int SIMON_ANI_IDLE = 0;
-constexpr int SIMON_ANI_WALKING = 1;
-
-constexpr int SIMON_ANI_JUMPING = 2;
-
-constexpr int SIMON_ANI_SITDOWN = 3;
-
-constexpr int SIMON_ANI_ATTACK_STANDING = 4;
-constexpr int SIMON_ANI_ATTACK_SITDOWN = 5;
-
-constexpr int SIMON_ANI_COLOR = 6;
-
-constexpr int SIMON_ANI_COLOR1 = 7;
-
-
-constexpr int SIMON_UNTOUCHABLE_TIME = 5000;
-
-constexpr int SIMON_ENTRANCE_TIME = 3000;
-
 class Simon: public GameObject
 {
 private: 
@@ -56,6 +29,12 @@ private:
 		SIMON_STATE_DIE,
 		SIMON_STATE_CHANGECOLOR,
 		SIMON_STATE_CHANGECOLOR1,
+		SIMON_STATE_GO_UP_STAIR_RIGHT,
+		SIMON_STATE_GO_UP_STAIR_LEFT,
+		SIMON_STATE_GO_DOWN_STAIR_RIGHT,
+		SIMON_STATE_GO_DOWN_STAIR_LEFT,
+		SIMON_STATE_IDLE_UP_STAIR_LEFT,
+		SIMON_STATE_IDLE_DOWN_STAIR_RIGHT,
 	};
 
 	int ani;
@@ -66,7 +45,7 @@ private:
 	bool checkRewind = false;
 	bool throwKatana = false;
 	bool isRender = true;
-
+	bool checkUp = true;
 	Whip* whip;
 	KatanaWeapon* katanaWeapon;
 
@@ -95,10 +74,9 @@ public:
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
 
+
 	int getWidthWorld();
 	
-
-
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 

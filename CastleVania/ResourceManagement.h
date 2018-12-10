@@ -9,6 +9,8 @@
 #include "EntityID.h"
 #include "TiledMap.h"
 #include <unordered_map>
+#include <map>
+#include <vector>
 
 #pragma once
 class ResourceManagement
@@ -20,8 +22,14 @@ private:
 	TiledMap* tiled_map;
 
 public:
+	std::unordered_map<std::string, EntityID> stringToEntityID;
+	std::unordered_map<std::string, ANI_ID> stringToAniID;
 	std::unordered_map<EntityID, Sprites*> SpriteMapper;
+	std::vector< Sprite > spriteReadFromFile;
+	std::map<EntityID, vector< Sprite >> infoSprite;
 	std::unordered_map<EntityID, TiledMap*> TiledMapList;
+	std::map<std::pair<std::string, int>, vector<std::string>> AnimationMapper;
+
 	Textures * textures;
 	Sprites* sprites;
 	Animations* Getanimations;
@@ -34,7 +42,9 @@ public:
 	void loadFont(LPTSTR path);
 	void loadTexture(int id, LPCWSTR filePath, D3DCOLOR transparentColor);
 	void loadSprites(std::string id, RECT r, int idCharater);
-
+	
+	void readAnimationFromFile(std::string resourcepath);
+	void readSpriteFromFile(std::string resourcepath);
 	static ResourceManagement * GetInstance();
 
 	~ResourceManagement();

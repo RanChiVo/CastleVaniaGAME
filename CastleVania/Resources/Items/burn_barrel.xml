@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_TEX_BURNBARREL"  name="BurnBarrel">
+    <image source="Resources\Items\burn_barrel.png" width="176" height="241"/>
+  </imagelayer>
+  
+  <sprites>
+    <spriteframe id="Burn1" left = "0" top="0" right="32" bottom="64"/>
+    <spriteframe id="Burn2" left = "32" top="0" right="64" bottom="64"/>
+  </sprites>
+</loadresource>

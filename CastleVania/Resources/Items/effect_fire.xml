@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_TEX_EFFECT"  name="EffectFire">
+    <image source="Resources\Items\effect_fire.png" width="128" height="44"/>
+  </imagelayer>
+
+  <sprites>
+    <spriteframe id="effect1" left = "18" top="26" right="24" bottom="36"/>
+    <spriteframe id="effect2" left = "58" top="12" right="70" bottom="36"/>
+    <spriteframe id="effect3" left = "98" top="16" right="114" bottom="36"/>
+  </sprites>
+
+</loadresource>

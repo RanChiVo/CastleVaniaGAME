@@ -1,7 +1,7 @@
 #pragma once
 #include "../CastleVania/GameObjects/GameObject.h"
 
-constexpr int BRICK_BBOX_WIDTH = 16;
+constexpr int BRICK_BBOX_WIDTH = 25;
 constexpr int BRICK_BBOX_HEIGHT = 312;
 
 class CBrick : public GameObject
