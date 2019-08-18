@@ -3,6 +3,7 @@
 #include "Viewport.h"
 #include "SpriteManagements/Sprite.h"
 #include "TileSet.h"
+#include "ObjectInfo.h"
 #include <map>
 #include <vector>
 
@@ -20,12 +21,12 @@ private:
 	int tileHeight;
 
 	TileSet* tileset;
-	std::map<std::pair<int,string>, D3DXVECTOR2> ObjectInfo;
+	std::vector<ObjectInfo*> objectInfo;
 	
 public:
 	TiledMap();
 	void readMapfromfile(std::string resourcepath, LPDIRECT3DTEXTURE9 IDtex);
-	std::map<std::pair<int, string>, D3DXVECTOR2>getObjectInfo();
+	std::vector<ObjectInfo*> getObjectInfo();
 	void draw(Viewport* viewport);
 	float getWidthWorld();
 	float getHeightWorld();

@@ -3,8 +3,10 @@
 #include <d3dx9.h>
 #include "DebugOut/DebugOut.h"
 #include "Textures/Textures.h"	
+#include "GameObjects/GameObject.h"
 #include "SpriteManagements/Sprites.h"
 #include "Animations/Animations.h"
+#include "ObjectInfo.h"
 #include <string>
 #include "EntityID.h"
 #include "TiledMap.h"
@@ -25,8 +27,6 @@ public:
 	std::unordered_map<std::string, EntityID> stringToEntityID;
 	std::unordered_map<std::string, ANI_ID> stringToAniID;
 	std::unordered_map<EntityID, Sprites*> SpriteMapper;
-	std::vector< Sprite > spriteReadFromFile;
-	std::map<EntityID, vector< Sprite >> infoSprite;
 	std::unordered_map<EntityID, TiledMap*> TiledMapList;
 	std::map<std::pair<std::string, int>, vector<std::string>> AnimationMapper;
 

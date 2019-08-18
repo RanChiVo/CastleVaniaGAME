@@ -3,12 +3,9 @@
 
 constexpr float FIRE_BOMB_GRAVITY = 0.0006f;
 
-FireBomb::FireBomb(D3DXVECTOR2 position)
+FireBomb::FireBomb()
 {
 	id = ID_TEX_FIRE_BOMB;
-
-	x = position.x;
-	y = position.y;
 
 	AddAnimation(FIRE_BOMB_ANI);
 
@@ -42,20 +39,20 @@ void FireBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (ny != 0) vy = 0;
 
 			y += min_ty * dy + ny * 0.4f;
-
 		}
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
+	else if (state == FIRE_BOMB_STATE_HIDE)
+	{
+		SetPosition(D3DXVECTOR2(-100, -100));
+	};
 }
 
 void FireBomb::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	left = x;
 	top = y;
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_FIRE_BOMB)->Get("fire_bomb1")->getRect();
-	int height = r.bottom - r.top;
-	int width = r.right - r.left;
 	right = x + width;
 	bottom = y + height;
 }

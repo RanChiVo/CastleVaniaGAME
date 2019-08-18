@@ -4,7 +4,6 @@
 constexpr int WEAPONREWARD_STATE_HIDE = 1;
 constexpr int WEAPONREWARD_STATE_SHOW = 2;
 
-
 class WeaponReward : public GameObject
 {
 	int untouchable;

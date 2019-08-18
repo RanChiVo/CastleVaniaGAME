@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_TEX_DOUBLE_SHOOT"  name="double_shoot">
+    <image source="Resources\MenuGame\black.png" width="42" height="42"/>
+  </imagelayer>
+  
+  <sprites>
+    <spriteframe id="double_shoot1" left = "0" top="0" right="42" bottom="42"/>
+    
+  </sprites>
+</loadresource>

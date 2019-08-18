@@ -7,6 +7,9 @@ constexpr int SMALL_HEART_STATE_SHOW = 2;
 class SmallHeart :public GameObject
 {
 	int untouchable;
+	int originalLocation;
+	float specifications;
+	float delta;
 	DWORD untouchable_start;
 
 public:
@@ -14,6 +17,8 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Render(Viewport* viewport);
+	void movement();
 	~SmallHeart();
 };
 
+			

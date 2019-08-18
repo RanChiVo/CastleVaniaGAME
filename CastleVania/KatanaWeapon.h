@@ -18,7 +18,7 @@ class KatanaWeapon : public GameObject
 	int height;
 
 public:
-	KatanaWeapon(D3DXVECTOR2 position);
+	KatanaWeapon();
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	void Render(Viewport* viewport);
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);

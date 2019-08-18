@@ -2,6 +2,8 @@
 #include <d3dx9.h>
 #include "DebugOut/DebugOut.h"
 #include "Library/pugixml.hpp"
+#include "ResourceManagement.h"
+#include "EntityID.h"
 
 TiledMap::TiledMap()
 {
@@ -32,20 +34,31 @@ void TiledMap::readMapfromfile(std::string resourcepath, LPDIRECT3DTEXTURE9 IDte
 	tileset->createTileSet(tilesInMapWidth, tilesInMapHeight);
 
 	auto objectGroupNode = sourceDoc.child("objectgroup");
-	int id = 0;
+
 	for (auto objectNode : objectGroupNode.children("object"))
 	{
+		int id = objectNode.attribute("id").as_int();
 		std::string name = objectNode.attribute("name").as_string();
 		float x = objectNode.attribute("x").as_float();
 		float y = objectNode.attribute("y").as_float();
-		ObjectInfo.emplace(std::make_pair(id, name), D3DXVECTOR2(x, y));
-		id++;
+		int width = objectNode.attribute("width").as_int();
+		int height = objectNode.attribute("height").as_int();
+		
+		auto properties = objectNode.child("properties");
+		std::string idHiddenItemString = properties.child("property").attribute("value").as_string();
+
+		ResourceManagement* resource = ResourceManagement::GetInstance();
+		
+		ObjectInfo* info_object = new ObjectInfo(id, name, height, width, D3DXVECTOR2(x, y), idHiddenItemString);
+		objectInfo.push_back(info_object);
 	}
+
+
 }
 
-std::map<std::pair<int, string>, D3DXVECTOR2> TiledMap::getObjectInfo()
+std::vector<ObjectInfo*> TiledMap::getObjectInfo()
 {
-	return ObjectInfo;
+	return objectInfo;
 }
 
 void TiledMap::draw(Viewport* viewport)

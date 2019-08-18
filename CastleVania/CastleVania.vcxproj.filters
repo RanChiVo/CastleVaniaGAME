@@ -165,7 +165,16 @@
     <ClCompile Include="GameObjects\Cross.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ItemInfo.cpp">
+    <ClCompile Include="ObjectInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaZombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuPoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\BlackLeopard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -326,7 +335,16 @@
     <ClInclude Include="GameObjects\Cross.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ItemInfo.h">
+    <ClInclude Include="ObjectInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaZombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\BlackLeopard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

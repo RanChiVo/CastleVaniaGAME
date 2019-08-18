@@ -7,10 +7,8 @@ constexpr float CROSS_GRAVITY = 0.0006f;
 Cross::Cross(D3DXVECTOR2 position)
 {
 	id = ID_TEX_CROSS;
-
-	x = position.x;
-	y = position.y;
-
+	this->x = position.x;
+	this->y = position.y;
 	LPANIMATION ani;
 
 	AddAnimation(WEAPONREWARD_ANI);

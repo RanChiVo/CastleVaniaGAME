@@ -39,6 +39,9 @@
    <spriteframe id="GoDownStair1" left = "240" top="66" right="300" bottom="132"/>
    <spriteframe id="GoDownStair2" left = "60" top="66" right="120" bottom="132"/>
    <spriteframe id="GoDownSTair3" left = "240" top="66" right="300" bottom="132"/>
+
+   <spriteframe id="Hurt1" left = "240" top="66" right="300" bottom="132"/>
+	
      
  </sprites>
   

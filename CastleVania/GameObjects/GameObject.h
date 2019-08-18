@@ -7,7 +7,6 @@
 #include "../Viewport.h"
 #include "../EntityID.h"
 
-
 using namespace std;
 
 class GameObject;
@@ -29,45 +28,56 @@ struct CCollisionEvent
 class GameObject	
 {
 protected:
-
+	int id;
 	float x;
 	float y;
-
-	float dx;	// dx = vx*dt
-	float dy;	// dy = vy*dt
-
+	int height;
+	int width;
+	float dx;	
+	float dy;	
 	float vx;
 	float vy;
-
 	int nx;
-	DWORD dt;
-
 	int state;
 	int currentAnimation;
-	D3DXVECTOR2 newpos = { 0, 0 };
-	
+	bool isChangeLevel = false;
+	bool isCollision = false;
+	bool isActive = false;
+
+	std::string name;
+	std::string idHiddenItem;
+	DWORD dt;
 	static unordered_map<int, LPANIMATION> animations;
 
-	int id;
-	int widthworld;
-	bool isChangeLevel = false;
-
 public:
+	GameObject();
 		
 	virtual void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
+	virtual D3DXVECTOR2 getPosition();
 	virtual void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
+	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	virtual void SetCurrentAni(int currentAni) { this->currentAnimation = currentAni; }
 	virtual int GetState() { return this->state; }
 	virtual int getID();
+	virtual int getHeight();
+	virtual void setHeight(int height);
+	virtual int getWidth();
+	virtual int getDirection();
+	virtual void setWidth(int width);
+	virtual std::string getIdHiddenItem();
+	virtual void setIdHiddenItem(std::string idHiddenItem);
+	virtual std::string getName();
+	virtual void setName(std::string name);
+	virtual bool IsActive();
+	virtual void SetActive(bool is_activate);
+
 	virtual int GetDirection() { return this->nx; }
 	virtual bool IsChangeLevel();
 	virtual bool checkCollision(RECT A, RECT B);
+	virtual bool IsCollision();
+	virtual bool setIscollision(bool isCollision);
 
-	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	void RenderBoundingBox(Viewport* viewport);
-	void setNewposition(D3DXVECTOR2 pos);
-	D3DXVECTOR2 getNewPos();
-	void setWidthWorld(int widthWorld);
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
@@ -79,8 +89,6 @@ public:
 		float &nx,
 		float &ny);
 	static void AddAnimation(int aniId);
-	D3DXVECTOR2 getPosition();
-	GameObject();
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render(Viewport* viewport) = 0;

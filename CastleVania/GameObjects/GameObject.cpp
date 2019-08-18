@@ -15,6 +15,61 @@ int GameObject::getID()
 	return id;
 }
 
+int GameObject::getHeight()
+{
+	return this->height;
+}
+
+void GameObject::setHeight(int height)
+{
+	this->height = height;
+}
+
+int GameObject::getWidth()
+{
+	return this->width;
+}
+
+int GameObject::getDirection()
+{
+	return nx;
+}
+
+void GameObject::setWidth(int width)
+{
+	this->width = width;
+}
+
+std::string GameObject::getIdHiddenItem()
+{
+	return idHiddenItem;
+}
+
+void GameObject::setIdHiddenItem(std::string idHiddenItem)
+{
+	this->idHiddenItem = idHiddenItem;
+}
+
+std::string GameObject::getName()
+{
+	return std::string();
+}
+
+void GameObject::setName(std::string name)
+{
+	this->name = name;
+}
+
+bool GameObject::IsActive()
+{
+	return this->isActive;
+}
+
+void GameObject::SetActive(bool is_active)
+{
+	this->isActive = is_active;
+}
+
 bool GameObject::IsChangeLevel()
 {
 	return isChangeLevel;
@@ -68,22 +123,6 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 	sprite->Draw(pos, 100);
 }
 
-void GameObject::setNewposition(D3DXVECTOR2 pos)
-{
-	newpos.x = pos.x;
-	newpos.y = pos.y;
-}
-
-D3DXVECTOR2 GameObject::getNewPos()
-{
-	return newpos;
-}
-
-void GameObject::setWidthWorld(int widthWorld)
-{
-	this->widthworld = widthWorld;
-}
-
 bool GameObject::checkCollision(RECT A, RECT B)
 {
 	float left = B.left - A.right;
@@ -91,11 +130,17 @@ bool GameObject::checkCollision(RECT A, RECT B)
 	float right = B.right - A.left;
 	float bottom = B.top - A.bottom;
 
-	if (left < 0 && right > 0 && top > 0 && bottom < 0)
-	{
-		return true;
-	}
-	return false;
+	return !(left > 0 || right < 0 || top < 0 || bottom > 0);
+}
+
+bool GameObject::IsCollision()
+{	
+	return isCollision;
+}
+
+bool GameObject::setIscollision(bool isCollision)
+{
+	return isCollision;
 }
 
 LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)

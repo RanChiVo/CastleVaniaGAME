@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_TEX_TRIPLE_SHOOT"  name="triple_shoot">
+    <image source="Resources\MenuGame\triple_shoot.png" width="5" height="10"/>
+  </imagelayer>
+  
+  <sprites>
+    <spriteframe id="triple_shoot1" left = "0" top="0" right="5" bottom="10"/>
+    
+  </sprites>
+</loadresource>

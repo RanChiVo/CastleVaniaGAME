@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<loadresource>
+  <animations>
+    <animation name ="BLACK_LEOPARD_ANI_IDLE" default_time="100" rewind="true">
+      <animation_frame sprite_id ="balck_leopard1"/>
+    </animation>
+
+    <animation name ="BLACK_LEOPARD_ANI_MOVE" default_time="100" rewind="true">
+      <animation_frame sprite_id ="balck_leopard1"/>
+      <animation_frame sprite_id ="balck_leopard2"/>
+      <animation_frame sprite_id ="balck_leopard3"/>
+      <animation_frame sprite_id ="balck_leopard4"/>
+</animation>
+  </animations>
+</loadresource>

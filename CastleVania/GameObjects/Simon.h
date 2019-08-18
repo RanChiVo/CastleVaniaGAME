@@ -14,7 +14,7 @@ private:
 
 	int level = 1;
 
-	enum State 
+	enum State
 	{
 		SIMON_STATE_IDLE,
 		SIMON_STATE_WALKING_RIGHT,
@@ -33,8 +33,12 @@ private:
 		SIMON_STATE_GO_UP_STAIR_LEFT,
 		SIMON_STATE_GO_DOWN_STAIR_RIGHT,
 		SIMON_STATE_GO_DOWN_STAIR_LEFT,
-		SIMON_STATE_IDLE_UP_STAIR_LEFT,
-		SIMON_STATE_IDLE_DOWN_STAIR_RIGHT,
+		SIMON_STATE_IDLE_ON_STAIR,
+		SIMON_STATE_ATTACK_UP_ON_STAIR_RIGHT,
+		SIMON_STATE_ATTACK_UP_ON_STAIR_LEFT,
+		SIMON_STATE_ATTACK_DOWN_ON_STAIR_RIGHT,
+		SIMON_STATE_ATTACK_DOWN_ON_STAIR_LEFT,
+		SIMON_STATE_HURT,
 	};
 
 	int ani;
@@ -43,15 +47,21 @@ private:
 	bool jumped = false;
 	bool attacking = false;
 	bool checkRewind = false;
-	bool throwKatana = false;
-	bool isRender = true;
-	bool checkUp = true;
+	bool touchRect = false;
+	bool isOnStair = false;
+	float positition_stair;
+	int new_y = 0;
+
+	std::string stair_direction;
 	Whip* whip;
 	KatanaWeapon* katanaWeapon;
 
-	std::vector<LPGAMEOBJECT> objectList;
-	std::vector< LPGAMEOBJECT> objectFloor;
+	std::vector<LPGAMEOBJECT> objectCollision;
+	std::vector< LPGAMEOBJECT> objectItem;
+	std::vector<LPGAMEOBJECT> enemyList;
+
 	std::vector<LPGAMEOBJECT> itemList;
+	std::vector<LPGAMEOBJECT> HPList;
 
 public:
 	Simon();
@@ -74,6 +84,7 @@ public:
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
 
+	vector<LPGAMEOBJECT> getItemList();
 
 	int getWidthWorld();
 	

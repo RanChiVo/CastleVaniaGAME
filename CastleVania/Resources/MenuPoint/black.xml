@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_TEX_BLACK"  name="black">
+    <image source="Resources\MenuGame\black.png" width="30" height="30"/>
+  </imagelayer>
+  
+  <sprites>
+    <spriteframe id="balck1" left = "0" top="0" right="30" bottom="30"/>
+    
+  </sprites>
+</loadresource>

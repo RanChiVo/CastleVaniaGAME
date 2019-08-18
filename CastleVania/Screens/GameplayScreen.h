@@ -14,6 +14,7 @@
 #include "../Input/DirectInput.h"
 #include "../Viewport.h"
 #include "../Game.h"
+#include "../MenuPoint.h"
 
 class GameplayScreen: public ScreenBase
 {
@@ -27,7 +28,12 @@ private:
 	TiledMap * tile_map;
 	ResourceManagement* resourceManagement;
 	RECT rect;
-	
+	DWORD timer_zombie = 0;
+	DWORD TIME_ZOMBIE = 5000;
+	MenuPoint* menu_point;
+	bool isActive = false;
+	int time = 0;
+
 public:
 
 	void init() override;
@@ -35,6 +41,8 @@ public:
 	void update(float dt) override;
 	void updateViewport(float dt);
 	void renderObject() override;
+	void createZombie(Viewport* viewport);
+	void getInfoFromObjectInfo( ObjectInfo *info, LPGAMEOBJECT object);
 
 	GameplayScreen();
 	~GameplayScreen();

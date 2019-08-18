@@ -2,8 +2,6 @@
 
 #include "GameObject.h"
 
-constexpr int FLOOR_BBOX_WIDTH = 4000;
-constexpr int FLOOR_BBOX_HEIGHT = 30;
 
 class Floor : public GameObject
 {
@@ -16,4 +14,3 @@ public:
 
 	~Floor();
 };
-

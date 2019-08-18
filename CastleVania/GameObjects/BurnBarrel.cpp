@@ -4,18 +4,10 @@
 #include "../Animations/Animations.h"
 #include "../ResourceManagement.h"
 
+
 BurnBarrel::BurnBarrel()
 {
-}
-
-BurnBarrel::BurnBarrel(D3DXVECTOR2 position)
-{
 	id = ID_TEX_BURNBARREL;
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_BURNBARREL)->Get("Burn1")->getRect();
-	int height = r.bottom - r.top;
-
-	x = position.x;
-	y = position.y - height;
 
 	AddAnimation(BURNBARREL_ANI);
 	AddAnimation(ANI_EFFECT);
@@ -28,35 +20,35 @@ BurnBarrel::BurnBarrel(D3DXVECTOR2 position)
 void BurnBarrel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt);
-	//if (state == BURN_STATE_NOMAL)
-	//{
-	//	currentAnimation == BURNBARREL_ANI;
-	//}
-	//else if(state == BURN_STATE_EFFECT)
-	//{
-	//	currentAnimation == ANI_EFFECT;
-	//}
+
+	if (state == BURN_STATE_HIDE)
+	{
+		SetPosition(D3DXVECTOR2(-100, -100));
+	}
 }
 
-void BurnBarrel::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+void BurnBarrel::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
-	left = x;
-	top = y;
-
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_BURNBARREL)->Get("Burn1")->getRect();
-	int height = r.bottom - r.top;
-	int width = r.right - r.left;
-	right = x + height;
-	bottom = y + width;
+	l = x;
+	t = y;
+	r = x + width;
+	b = y + height;
 }
 
 void BurnBarrel::Render(Viewport * viewport)
 {
-	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+	if (state == BURN_STATE_NOMAL)
+	{
+	//	RenderBoundingBox(viewport);
 
-	Flip flip = normal;
+		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		Flip flip = normal;
+
+		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	}
+	else return;
+
 }
 
 int BurnBarrel::getCurrentFrame()

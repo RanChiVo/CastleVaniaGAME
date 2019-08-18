@@ -12,6 +12,8 @@
 #include "../GameObjects/FireBomb.h"
 #include "../GameObjects/StopWatch.h"
 #include "../GameObjects/MiraculousBag.h"
+#include "../AreaZombie.h"
+#include "../GameObjects/BlackLeopard.h"
 
 void GameplayScreen::init()
 {
@@ -21,6 +23,8 @@ void GameplayScreen::init()
 
 void GameplayScreen::update(float dt)
 {
+	menu_point->update();
+
 	updateViewport(dt);
 	vector< LPGAMEOBJECT> staticObjects;
 
@@ -33,16 +37,30 @@ void GameplayScreen::update(float dt)
 
 		for (int i = 0; i < objects.size(); i++)
 		{
-			if (objects[0]->IsChangeLevel())
-			{
-				id = ID_TEX_MAP_PLAYGAME;
-
-			}
 			objects[i]->Update(dt, &staticObjects);
+
+			if (objects[i]->getID() == ID_TEX_SIMON)
+			{
+				if (objects[i]->IsChangeLevel())
+				{
+					id = ID_TEX_MAP_PLAYGAME;
+				}
+			}
 		}
 	}
 	else
 	{
+		staticObjects.clear();
+
+	/*	if (isActive)
+		{
+			if (timer_zombie >= TIME_ZOMBIE)
+			{
+				createZombie(viewport);
+			}
+
+		}
+*/
 		for (int i = 0; i < objectslv2.size(); i++)
 		{
 			staticObjects.push_back(objectslv2[i]);
@@ -50,13 +68,38 @@ void GameplayScreen::update(float dt)
 
 		for (int i = 0; i < objectslv2.size(); i++)
 		{
-			if (objectslv2[0]->IsChangeLevel())
+			objectslv2[i]->Update(dt, &staticObjects);
+			if (objectslv2[i]->getID() == ID_TEX_SIMON)
 			{
-				id = ID_TEX_MAP_PLAYGAME;
+				if (objectslv2[i]->IsCollision())
+				{
+					isActive = true;
+					//timer_zombie += dt;
+				}
+				else
+				{
+					isActive = false;
+				}
 
 			}
-			objectslv2[i]->Update(dt, &staticObjects);
 		}
+
+		/*for (int i = 0; i < objectslv2.size(); i++)
+		{
+			if (objectslv2[i]->getID() == ID_TEX_ZOMBIE)
+			{
+				float l, t, r, b;
+				objectslv2[i]->GetBoundingBox(l, t, r, b);
+				RECT rect1 = RECT{ int(l), int(t), int(r), int(b) };
+				int nx = objectslv2[i]->GetDirection();
+
+				if (nx == -1 && (rect1.right < viewport->getX()) || ((nx == 1) && (rect1.left > (viewport->getX() + viewport->getWidth()))))
+				{
+					objectslv2.erase(objectslv2.begin() + i);
+				}
+			}
+		}
+		*/
 	}
 }
 
@@ -85,192 +128,230 @@ void GameplayScreen::renderObject()
 	tile_map = resourceManagement->getTiledMap(id);
 	tile_map->draw(viewport);
 
+	menu_point->Draw();
+
 	if (id == ID_TEX_MAP_ENTRANCE)
 	{
 		for (int i = 0; i < objects.size(); i++)
 		{
-			if (i == 0)
-			{
-				objects[i]->setWidthWorld(tile_map->getWidthWorld());
-			}
 			objects[i]->Render(viewport);
 		}
 	}
 	else
 	{
-		objects.erase(objects.begin() + 2, objects.begin() + objects.size());
-		for (int i =  objectslv2.size() - 1; i >= 0; i--)
+		objects.clear();
+		for (int i = 0; i < objectslv2.size(); i++)
 		{
-			if (i == 0)
-			{
-				objectslv2[i]->setWidthWorld(tile_map->getWidthWorld());
-			}
 			objectslv2[i]->Render(viewport);
 		}
 	}
 }
 
+void GameplayScreen::createZombie(Viewport* viewport)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		Zombie* zombie = new Zombie();
+		zombie->SetState(ZOMBIE_STATE_WALKING_RIGHT);
+		zombie->SetPosition(D3DXVECTOR2(viewport->getX() + 60 * i, 325));
+		objectslv2.push_back(zombie);
+
+		zombie = new Zombie();
+		zombie->SetPosition(D3DXVECTOR2(viewport->getX() + viewport->getWidth() - i * 60, 325));
+		zombie->SetState(ZOMBIE_STATE_WALKING_LEFT);
+		objectslv2.push_back(zombie);
+	}
+	timer_zombie = 0;
+	
+}
+
+void GameplayScreen::getInfoFromObjectInfo(ObjectInfo *info, LPGAMEOBJECT object)
+{
+	object->setHeight(info->get_height());
+	object->setWidth(info->get_width());
+	object->setName(info->get_name());
+	object->setIdHiddenItem(info->get_idHiddenItem());
+}
+
 void GameplayScreen::loadResources()
 {
-	simon->loadResource();
-	objects.push_back(simon);
-	objectslv2.push_back(simon);
 
-	Floor* floor = new Floor();
-	floor->SetPosition(D3DXVECTOR2(0, 350));
-	objects.push_back(floor);
-	objectslv2.push_back(floor);
-
-	D3DXVECTOR2 posEntrance;
 
 	for (auto object : resourceManagement->getTiledMap(id)->getObjectInfo())
 	{
-		if (object.first.second == "CastleWall")
+		if (object->get_name() == "floor")
+		{
+			Floor* floor = new Floor();
+			floor->SetPosition(object->get_postition());
+			getInfoFromObjectInfo(object, floor);
+			objects.push_back(floor);
+		}
+		else if (object->get_name() == "CastleWall")
 		{
 			CastleWall* castlewall = new CastleWall();
-			castlewall->SetPosition(object.second);
+			castlewall->SetPosition(object->get_postition());
+			getInfoFromObjectInfo( object, castlewall);
 			objects.push_back(castlewall);
 		}
-		else if (object.first.second == "BurnBarrel")
+		else if (object->get_name() == "BurnBarrel")
 		{
-			BurnBarrel* burnbarrel = new BurnBarrel(object.second);
+			BurnBarrel* burnbarrel = new BurnBarrel();
+			getInfoFromObjectInfo(object, burnbarrel);
+			burnbarrel->SetPosition(D3DXVECTOR2(object->get_postition().x, object->get_postition().y - object->get_height()));
 			objects.push_back(burnbarrel);
 		}
-		else if (object.first.second == "Entrance")
+		else if (object->get_name() == "Entrance")
 		{
-			Entrance* entrance = new Entrance(object.second);
+			Entrance* entrance = new Entrance();
+			getInfoFromObjectInfo( object, entrance);
+			entrance->SetPosition(object->get_postition());
 			objects.push_back(entrance);
 		}
-		else if (object.first.second == "wall_frontof_entrance")
+		else if (object->get_name() == "wall_frontof_entrance")
 		{
-			CBrick* Brick = new CBrick(object.second);
+			CBrick* Brick = new CBrick();
+			getInfoFromObjectInfo(object, Brick);
+			Brick->SetPosition(object->get_postition());
 			objects.push_back(Brick);
 		}
-		else if (object.first.second == "wall_behind_entrance")
+		else if (object->get_name() == "wall_behind_entrance")
 		{
-			WallEntrance* wallEntrance = new WallEntrance(object.second);
+			WallEntrance* wallEntrance = new WallEntrance();
+			getInfoFromObjectInfo( object, wallEntrance);
+			wallEntrance->SetPosition(object->get_postition());
 			objects.push_back(wallEntrance);
+
 		}
-		else if (object.first.second == "heart")
+		else if (object->get_name() == "heart")
 		{
-			Heart* heart = new Heart(object.second);
+			Heart* heart = new Heart();
+			getInfoFromObjectInfo(object, heart);
 			objects.push_back(heart);
 		}
-		else if (object.first.second == "weapon_reward")
+		else if (object->get_name() == "weapon_reward")
 		{
-			WeaponReward* weaponReward = new WeaponReward(object.second);
+			WeaponReward* weaponReward = new WeaponReward(object->get_postition());
+			getInfoFromObjectInfo(object, weaponReward);
 			objects.push_back(weaponReward);
 		}
-		else if (object.first.second == "katana")
+		else if (object->get_name() == "katana")
 		{
-			Katana* katana = new Katana(object.second);
+			Katana* katana = new Katana(object->get_postition());
+			getInfoFromObjectInfo( object, katana);
 			objects.push_back(katana);
 		}
-		
+	
 	}
-	
-	
-
-	KatanaWeapon * katanaWeapon = new KatanaWeapon(D3DXVECTOR2(-200, -100));
+	KatanaWeapon * katanaWeapon = new KatanaWeapon();
 	objects.push_back(katanaWeapon);
 
 	for (auto object : resourceManagement->getTiledMap(ID_TEX_MAP_PLAYGAME)->getObjectInfo())
 	{
-		if (object.first.second == "Candle")
+		if (object->get_name() == "floor")
 		{
-			Candle* candle = new Candle(object.second);
+			Floor* floor = new Floor();
+			floor->SetPosition(D3DXVECTOR2(object->get_postition().x, object->get_postition().y));
+			getInfoFromObjectInfo(object, floor);
+			objectslv2.push_back(floor);
+		}
+		else if (object->get_name() == "Candle")
+		{
+			Candle* candle = new Candle();
+			getInfoFromObjectInfo(object, candle);
+			candle->SetPosition(D3DXVECTOR2(object->get_postition().x, object->get_postition().y - object->get_height()));
 			objectslv2.push_back(candle);
 		}
-		else if (object.first.second == "podium_on_wall1")
+		
+		else if (object->get_name() == "collisionStair")
 		{
-			for (int i = 0; i < 3; i++)
-			{
-				PodiumOnWall* podium = new PodiumOnWall(D3DXVECTOR2( object.second.x  + PODIUM_WIDTH* i, object.second.y));
-				objectslv2.push_back(podium);
-			}
-		}
-		else if (object.first.second == "podium_on_wall2")
-		{
-			for (int i = 0; i < 10; i++)
-			{
-				PodiumOnWall* podium = new PodiumOnWall(D3DXVECTOR2(object.second.x + PODIUM_WIDTH * i, object.second.y));
-				objectslv2.push_back(podium);
-			}
-		}
-		else if (object.first.second == "podium_on_wall3")
-		{
-			for (int i = 0; i < 6; i++)
-			{
-				PodiumOnWall* podium = new PodiumOnWall(D3DXVECTOR2(object.second.x + PODIUM_WIDTH * i, object.second.y));
-				objectslv2.push_back(podium);
-			}
-		}
-		else if (object.first.second == "podium_on_wall4")
-		{
-			for (int i = 0; i < 10; i++)
-			{
-				PodiumOnWall* podium = new PodiumOnWall(D3DXVECTOR2(object.second.x + PODIUM_WIDTH * i, object.second.y));
-				objectslv2.push_back(podium);
-			}
-		}
-		else if (object.first.second == "collisionStair")
-		{
-			CollisionStair* collisionStair = new CollisionStair(object.second);
+			CollisionStair* collisionStair = new CollisionStair(object->get_postition());
+			getInfoFromObjectInfo( object, collisionStair);
+			collisionStair->SetPosition(object->get_postition());
 			objectslv2.push_back(collisionStair);
+
 		}
-		else if (object.first.second == "wall_frontof_entrance")
+		else if (object->get_name() == "front_of_wall")
 		{
-			CBrick* Brick = new CBrick(object.second);
+			CBrick* Brick = new CBrick();
+			getInfoFromObjectInfo(object, Brick);
+			Brick->SetPosition(object->get_postition());
 			objectslv2.push_back(Brick);
 		}
-		else if (object.first.second == "wall_behind_entrance")
+		else if (object->get_name() == "behind_wall")
 		{
-			WallEntrance* wallEntrance = new WallEntrance(object.second);
+			WallEntrance* wallEntrance = new WallEntrance();
+			getInfoFromObjectInfo(object, wallEntrance);
+			wallEntrance->SetPosition(object->get_postition());
 			objectslv2.push_back(wallEntrance);
 		}
-		else if (object.first.second == "heart")
+		else if (object->get_name() == "heart")
 		{
-			Heart* heart = new Heart(object.second);
+			Heart* heart = new Heart();
+			getInfoFromObjectInfo(object, heart);
 			objectslv2.push_back(heart);
 		}
-		else if (object.first.second == "weapon_reward")
+		else if (object->get_name() == "small_heart")
 		{
-			WeaponReward* weaponReward = new WeaponReward(object.second);
-			objectslv2.push_back(weaponReward);
-		}
-		else if (object.first.second == "smallheart")
-		{
-			SmallHeart* small_heart = new SmallHeart(object.second);
+			SmallHeart* small_heart = new SmallHeart(object->get_postition());
+			getInfoFromObjectInfo( object, small_heart);
 			objectslv2.push_back(small_heart);
 		}
-		else if (object.first.second == "cross")
+		else if (object->get_name() == "cross")
 		{
-			Cross* cross = new Cross(object.second);
+			Cross* cross = new Cross(object->get_postition());
+			getInfoFromObjectInfo( object, cross);
 			objectslv2.push_back(cross);
 		}
-		else if (object.first.second == "fire_bomb")
+		else if (object->get_name() == "fire_bomb")
 		{
-			FireBomb* fire_bomb = new FireBomb(object.second);
+			FireBomb* fire_bomb = new FireBomb();
+			getInfoFromObjectInfo( object, fire_bomb);
+			fire_bomb->SetPosition(object->get_postition());
 			objectslv2.push_back(fire_bomb);
 		}
-		else if (object.first.second == "money_bag")
+		else if (object->get_name() == "money_bag")
 		{
-			MiraculousBag* miraculousBag = new MiraculousBag(object.second);
+			MiraculousBag* miraculousBag = new MiraculousBag();
+			getInfoFromObjectInfo(object, miraculousBag);
 			objectslv2.push_back(miraculousBag);
 		}
+	/*	else if (object->get_name() == "zombie_right")
+		{
+			Zombie* zombie = new Zombie();
+			getInfoFromObjectInfo(object, zombie);
+			zombie->SetPosition(object->get_postition());
+			zombie->SetState(ZOMBIE_STATE_WALKING_RIGHT);
+			objectslv2.push_back(zombie);
+		}*/
+		/*else if (object->get_name() == "zombie_left")
+		{
+			Zombie* zombie = new Zombie();
+			getInfoFromObjectInfo(object, zombie);
+			zombie->SetPosition(object->get_postition());
+			zombie->SetState(ZOMBIE_STATE_WALKING_LEFT);
+			objectslv2.push_back(zombie);
+		}*/
+		else if (object->get_name() == "areaZombie")
+		{
+			AreaZombie* area_zombie = new AreaZombie();
+			getInfoFromObjectInfo(object, area_zombie);
+			area_zombie->SetPosition(object->get_postition());
+			objectslv2.push_back(area_zombie);
+		}
+		else if (object->get_name() == "black_leopard")
+		{
+			BlackLeopard* black_leopard = new BlackLeopard();
+			getInfoFromObjectInfo(object, black_leopard);
+			black_leopard->SetPosition(D3DXVECTOR2(object->get_postition().x, object->get_postition().y - object->get_height()));
+			objectslv2.push_back(black_leopard);
+		}
+
 	}
 
-	for (int i = 0; i < 3; i++)
-	{
-		Zombie* zombie = new Zombie();
-		zombie->SetPosition(D3DXVECTOR2(3000 - i * 60, 0));
-		objectslv2.push_back(zombie);
+	simon->loadResource();
+	objects.push_back(simon);
+	objectslv2.push_back(simon);
 
-		zombie = new Zombie();
-		zombie->SetPosition(D3DXVECTOR2(2500 - i * 60, 0));
-		objectslv2.push_back(zombie);
-	}
-	
 }
 
 GameplayScreen::GameplayScreen()
@@ -284,8 +365,9 @@ GameplayScreen::GameplayScreen()
 	tile_map = new TiledMap();
 
 	id = ID_TEX_MAP_ENTRANCE;
+	
+	menu_point = new MenuPoint();
 }
-
 GameplayScreen::~GameplayScreen()
 {
 	delete simon;

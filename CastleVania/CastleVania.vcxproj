@@ -135,7 +135,9 @@
   <ItemGroup>
     <ClCompile Include="Animations\Animations.cpp" />
     <ClCompile Include="Animations\Animation.cpp" />
+    <ClCompile Include="AreaZombie.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="GameObjects\BlackLeopard.cpp" />
     <ClCompile Include="GameObjects\Boomerang.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Candle.cpp" />
@@ -151,7 +153,8 @@
     <ClCompile Include="Input\DirectInput.cpp" />
     <ClCompile Include="CastleVania.cpp" />
     <ClCompile Include="GameObjects\Katana.cpp" />
-    <ClCompile Include="ItemInfo.cpp" />
+    <ClCompile Include="MenuPoint.cpp" />
+    <ClCompile Include="ObjectInfo.cpp" />
     <ClCompile Include="ItemManger.cpp" />
     <ClCompile Include="KatanaWeapon.cpp" />
     <ClCompile Include="Library\pugixml.cpp" />
@@ -188,7 +191,9 @@
   <ItemGroup>
     <ClInclude Include="Animations\Animations.h" />
     <ClInclude Include="Animations\Animation.h" />
+    <ClInclude Include="AreaZombie.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="GameObjects\BlackLeopard.h" />
     <ClInclude Include="GameObjects\Boomerang.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Candle.h" />
@@ -206,7 +211,8 @@
     <ClInclude Include="Input\DirectInput.h" />
     <ClInclude Include="CastleVania.h" />
     <ClInclude Include="GameObjects\Katana.h" />
-    <ClInclude Include="ItemInfo.h" />
+    <ClInclude Include="MenuPoint.h" />
+    <ClInclude Include="ObjectInfo.h" />
     <ClInclude Include="ItemManger.h" />
     <ClInclude Include="KatanaWeapon.h" />
     <ClInclude Include="Library\pugiconfig.hpp" />

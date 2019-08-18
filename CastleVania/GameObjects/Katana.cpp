@@ -52,7 +52,10 @@ void Katana::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
-	else return;
+	else if (state == KATANA_STATE_HIDE)
+	{
+		SetPosition(D3DXVECTOR2(-100, -100));
+	}
 }
 
 void Katana::GetBoundingBox(float & left, float & top, float & right, float & bottom)

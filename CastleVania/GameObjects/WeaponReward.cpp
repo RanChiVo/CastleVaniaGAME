@@ -19,6 +19,8 @@ WeaponReward::WeaponReward(D3DXVECTOR2 position)
 
 	AddAnimation(WEAPONREWARD_ANI);
 
+	SetPosition(D3DXVECTOR2(0, 0));
+
 	state = WEAPONREWARD_STATE_HIDE;
 	currentAnimation = WEAPONREWARD_ANI;
 }
@@ -53,6 +55,10 @@ void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	}
+	else if (state == WEAPONREWARD_STATE_HIDE)
+	{
+		SetPosition(D3DXVECTOR2(-100, -100));
 	}
 }
 

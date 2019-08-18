@@ -10,19 +10,22 @@
 #include "../GameObjects/SmallHeart.h"
 #include "../GameObjects/FireBomb.h"
 #include "../GameObjects/StopWatch.h"
+#include "../Candle.h"
 #include "../Brick.h"
 #include "../GameObjects/Entrance.h"
 #include "../EntityID.h"
 #include "../Flip.h"
+#include "../GameObjects/Zombie.h"
 
 constexpr float SIMON_MOVE_SPEED = 0.1f;
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
-constexpr float SIMON_GRAVITY = 0.0009f;
+constexpr float SIMON_GRAVITY = 0.0007f;
 constexpr int SIMON_PROTECT_TIME = 2000;
-constexpr float SIMON_UP_STAIR_SPEED = 0.09f;
+constexpr float SIMON_UP_STAIR_SPEED_Y = 0.09f;
+constexpr float SIMON_UP_STAIR_SPEED_X = 0.09f;
 
-constexpr auto GROUND_POSITION = 293;
+constexpr auto GROUND_POSITION = 289;
 constexpr auto MAPSIZE_WIDTH = 1475;
 constexpr auto P0SITION_ENTRANCE = 1300;
 
@@ -30,76 +33,141 @@ constexpr int SIMON_UNTOUCHABLE_TIME = 5000;
 constexpr int SIMON_ENTRANCE_TIME = 3000;
 
 Simon::Simon()
-{	
+{
+	id = ID_TEX_SIMON;
 	DirectInput* directInput = DirectInput::getInstance();
 
 	__hook(&DirectInput::KeyState, directInput, &Simon::OnKeyStateChange);
 	__hook(&DirectInput::OnKeyDown, directInput, &Simon::OnKeyDown);
 	__hook(&DirectInput::OnKeyUp, directInput, &Simon::OnKeyUp);
 
-	SetPosition(D3DXVECTOR2(1200, 250));
-
 	SetState(SIMON_STATE_IDLE);
 	currentAnimation = SIMON_ANI_IDLE;
 	WHIP_STATE = 1;
 	isChangeLevel = true;
+	SetPosition(D3DXVECTOR2(0, 0));
 }
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	DirectInput* directInput = DirectInput::getInstance();
+
 	GameObject::Update(dt, coObjects);
+
+	objectCollision.clear();
+	objectItem.clear();
+	enemyList.clear();
+
+	if (!isChangeLevel)
+	{
+		for (int i = 0; i < coObjects->size(); i++)
+		{
+			switch (coObjects->at(i)->getID())
+			{
+			case ID_TEX_HEART:
+			case ID_TEX_WEAPON_REWARD:
+			case ID_TEX_KATANA:
+				objectItem.push_back(coObjects->at(i));
+				break;
+			case ID_TEX_BURNBARREL:
+				objectCollision.push_back(coObjects->at(i));
+				break;
+			}
+		}
+	}
+	else if (isChangeLevel)
+	{
+		for (int i = 0; i < coObjects->size(); i++)
+		{
+			switch (coObjects->at(i)->getID())
+			{
+			case ID_TEX_HEART:
+			case ID_TEX_WEAPON_REWARD:
+			case ID_TEX_SMALL_HEART:
+			case ID_TEX_CROSS:
+			case ID_TEX_FIRE_BOMB:
+			case ID_TEX_MIRACULOUS_BAG:
+				objectItem.push_back(coObjects->at(i));
+				break;
+			case ID_TEX_CANDLE:
+			case ID_COLLISION_STAIR:
+				objectCollision.push_back(coObjects->at(i));
+				break;
+			case ID_TEX_ZOMBIE:
+				enemyList.push_back(coObjects->at(i));
+				break;
+			}
+
+		}
+	}
+
 	handleState();
 
-	if (GetTickCount() - comeEntranceStart < SIMON_ENTRANCE_TIME)
-		SetState(SIMON_STATE_WALKING_RIGHT);
-	else if (comeEntranceStart > 0)
-		comeEntranceStart = 0;
-	
-	
-	vy += SIMON_GRAVITY*dt ;
-
-
-	for (int i = 0; i < coObjects->size(); i++)
+	if (isChangeLevel == false)
 	{
-		switch (coObjects->at(i)->getID())
-		{
-		case ID_COLLISION_STAIR:
+		if (GetTickCount() - comeEntranceStart <= SIMON_ENTRANCE_TIME)
+			SetState(SIMON_STATE_WALKING_RIGHT);
+		else if (comeEntranceStart > 0)
+			comeEntranceStart = 0;
+	}
 
+	vy += SIMON_GRAVITY * dt;
+
+	for (int i = 0; i < objectCollision.size(); i++)
+	{
+		if (objectCollision.at(i)->getID() == ID_COLLISION_STAIR)
+		{
 			float l, t, r, b;
-			coObjects->at(i)->GetBoundingBox(l, t, r, b);
+			objectCollision.at(i)->GetBoundingBox(l, t, r, b);
 			RECT rect1 = RECT{ int(l), int(t), int(r), int(b) };
 
 			float L, T, R, B;
 			GetBoundingBox(L, T, R, B);
 			RECT rect2 = RECT{ int(L), int(T), int(R), int(B) };
 
-			bool result = checkCollision(rect1, rect2);
+			bool result = checkCollision(rect2, rect1);
+
 
 			if (result)
 			{
-				if (state != SIMON_STATE_GO_UP_STAIR_RIGHT)
+				if (directInput->IsKeyDown(DIK_UP) && objectCollision.at(i)->getIdHiddenItem() == "right-up")
 				{
-					if (DirectInput::getInstance()->IsKeyDown(DIK_UP))
-					{
-						SetState(SIMON_STATE_GO_UP_STAIR_RIGHT);
-					}
-
-					else if (DirectInput::getInstance()->IsKeyDown(DIK_DOWN))
-					{
-						SetState(SIMON_STATE_GO_DOWN_STAIR_LEFT);
-					}
+					SetState(SIMON_STATE_GO_UP_STAIR_RIGHT);
+					isOnStair = true;
 				}
-				else if (state == SIMON_STATE_GO_UP_STAIR_RIGHT)
+				else if (directInput->IsKeyDown(DIK_DOWN) && objectCollision.at(i)->getIdHiddenItem() == "left-down")
+				{
+					SetState(SIMON_STATE_GO_DOWN_STAIR_LEFT);
+					isOnStair = true;
+				}
+				else if (isOnStair && objectCollision.at(i)->getIdHiddenItem() == "right-up-idle")
 				{
 					SetState(SIMON_STATE_IDLE);
-
-					if (DirectInput::getInstance()->IsKeyUp(DIK_UP))
+					isOnStair = false;
+				}
+				/*else if (isOnStair && objectCollision.at(i)->getIdHiddenItem() == "left-down-idle")
+				{
+					SetState(SIMON_STATE_IDLE);
+					isOnStair = false;
+				}*/
+			}
+			else
+			{
+				if (state == SIMON_STATE_IDLE_ON_STAIR)
+				{
+					if (directInput->IsKeyDown(DIK_UP))
 					{
-						SetState(SIMON_STATE_IDLE_UP_STAIR_RIGHT);
+						SetState(SIMON_STATE_GO_UP_STAIR_RIGHT);
+						isOnStair = true;
+					}
+					else if (directInput->IsKeyDown(DIK_DOWN))
+					{
+						SetState(SIMON_STATE_GO_DOWN_STAIR_LEFT);
+						isOnStair = true;
 					}
 				}
 			}
-			break;
+
 		}
 	}
 
@@ -142,6 +210,19 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+
+			if (dynamic_cast<Zombie *>(e->obj))
+			{
+				if (e->nx != 0)
+				{
+					SetState(SIMON_STATE_HURT);
+				}
+			}
+		}
+
 		for (int i = 0; i < coEvents.size(); i++)
 		{
 			switch (coEvents[i]->obj->getID())
@@ -156,25 +237,35 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				break;
 			case ID_TEX_WALL_ENTRANCE:
 				isChangeLevel = true;
-				x = 800;
+				x = 50;
+				SetState(SIMON_STATE_IDLE);
 				break;
 			case ID_TEX_HEART:
-				for (int i = 0; i < coObjects->size(); i++)
+				for (int j = 0; j < coObjects->size(); j++)
 				{
-					if (coObjects->at(i)->getID() == ID_TEX_HEART)
+					if (coObjects->at(j)->getID() == ID_TEX_HEART)
 					{
-						coObjects->at(i)->SetPosition(D3DXVECTOR2(-100, -100));
+						std::string a = coObjects->at(j)->getIdHiddenItem();
+						std::string b = coEvents[i]->obj->getIdHiddenItem();
+						if (a.compare(b) == 0)
+						{
+							coObjects->at(j)->SetState(HEART_STATE_HIDE);
+							coObjects->erase(coObjects->begin() + j);
+						}
 					}
 				}
-				SetState(SIMON_STATE_CHANGECOLOR);
 				break;
 			case ID_TEX_WEAPON_REWARD:
-				for (int i = 0; i < coObjects->size(); i++)
+				for (int j = 0; j < coObjects->size(); j++)
 				{
-					if (coObjects->at(i)->getID() == ID_TEX_WEAPON_REWARD)
-					{
-						coObjects->at(i)->SetPosition(D3DXVECTOR2(-100, -100));
-					}
+					std::string a = coObjects->at(j)->getIdHiddenItem();
+					std::string b = coEvents[i]->obj->getIdHiddenItem();
+					if (a.compare(b) == 0)
+						if (coObjects->at(j)->getID() == ID_TEX_WEAPON_REWARD)
+						{
+							coObjects->at(j)->SetState(WEAPONREWARD_STATE_HIDE);
+							coObjects->erase(coObjects->begin() + j);
+						}
 				}
 				SetState(SIMON_STATE_CHANGECOLOR);
 				if (level == 1)
@@ -186,45 +277,73 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					level = 3;
 				}
 				break;
+
 			case ID_TEX_KATANA:
-				for (int i = 0; i < coObjects->size(); i++)
+				for (int j = 0; j < coObjects->size(); j++)
 				{
-					if (coObjects->at(i)->getID() == ID_TEX_KATANA)
-					{
-						coObjects->at(i)->SetPosition(D3DXVECTOR2(-100, -100));
-					}
+					std::string a = coObjects->at(j)->getIdHiddenItem();
+					std::string b = coEvents[i]->obj->getIdHiddenItem();
+					if (a.compare(b) == 0)
+						if (coObjects->at(j)->getID() == ID_TEX_KATANA)
+						{
+							coObjects->at(j)->SetState(KATANA_STATE_HIDE);
+							coObjects->erase(coObjects->begin() + j);
+						}
 				}
 				break;
+
 			case ID_TEX_MIRACULOUS_BAG:
-				for (int i = 0; i < coObjects->size(); i++)
+				for (int j = 0; j < coObjects->size(); j++)
 				{
-					if (coObjects->at(i)->getID() == ID_TEX_MIRACULOUS_BAG)
-					{
-						coObjects->at(i)->SetPosition(D3DXVECTOR2(-100, -100));
-					}
+					std::string a = coObjects->at(j)->getIdHiddenItem();
+					std::string b = coEvents[i]->obj->getIdHiddenItem();
+					if (a.compare(b) == 0)
+						if (coObjects->at(j)->getID() == ID_TEX_MIRACULOUS_BAG)
+						{
+							coObjects->at(j)->SetState(MIRACULOUSBAG_STATE_HIDE);
+							coObjects->erase(coObjects->begin() + j);
+						}
 				}
 				break;
+
+			case ID_TEX_SMALL_HEART:
+				for (int j = 0; j < coObjects->size(); j++)
+				{
+					std::string a = coObjects->at(j)->getIdHiddenItem();
+					std::string b = coEvents[i]->obj->getIdHiddenItem();
+					if (a.compare(b) == 0)
+						if (coObjects->at(j)->getID() == ID_TEX_SMALL_HEART)
+						{
+							coObjects->at(j)->SetState(SMALL_HEART_STATE_HIDE);
+							coObjects->erase(coObjects->begin() + j);
+						}
+				}
+				break;
+
 			case ID_TEX_PODIUM_ON_WALL:
 				Dy = min_ty * dy + ny * 0.4f;
 				if (ny != 0) vy = 0;
 				break;
+
 			case ID_TEX_FLOOR:
 				Dy = min_ty * dy + ny * 0.4f;
 				if (ny != 0) vy = 0;
 				break;
+
 			case ID_TEX_BURNBARREL:
 				break;
+
 			case ID_TEX_CANDLE:
 				break;
-			default:
-				break;
+
 			}
 		}
 		x += Dx;
 		y += Dy;
-		
 	}
+
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
 	//for (UINT i = 0; i < coEventsResult.size(); i++)
 	//{
 	//	LPCOLLISIONEVENT e = coEventsResult[i];
@@ -324,53 +443,39 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//}
 	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
-	
-	if (objectList.size() < 10 && !isChangeLevel)
+
+	for (int i = 0; i < coObjects->size(); i++)
 	{
-		for (int i = 0; i < coObjects->size(); i++)
+		if (coObjects->at(i)->getID() == ID_TEX_AREA_ZOMBIE)
 		{
-			switch (coObjects->at(i)->getID())
+			float l, t, r, b;
+			coObjects->at(i)->GetBoundingBox(l, t, r, b);
+			RECT rect1 = RECT{ int(l), int(t), int(r), int(b) };
+			float L, T, R, B;
+			GetBoundingBox(L, T, R, B);
+			RECT rect2 = RECT{ int(L), int(T), int(R), int(B) };
+			if (rect1.left < rect2.left && rect1.bottom > rect2.bottom)
 			{
-			case ID_TEX_HEART:
-			case ID_TEX_WEAPON_REWARD:
-			case ID_TEX_KATANA:
-			case ID_TEX_BURNBARREL:
-				objectList.push_back(coObjects->at(i));
-				break;
+				isCollision = true;
 			}
-		}
-	}
-	else if (objectList.size() < 60 && isChangeLevel)
-	{
-		for (int i = 0; i < coObjects->size(); i++)
-		{
-			switch (coObjects->at(i)->getID())
-			{
-			case ID_TEX_CANDLE:
-			case ID_TEX_HEART:
-			case ID_TEX_WEAPON_REWARD:
-			case ID_TEX_SMALL_HEART:
-			case ID_TEX_CROSS:
-			case ID_TEX_FIRE_BOMB:
-				objectList.push_back(coObjects->at(i));
-				break;
-			}
+			else isCollision = false;
 		}
 	}
 }
 
 void Simon::loadResource()
 {
-	AddAnimation(SIMON_ANI_IDLE);		
-	AddAnimation(SIMON_ANI_WALKING);		
-	AddAnimation(SIMON_ANI_JUMPING);		
-	AddAnimation(SIMON_ANI_SITDOWN);		
-	AddAnimation(SIMON_ANI_ATTACK_STANDING);		
-	AddAnimation(SIMON_ANI_ATTACK_SITDOWN);		
+	AddAnimation(SIMON_ANI_IDLE);
+	AddAnimation(SIMON_ANI_WALKING);
+	AddAnimation(SIMON_ANI_JUMPING);
+	AddAnimation(SIMON_ANI_SITDOWN);
+	AddAnimation(SIMON_ANI_ATTACK_STANDING);
+	AddAnimation(SIMON_ANI_ATTACK_SITDOWN);
 	AddAnimation(SIMON_ANI_COLOR);
 	AddAnimation(SIMON_ANI_COLOR1);
 	AddAnimation(SIMON_ANI_GO_STAIR);
 	AddAnimation(SIMON_ANI_IDLE_STAIR);
+	AddAnimation(SIMON_ANI_HURT);
 }
 
 void Simon::SetState(int state)
@@ -398,6 +503,7 @@ void Simon::OnKeyStateChange(BYTE * states)
 			SetState(SIMON_STATE_SITDOWN);
 		}
 		break;
+
 	case SIMON_STATE_WALKING_RIGHT:
 	case SIMON_STATE_WALKING_LEFT:
 		if (directInput->IsKeyDown(DIK_J) && isOnGround())
@@ -419,15 +525,13 @@ void Simon::OnKeyDown(int KeyCode)
 	case SIMON_STATE_IDLE:
 	case SIMON_STATE_WALKING_RIGHT:
 	case SIMON_STATE_WALKING_LEFT:
-		if (KeyCode == DIK_X && isOnGround())
+	case SIMON_STATE_IDLE_ON_STAIR:
+		if (KeyCode == DIK_X)
 			SetState(SIMON_STATE_JUMPING);
 		else if (KeyCode == DIK_Z || directInput->IsKeyDown(DIK_J) && KeyCode == DIK_Z)
 		{
 			SetState(SIMON_STATE_ATTACK_STAND);
 		}
-		break;
-		if (KeyCode == DIK_UP )
-
 	case SIMON_STATE_JUMPING:
 		if (KeyCode == DIK_Z)
 		{
@@ -467,6 +571,11 @@ void Simon::OnKeyUp(int KeyCode)
 	}
 }
 
+vector<LPGAMEOBJECT> Simon::getItemList()
+{
+	return itemList;
+}
+
 int Simon::getWidthWorld()
 {
 	return 0;
@@ -481,11 +590,13 @@ void Simon::GetBoundingBox(float & left, float & top, float & right, float & bot
 	int height = r.bottom - r.top;
 	int width = r.right - r.left;
 	right = x + width;
-	bottom = y + height - 10;
+	bottom = y + height;
 }
 
 void Simon::Render(Viewport* viewport)
 {
+//	RenderBoundingBox(viewport);
+
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
 	LPANIMATION animation = animations.find(currentAnimation)->second;
@@ -518,46 +629,52 @@ void Simon::Render(Viewport* viewport)
 
 			if (!isChangeLevel)
 			{
-				for (int i = 0; i < objectList.size() - 5; i++)
+				for (int i = 0; i < objectCollision.size(); i++)
 				{
-					float l, t, r, b;
-					objectList[i]->GetBoundingBox(l, t, r, b);
-					RECT rect1 = RECT{ int(l), int(t), int(r), int(b) };
-
-					float L, T, R, B;
-					whip->GetBoundingBox(L, T, R, B);
-					RECT rect2 = RECT{ int(L), int(T), int(R), int(B) };
-
-					bool result = whip->checkCollision(rect1, rect2);
-
-					if (result)
+					if (objectCollision[i]->getID() == ID_TEX_BURNBARREL)
 					{
-						D3DXVECTOR2 pos = objectList[i]->getPosition();
-						objectList[i]->SetPosition(D3DXVECTOR2(-100, -100));
+						float l, t, r, b;
+						objectCollision[i]->GetBoundingBox(l, t, r, b);
+						RECT rect1 = RECT{ int(l), int(t), int(r), int(b) };
 
-						switch (i)
+						float L, T, R, B;
+						whip->GetBoundingBox(L, T, R, B);
+						RECT rect2 = RECT{ int(L), int(T), int(R), int(B) };
+
+						bool result = whip->checkCollision(rect1, rect2);
+
+						if (result)
 						{
-						case 0:
-							objectList[5]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
-							objectList[5]->SetState(HEART_STATE_SHOW);
-							break;
-						case 1:
-							objectList[6]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
-							objectList[6]->SetState(WEAPONREWARD_STATE_SHOW);
-							break;
-						case 2:
-							objectList[7]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
-							objectList[7]->SetState(HEART_STATE_SHOW);
-							break;
-						case 3:
-							objectList[8]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
-							objectList[8]->SetState(WEAPONREWARD_STATE_SHOW);
-							break;
-						case 4:
-							objectList[9]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
-							objectList[9]->SetState(KATANA_STATE_SHOW);
-							itemList.push_back(objectList[9]);
-							break;
+							D3DXVECTOR2 pos = objectCollision[i]->getPosition();
+
+							objectCollision[i]->SetState(BURN_STATE_HIDE);
+
+							std::string a = objectCollision[i]->getIdHiddenItem();
+
+							for (int j = 0; j < objectItem.size(); j++)
+							{
+								std::string b = objectItem[j]->getIdHiddenItem();
+								if (a.compare(b) == 0)
+								{
+									switch (objectItem[j]->getID())
+									{
+									case ID_TEX_HEART:
+										objectItem[j]->SetState(HEART_STATE_SHOW);
+										objectItem[j]->SetPosition(pos);
+										itemList.push_back(objectItem[j]);
+										break;
+									case ID_TEX_WEAPON_REWARD:
+										objectItem[j]->SetState(WEAPONREWARD_STATE_SHOW);
+										objectItem[j]->SetPosition(pos);
+										break;
+									case ID_TEX_KATANA:
+										objectItem[j]->SetState(KATANA_STATE_SHOW);
+										objectItem[j]->SetPosition(pos);
+										break;
+									}
+								}
+							}
+							objectCollision.erase(objectCollision.begin() + i);
 						}
 					}
 				}
@@ -565,9 +682,10 @@ void Simon::Render(Viewport* viewport)
 
 			else if (isChangeLevel)
 			{
-				for (int i = 0; i < objectList.size(); i++)
+				for (int i = 0; i < enemyList.size(); i++)
 				{
-					float l, t, r, b;					objectList[i]->GetBoundingBox(l, t, r, b);
+					float l, t, r, b;
+					enemyList[i]->GetBoundingBox(l, t, r, b);
 					RECT rect1 = RECT{ int(l), int(t), int(r), int(b) };
 
 					float L, T, R, B;
@@ -578,41 +696,70 @@ void Simon::Render(Viewport* viewport)
 
 					if (result)
 					{
-						D3DXVECTOR2 pos = objectList[i]->getPosition();
-						objectList[i]->SetPosition(D3DXVECTOR2(-100, -100));
-						switch (i)
-						{
-						case 0:
-							objectList[5]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
-							objectList[5]->SetState(HEART_STATE_SHOW);
-							break;
-						case 1:
-							objectList[6]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
-							objectList[6]->SetState(WEAPONREWARD_STATE_SHOW);
-							break;
-						case 2:
-							objectList[7]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
-							objectList[7]->SetState(HEART_STATE_SHOW);
-							break;
-						case 3:
-							objectList[8]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
-							objectList[8]->SetState(WEAPONREWARD_STATE_SHOW);
-							break;
-						case 4:
-							objectList[9]->SetPosition(D3DXVECTOR2(pos.x, pos.y + 15));
-							objectList[9]->SetState(KATANA_STATE_SHOW);
-							itemList.push_back(objectList[9]);
-							break;
-						}
+						enemyList[i]->SetState(ZOMBIE_STATE_DIE);
+						enemyList.erase(enemyList.begin() + i);
 					}
+				}
+				for (int i = 0; i < objectCollision.size(); i++)
+				{
+					float l, t, r, b;
+					objectCollision[i]->GetBoundingBox(l, t, r, b);
+					RECT rect1 = RECT{ int(l), int(t), int(r), int(b) };
 
+					float L, T, R, B;
+					whip->GetBoundingBox(L, T, R, B);
+					RECT rect2 = RECT{ int(L), int(T), int(R), int(B) };
+
+					bool result = whip->checkCollision(rect1, rect2);
+
+					if (result)
+					{
+						D3DXVECTOR2 pos = objectCollision[i]->getPosition();
+						objectCollision[i]->SetState(CANDLE_STATE_HIDE);
+
+						std::string a = objectCollision[i]->getIdHiddenItem();
+
+						for (int j = 0; j < objectItem.size(); j++)
+						{
+							std::string b = objectItem[j]->getIdHiddenItem();
+							if (a.compare(b) == 0)
+							{
+								switch (objectItem[j]->getID())
+								{
+								case ID_TEX_HEART:
+									objectItem[j]->SetState(HEART_STATE_SHOW);
+									objectItem[j]->SetPosition(pos);
+									itemList.push_back(objectItem[j]);
+									break;
+								case ID_TEX_SMALL_HEART:
+									objectItem[j]->SetState(SMALL_HEART_STATE_SHOW);
+									objectItem[j]->SetPosition(pos);
+									break;
+								case ID_TEX_MIRACULOUS_BAG:
+									objectItem[j]->SetState(MIRACULOUSBAG_STATE_SHOW);
+									objectItem[j]->SetPosition(pos);
+									break;
+								case ID_TEX_CROSS:
+									objectItem[j]->SetState(CROSS_STATE_SHOW);
+									objectItem[j]->SetPosition(pos);
+									break;
+								case ID_TEX_FIRE_BOMB:
+									objectItem[j]->SetState(ID_TEX_FIRE_BOMB);
+									objectItem[j]->SetPosition(pos);
+									break;
+								}
+							}
+						}
+						objectCollision.erase(objectCollision.begin() + i);
+					}
 				}
 				RemoveWhip();
-				objectList.clear();
+				objectCollision.clear();
 			}
 		}
 		else return;
 	}
+
 }
 
 bool Simon::isOnGround()
@@ -659,12 +806,14 @@ void Simon::handleState()
 		}
 		checkRewind = false;
 		break;
+
 	case SIMON_STATE_ATTACK_JUMP:
 		attacking = true;
 		checkRewind = false;
 		currentAnimation = SIMON_ANI_ATTACK_STANDING;
 		Reset(currentAnimation);
 		break;
+
 	case SIMON_STATE_ATTACK_STAND:
 		attacking = true;
 		vx = 0;
@@ -678,7 +827,7 @@ void Simon::handleState()
 		checkRewind = false;
 		currentAnimation = SIMON_ANI_SITDOWN;
 		break;
-			
+
 	case SIMON_STATE_ATTACK_SITDOWN:
 		attacking = true;
 		vx = 0;
@@ -707,40 +856,75 @@ void Simon::handleState()
 		Reset(currentAnimation);
 		break;
 
-	case SIMON_STATE_GO_UP_STAIR:
-		checkRewind = true;
-		vy = -SIMON_UP_STAIR_SPEED;
-		vx = SIMON_MOVE_SPEED;
+	case SIMON_STATE_GO_UP_STAIR_RIGHT:
+		nx = 1;
+		checkRewind = false;
+		vy = -SIMON_UP_STAIR_SPEED_Y;
+		vx = SIMON_UP_STAIR_SPEED_X;
 		currentAnimation = SIMON_ANI_GO_STAIR;
-		checkUp = true;
+		Reset(currentAnimation);
 		break;
 
-	case SIMON_STATE_GO_DOWN_STAIR:
-		checkRewind = true;
-		vy = SIMON_UP_STAIR_SPEED;
-		vx =-SIMON_MOVE_SPEED;
+	case SIMON_STATE_GO_DOWN_STAIR_RIGHT:
+		nx = 1;
+		checkRewind = false;
+		vy = SIMON_UP_STAIR_SPEED_Y;
+		vx = -SIMON_MOVE_SPEED;
 		currentAnimation = SIMON_ANI_GO_STAIR;
-		checkUp = false;
+		Reset(currentAnimation);
 		break;
 
-	case SIMON_STATE_IDLE_UP_STAIR:
-		currentAnimation = SIMON_ANI_IDLE_STAIR;
-		vx = 0;
-		checkUp = true;
+	case SIMON_STATE_GO_DOWN_STAIR_LEFT:
+		nx = -1;
+		checkRewind = false;
+		vy = SIMON_UP_STAIR_SPEED_Y;
+		vx = -SIMON_MOVE_SPEED;
+		currentAnimation = SIMON_ANI_GO_STAIR;
+		Reset(currentAnimation);
 		break;
 
-	case SIMON_STATE_IDLE_DOWN_STAIR:
-		currentAnimation = SIMON_ANI_IDLE_STAIR;
+	case SIMON_STATE_IDLE_ON_STAIR:
+		new_y = y;
+		vy = 0;
 		vx = 0;
-		checkUp = false;
+		currentAnimation = SIMON_ANI_IDLE_STAIR;
+		y = new_y;
+		break;
+
+	case SIMON_STATE_HURT:
+		if (!jumped)
+		{
+			jumped = true;
+			vy = -SIMON_JUMP_SPEED_Y;
+			x -= sin(2.5*3.14 / 100) * 100;
+			break;
+		}
+		if (vy < 0)
+		{
+			currentAnimation = SIMON_ANI_HURT;
+		}
+		else if (isOnGround() && jumped)
+		{
+			SetState(SIMON_STATE_IDLE);
+			jumped = false;
+		}
+		checkRewind = false;
 		break;
 	}
-	
+
 	animations.find(currentAnimation)->second->SetLoop(checkRewind);
 }
 
 void Simon::Reset(int currentAnimation)
 {
+	if (currentAnimation == SIMON_ANI_GO_STAIR)
+	{
+		if (animations.find(currentAnimation)->second->IsFinished())
+		{
+			animations.find(currentAnimation)->second->SetFinish(false);
+			SetState(SIMON_STATE_IDLE_ON_STAIR);
+		}
+	}
 	if (animations.find(currentAnimation)->second->IsFinished())
 	{
 		attacking = false;

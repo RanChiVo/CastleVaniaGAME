@@ -2,16 +2,16 @@
 #include "ResourceManagement.h"
 #include "../CastleVania/GameObjects/BurnBarrel.h"
 
-constexpr int KATANAWEAPON_Y = 309;
+constexpr int KATANAWEAPON_Y = 350;
 constexpr int KATA_WIDTH = 30;
 constexpr int KATA_HEIGHT = 20;
 
-KatanaWeapon::KatanaWeapon(D3DXVECTOR2 position)
+KatanaWeapon::KatanaWeapon()
 {
-	id = ID_TEX_KATANA_WEAPON;
+	x = -100;
+	y = -100;
 
-	x = position.x;
-	y = position.y;
+	id = ID_TEX_KATANA_WEAPON;
 
 	LPANIMATION ani;
 

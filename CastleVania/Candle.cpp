@@ -1,21 +1,15 @@
 #include "Candle.h"
 
+
 Candle::Candle()
 {
-}
-
-Candle::Candle(D3DXVECTOR2 position)
-{
 	id = ID_TEX_CANDLE;
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_CANDLE)->Get("Candle1")->getRect();
-	int height = r.bottom - r.top;
-
-	x = position.x;
-	y = position.y - height;
 
 	LPANIMATION ani;
 
 	AddAnimation(CANDLE_ANI);
+
+	state = CANDLE_STATE_SHOW;
 
 	currentAnimation = CANDLE_ANI;
 }
@@ -23,27 +17,32 @@ Candle::Candle(D3DXVECTOR2 position)
 void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
+
+	if (state == CANDLE_STATE_HIDE)
+	{
+		SetPosition(D3DXVECTOR2(-100, -100));
+	}
 }
 
 void Candle::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	left = x;
 	top = y;
-
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_CANDLE)->Get("Candle1")->getRect();
-	int height = r.bottom - r.top;
-	int width = r.right - r.left;
 	right = x + height;
 	bottom = y + width;
 }
 
 void Candle::Render(Viewport * viewport)
 {
-	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+	if (state== CANDLE_STATE_SHOW)
+	{
+		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-	Flip flip = normal;
+		Flip flip = normal;
 
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	}
+	else return;
 }
 
 Candle::~Candle()

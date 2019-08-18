@@ -79,6 +79,20 @@ void ResourceManagement::loadResource()
 	readSpriteFromFile("Resources\\Items\\stop_watch.xml");
 	readAnimationFromFile("Resources\\Items\\stop_watchAnimation.xml");
 
+	readSpriteFromFile("Resources\\Enemy\\black_leopard.xml");
+	readAnimationFromFile("Resources\\Enemy\\black_leopardAnimation.xml");
+
+	/*readSpriteFromFile("Resources\\MenuPoint\\black.xml");*/
+	readSpriteFromFile("Resources\\MenuPoint\\HP.xml");
+	readSpriteFromFile("Resources\\MenuPoint\\enemy_HP.xml");
+	readSpriteFromFile("Resources\\MenuPoint\\lost_HP.xml");
+	readSpriteFromFile("Resources\\MenuPoint\\place_item.xml");
+
+	//readSpriteFromFile("Resources\\MenuPoint\\double_shot.xml");
+	//readSpriteFromFile("Resources\\MenuPoint\\double_shoot.xml");
+	//readSpriteFromFile("Resources\\MenuPoint\\triple_shot.xml");
+	//readSpriteFromFile("Resources\\MenuPoint\\triple_shoot.xml");
+
 	LPANIMATION ani;
 
 	for (auto idAnimation : AnimationMapper)
@@ -94,21 +108,21 @@ void ResourceManagement::loadResource()
 
 	TiledMap* tiled_map = new TiledMap();
 
-	textures->Add(ID_TEX_MAP_ENTRANCE, L"TiledMap\\Entrance.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_MAP_ENTRANCE, L"TiledMap\\Entrance - Copy.png", D3DCOLOR_XRGB(255, 0, 255));
 
 	LPDIRECT3DTEXTURE9 textMap_Entrance = textures->Get(ID_TEX_MAP_ENTRANCE);
 
-	tiled_map->readMapfromfile("TiledMap\\Entrance.tmx", textMap_Entrance);
+	tiled_map->readMapfromfile("TiledMap\\Entrance1.tmx", textMap_Entrance);
 
 	TiledMapList[EntityID::ID_TEX_MAP_ENTRANCE] = tiled_map;
 
 	tiled_map = new TiledMap();
 
-	textures->Add(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\GamePlay1.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\GamePlay1 - Copy.png", D3DCOLOR_XRGB(255, 0, 255));
 
 	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_TEX_GAMEPLAYSCREEN);
 
-	tiled_map->readMapfromfile("TiledMap\\GamePlay.tmx", textPlayScreen);
+	tiled_map->readMapfromfile("TiledMap\\GamePlay1.tmx", textPlayScreen);
 
 	TiledMapList[EntityID::ID_TEX_MAP_PLAYGAME] = tiled_map;
 }
@@ -178,6 +192,7 @@ void ResourceManagement::readSpriteFromFile(std::string resourcepath)
 	SpriteMapper[idTextfromfile] = this->sprites;
 }
 
+
 void ResourceManagement::loadFont(LPTSTR path)
 {
 	LPDIRECT3DDEVICE9 gDevice = Direct3DManager::getInstance()->GetDirect3DDevice();
@@ -234,6 +249,11 @@ ResourceManagement::ResourceManagement()
 	{"ID_TEX_SMALL_HEART",EntityID::ID_TEX_SMALL_HEART },
 	{"ID_TEX_CROSS",EntityID::ID_TEX_CROSS },
 	{"ID_TEX_FIRE_BOMB",EntityID::ID_TEX_FIRE_BOMB },
+	{"ID_TEX_HP", EntityID::ID_TEX_HP },
+	{"ID_TEX_HP_ENEMY", EntityID::ID_TEX_HP_ENEMY },
+	{"ID_TEX_LOST_HP", EntityID::ID_TEX_LOST_HP },
+	{"ID_TEX_PLACE", EntityID::ID_TEX_PLACE},
+	{"ID_TEX_BLACK_LEOPARD", EntityID::ID_TEX_BLACK_LEOPARD},
 	};
 
 	stringToAniID = {
@@ -245,6 +265,7 @@ ResourceManagement::ResourceManagement()
 	{"SIMON_ANI_ATTACK_SITDOWN", ANI_ID::SIMON_ANI_ATTACK_SITDOWN},
 	{"SIMON_ANI_COLOR", ANI_ID::SIMON_ANI_COLOR},
 	{"SIMON_ANI_COLOR1", ANI_ID::SIMON_ANI_COLOR1},
+	{"SIMON_ANI_HURT", ANI_ID::SIMON_ANI_HURT},
 	{"TYPE1_WHIP",ANI_ID::TYPE1_WHIP},
 	{"TYPE2_WHIP", ANI_ID::TYPE2_WHIP},
 	{"TYPE3_WHIP",ANI_ID::TYPE3_WHIP},
@@ -264,7 +285,8 @@ ResourceManagement::ResourceManagement()
 	{"STOP_WATCH_ANI", ANI_ID::STOP_WATCH_ANI},
 	{"CROSS_ANI", ANI_ID::CROSS_ANI},
 	{"FIRE_BOMB_ANI", ANI_ID::FIRE_BOMB_ANI},
-
+	{"BLACK_LEOPARD_ANI_IDLE", ANI_ID::BLACK_LEOPARD_ANI_IDLE},
+	{"BLACK_LEOPARD_ANI_MOVE", ANI_ID::BLACK_LEOPARD_ANI_MOVE},
 	};
 }
 

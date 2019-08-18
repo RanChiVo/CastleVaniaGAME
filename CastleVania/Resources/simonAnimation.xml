@@ -54,6 +54,10 @@
    <animation name ="SIMON_ANI_IDLE_STAIR" default_time="100" rewind="true">
       <animation_frame sprite_id ="GoUpStair1"/>
       </animation>
+
+ <animation name ="SIMON_ANI_HURT" default_time="100" rewind="true">
+      <animation_frame sprite_id ="Hurt1"/>
+      </animation>
   
   </animations>
 </loadresource>

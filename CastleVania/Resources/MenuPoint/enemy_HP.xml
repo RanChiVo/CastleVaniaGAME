@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_TEX_HP_ENEMY"  name="enemy_HP">
+    <image source="Resources\MenuPoint\enemy_HP.png" width="10" height="20"/>
+  </imagelayer>
+  
+  <sprites>
+    <spriteframe id="enemy_HP1" left = "0" top="0" right="10" bottom="20"/>
+    
+  </sprites>
+</loadresource>

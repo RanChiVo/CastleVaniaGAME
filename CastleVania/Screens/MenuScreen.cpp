@@ -45,8 +45,7 @@ void MenuScreen::renderObject()
 
 void MenuScreen::loadResources()
 {
-	resourceManagement->loadFont(L"Resources\\Fonts\\prstart.ttf");
-	auto font = resourceManagement->getFont();
+	
 	
 	AudioManager::getInstance()->loadAudio({
 		{
