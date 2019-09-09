@@ -24,11 +24,9 @@ constexpr float SIMON_GRAVITY = 0.0007f;
 constexpr int SIMON_PROTECT_TIME = 2000;
 constexpr float SIMON_UP_STAIR_SPEED_Y = 0.09f;
 constexpr float SIMON_UP_STAIR_SPEED_X = 0.09f;
-
 constexpr auto GROUND_POSITION = 289;
 constexpr auto MAPSIZE_WIDTH = 1475;
 constexpr auto P0SITION_ENTRANCE = 1300;
-
 constexpr int SIMON_UNTOUCHABLE_TIME = 5000;
 constexpr int SIMON_ENTRANCE_TIME = 3000;
 
@@ -44,7 +42,7 @@ Simon::Simon()
 	SetState(SIMON_STATE_IDLE);
 	currentAnimation = SIMON_ANI_IDLE;
 	WHIP_STATE = 1;
-	isChangeLevel = true;
+	isChangeLevel = false;
 	SetPosition(D3DXVECTOR2(0, 0));
 }
 

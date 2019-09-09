@@ -7,7 +7,7 @@
 #include "WindowUtil.h"
 #include "Input/DirectInput.h"
 
-constexpr unsigned int ScreenBase_width = 640;
+constexpr unsigned int ScreenBase_width = 512;
 constexpr unsigned int ScreenBase_height = 480;
 constexpr int max_frame_rate = 60;
 

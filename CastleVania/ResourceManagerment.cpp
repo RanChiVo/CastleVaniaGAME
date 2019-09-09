@@ -106,24 +106,14 @@ void ResourceManagement::loadResource()
 			Getanimations->Add(aniID, ani);
 	}
 
-	TiledMap* tiled_map = new TiledMap();
-
-	textures->Add(ID_TEX_MAP_ENTRANCE, L"TiledMap\\Entrance - Copy.png", D3DCOLOR_XRGB(255, 0, 255));
-
+	textures->Add(ID_TEX_MAP_ENTRANCE, L"TiledMap\\Entrance_bank.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 textMap_Entrance = textures->Get(ID_TEX_MAP_ENTRANCE);
-
-	tiled_map->readMapfromfile("TiledMap\\Entrance1.tmx", textMap_Entrance);
-
+	TiledMap* tiled_map = new TiledMap("TiledMap\\Entrance_map.tmx", textMap_Entrance);
 	TiledMapList[EntityID::ID_TEX_MAP_ENTRANCE] = tiled_map;
 
-	tiled_map = new TiledMap();
-
 	textures->Add(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\GamePlay1 - Copy.png", D3DCOLOR_XRGB(255, 0, 255));
-
 	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_TEX_GAMEPLAYSCREEN);
-
-	tiled_map->readMapfromfile("TiledMap\\GamePlay1.tmx", textPlayScreen);
-
+	tiled_map = new TiledMap("TiledMap\\GamePlay1.tmx", textPlayScreen);
 	TiledMapList[EntityID::ID_TEX_MAP_PLAYGAME] = tiled_map;
 }
 
@@ -191,7 +181,6 @@ void ResourceManagement::readSpriteFromFile(std::string resourcepath)
 	}
 	SpriteMapper[idTextfromfile] = this->sprites;
 }
-
 
 void ResourceManagement::loadFont(LPTSTR path)
 {

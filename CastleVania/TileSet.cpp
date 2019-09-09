@@ -10,21 +10,22 @@ TileSet::TileSet(LPDIRECT3DTEXTURE9 IDTex, int tileWidth, int tileHeight)
 
 void TileSet::createTileSet(int rows, int columns)
 {
+	int idTile = 0;
 	for (int row = 0; row < rows; row++)
 	{
 		for (int col = 0; col < columns; col++)
 		{
-			RECT rect = { tileWidth* row, tileHeight* col, tileWidth* row + tileWidth, tileHeight*col + tileHeight };
-			std::string id = std::to_string(row) + std::to_string(col);
-			tile = Sprite(id, rect, IDTex);
-			tiles.emplace(std::make_pair(row, col), tile);
+			idTile++;
+			RECT rect = { tileWidth* col, tileHeight * row, tileWidth * col + tileWidth, tileHeight * row + tileHeight };
+			tile = Sprite(std::to_string(idTile), rect, IDTex);
+			tiles.emplace(std::to_string(idTile), tile);
 		}
 	}
 }
 
-Sprite& TileSet::getPositionTile(int row, int col)
+Sprite& TileSet::getPositionTile(std::string idTile)
 {
-	return tiles.at(std::make_pair(row, col));
+	return tiles.at(idTile);
 }
 
 TileSet::~TileSet()

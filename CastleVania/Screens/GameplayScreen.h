@@ -25,7 +25,6 @@ private:
 	EntityID id;
 	Simon* simon;
 	DirectInput* directInput;
-	TiledMap * tile_map;
 	ResourceManagement* resourceManagement;
 	RECT rect;
 	DWORD timer_zombie = 0;

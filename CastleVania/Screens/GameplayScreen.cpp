@@ -115,8 +115,8 @@ void GameplayScreen::updateViewport(float dt)
 	newPosViewport.x = simon->getPosition().x - viewport->getWidth() / 2 + widthframeSimon / 2;
 	newPosViewport.y = viewport->getY();
 
-	newPosViewport.x = min(tile_map->getWidthWorld() - viewport->getWidth(), newPosViewport.x);
-	newPosViewport.y = min(tile_map->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
+	newPosViewport.x = min(resourceManagement->getTiledMap(id)->getWidthWorld() - viewport->getWidth(), newPosViewport.x);
+	newPosViewport.y = min(resourceManagement->getTiledMap(id)->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
 	newPosViewport.x = max(0, newPosViewport.x);
 	newPosViewport.y = max(0, newPosViewport.y);
 
@@ -125,9 +125,7 @@ void GameplayScreen::updateViewport(float dt)
 
 void GameplayScreen::renderObject()
 {
-	tile_map = resourceManagement->getTiledMap(id);
-	tile_map->draw(viewport);
-
+	resourceManagement->getTiledMap(id)->draw(viewport);
 	menu_point->Draw();
 
 	if (id == ID_TEX_MAP_ENTRANCE)
@@ -162,7 +160,6 @@ void GameplayScreen::createZombie(Viewport* viewport)
 		objectslv2.push_back(zombie);
 	}
 	timer_zombie = 0;
-	
 }
 
 void GameplayScreen::getInfoFromObjectInfo(ObjectInfo *info, LPGAMEOBJECT object)
@@ -361,8 +358,6 @@ GameplayScreen::GameplayScreen()
 	simon = new Simon();
 
 	resourceManagement = ResourceManagement::GetInstance();
-
-	tile_map = new TiledMap();
 
 	id = ID_TEX_MAP_ENTRANCE;
 	
