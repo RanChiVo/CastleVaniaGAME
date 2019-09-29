@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <loadresource>
-  <imagelayer id="ID_TEX_STOP_WATCH" name="Simon">
+  <imagelayer id="ID_TEX_STOP_WATCH" name="Simon" width="30" height="32">
     <image source="Resources\Items\stop_watch.png" width="30" height="32"/>
   </imagelayer>
 

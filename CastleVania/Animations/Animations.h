@@ -13,6 +13,7 @@ class Animations
 
 public:
 	void Add(int id, LPANIMATION ani);
+	void Delete(int id);
 	LPANIMATION Get(int id);
 
 	static Animations * GetInstance();

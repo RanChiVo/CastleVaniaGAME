@@ -119,8 +119,8 @@ void DirectInput::ProcessKeyboard()
 	for (DWORD i = 0; i < dwElements; i++)
 	{
 		int KeyCode = keyEvents[i].dwOfs;
-		int KeyState = keyEvents[i].dwData;
-		if ((KeyState & 0x80) > 0)
+		int KeyEvent = keyEvents[i].dwData;
+		if ((KeyEvent & 0x80) > 0)
 			OnKeyDown(KeyCode);
 		else
 			OnKeyUp(KeyCode);

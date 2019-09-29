@@ -21,6 +21,7 @@ class GameplayScreen: public ScreenBase
 private:
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> objectslv2;
+	vector<LPGAMEOBJECT> staticObjects;
 	D3DXVECTOR2 posWall;
 	EntityID id;
 	Simon* simon;

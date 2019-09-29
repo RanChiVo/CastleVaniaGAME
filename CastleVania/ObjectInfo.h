@@ -14,6 +14,7 @@ class ObjectInfo
 	int width;
 	D3DXVECTOR2 position;
 	std::string idHiddenItem;
+	std::string ObjectType;
 public:
 
 	ObjectInfo();
@@ -24,7 +25,7 @@ public:
 	int get_width();
 	D3DXVECTOR2 get_postition();
 	std::string get_idHiddenItem();
-
+	std::string get_ObjectType();
 	~ObjectInfo();
 };
 

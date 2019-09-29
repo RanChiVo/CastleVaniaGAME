@@ -55,9 +55,6 @@ void Boomerang::GetBoundingBox(float & left, float & top, float & right, float &
 {
 	left = x;
 	top = y;
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_HEART)->Get("boomerang1")->getRect();
-	int height = r.bottom - r.top;
-	int width = r.right - r.left;
 	right = x + width;
 	bottom = y + height;
 }

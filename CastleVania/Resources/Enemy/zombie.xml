@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <loadresource>
- <imagelayer id="ID_TEX_ZOMBIE" name="Zombie">
+ <imagelayer id="ID_TEX_ZOMBIE" name="Zombie" width="34" height="64">
    <image source="Resources\Enemy\zombie.png" width="68" height="64"/>
  </imagelayer>
   

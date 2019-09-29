@@ -14,7 +14,7 @@
 35,36,37,38,39,37,39,37,35,36,37,38,39,37,39,40,41,42,43,44,45,46,47,
 30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30
 </data>
- </layer>
+ </layer> 
  <objectgroup color="#aa007f" id="3" name="Static_Object">
   <object id="28" name="BurnBarrel" gid="51" x="175" y="290" width="32" height="64">
    <properties>
@@ -41,6 +41,7 @@
     <property name="Hidden Item" value="kanata"/>
    </properties>
   </object>
+  
  </objectgroup>
  <objectgroup color="#ff0000" id="2" name="Simon">
   <object id="34" name="Start_Map" x="58" y="195" width="38" height="94"/>
@@ -51,6 +52,6 @@
   <object id="18" name="CastleWall" gid="49" x="1340.5" y="289" width="99" height="288"/>
   <object id="19" name="Wall_behind_entrance" x="1425.5" y="0" width="16" height="289"/>
   <object id="20" name="Wall_frontof_entrance" x="2.5" y="1" width="16" height="291"/>
-  <object id="26" name="floor" x="2.5" y="290" width="1470" height="29"/>
+  <object id="26" name="Floor" x="2.5" y="290" width="1470" height="29"/>
  </objectgroup>
 </map>

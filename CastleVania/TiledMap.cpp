@@ -1,10 +1,10 @@
-#include "TiledMap.h"
+		#include "TiledMap.h"
 #include <d3dx9.h>
 #include <sstream>
 #include "EntityID.h"
 #include "SpriteManagements/Sprite.h"
 
-constexpr int EXTRA_HEIGHT_SCREEN = 96;
+constexpr int EXTRA_HEIGHT_SCREEN = 90;
 
 //handle string
 void eraseAllSubStr(std::string & mainStr, const std::string & toErase)
@@ -64,7 +64,6 @@ void TiledMap::readMapfromfile()
 	tileset->createTileSet(rowsTileSet, colsTileSet);
 
 	this->readMatrixMap();
-	this->getObjectInfo();
 }
 
 void TiledMap::readMatrixMap()
@@ -72,7 +71,7 @@ void TiledMap::readMatrixMap()
 	auto layerNode = rootNode.child("layer");
 	auto dataNote = layerNode.child("data");
 	mapIndices = dataNote.first_child().value();
-	// Take data into matrix map
+	//Take data into matrix map
 	eraseAllSubStr(mapIndices, "\n");
 	findAndReplaceAll(mapIndices, ",", " ");
 	std::string line;
@@ -101,20 +100,22 @@ void TiledMap::readMatrixMap()
 
 std::vector<ObjectInfo*> TiledMap::getObjectInfo()
 {
-	auto objectGroupNode = rootNode.child("objectgroup");
-
-	for (auto objectNode : objectGroupNode.children("object"))
+	for (auto objectGroupNode : rootNode.children("objectgroup"))
 	{
-		int id = objectNode.attribute("id").as_int();
-		std::string name = objectNode.attribute("name").as_string();
-		float x = objectNode.attribute("x").as_float();
-		float y = objectNode.attribute("y").as_float();
-		int width = objectNode.attribute("width").as_int();
-		int height = objectNode.attribute("height").as_int();
-		auto properties = objectNode.child("properties");
-		std::string idHiddenItemString = properties.child("property").attribute("value").as_string();
-		ObjectInfo* info_object = new ObjectInfo(id, name, height, width, D3DXVECTOR2(x, y), idHiddenItemString);
-		objectInfo.push_back(info_object);
+		for (auto objectNode : objectGroupNode.children("object"))
+		{
+			int id = objectNode.attribute("id").as_int();
+			std::string objectType = objectGroupNode.attribute("name").as_string();
+			std::string name = objectNode.attribute("name").as_string();
+			float x = objectNode.attribute("x").as_float();
+			float y = objectNode.attribute("y").as_float() + EXTRA_HEIGHT_SCREEN;
+			int width = objectNode.attribute("width").as_int();
+			int height = objectNode.attribute("height").as_int();
+			auto properties = objectNode.child("properties");
+			std::string idHiddenItemString = properties.child("property").attribute("value").as_string();
+			ObjectInfo* info_object = new ObjectInfo(id, name, height, width, D3DXVECTOR2(x, y), idHiddenItemString);
+			objectInfo.push_back(info_object);
+		}
 	}
 	return objectInfo;
 }
@@ -128,7 +129,7 @@ void TiledMap::draw(Viewport* viewport)
 
 	beginCol = (beginCol < 0) ? 0 : ((beginCol > (tilesInMapWidth)) ? (tilesInMapWidth) : beginCol);
 	endCol = (endCol < 0) ? 0 : ((endCol > (tilesInMapWidth)) ? (tilesInMapWidth) : endCol);
-	beginRow = (beginCol < 0) ? 0 : ((beginCol > (tilesInMapHeight)) ? (tilesInMapHeight) : beginRow);
+	beginRow = (beginRow < 0) ? 0 : ((beginRow > (tilesInMapHeight)) ? (tilesInMapHeight) : beginRow);
 	endRow = (endRow < 0) ? 0 : ((endRow > (tilesInMapHeight)) ? (tilesInMapHeight) : endRow);
 
 	for (int row = beginRow; row < endRow; row++)

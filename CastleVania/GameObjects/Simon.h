@@ -11,9 +11,6 @@ class Simon: public GameObject
 {
 private: 
 	DWORD comeEntranceStart = 0;
-
-	int level = 1;
-
 	enum State
 	{
 		SIMON_STATE_IDLE,
@@ -44,7 +41,7 @@ private:
 	int ani;
 	int untouchable;
 	DWORD untouchable_start;
-	bool jumped = false;
+	bool isjumping = false;
 	bool attacking = false;
 	bool checkRewind = false;
 	bool touchRect = false;
@@ -54,6 +51,8 @@ private:
 
 	std::string stair_direction;
 	Whip* whip;
+	int levelWhip;
+	int heartGift = 0;
 	KatanaWeapon* katanaWeapon;
 
 	std::vector<LPGAMEOBJECT> objectCollision;
@@ -65,18 +64,17 @@ private:
 
 public:
 	Simon();
-	 int WHIP_STATE;
+	int WHIP_STATE;
 
 	void loadResource();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render(Viewport* viewport);
-	
 	bool isOnGround();
 	int GetLevel() { return level; }
-	
 	void handleState();
 	void Reset(int currentAnimation);
 	int IsAttacking();
+	void handleCollisionStair();
 
 	RECT getBoundingboxWhip();
 	void RemoveWhip();
@@ -84,10 +82,7 @@ public:
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
 
-	vector<LPGAMEOBJECT> getItemList();
-
 	int getWidthWorld();
-	
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 

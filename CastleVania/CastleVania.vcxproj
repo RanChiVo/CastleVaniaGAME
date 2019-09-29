@@ -137,6 +137,7 @@
     <ClCompile Include="Animations\Animation.cpp" />
     <ClCompile Include="AreaZombie.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="CombatWeapon.cpp" />
     <ClCompile Include="GameObjects\BlackLeopard.cpp" />
     <ClCompile Include="GameObjects\Boomerang.cpp" />
     <ClCompile Include="Brick.cpp" />
@@ -177,10 +178,10 @@
     <ClCompile Include="SpriteManagements\Sprite.cpp" />
     <ClCompile Include="SpriteManagements\Sprites.cpp" />
     <ClCompile Include="GameObjects\StopWatch.cpp" />
+    <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="Textures\Textures.cpp" />
     <ClCompile Include="TiledMap.cpp" />
     <ClCompile Include="TileSet.cpp" />
-    <ClCompile Include="TO_LPCWSTR.cpp" />
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="GameObjects\Whip.cpp" />
     <ClCompile Include="GameObjects\WeaponReward.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Animations\Animation.h" />
     <ClInclude Include="AreaZombie.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="CombatWeapon.h" />
     <ClInclude Include="GameObjects\BlackLeopard.h" />
     <ClInclude Include="GameObjects\Boomerang.h" />
     <ClInclude Include="Brick.h" />
@@ -235,10 +237,10 @@
     <ClInclude Include="SpriteManagements\Sprite.h" />
     <ClInclude Include="SpriteManagements\Sprites.h" />
     <ClInclude Include="GameObjects\StopWatch.h" />
+    <ClInclude Include="StaticObject.h" />
     <ClInclude Include="Textures\Textures.h" />
     <ClInclude Include="TiledMap.h" />
     <ClInclude Include="TileSet.h" />
-    <ClInclude Include="TO_LPCWSTR.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="GameObjects\Whip.h" />
     <ClInclude Include="GameObjects\WeaponReward.h" />

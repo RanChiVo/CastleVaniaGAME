@@ -6,32 +6,22 @@ constexpr float WEAPONREWARD_GRAVITY = 0.0006f;
 
 WeaponReward::WeaponReward()
 {
-}
-
-WeaponReward::WeaponReward(D3DXVECTOR2 position)
-{
 	id = ID_TEX_WEAPON_REWARD;
-
-	x = position.x;
-	y = position.y;
-
 	LPANIMATION ani;
-
 	AddAnimation(WEAPONREWARD_ANI);
-
 	SetPosition(D3DXVECTOR2(0, 0));
-
-	state = WEAPONREWARD_STATE_HIDE;
 	currentAnimation = WEAPONREWARD_ANI;
+	width = Textures::GetInstance()->GetSizeObject(id).first;
+	height = Textures::GetInstance()->GetSizeObject(id).second;
+	liveTime = GetTickCount();
 }
 
 void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
-	if (state == WEAPONREWARD_STATE_SHOW)
+	if (state == STATE_SHOW)
 	{
-
 		vy += WEAPONREWARD_GRAVITY * dt;
 
 		vector<LPCOLLISIONEVENT> coEvents;
@@ -39,8 +29,8 @@ void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		coEvents.clear();
 
-		if (state != WEAPONREWARD_STATE_HIDE)
-			CalcPotentialCollisions(coObjects, coEvents);
+		
+		CalcPotentialCollisions(coObjects, coEvents);
 
 		if (coEvents.size() == 0)
 		{
@@ -51,14 +41,15 @@ void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			float min_tx, min_ty, nx, ny;
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 			if (ny != 0) vy = 0;
-			y += min_ty * dy + ny * 0.4f;
+			y += min_ty * dy + ny * 0.1f;
 		}
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	}
-	else if (state == WEAPONREWARD_STATE_HIDE)
-	{
-		SetPosition(D3DXVECTOR2(-100, -100));
+		if (GetTickCount() - liveTime > 3000)
+		{
+			state = STATE_DETROY;
+			liveTime = 0;
+		}
 	}
 }
 
@@ -76,13 +67,13 @@ void WeaponReward::GetBoundingBox(float & left, float & top, float & right, floa
 
 void WeaponReward::Render(Viewport * viewport)
 {
-	if (state == WEAPONREWARD_STATE_SHOW)
+	if (state == STATE_SHOW)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		Flip flip = flip_horiz;
 		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		RenderBoundingBox(viewport);
 	}
-	else return;
 }
 
 WeaponReward::~WeaponReward()

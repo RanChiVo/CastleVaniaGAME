@@ -1,12 +1,7 @@
 #pragma once
-#include "GameObject.h"
+#include "../StaticObject.h"
 
-constexpr int BURN_STATE_NOMAL = 1;
-constexpr int BURN_STATE_EFFECT = 2;
-constexpr int BURN_STATE_HIDE = 3;
-
-
-class BurnBarrel: public GameObject
+class BurnBarrel: public StaticObject
 {
 public:
 

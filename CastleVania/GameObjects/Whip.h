@@ -1,11 +1,12 @@
 #pragma once
 #include "GameObject.h"
+#include "../CombatWeapon.h"
 
 constexpr int WHIT_STATE_1 = 1;
 constexpr int WHIT_STATE_2 = 2;
 constexpr int WHIT_STATE_3 = 3;
 
-class Whip : public GameObject
+class Whip : public CombatWeapon
 {
 	int type;
 	int ani;
@@ -15,11 +16,10 @@ class Whip : public GameObject
 
 public:
 
-	Whip(D3DXVECTOR2 position);
+	Whip();
 	void updatePostision( int currentFrameSimon, int currentAni, int direct);
 	int getframe();
 	int getCurrentAnimation();
-	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	void Render(Viewport* viewport);
 	//bool checkCollision(RECT A, RECT B);
 	RECT getBounding();

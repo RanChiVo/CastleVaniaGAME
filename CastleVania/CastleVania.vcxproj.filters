@@ -141,9 +141,6 @@
     <ClCompile Include="WallEntrance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TO_LPCWSTR.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionStair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -175,6 +172,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameObjects\BlackLeopard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatWeapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -311,9 +314,6 @@
     <ClInclude Include="WallEntrance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TO_LPCWSTR.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionStair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -345,6 +345,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameObjects\BlackLeopard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatWeapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

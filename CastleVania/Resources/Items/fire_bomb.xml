@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_TEX_FIRE_BOMB"  name="fire_bomb">
+  <imagelayer id="ID_TEX_FIRE_BOMB"  name="fire_bomb" width="32" height="32">
     <image source="Resources\Items\fire_bomb.png" width="32" height="32"/>
   </imagelayer>
   <sprites>

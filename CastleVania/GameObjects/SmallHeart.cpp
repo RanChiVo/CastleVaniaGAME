@@ -27,7 +27,11 @@ void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state == SMALL_HEART_STATE_SHOW)
 	{
-
+		if (GetTickCount() - liveTime > 4000)
+		{
+			state = STATE_DETROY;
+			liveTime = 0;
+		}
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -78,9 +82,6 @@ void SmallHeart::GetBoundingBox(float & left, float & top, float & right, float 
 {
 	left = x;
 	top = y;
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_SMALL_HEART)->Get("small_heart1")->getRect();
-	int height = r.bottom - r.top;
-	int width = r.right - r.left;
 	right = x + width;
 	bottom = y + height;
 }

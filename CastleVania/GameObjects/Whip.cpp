@@ -3,11 +3,9 @@
 #include "BurnBarrel.h"
 #include "Simon.h"
 
-Whip::Whip(D3DXVECTOR2 position)
+Whip::Whip()
 {
 	id = ID_TEX_WHIP;
-	x = position.x;
-	y = position.y;
 
 	AddAnimation(TYPE1_WHIP);
 	AddAnimation(TYPE2_WHIP);
@@ -19,7 +17,6 @@ Whip::Whip(D3DXVECTOR2 position)
 
 void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 {
-
 	if (currentAni == SIMON_ANI_ATTACK_STANDING)
 	{
 		if (direct == 1)
@@ -106,29 +103,10 @@ int Whip::getCurrentAnimation()
 	return currentAnimation;
 }
 
-void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
-	GameObject::Update(dt, coObjects);
-}
-
 void Whip::Render(Viewport * viewport)
 {
-
+	
 }
-
-//bool Whip::checkCollision(RECT A, RECT B)
-//{
-//	float left = B.left - A.right;
-//	float top = B.bottom - A.top;
-//	float right = B.right - A.left;
-//	float bottom = B.top - A.bottom;
-//
-//	if (left < 0 && right > 0 && top > 0 && bottom < 0)
-//	{
-//		return true;
-//	}
-//	return false;
-//}
 
 RECT Whip::getBounding()
 {
@@ -164,6 +142,7 @@ void Whip::draw(int direct, Viewport* viewport)
 	GetBoundingBox(l, t, r, b);
 
 	bounding = RECT{ int(l), int(t), int(r), int(b) };
+	RenderBoundingBox(viewport);
 }
 
 void Whip::GetBoundingBox(float & left, float & top, float & right, float & bottom)

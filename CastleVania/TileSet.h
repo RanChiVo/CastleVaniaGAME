@@ -7,7 +7,6 @@
 class TileSet
 {
 private:
-
 	int tileWidth;
 	int tileHeight;
 	Sprite tile;

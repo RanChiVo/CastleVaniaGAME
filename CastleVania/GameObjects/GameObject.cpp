@@ -9,6 +9,7 @@
 #include "../Textures/Textures.h"
 
 unordered_map<int, LPANIMATION> GameObject::animations;
+int GameObject::level = 0;
 
 int GameObject::getID()	
 {
@@ -50,35 +51,24 @@ void GameObject::setIdHiddenItem(std::string idHiddenItem)
 	this->idHiddenItem = idHiddenItem;
 }
 
-std::string GameObject::getName()
-{
-	return std::string();
-}
-
-void GameObject::setName(std::string name)
-{
-	this->name = name;
-}
-
-bool GameObject::IsActive()
-{
-	return this->isActive;
-}
-
-void GameObject::SetActive(bool is_active)
-{
-	this->isActive = is_active;
-}
-
 bool GameObject::IsChangeLevel()
 {
-	return isChangeLevel;
+	return level;
 }
 
 void GameObject::AddAnimation(int aniId)
 {
 	LPANIMATION ani = Animations::GetInstance()->Get(aniId);
+	if (animations.count(aniId) > 0)
+	{
+		return;
+	}
 	animations.insert(make_pair(aniId, ani));
+}
+
+void GameObject::DeleteAnimation(int aniId)
+{
+	animations.erase(aniId);
 }
 
 D3DXVECTOR2 GameObject::getPosition()
@@ -95,6 +85,7 @@ void GameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 GameObject::GameObject()
 {
+	state = STATE_SHOW;
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;

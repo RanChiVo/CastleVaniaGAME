@@ -4,7 +4,6 @@
 #include "../DebugOut/DebugOut.h"
 
 
-
 bool Animation::IsFinished()
 {
 	return isFinished;

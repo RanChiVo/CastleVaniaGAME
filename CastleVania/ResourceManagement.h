@@ -28,8 +28,6 @@ public:
 	std::unordered_map<std::string, ANI_ID> stringToAniID;
 	std::unordered_map<EntityID, Sprites*> SpriteMapper;
 	std::unordered_map<EntityID, TiledMap*> TiledMapList;
-	std::map<std::pair<std::string, int>, vector<std::string>> AnimationMapper;
-
 	Textures * textures;
 	Sprites* sprites;
 	Animations* Getanimations;

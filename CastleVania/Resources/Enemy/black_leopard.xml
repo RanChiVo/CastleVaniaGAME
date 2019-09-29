@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <loadresource>
- <imagelayer id="ID_TEX_BLACK_LEOPARD" name="black_leopard">
+ <imagelayer id="ID_TEX_BLACK_LEOPARD" name="black_leopard" width="60" height="32">
    <image source="Resources\Enemy\black_leopard.png" width="256" height="32"/>
  </imagelayer>
   

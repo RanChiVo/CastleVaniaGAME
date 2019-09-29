@@ -47,6 +47,16 @@ void Textures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 	DebugOut(L"[INFO] Texture loaded Ok: id=%d, %s \n", id, filePath);
 }
 
+std::pair<int, int> Textures::GetSizeObject(int id)
+{
+	return sizeObject.at(id);
+}
+
+void Textures::setSizeObject(int id, int widthObject, int heightObject)
+{
+	sizeObject.emplace(id, std::make_pair(widthObject, heightObject));
+}
+
 LPDIRECT3DTEXTURE9 Textures::Get(unsigned int i)
 {
 	return textures[i];

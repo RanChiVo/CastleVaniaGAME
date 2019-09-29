@@ -34,7 +34,7 @@ LPDIRECT3DTEXTURE9 Sprite::getText()
 
 void Sprite::Draw(D3DXVECTOR2 position)
 {
-	D3DXVECTOR3 p(position.x, position.y, 0);
+	D3DXVECTOR3 p(floor(position.x), floor(position.y), 0);
 	Direct3DManager* direct3D = Direct3DManager::getInstance();
 
 	direct3D->GetSpriteHandler()->Draw(texture, &rect, nullptr, &p, D3DCOLOR_XRGB(255, 255, 255));

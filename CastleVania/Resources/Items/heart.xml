@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_TEX_HEART"  name="heart">
+  <imagelayer id="ID_TEX_HEART"  name="heart" width="24" height="20" >
     <image source="Resources\Items\heart.png" width="24" height="20"/>
   </imagelayer>
   <sprites>

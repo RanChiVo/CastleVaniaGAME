@@ -45,6 +45,11 @@ std::string ObjectInfo::get_idHiddenItem()
 	return this->idHiddenItem;
 }
 
+std::string ObjectInfo::get_ObjectType()
+{
+	return this->ObjectType;
+}
+
 ObjectInfo::~ObjectInfo()
 {
 }

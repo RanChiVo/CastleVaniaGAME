@@ -1,7 +1,6 @@
 #include "ResourceManagement.h"
 #include "Direct3DManager.h"
 #include "Library/pugixml.hpp"
-#include "TO_LPCWSTR.h"
 
 ResourceManagement * ResourceManagement::__instance = nullptr;
 
@@ -92,35 +91,20 @@ void ResourceManagement::loadResource()
 	//readSpriteFromFile("Resources\\MenuPoint\\double_shoot.xml");
 	//readSpriteFromFile("Resources\\MenuPoint\\triple_shot.xml");
 	//readSpriteFromFile("Resources\\MenuPoint\\triple_shoot.xml");
-
-	LPANIMATION ani;
-
-	for (auto idAnimation : AnimationMapper)
-	{
-			ani = new Animation(idAnimation.first.second);
-			for (int i = 0; i < idAnimation.second.size(); i++)
-			{
-				ani->Add(idAnimation.second[i]);
-			}
-			ANI_ID aniID = stringToAniID[idAnimation.first.first];
-			Getanimations->Add(aniID, ani);
-	}
-
 	textures->Add(ID_TEX_MAP_ENTRANCE, L"TiledMap\\Entrance_bank.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 textMap_Entrance = textures->Get(ID_TEX_MAP_ENTRANCE);
 	TiledMap* tiled_map = new TiledMap("TiledMap\\Entrance_map.tmx", textMap_Entrance);
 	TiledMapList[EntityID::ID_TEX_MAP_ENTRANCE] = tiled_map;
 
-	textures->Add(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\GamePlay1 - Copy.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_TEX_GAMEPLAYSCREEN);
-	tiled_map = new TiledMap("TiledMap\\GamePlay1.tmx", textPlayScreen);
-	TiledMapList[EntityID::ID_TEX_MAP_PLAYGAME] = tiled_map;
+	//textures->Add(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\GamePlay1 - Copy.png", D3DCOLOR_XRGB(255, 0, 255));
+	//LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_TEX_GAMEPLAYSCREEN);
+	//tiled_map = new TiledMap("TiledMap\\GamePlay1.tmx", textPlayScreen);
+	//TiledMapList[EntityID::ID_TEX_MAP_PLAYGAME] = tiled_map;
 }
 
 void ResourceManagement::readAnimationFromFile(std::string resourcepath)
 {
 	pugi::xml_document doc;
-
 	pugi::xml_parse_result result = doc.load_file(resourcepath.c_str());
 
 	if (!result)
@@ -131,23 +115,24 @@ void ResourceManagement::readAnimationFromFile(std::string resourcepath)
 
 	auto sourceDoc = doc.child("loadresource").child("animations");
 
-	for (auto ani : sourceDoc.children("animation"))
+	for (auto aniDoc : sourceDoc.children("animation"))
 	{
-		std::string idAnimation = ani.attribute("name").as_string();
-		int defaultTime = ani.attribute("default_time").as_int();
-		std::vector <std::string> idSpriteList;
-		for (auto aniFrame: ani.children("animation_frame"))
+		std::string idAnimation = aniDoc.attribute("name").as_string();
+		int defaultTime = aniDoc.attribute("default_time").as_int();
+		LPANIMATION animation = new Animation(defaultTime);
+
+		for (auto aniFrame: aniDoc.children("animation_frame"))
 		{
-			idSpriteList.push_back(aniFrame.attribute("sprite_id").as_string());
+			animation->Add(aniFrame.attribute("sprite_id").as_string());
 		}
-		AnimationMapper.emplace(std::make_pair(idAnimation, defaultTime), idSpriteList);
+		ANI_ID aniID = stringToAniID[idAnimation];
+		Getanimations->Add(aniID, animation);
 	}
 }
 
 void ResourceManagement::readSpriteFromFile(std::string resourcepath)
 {
 	pugi::xml_document doc;
-
 	pugi::xml_parse_result result = doc.load_file(resourcepath.c_str());
 
 	if (!result)
@@ -161,12 +146,14 @@ void ResourceManagement::readSpriteFromFile(std::string resourcepath)
 	EntityID idTextfromfile = stringToEntityID[idText];
 
 	std::string pathImage = sourceDoc.child("imagelayer").child("image").attribute("source").as_string();
-	std::wstring pathImagefromfile = StringToLPCWSTR(pathImage);
+	std::wstring pathImagefromfile(pathImage.begin(), pathImage.end());
+		
 	LPCWSTR pathImageLoad = pathImagefromfile.c_str();
-
 	loadTexture(idTextfromfile, pathImageLoad, D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texID = textures->Get(idTextfromfile);
-
+	textures->setSizeObject(idTextfromfile, sourceDoc.child("imagelayer").attribute("width").as_int(),
+		sourceDoc.child("imagelayer").attribute("height").as_int());
+	
 	auto sprites = sourceDoc.child("sprites");
 	for (auto sprite : sprites.children("spriteframe"))
 	{
@@ -189,7 +176,7 @@ void ResourceManagement::loadFont(LPTSTR path)
 	AddFontResourceEx(path, FR_PRIVATE, NULL);
 
 	HRESULT result = D3DXCreateFont(
-		gDevice, 20, 0, FW_NORMAL, 1, false,
+		gDevice, 17, 0, FW_NORMAL, 1, false,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
 		ANTIALIASED_QUALITY, FF_DONTCARE, L"Press Start", &font);
 }

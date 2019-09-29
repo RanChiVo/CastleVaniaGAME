@@ -8,6 +8,11 @@ void Animations::Add(int id, LPANIMATION ani)
 	animations.emplace(id, ani);
 }
 
+void Animations::Delete(int id)
+{
+	animations.erase(id);
+}
+
 LPANIMATION Animations::Get(int id)
 {
 	return animations.find(id)->second;

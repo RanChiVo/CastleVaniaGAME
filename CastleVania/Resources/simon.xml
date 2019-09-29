@@ -2,7 +2,7 @@
 
 <loadresource>
   
- <imagelayer id="ID_TEX_SIMON" name="Simon">
+ <imagelayer id="ID_TEX_SIMON" name="Simon" width="60" height="66">
    <image source="Resources\simon.png" width="480" height="330"/>
  </imagelayer>
   

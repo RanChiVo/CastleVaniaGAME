@@ -6,11 +6,11 @@ constexpr float FIRE_BOMB_GRAVITY = 0.0006f;
 FireBomb::FireBomb()
 {
 	id = ID_TEX_FIRE_BOMB;
-
 	AddAnimation(FIRE_BOMB_ANI);
-
 	state = FIRE_BOMB_STATE_HIDE;
 	currentAnimation = FIRE_BOMB_ANI;
+	width = Textures::GetInstance()->GetSizeObject(id).first;
+	height = Textures::GetInstance()->GetSizeObject(id).second;
 }
 
 void FireBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

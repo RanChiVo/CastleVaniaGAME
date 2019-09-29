@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Viewport.h"
-
 #include "TileSet.h"
 #include "ObjectInfo.h"
 #include <map>

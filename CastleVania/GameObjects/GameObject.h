@@ -40,18 +40,26 @@ protected:
 	int nx;
 	int state;
 	int currentAnimation;
-	bool isChangeLevel = false;
+	static int level;
 	bool isCollision = false;
-	bool isActive = false;
+	int liveTime;
 
-	std::string name;
 	std::string idHiddenItem;
 	DWORD dt;
 	static unordered_map<int, LPANIMATION> animations;
 
 public:
 	GameObject();
-		
+	static int getLevel() { return level; }
+	void setLevel(int level) { this->level = level; }
+	int getLiveTime() { return liveTime; }
+	void setLiveTime(int liveTime) { this->liveTime = liveTime; }
+	enum StateLive
+	{
+		STATE_DETROY = 1000,
+		STATE_SHOW = 1001,
+		STATE_FIRE = 1002,
+	};
 	virtual void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
 	virtual D3DXVECTOR2 getPosition();
 	virtual void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
@@ -66,10 +74,6 @@ public:
 	virtual void setWidth(int width);
 	virtual std::string getIdHiddenItem();
 	virtual void setIdHiddenItem(std::string idHiddenItem);
-	virtual std::string getName();
-	virtual void setName(std::string name);
-	virtual bool IsActive();
-	virtual void SetActive(bool is_activate);
 
 	virtual int GetDirection() { return this->nx; }
 	virtual bool IsChangeLevel();
@@ -89,7 +93,7 @@ public:
 		float &nx,
 		float &ny);
 	static void AddAnimation(int aniId);
-
+	static void DeleteAnimation(int aniId);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render(Viewport* viewport) = 0;
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom)=0;

@@ -1,9 +1,6 @@
 #pragma once
 #include "../GameObjects/GameObject.h"
 
-constexpr int HEART_STATE_HIDE = 1;
-constexpr int HEART_STATE_SHOW = 2;
-
 class Heart: public GameObject
 {
 	int untouchable;

@@ -8,9 +8,6 @@ constexpr int KATA_HEIGHT = 20;
 
 KatanaWeapon::KatanaWeapon()
 {
-	x = -100;
-	y = -100;
-
 	id = ID_TEX_KATANA_WEAPON;
 
 	LPANIMATION ani;
@@ -31,42 +28,46 @@ void KatanaWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
-	x += dx;
-	y = KATANAWEAPON_Y;
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	float min_tx, min_ty, nx, ny;
-	float Dx = dx;
-
-	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-	for (UINT i = 0; i < coEventsResult.size(); i++)
-
+	if (state != STATE_DETROY)
 	{
-		LPCOLLISIONEVENT e = coEventsResult[i];
+		x += dx;
+		y = KATANAWEAPON_Y;
 
-		if (dynamic_cast<BurnBarrel *>(e->obj))
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+
+		coEvents.clear();
+
+		CalcPotentialCollisions(coObjects, coEvents);
+
+		float min_tx, min_ty, nx, ny;
+		float Dx = dx;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+
 		{
-			BurnBarrel *burn_barrel = dynamic_cast<BurnBarrel *>(e->obj);
-			if (e->nx != 0)
+			LPCOLLISIONEVENT e = coEventsResult[i];
+
+			if (dynamic_cast<BurnBarrel *>(e->obj))
 			{
-				burn_barrel->SetPosition(D3DXVECTOR2(-100, -100));
+				BurnBarrel *burn_barrel = dynamic_cast<BurnBarrel *>(e->obj);
+				if (e->nx != 0)
+				{
+					burn_barrel->SetState(STATE_DETROY);
+				}
 			}
 		}
-	}
-	x += Dx;
+		x += Dx;
 
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	}
 }
 
 void KatanaWeapon::Render(Viewport * viewport)
 {
+	RenderBoundingBox(viewport);
 	Flip flip;
 	if (nx == 1) flip = normal;
 	else flip = flip_horiz;
@@ -75,13 +76,9 @@ void KatanaWeapon::Render(Viewport * viewport)
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
-	else
-	{
-		x = -100;
-		y = -100;
+	else {
+		state = STATE_DETROY;
 	}
-	
-	 RenderBoundingBox(viewport);
 }
 
 void KatanaWeapon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -94,7 +91,6 @@ void KatanaWeapon::GetBoundingBox(float & left, float & top, float & right, floa
 
 void KatanaWeapon::SetState(int state)
 {
-	GameObject::SetState(state);
 	switch (state)
 	{
 	case KATANAWEAPON_STATE_RIGHT:

@@ -1,6 +1,6 @@
 #include "BlackLeopard.h"
 
-constexpr int BLACKLEOPARD_GRAVITY = 0.0009f;
+constexpr float BLACKLEOPARD_GRAVITY = 0.0009f;
 constexpr float BLACKLEOPARD_SPEED = 0.15f;
 
 
@@ -12,7 +12,6 @@ BlackLeopard::BlackLeopard()
 
 	state = BLACKLEOPARD_STATE_IDLE;
 	currentAnimation = BLACK_LEOPARD_ANI_IDLE;
-	isActive = false;
 }
 
 void BlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

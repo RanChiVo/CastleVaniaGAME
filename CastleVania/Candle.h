@@ -2,12 +2,9 @@
 #include "Candle.h"
 #include "GameObjects/GameObject.h"
 #include "ResourceManagement.h"
+#include "./StaticObject.h"
 
-constexpr int CANDLE_STATE_HIDE = 1;
-constexpr int CANDLE_STATE_SHOW = 2;
-
-
-class Candle : public GameObject
+class Candle : public StaticObject
 {
 public:
 	Candle();

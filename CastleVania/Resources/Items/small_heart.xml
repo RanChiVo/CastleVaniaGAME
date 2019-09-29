@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <loadresource>
-  <imagelayer id="ID_TEX_SMALL_HEART" name="Simon">
+  <imagelayer id="ID_TEX_SMALL_HEART" name="Simon" width="16" height="16">
     <image source="Resources\Items\small_heart.png" width="16" height="16"/>
   </imagelayer>
 

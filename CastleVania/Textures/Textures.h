@@ -7,13 +7,14 @@ using namespace std;
 class Textures
 {
 	static Textures * __instance ;
-
 	unordered_map<int, LPDIRECT3DTEXTURE9> textures;
+	unordered_map<int, std::pair<int, int>> sizeObject;
 
 public:
 	
 	void Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor);
+	std::pair<int, int> GetSizeObject(int id);
+	void setSizeObject(int id, int widthObject, int heightObject);
 	LPDIRECT3DTEXTURE9 Get(unsigned int i);
-
 	static Textures * GetInstance();
 };
