@@ -545,7 +545,7 @@ void Simon::handleCollisionStair()
 				/*else if (isOnStair && objectCollision.at(i)->getIdHiddenItem() == "left-down-idle")
 				{
 					SetState(SIMON_STATE_IDLE);
-					isOnStair = false;
+					
 				}*/
 			}
 			else
