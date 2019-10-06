@@ -9,7 +9,6 @@ CastleVania::CastleVania():Game()
 {
 	menuscreen = new MenuScreen();
 	screenmanager = new ScreenManager();
-	__hook(&MenuScreen::chooseScreenGamePlay, menuscreen, &CastleVania::playGame);
 }
 void CastleVania::Init(HINSTANCE hInstance, int nCmdShow)
 {	
@@ -52,5 +51,4 @@ void CastleVania::playGame(ScreenBase * screen)
 
 CastleVania::~CastleVania()
 {
-	__unhook(&MenuScreen::chooseScreenGamePlay, menuscreen, &CastleVania::playGame);
 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    

@@ -11,7 +11,6 @@
 #include "../GameObjects/Entrance.h"
 #include "../Screens/ScreenBase.h"
 #include "../GameObjects/GameObject.h"
-#include "../Input/DirectInput.h"
 #include "../Viewport.h"
 #include "../Game.h"
 #include "../MenuPoint.h"
@@ -25,7 +24,6 @@ private:
 	D3DXVECTOR2 posWall;
 	EntityID id;
 	Simon* simon;
-	DirectInput* directInput;
 	ResourceManagement* resourceManagement;
 	RECT rect;
 	DWORD timer_zombie = 0;

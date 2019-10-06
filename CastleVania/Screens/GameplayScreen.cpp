@@ -154,8 +154,6 @@ void GameplayScreen::loadResources()
 
 GameplayScreen::GameplayScreen()
 {
-	directInput = DirectInput::getInstance();
-
 	resourceManagement = ResourceManagement::GetInstance();
 
 	id = ID_TEX_MAP_ENTRANCE;
