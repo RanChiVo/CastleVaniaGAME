@@ -45,8 +45,6 @@ void MenuScreen::renderObject()
 
 void MenuScreen::loadResources()
 {
-	
-	
 	AudioManager::getInstance()->loadAudio({
 		{
 			"intro_scene", L"Resources\\Sounds\\Musics\\intro_scene.wav" }

@@ -13,25 +13,23 @@ private:
 	ID3DXFont *font;
 	RECT rect;
 	string content;
-	std::vector<Sprite*> HPlist;
-	std::vector<Sprite*> enemy_HPList;
 	std::vector<LPGAMEOBJECT> Simon_Item;
 	int start_time;
-	
+	int gameTime;
 
 	int score;
 	std::string timeString;
-	int item;
-	int blood_simon;
-	int state;
-	int weapon;
 	Sprite* HP;
+	Sprite* enemy_HP1;
+	Sprite* place_item1;
 	DWORD startTime;
-
 	ResourceManagement* resourceManagement;
-
+	LPD3DXSPRITE spriteHandler;
+	RECT R;
+	Sprite* heart;
 public:
 	MenuPoint();
+	void loadResource();
 	void update();
 	void Draw(	);
 	~MenuPoint();

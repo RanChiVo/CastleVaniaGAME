@@ -28,7 +28,6 @@ void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
 		coEvents.clear();
-
 		
 		CalcPotentialCollisions(coObjects, coEvents);
 
@@ -57,10 +56,6 @@ void WeaponReward::GetBoundingBox(float & left, float & top, float & right, floa
 {
 	left = x;
 	top = y;
-
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_WEAPON_REWARD)->Get("weapon_reward1")->getRect();
-	int height = r.bottom - r.top;
-	int width = r.right - r.left;
 	right = x + width;
 	bottom = y + height;
 }
@@ -72,7 +67,7 @@ void WeaponReward::Render(Viewport * viewport)
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		Flip flip = flip_horiz;
 		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
-		RenderBoundingBox(viewport);
+	//	RenderBoundingBox(viewport);
 	}
 }
 

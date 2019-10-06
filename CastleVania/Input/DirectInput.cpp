@@ -137,8 +137,6 @@ DirectInput::DirectInput()
 {
 }
 
-
-
 DirectInput::~DirectInput()
 {
 	

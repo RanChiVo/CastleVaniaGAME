@@ -8,7 +8,7 @@ Entrance::Entrance()
 
 void Entrance::Render(Viewport * viewport)
 {
-	//RenderBoundingBox(viewport);
+	RenderBoundingBox(viewport);
 }
 
 void Entrance::GetBoundingBox(float & l, float & t, float & r, float & b)

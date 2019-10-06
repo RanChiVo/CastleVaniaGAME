@@ -6,6 +6,8 @@
 #include "./GameObjects/Cross.h"
 #include "./GameObjects/FireBomb.h"
 
+constexpr int FIRE_LIVE_TIME = 300;
+
 StaticObject::StaticObject()
 {
 }
@@ -15,7 +17,7 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	GameObject::Update(dt, coObjects);
 	if (state == STATE_FIRE)
 	{
-		if (GetTickCount() - liveTime > 500)
+		if (GetTickCount() - liveTime > FIRE_LIVE_TIME)
 		{
 			state = STATE_DETROY;
 			liveTime = 0;

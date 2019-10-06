@@ -9,7 +9,7 @@ CBrick::CBrick()
 
 void CBrick::Render(Viewport* viewport)
 {
-	//RenderBoundingBox(viewport);
+	RenderBoundingBox(viewport);
 }
 
 void CBrick::GetBoundingBox(float & l, float & t, float & r, float & b)

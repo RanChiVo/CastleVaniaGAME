@@ -13,6 +13,9 @@ Whip::Whip()
 
 	state = WHIT_STATE_1;
 	currentAnimation = TYPE1_WHIP;
+	bbLevel1 = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("type1_whip_3")->getRect();
+	bbLevel2 = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("type2_whip_3")->getRect();
+	bbLevel3 = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("type3_whip_3")->getRect();
 }
 
 void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
@@ -103,14 +106,13 @@ int Whip::getCurrentAnimation()
 	return currentAnimation;
 }
 
-void Whip::Render(Viewport * viewport)
-{
-	
-}
-
 RECT Whip::getBounding()
 {
 	return this->bounding;
+}
+
+void Whip::Render(Viewport * viewport)
+{
 }
 
 void Whip::draw(int direct, Viewport* viewport)
@@ -154,13 +156,13 @@ void Whip::GetBoundingBox(float & left, float & top, float & right, float & bott
 	switch (state)
 	{
 	case WHIT_STATE_1:
-		r = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("type1_whip_3")->getRect();
+		r = bbLevel1;
 		break;
 	case WHIT_STATE_2:
-		r = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("type2_whip_3")->getRect();
+		r = bbLevel2;
 		break;
 	case WHIT_STATE_3:
-		r = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("type3_whip_3")->getRect();
+		r = bbLevel3;
 		break;
 	}
 	

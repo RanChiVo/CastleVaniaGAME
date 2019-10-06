@@ -18,10 +18,10 @@
 #include "../GameObjects/Zombie.h"
 #include "../DebugOut//DebugOut.h"
 
-constexpr float SIMON_MOVE_SPEED = 0.095f;
+constexpr float SIMON_MOVE_SPEED = 0.1f;
 constexpr int SIMON_JUMP_VEL = 350;
-constexpr float SIMON_JUMP_SPEED_Y = 0.40f;
-constexpr float SIMON_GRAVITY = 0.0009f;
+constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
+constexpr float SIMON_GRAVITY = 0.0012f;
 constexpr int SIMON_PROTECT_TIME = 2000;
 constexpr float SIMON_UP_STAIR_SPEED_Y = 0.09f;
 constexpr float SIMON_UP_STAIR_SPEED_X = 0.09f;
@@ -295,7 +295,7 @@ void Simon::GetBoundingBox(float & left, float & top, float & right, float & bot
 
 void Simon::Render(Viewport* viewport)
 {
-	RenderBoundingBox(viewport);
+	//RenderBoundingBox(viewport);
 
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 

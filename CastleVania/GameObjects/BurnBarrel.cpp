@@ -29,7 +29,7 @@ void BurnBarrel::GetBoundingBox(float &l, float &t, float &r, float &b)
 
 void BurnBarrel::Render(Viewport * viewport)
 {
-	RenderBoundingBox(viewport);
+	//RenderBoundingBox(viewport);
 	if (state == STATE_SHOW)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));

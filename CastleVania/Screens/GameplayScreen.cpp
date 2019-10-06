@@ -44,8 +44,7 @@ void GameplayScreen::updateViewport(float dt)
 {
 	D3DXVECTOR2 pos_Simon = simon->getPosition();
 
-	RECT r = resourceManagement->getSprite(ID_TEX_SIMON)->Get("Walking1")->getRect();
-	int widthframeSimon = (r.right - r.left);
+	int widthframeSimon = simon->getWidth();
 
 	D3DXVECTOR2 newPosViewport = D3DXVECTOR2{};
 
@@ -144,12 +143,12 @@ void GameplayScreen::loadResources()
 			wallEntrance->SetPosition(object->get_postition());
 			objects.push_back(wallEntrance);
 		}
-	
 	}
 	simon = new Simon();
 	simon->loadResource();
 	objects.push_back(simon);
 	objects.push_back(castlewall);
+	menu_point->loadResource();
 }
 
 GameplayScreen::GameplayScreen()
