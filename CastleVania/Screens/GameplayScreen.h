@@ -4,7 +4,7 @@
 #include "../GameObjects/BurnBarrel.h"
 #include "../GameObjects/Heart.h"
 #include "../GameObjects/WeaponReward.h"
-#include "../GameObjects/Katana.h"
+#include "../GameObjects/Dagger.h"
 #include "../GameObjects/MiraculousBag.h"
 #include "../GameObjects/Floor.h"
 #include "../Brick.h"

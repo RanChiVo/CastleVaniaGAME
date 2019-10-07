@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_TEX_KATANA"  name="katana" width="32" height="18">
+  <imagelayer id="ID_TEX_DAGGER"  name="katana" width="32" height="18">
     <image source="Resources\Items\katana_item.png" width="32" height="18"/>
   </imagelayer>
   <sprites>

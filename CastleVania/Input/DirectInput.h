@@ -1,11 +1,8 @@
 #pragma once
 #include "../DebugOut/DebugOut.h"
 #include <stdio.h>  
-
-#define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
-// evh_native.cpp  
 constexpr int keyboard_buffer_size = 1024;
 
 [event_source(native)]

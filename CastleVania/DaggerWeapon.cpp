@@ -1,4 +1,4 @@
-#include "KatanaWeapon.h"
+#include "DaggerWeapon.h"
 #include "ResourceManagement.h"
 #include "../CastleVania/GameObjects/BurnBarrel.h"
 
@@ -6,10 +6,10 @@ constexpr int KATANAWEAPON_Y = 350;
 constexpr int KATA_WIDTH = 30;
 constexpr int KATA_HEIGHT = 20;
 
-KatanaWeapon::KatanaWeapon()
+DaggerWeapon::DaggerWeapon()
 {
 	id = ID_TEX_KATANA_WEAPON;
-
+	state = STATE_SHOW;
 	LPANIMATION ani;
 
 	ani = new Animation(40);
@@ -22,11 +22,12 @@ KatanaWeapon::KatanaWeapon()
 
 	this->width = KATA_WIDTH;
 	this->height = KATA_HEIGHT;
+	vx = 2;
 }
 
-void KatanaWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void DaggerWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	GameObject::Update(dt, coObjects);
+	CombatWeapon::Update(dt, coObjects);
 
 	if (state != STATE_DETROY)
 	{
@@ -65,7 +66,7 @@ void KatanaWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 }
 
-void KatanaWeapon::Render(Viewport * viewport)
+void DaggerWeapon::Render(Viewport * viewport)
 {
 	RenderBoundingBox(viewport);
 	Flip flip;
@@ -81,7 +82,7 @@ void KatanaWeapon::Render(Viewport * viewport)
 	}
 }
 
-void KatanaWeapon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+void DaggerWeapon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	left = x;
 	top = y;
@@ -89,7 +90,7 @@ void KatanaWeapon::GetBoundingBox(float & left, float & top, float & right, floa
 	bottom = y + this->height;
 }
 
-void KatanaWeapon::SetState(int state)
+void DaggerWeapon::SetState(int state)
 {
 	switch (state)
 	{
@@ -106,7 +107,7 @@ void KatanaWeapon::SetState(int state)
 	}
 }
 
-bool KatanaWeapon::checkInsideViewPort(Viewport* viewport, D3DXVECTOR2 position)
+bool DaggerWeapon::checkInsideViewPort(Viewport* viewport, D3DXVECTOR2 position)
 {
 	if ((position.x + width) < viewport->getX() || position.x >(viewport->getX() + viewport->getWidth()))
 	{
@@ -115,6 +116,6 @@ bool KatanaWeapon::checkInsideViewPort(Viewport* viewport, D3DXVECTOR2 position)
 	return true;
 }
 
-KatanaWeapon::~KatanaWeapon()
+DaggerWeapon::~DaggerWeapon()
 {
 }

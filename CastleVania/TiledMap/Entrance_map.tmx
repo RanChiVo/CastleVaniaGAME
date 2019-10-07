@@ -4,7 +4,7 @@
   <image source="Entrance_bank.png" width="512" height="384"/>
  </tileset>
  <tileset firstgid="49" source="../../../../Game/CastleVaniaGame/CastleVania/TiledMap/WallCastle.tsx"/>
- <tileset firstgid="50" source="../../../../Game/CastleVaniaGame/CastleVania/TiledMap/burn_barrel.tsx"/>
+ <tileset firstgid="49" source="../../../../Game/CastleVaniaGame/CastleVania/TiledMap/burn_barrel.tsx"/>
  <layer id="1" name="Entrance_Ground" width="23" height="6">
   <data encoding="csv">
 1,1,1,1,1,2,3,4,1,1,1,1,1,2,3,3,3,3,3,5,6,7,8,
@@ -14,34 +14,33 @@
 35,36,37,38,39,37,39,37,35,36,37,38,39,37,39,40,41,42,43,44,45,46,47,
 30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30
 </data>
- </layer> 
+ </layer>
  <objectgroup color="#aa007f" id="3" name="Static_Object">
-  <object id="28" name="BurnBarrel" gid="51" x="175" y="290" width="32" height="64">
+  <object id="28" name="BurnBarrel" gid="50" x="175" y="290" width="32" height="64">
    <properties>
     <property name="Hidden item" value="weapon_reward"/>
    </properties>
   </object>
-  <object id="29" name="BurnBarrel" gid="51" x="434" y="290" width="32" height="64">
+  <object id="29" name="BurnBarrel" gid="50" x="434" y="290" width="32" height="64">
    <properties>
     <property name="Hidden item" value="weapon_reward"/>
    </properties>
   </object>
-  <object id="30" name="BurnBarrel" gid="51" x="685" y="290" width="32" height="64">
+  <object id="30" name="BurnBarrel" gid="50" x="685" y="290" width="32" height="64">
    <properties>
     <property name="Hidden item" value="heart"/>
    </properties>
   </object>
-  <object id="31" name="BurnBarrel" gid="51" x="942" y="290" width="32" height="64">
+  <object id="31" name="BurnBarrel" gid="50" x="942" y="290" width="32" height="64">
    <properties>
     <property name="Hidden item" value="weapon_reward"/>
    </properties>
   </object>
-  <object id="32" name="BurnBarrel" gid="51" x="1199" y="290" width="32" height="64">
+  <object id="32" name="BurnBarrel" gid="50" x="1199" y="290" width="32" height="64">
    <properties>
-    <property name="Hidden Item" value="kanata"/>
+    <property name="Hidden Item" value="dagger"/>
    </properties>
   </object>
-  
  </objectgroup>
  <objectgroup color="#ff0000" id="2" name="Simon">
   <object id="34" name="Start_Map" x="58" y="195" width="38" height="94"/>
@@ -49,7 +48,7 @@
  </objectgroup>
  <objectgroup color="#00ff00" id="4" name="Static_Castle">
   <object id="12" name="Entrance" x="1311.5" y="111" width="31" height="177"/>
-  <object id="18" name="CastleWall" gid="49" x="1340.5" y="289" width="99" height="288"/>
+  <object id="18" name="CastleWall" gid="0" x="1340.5" y="289" width="99" height="288"/>
   <object id="19" name="Wall_behind_entrance" x="1425.5" y="0" width="16" height="289"/>
   <object id="20" name="Wall_frontof_entrance" x="2.5" y="1" width="16" height="291"/>
   <object id="26" name="Floor" x="2.5" y="290" width="1470" height="29"/>

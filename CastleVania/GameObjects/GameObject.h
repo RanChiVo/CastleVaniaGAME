@@ -70,12 +70,12 @@ public:
 	virtual int getHeight();
 	virtual void setHeight(int height);
 	virtual int getWidth();
-	virtual int getDirection();
 	virtual void setWidth(int width);
 	virtual std::string getIdHiddenItem();
 	virtual void setIdHiddenItem(std::string idHiddenItem);
 
-	virtual int GetDirection() { return this->nx; }
+	virtual int getDirection() { return this->nx; }
+	virtual void setDirection(int nx) { this->nx = nx; }
 	virtual bool IsChangeLevel();
 	virtual bool checkCollision(RECT A, RECT B);
 	virtual bool IsCollision();

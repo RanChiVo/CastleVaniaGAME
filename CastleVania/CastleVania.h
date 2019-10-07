@@ -10,32 +10,21 @@
 #include "Screens/MenuScreen.h"
 #include "Screens/GameplayScreen.h"
 
-
 class CastleVania : public Game
 {
 private:
-	static CastleVania * __instance;
-
 	HINSTANCE hInstance;
 	int nCmdShow;
-
 	ScreenManager* screenmanager;
 	MenuScreen* menuscreen;
 	GameplayScreen* gameplayscreen;
 
-	CastleVania();
-
 public:
-
+	CastleVania();
 	void Init(HINSTANCE hInstance, int nCmdShow);
 	void loadResource();
 	void renderObjects();
 	void update(float dt);
 	void run();
-
-	void playGame(ScreenBase* screen);
-
-	static CastleVania * GetInstance();
-
 	~CastleVania();
 };

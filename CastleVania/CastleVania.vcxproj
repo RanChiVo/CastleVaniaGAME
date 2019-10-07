@@ -137,6 +137,7 @@
     <ClCompile Include="Animations\Animation.cpp" />
     <ClCompile Include="AreaZombie.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="BaseInfo.cpp" />
     <ClCompile Include="CombatWeapon.cpp" />
     <ClCompile Include="GameObjects\BlackLeopard.cpp" />
     <ClCompile Include="GameObjects\Boomerang.cpp" />
@@ -153,11 +154,11 @@
     <ClCompile Include="GameObjects\Heart.cpp" />
     <ClCompile Include="Input\DirectInput.cpp" />
     <ClCompile Include="CastleVania.cpp" />
-    <ClCompile Include="GameObjects\Katana.cpp" />
+    <ClCompile Include="GameObjects\Dagger.cpp" />
     <ClCompile Include="MenuPoint.cpp" />
     <ClCompile Include="ObjectInfo.cpp" />
     <ClCompile Include="ItemManger.cpp" />
-    <ClCompile Include="KatanaWeapon.cpp" />
+    <ClCompile Include="DaggerWeapon.cpp" />
     <ClCompile Include="Library\pugixml.cpp" />
     <ClCompile Include="GameObjects\MiraculousBag.cpp" />
     <ClCompile Include="PodiumOnWall.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Animations\Animation.h" />
     <ClInclude Include="AreaZombie.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="BaseInfo.h" />
     <ClInclude Include="CombatWeapon.h" />
     <ClInclude Include="GameObjects\BlackLeopard.h" />
     <ClInclude Include="GameObjects\Boomerang.h" />
@@ -212,11 +214,11 @@
     <ClInclude Include="GameObjects\Heart.h" />
     <ClInclude Include="Input\DirectInput.h" />
     <ClInclude Include="CastleVania.h" />
-    <ClInclude Include="GameObjects\Katana.h" />
+    <ClInclude Include="GameObjects\Dagger.h" />
     <ClInclude Include="MenuPoint.h" />
     <ClInclude Include="ObjectInfo.h" />
     <ClInclude Include="ItemManger.h" />
-    <ClInclude Include="KatanaWeapon.h" />
+    <ClInclude Include="DaggerWeapon.h" />
     <ClInclude Include="Library\pugiconfig.hpp" />
     <ClInclude Include="Library\pugixml.hpp" />
     <ClInclude Include="GameObjects\MiraculousBag.h" />

@@ -9,7 +9,7 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	CastleVania *gameCastleVania = CastleVania::GetInstance();
+	CastleVania *gameCastleVania = new CastleVania();
 
 	gameCastleVania->Init(hInstance, nCmdShow);
 

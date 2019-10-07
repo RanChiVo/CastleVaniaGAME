@@ -1,16 +1,15 @@
 	#pragma once
 #include "../GameObjects/GameObject.h"
-#include "../ResourceManagement.h"
 #include "../Input/DirectInput.h"
 #include "../Animations/Animation.h"
 #include "../GameObjects/Whip.h"
-#include "../GameObjects/Katana.h"
-#include "../KatanaWeapon.h"
+#include "../DaggerWeapon.h"
+#include "../CombatWeapon.h"
+#include "../BaseInfo.h"
 
 class Simon: public GameObject
 {
 private: 
-	DWORD comeEntranceStart = 0;
 	enum State
 	{
 		SIMON_STATE_IDLE,
@@ -41,6 +40,7 @@ private:
 	int ani;
 	int untouchable;
 	DWORD untouchable_start;
+	DWORD comeEntranceStart = 0;
 	bool isjumping = false;
 	bool attacking = false;
 	bool checkRewind = false;
@@ -52,41 +52,38 @@ private:
 	std::string stair_direction;
 	Whip* whip;
 	int levelWhip;
-	int heartGift = 0;
-	KatanaWeapon* katanaWeapon;
+	int WHIP_STATE;
 
+	BaseInfo* baseInfo;
+	std::vector<LPCOMBATWEAPON> subWeapon;
 	std::vector<LPGAMEOBJECT> objectCollision;
-	std::vector< LPGAMEOBJECT> objectItem;
-	std::vector<LPGAMEOBJECT> enemyList;
-
-	std::vector<LPGAMEOBJECT> itemList;
-	std::vector<LPGAMEOBJECT> HPList;
 
 public:
 	Simon();
-	int WHIP_STATE;
-
-	void loadResource();
+	virtual void loadResource();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render(Viewport* viewport);
-	bool isOnGround();
-	int GetLevel() { return level; }
-	void handleState();
-	void Reset(int currentAnimation);
-	int IsAttacking();
-	void handleCollisionStair();
+	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
-	RECT getBoundingboxWhip();
+	bool isOnGround();
+	int IsAttacking();
+	int GetLevel() { return level; }
+	void SetState(int state);
+	void Reset(int currentAnimation);
+	void handleState();
+	void handleCollisionStair();
+	void handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+
 	void RemoveWhip();
+	void SetSubWeapon(EntityID IdItemSubWeapon);
+	void SetupAtacking(LPANIMATION animation, Viewport* viewport);
+	void UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+
 	void OnKeyStateChange(BYTE *states);
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
 
-	int getWidthWorld();
-	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-
-	void SetState(int state);
 	~Simon();
 };
 

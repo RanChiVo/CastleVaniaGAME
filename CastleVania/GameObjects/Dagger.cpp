@@ -1,20 +1,22 @@
 #include  "../Animations/Animations.h"
 #include "../ResourceManagement.h"
-#include "Katana.h"
+#include "Dagger.h"
 
 constexpr float KATANA_GRAVITY = 0.0006f;
 
-Katana::Katana()
+Dagger::Dagger()
 {
-	id = ID_TEX_KATANA;
+	id = ID_TEX_DAGGER;
 	AddAnimation(KATANA_ANI);
 	currentAnimation = KATANA_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
 	liveTime = GetTickCount();
+	x = 0;
+	y = 0;
 }
 
-void Katana::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt, coObjects);
 	
@@ -51,7 +53,7 @@ void Katana::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 }
 
-void Katana::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+void Dagger::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	left = x + width;
 	top = y;
@@ -59,7 +61,7 @@ void Katana::GetBoundingBox(float & left, float & top, float & right, float & bo
 	bottom = y + height;
 }
 
-void Katana::Render(Viewport * viewport)
+void Dagger::Render(Viewport * viewport)
 {
 	if (state == STATE_SHOW)
 	{
@@ -71,6 +73,6 @@ void Katana::Render(Viewport * viewport)
 	}
 }
 
-Katana::~Katana()
+Dagger::~Dagger()
 {
 }

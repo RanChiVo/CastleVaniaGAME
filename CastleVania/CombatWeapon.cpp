@@ -11,10 +11,9 @@ CombatWeapon::~CombatWeapon()
 
 }
 
-void CombatWeapon::update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
-
 	for (int i = 0; i < coObjects->size(); i++)
 	{
 		if (getLevel() == 0)
@@ -39,8 +38,8 @@ void CombatWeapon::update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					break;
 			}
-
-		}else if(getLevel() == 1) {
+		}
+		else if(getLevel() == 1) {
 
 			switch (coObjects->at(i)->getID())
 			{

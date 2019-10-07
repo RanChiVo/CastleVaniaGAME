@@ -146,6 +146,7 @@ void GameplayScreen::loadResources()
 	}
 	simon = new Simon();
 	simon->loadResource();
+	simon->SetPosition(D3DXVECTOR2(500, 0));
 	objects.push_back(simon);
 	objects.push_back(castlewall);
 	menu_point->loadResource();

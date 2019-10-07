@@ -31,11 +31,6 @@ int GameObject::getWidth()
 	return this->width;
 }
 
-int GameObject::getDirection()
-{
-	return nx;
-}
-
 void GameObject::setWidth(int width)
 {
 	this->width = width;

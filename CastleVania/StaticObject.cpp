@@ -1,7 +1,7 @@
 #include "StaticObject.h"
 #include "./GameObjects/WeaponReward.h"
 #include "./GameObjects/Heart.h"
-#include "./GameObjects/Katana.h"
+#include "./GameObjects/Dagger.h"
 #include "./GameObjects/SmallHeart.h"
 #include "./GameObjects/Cross.h"
 #include "./GameObjects/FireBomb.h"
@@ -34,11 +34,11 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				heart->SetPosition(this->getPosition());
 				coObjects->push_back(heart);
 			}
-			else if (this->getIdHiddenItem() == "kanata")
+			else if (this->getIdHiddenItem() == "dagger")
 			{
-				Katana* katana = new Katana();
-				katana->SetPosition(this->getPosition());
-				coObjects->push_back(katana);
+				Dagger* dagger = new Dagger();
+				dagger->SetPosition(this->getPosition());
+				coObjects->push_back(dagger);
 			}
 			else if (this->getIdHiddenItem() == "small_heart")
 			{

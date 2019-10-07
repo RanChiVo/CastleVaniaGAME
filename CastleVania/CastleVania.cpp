@@ -2,14 +2,12 @@
 #include "ScreenManager.h"
 #include "ResourceManagement.h"
 
-CastleVania* CastleVania::__instance = nullptr;
-
-
-CastleVania::CastleVania():Game()
+CastleVania::CastleVania()
 {
 	menuscreen = new MenuScreen();
 	screenmanager = new ScreenManager();
 }
+
 void CastleVania::Init(HINSTANCE hInstance, int nCmdShow)
 {	
 	Game:init(hInstance, nCmdShow);
@@ -33,20 +31,9 @@ void CastleVania::update(float dt)
 	screenmanager->update(dt);
 }
 
-CastleVania * CastleVania::GetInstance()
-{
-	if (__instance == nullptr) __instance = new CastleVania();
-	return __instance;
-}
-
 void CastleVania::run()
 {
 	Run();
-}
-
-void CastleVania::playGame(ScreenBase * screen)
-{
-	screenmanager->changeScreen(new GameplayScreen());
 }
 
 CastleVania::~CastleVania()
