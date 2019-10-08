@@ -55,8 +55,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	GameObject::Update(dt, coObjects);
 
 	handleState();
-
 	UpdateWeapon(dt, coObjects);
+	SetupAtacking();
 
 	if (level == 0)
 	{
@@ -134,14 +134,24 @@ void Simon::OnKeyDown(int KeyCode)//event
 	case SIMON_STATE_WALKING_LEFT:
 	case SIMON_STATE_IDLE_ON_STAIR:
 		if (KeyCode == DIK_X) SetState(SIMON_STATE_JUMPING);
-		if (KeyCode == DIK_Z || directInput->IsKeyDown(DIK_J) && KeyCode == DIK_Z)
+		if (KeyCode == DIK_Z && !directInput->IsKeyDown(DIK_UP))
 		{
+			SetState(SIMON_STATE_ATTACK_STAND);
+		}
+		else if (directInput->IsKeyDown(DIK_UP) && KeyCode == DIK_Z)
+		{
+			enableSubWeapon = true;
 			SetState(SIMON_STATE_ATTACK_STAND);
 		}
 		break;
 	case SIMON_STATE_JUMPING:
-		if (KeyCode == DIK_Z)
+		if (KeyCode == DIK_Z && !directInput->IsKeyDown(DIK_UP))
 		{
+			SetState(SIMON_STATE_ATTACK_JUMP);
+		}
+		else if (directInput->IsKeyDown(DIK_UP) && KeyCode == DIK_Z)
+		{
+			enableSubWeapon = true;
 			SetState(SIMON_STATE_ATTACK_JUMP);
 		}
 		else if (KeyCode == DIK_J)
@@ -150,8 +160,13 @@ void Simon::OnKeyDown(int KeyCode)//event
 		}
 		break;
 	case SIMON_STATE_SITDOWN:
-		if (KeyCode == DIK_Z)
+		if (KeyCode == DIK_Z && !directInput->IsKeyDown(DIK_UP))
 		{
+			SetState(SIMON_STATE_ATTACK_SITDOWN);
+		}
+		else if (directInput->IsKeyDown(DIK_UP) && KeyCode == DIK_Z)
+		{
+			enableSubWeapon = true;
 			SetState(SIMON_STATE_ATTACK_SITDOWN);
 		}
 		break;
@@ -191,9 +206,9 @@ void Simon::SetSubWeapon(EntityID IdItemSubWeapon)
 	}
 }
 
-void Simon::SetupAtacking(LPANIMATION animation, Viewport* viewport)
+void Simon::SetupAtacking()
 {
-	if (attacking && !(DirectInput::getInstance()->IsKeyDown(DIK_UP)))
+	if (attacking && !enableSubWeapon)
 	{
 		whip->SetPosition(D3DXVECTOR2(x, y));
 		if (levelWhip == 1)
@@ -208,17 +223,23 @@ void Simon::SetupAtacking(LPANIMATION animation, Viewport* viewport)
 		{
 			whip->SetState(WHIT_STATE_3);
 		}
+	}
+	else if (attacking && enableSubWeapon && baseInfo->getHeart() > 0 && baseInfo->getSubWeapon())
+	{
+		baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y));
+		baseInfo->getSubWeapon()->setDirection(nx);
+		enableSubWeapon = false;
+	}
+}
+
+void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
+{
+	if (attacking)
+	{
 		whip->updatePostision(animation->getCurrentFrame(), currentAnimation, nx);
 		whip->draw(nx, viewport);
 		if (whip->getframe() == 2) whip->animations.find(currentAnimation)->second->SetFinish(true);
 	}
-	else if (attacking && (DirectInput::getInstance()->IsKeyDown(DIK_UP))
-		&& baseInfo->getHeart() > 0 && baseInfo->getSubWeapon())
-	{
-		baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y));
-		baseInfo->getSubWeapon()->setDirection(nx);
-	}
-
 	if (baseInfo->getSubWeapon())
 	{
 		baseInfo->getSubWeapon()->Render(viewport);
@@ -265,7 +286,8 @@ void Simon::Render(Viewport* viewport)
 		else flip = flip_horiz;
 		animation->Render(pos.x, pos.y, flip);
 	}
-	SetupAtacking(animation, viewport);
+
+	RenderWeapon(animation, viewport);
 }
 
 bool Simon::isOnGround()
@@ -436,11 +458,6 @@ void Simon::Reset(int currentAnimation)
 	}
 }
 
-int Simon::IsAttacking()
-{
-	return level;
-}
-
 void Simon::handleCollisionStair()
 {
 	DirectInput* directInput = DirectInput::getInstance();
@@ -576,6 +593,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				break;
 			case ID_TEX_DAGGER:
 				SetSubWeapon(ID_TEX_DAGGER);
+				
 				coEvents[i]->obj->SetState(STATE_DETROY);
 				break;
 			case ID_TEX_MIRACULOUS_BAG:

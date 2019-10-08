@@ -41,6 +41,7 @@ private:
 	int untouchable;
 	DWORD untouchable_start;
 	DWORD comeEntranceStart = 0;
+	bool enableSubWeapon = false;
 	bool isjumping = false;
 	bool attacking = false;
 	bool checkRewind = false;
@@ -66,7 +67,6 @@ public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
 	bool isOnGround();
-	int IsAttacking();
 	int GetLevel() { return level; }
 	void SetState(int state);
 	void Reset(int currentAnimation);
@@ -77,7 +77,8 @@ public:
 
 	void RemoveWhip();
 	void SetSubWeapon(EntityID IdItemSubWeapon);
-	void SetupAtacking(LPANIMATION animation, Viewport* viewport);
+	void SetupAtacking();
+	void RenderWeapon(LPANIMATION animation, Viewport* viewport);
 	void UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 
 	void OnKeyStateChange(BYTE *states);

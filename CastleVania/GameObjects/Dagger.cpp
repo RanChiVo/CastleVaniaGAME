@@ -12,8 +12,6 @@ Dagger::Dagger()
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
 	liveTime = GetTickCount();
-	x = 0;
-	y = 0;
 }
 
 void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)

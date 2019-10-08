@@ -22,48 +22,13 @@ DaggerWeapon::DaggerWeapon()
 
 	this->width = KATA_WIDTH;
 	this->height = KATA_HEIGHT;
-	vx = 2;
+	y = KATANAWEAPON_Y;
 }
 
 void DaggerWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	vx = nx * 0.18f;
 	CombatWeapon::Update(dt, coObjects);
-
-	if (state != STATE_DETROY)
-	{
-		x += dx;
-		y = KATANAWEAPON_Y;
-
-		vector<LPCOLLISIONEVENT> coEvents;
-		vector<LPCOLLISIONEVENT> coEventsResult;
-
-		coEvents.clear();
-
-		CalcPotentialCollisions(coObjects, coEvents);
-
-		float min_tx, min_ty, nx, ny;
-		float Dx = dx;
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (dynamic_cast<BurnBarrel *>(e->obj))
-			{
-				BurnBarrel *burn_barrel = dynamic_cast<BurnBarrel *>(e->obj);
-				if (e->nx != 0)
-				{
-					burn_barrel->SetState(STATE_DETROY);
-				}
-			}
-		}
-		x += Dx;
-
-		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	}
 }
 
 void DaggerWeapon::Render(Viewport * viewport)
@@ -96,12 +61,10 @@ void DaggerWeapon::SetState(int state)
 	{
 	case KATANAWEAPON_STATE_RIGHT:
 		nx = 1;
-		vx = KATANAWEAPON_SPEED_HIT;
 		currentAnimation = KATANAWEAPON_ANI;
 		break;
 	case KATANAWEAPON_STATE_LEFT:
 		nx = -1;
-		vx = -KATANAWEAPON_SPEED_HIT;
 		currentAnimation = KATANAWEAPON_ANI;
 		break;
 	}

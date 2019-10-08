@@ -14,6 +14,10 @@ CombatWeapon::~CombatWeapon()
 void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
+
+	x += dx;
+	y += dy;
+
 	for (int i = 0; i < coObjects->size(); i++)
 	{
 		if (getLevel() == 0)
