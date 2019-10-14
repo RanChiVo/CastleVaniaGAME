@@ -54,10 +54,10 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
+	SetupAtacking();
+	SetupSubWeapon(coObjects);
 	handleState();
 	UpdateWeapon(dt, coObjects);
-	SetupAtacking();
-
 	if (level == 0)
 	{
 		if (GetTickCount() - comeEntranceStart <= SIMON_ENTRANCE_TIME)
@@ -134,25 +134,23 @@ void Simon::OnKeyDown(int KeyCode)//event
 	case SIMON_STATE_WALKING_LEFT:
 	case SIMON_STATE_IDLE_ON_STAIR:
 		if (KeyCode == DIK_X) SetState(SIMON_STATE_JUMPING);
-		if (KeyCode == DIK_Z && !directInput->IsKeyDown(DIK_UP))
+		if (KeyCode == DIK_Z)
 		{
 			SetState(SIMON_STATE_ATTACK_STAND);
-		}
-		else if (directInput->IsKeyDown(DIK_UP) && KeyCode == DIK_Z)
-		{
-			enableSubWeapon = true;
-			SetState(SIMON_STATE_ATTACK_STAND);
+			if (directInput->IsKeyDown(DIK_UP))
+			{
+				SetState(SIMON_STATE_ATTACK_SUBWEAPON);
+			}
 		}
 		break;
 	case SIMON_STATE_JUMPING:
-		if (KeyCode == DIK_Z && !directInput->IsKeyDown(DIK_UP))
+		if (KeyCode == DIK_Z)
 		{
 			SetState(SIMON_STATE_ATTACK_JUMP);
-		}
-		else if (directInput->IsKeyDown(DIK_UP) && KeyCode == DIK_Z)
-		{
-			enableSubWeapon = true;
-			SetState(SIMON_STATE_ATTACK_JUMP);
+			if (directInput->IsKeyDown(DIK_UP))
+			{
+				enableSubWeapon = true;
+			}
 		}
 		else if (KeyCode == DIK_J)
 		{
@@ -160,14 +158,13 @@ void Simon::OnKeyDown(int KeyCode)//event
 		}
 		break;
 	case SIMON_STATE_SITDOWN:
-		if (KeyCode == DIK_Z && !directInput->IsKeyDown(DIK_UP))
+		if (KeyCode == DIK_Z)
 		{
 			SetState(SIMON_STATE_ATTACK_SITDOWN);
-		}
-		else if (directInput->IsKeyDown(DIK_UP) && KeyCode == DIK_Z)
-		{
-			enableSubWeapon = true;
-			SetState(SIMON_STATE_ATTACK_SITDOWN);
+			if (directInput->IsKeyDown(DIK_UP))
+			{
+				enableSubWeapon = true;
+			}
 		}
 		break;
 	}
@@ -193,22 +190,9 @@ void Simon::OnKeyUp(int KeyCode)
 	}
 }
 
-void Simon::SetSubWeapon(EntityID IdItemSubWeapon)
-{
-	switch (IdItemSubWeapon)
-	{
-	case ID_TEX_DAGGER:
-		baseInfo->setIdSubWeapon(IdItemSubWeapon);
-		baseInfo->setSubWeapon(new DaggerWeapon());
-		break;
-	default:
-		break;
-	}
-}
-
 void Simon::SetupAtacking()
 {
-	if (attacking && !enableSubWeapon)
+	if (attacking)
 	{
 		whip->SetPosition(D3DXVECTOR2(x, y));
 		if (levelWhip == 1)
@@ -224,12 +208,21 @@ void Simon::SetupAtacking()
 			whip->SetState(WHIT_STATE_3);
 		}
 	}
-	else if (attacking && enableSubWeapon && baseInfo->getHeart() > 0 && baseInfo->getSubWeapon())
+}
+
+void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
+{
+	if (enableSubWeapon && startThrowWeapon == 0)
 	{
-		baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y));
-		baseInfo->getSubWeapon()->setDirection(nx);
-		enableSubWeapon = false;
+		DaggerWeapon *a = new DaggerWeapon();
+
+		a->SetState(STATE_SHOW);
+		a->SetPosition(D3DXVECTOR2(x, y));
+		a->setDirection(nx);
+		startThrowWeapon = GetTickCount();
+		coObjects->push_back(a);
 	}
+
 }
 
 void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
@@ -238,11 +231,19 @@ void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
 	{
 		whip->updatePostision(animation->getCurrentFrame(), currentAnimation, nx);
 		whip->draw(nx, viewport);
-		if (whip->getframe() == 2) whip->animations.find(currentAnimation)->second->SetFinish(true);
+		if (animations.find(currentAnimation)->second->getCurrentFrame() == 2 && whip->getframe() == 2)
+		{
+			animations.find(currentAnimation)->second->SetFinish(true);
+			whip->animations.find(whip->getCurrentAnimation())->second->SetFinish(true);
+		}
 	}
-	if (baseInfo->getSubWeapon())
+
+	if (enableSubWeapon)
 	{
-		baseInfo->getSubWeapon()->Render(viewport);
+		if (animations.find(currentAnimation)->second->getCurrentFrame() == 2)
+		{
+			animations.find(currentAnimation)->second->SetFinish(true);
+		}
 	}
 }
 
@@ -253,13 +254,13 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		whip->Update(dt, coObjects);
 	}
 
-	if (baseInfo->getHeart() == 0) {
-		baseInfo->setIdSubWeapon(ID_TEX_NULL);
-	}
-
-	if (baseInfo->getSubWeapon())
+	if (baseInfo->getIdSubWeapon() != ID_TEX_NULL)
 	{
-		baseInfo->getSubWeapon()->Update(dt, coObjects);
+		if ( GetTickCount() - startThrowWeapon > 500 && startThrowWeapon > 0)
+		{
+			enableSubWeapon = false;
+			startThrowWeapon = 0;
+		}
 	}
 }
 
@@ -286,7 +287,6 @@ void Simon::Render(Viewport* viewport)
 		else flip = flip_horiz;
 		animation->Render(pos.x, pos.y, flip);
 	}
-
 	RenderWeapon(animation, viewport);
 }
 
@@ -416,7 +416,13 @@ void Simon::handleState()
 		currentAnimation = SIMON_ANI_IDLE_STAIR;
 		y = new_y;
 		break;
-
+	case SIMON_STATE_ATTACK_SUBWEAPON:
+		vx = 0;
+		enableSubWeapon = true;
+		checkRewind = false;
+		currentAnimation = SIMON_ANI_ATTACK_STANDING;
+		Reset(currentAnimation);
+		break;
 	case SIMON_STATE_HURT:
 		if (!isjumping)
 		{
@@ -436,7 +442,7 @@ void Simon::handleState()
 		checkRewind = false;
 		break;
 	}
-	DebugOut(L"state:{%d}\n", state);
+	DebugOut(L"subweapon:{%d}\n", enableSubWeapon);
 	animations.find(currentAnimation)->second->SetLoop(checkRewind);
 }
 
@@ -450,11 +456,17 @@ void Simon::Reset(int currentAnimation)
 			SetState(SIMON_STATE_IDLE_ON_STAIR);
 		}
 	}
+
 	if (animations.find(currentAnimation)->second->IsFinished())
 	{
-		SetState(SIMON_STATE_IDLE);
 		attacking = false;
 		animations.find(currentAnimation)->second->SetFinish(false);
+		SetState(SIMON_STATE_IDLE);
+	}
+
+	if (whip->animations.find(whip->getCurrentAnimation())->second->IsFinished())
+	{
+		whip->animations.find(whip->getCurrentAnimation())->second->SetFinish(false);
 	}
 }
 
@@ -592,8 +604,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				coEvents[i]->obj->SetState(STATE_DETROY);
 				break;
 			case ID_TEX_DAGGER:
-				SetSubWeapon(ID_TEX_DAGGER);
-				
+				baseInfo->setIdSubWeapon(ID_TEX_DAGGER);
 				coEvents[i]->obj->SetState(STATE_DETROY);
 				break;
 			case ID_TEX_MIRACULOUS_BAG:

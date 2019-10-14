@@ -1,4 +1,5 @@
 #include "BaseInfo.h"
+#include "DaggerWeapon.h"
 
 constexpr int MAX_HEALTH = 12;
 
@@ -48,11 +49,17 @@ EntityID BaseInfo::getIdSubWeapon()
 
 void BaseInfo::setIdSubWeapon(EntityID IdSubWeapon)
 {
-	this->idSubWeapon = IdSubWeapon;
-	if (IdSubWeapon == ID_TEX_NULL)
+	idSubWeapon = IdSubWeapon;
+
+	/*switch (idSubWeapon)
 	{
+	case ID_TEX_DAGGER:
+		setSubWeapon(new DaggerWeapon());
+		break;
+	case ID_TEX_NULL:
 		delete subWeapon;
-	}
+		break;
+	}*/
 }
 
 CombatWeapon * BaseInfo::getSubWeapon()

@@ -20,6 +20,7 @@ private:
 		SIMON_STATE_JUMPTOUCHGROUND,
 		SIMON_STATE_SITDOWN,
 		SIMON_STATE_ATTACK_STAND,
+		SIMON_STATE_ATTACK_SUBWEAPON,
 		SIMON_STATE_ATTACK_SITDOWN,
 		SIMON_STATE_ATTACK_JUMP,
 		SIMON_STATE_DIE,
@@ -54,7 +55,7 @@ private:
 	Whip* whip;
 	int levelWhip;
 	int WHIP_STATE;
-
+	int startThrowWeapon = 0;
 	BaseInfo* baseInfo;
 	std::vector<LPCOMBATWEAPON> subWeapon;
 	std::vector<LPGAMEOBJECT> objectCollision;
@@ -76,8 +77,8 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	void RemoveWhip();
-	void SetSubWeapon(EntityID IdItemSubWeapon);
 	void SetupAtacking();
+	void SetupSubWeapon(vector<LPGAMEOBJECT> *coObjects);
 	void RenderWeapon(LPANIMATION animation, Viewport* viewport);
 	void UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 

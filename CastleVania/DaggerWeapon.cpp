@@ -12,7 +12,7 @@ DaggerWeapon::DaggerWeapon()
 	state = STATE_SHOW;
 	LPANIMATION ani;
 
-	ani = new Animation(40);
+	ani = new Animation(100);
 	ani->Add("katana1");
 	Animations::GetInstance()->Add(KATANAWEAPON_ANI, ani);
 

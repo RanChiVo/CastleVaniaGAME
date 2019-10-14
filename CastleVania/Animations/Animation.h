@@ -30,10 +30,8 @@ class Animation
 public:
 
 	bool IsFinished();
-	void Rewind();
 	void SetLoop(bool loop);
 	void SetFinish(bool finish);
-	void SetFinish1(bool finish);
 
 	Animation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
 
@@ -41,7 +39,7 @@ public:
 	void setCurrentFrame(int index);
 
 	void Add(std::string  spriteId, DWORD time = 0);
-	bool Render(float x, float y, Flip flip);
+	void Render(float x, float y, Flip flip);
 	void update();
 };
 

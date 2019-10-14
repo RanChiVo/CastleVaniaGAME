@@ -9,6 +9,7 @@ class CombatWeapon : public GameObject
 public:
 	CombatWeapon();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+
 	~CombatWeapon();
 };
 
