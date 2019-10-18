@@ -4,6 +4,6 @@
     <image source="Resources\Items\katana_item.png" width="32" height="18"/>
   </imagelayer>
   <sprites>
-    <spriteframe id="katana1" left = "0" top="0" right="32" bottom="18"/>
+    <spriteframe id="dagger" left = "0" top="0" right="32" bottom="18"/>
   </sprites>
 </loadresource>

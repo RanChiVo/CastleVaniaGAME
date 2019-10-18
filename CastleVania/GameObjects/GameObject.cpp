@@ -111,12 +111,7 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 
 bool GameObject::checkCollision(RECT A, RECT B)
 {
-	float left = B.left - A.right;
-	float top = B.bottom - A.top;
-	float right = B.right - A.left;
-	float bottom = B.top - A.bottom;
-
-	return !(left > 0 || right < 0 || top < 0 || bottom > 0);
+	return A.left < B.right && A.right > B.left && A.top < B.bottom && A.bottom > B.top;
 }
 
 bool GameObject::IsCollision()

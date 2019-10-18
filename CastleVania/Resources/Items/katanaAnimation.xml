@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
 <animations>
-  <animation name ="KATANA_ANI" default_time="100" rewind="true">
-    <animation_frame sprite_id ="katana1"/>
+  <animation name ="DAGGER_ANI" default_time="100" rewind="true">
+    <animation_frame sprite_id ="dagger"/>
   </animation >
 </animations>
 </loadresource>

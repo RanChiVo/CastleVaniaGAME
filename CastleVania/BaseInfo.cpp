@@ -51,15 +51,12 @@ void BaseInfo::setIdSubWeapon(EntityID IdSubWeapon)
 {
 	idSubWeapon = IdSubWeapon;
 
-	/*switch (idSubWeapon)
+	switch (idSubWeapon)
 	{
 	case ID_TEX_DAGGER:
 		setSubWeapon(new DaggerWeapon());
 		break;
-	case ID_TEX_NULL:
-		delete subWeapon;
-		break;
-	}*/
+	}
 }
 
 CombatWeapon * BaseInfo::getSubWeapon()

@@ -96,10 +96,10 @@ void ResourceManagement::loadResource()
 	TiledMap* tiled_map = new TiledMap("TiledMap\\Entrance_map.tmx", textMap_Entrance);
 	TiledMapList[EntityID::ID_TEX_MAP_ENTRANCE] = tiled_map;
 
-	//textures->Add(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\GamePlay1 - Copy.png", D3DCOLOR_XRGB(255, 0, 255));
-	//LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_TEX_GAMEPLAYSCREEN);
-	//tiled_map = new TiledMap("TiledMap\\GamePlay1.tmx", textPlayScreen);
-	//TiledMapList[EntityID::ID_TEX_MAP_PLAYGAME] = tiled_map;
+	textures->Add(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\GamePlay_bank.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_TEX_GAMEPLAYSCREEN);
+	tiled_map = new TiledMap("TiledMap\\GamePlay_map.tmx", textPlayScreen);
+	TiledMapList[EntityID::ID_TEX_MAP_PLAYGAME] = tiled_map;
 }
 
 void ResourceManagement::readAnimationFromFile(std::string resourcepath)
@@ -214,7 +214,7 @@ ResourceManagement::ResourceManagement()
 	{"ID_TEX_WALL",EntityID::ID_TEX_WALL },
 	{"ID_TEX_FLOOR",EntityID::ID_TEX_FLOOR },
 	{"ID_TEX_ENTRANCE",EntityID::ID_TEX_ENTRANCE },
-	{"ID_TEX_KATANA_WEAPON",EntityID::ID_TEX_KATANA_WEAPON },
+	{"ID_TEX_DAGGER_WEAPON",EntityID::ID_TEX_DAGGER_WEAPON },
 	{"ID_TEX_MAP_ENTRANCE",EntityID::ID_TEX_MAP_ENTRANCE },
 	{"ID_TEX_MAP_PLAYGAME",EntityID::ID_TEX_MAP_PLAYGAME },
 	{"ID_TEX_CASTLEVANIA_WALL",EntityID::ID_TEX_CASTLEVANIA_WALL },
@@ -251,7 +251,7 @@ ResourceManagement::ResourceManagement()
 	{"ANI_EFFECT", ANI_ID::ANI_EFFECT},
 	{"HEART_ANI", ANI_ID::HEART_ANI},
 	{"WEAPONREWARD_ANI", ANI_ID::WEAPONREWARD_ANI},
-	{"KATANA_ANI", ANI_ID::KATANA_ANI},
+	{"DAGGER_ANI", ANI_ID::DAGGER_ANI},
 	{"MIRACULOUSBAG_ANI", ANI_ID::MIRACULOUSBAG_ANI},
 	{"CASTLE_ANI", ANI_ID::CASTLE_ANI},
 	{"SIMON_ANI_GO_STAIR", ANI_ID::SIMON_ANI_GO_STAIR},

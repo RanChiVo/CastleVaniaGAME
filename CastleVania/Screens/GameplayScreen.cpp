@@ -36,6 +36,13 @@ void GameplayScreen::update(float dt)
 			{
 				objects.erase(objects.begin() + i);
 			}
+			if (objects[i]->getID() == ID_TEX_SIMON)
+			{
+				if (objects[i]->getLevel() == 1)
+				{
+					id == ID_TEX_MAP_PLAYGAME;
+				}
+			}
 		}
 	}
 }
@@ -146,7 +153,7 @@ void GameplayScreen::loadResources()
 	}
 	simon = new Simon();
 	simon->loadResource();
-	simon->SetPosition(D3DXVECTOR2(1200, 0));
+	simon->SetPosition(D3DXVECTOR2(0, 0));
 	objects.push_back(simon);
 	objects.push_back(castlewall);
 	menu_point->loadResource();

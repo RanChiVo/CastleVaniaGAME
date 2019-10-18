@@ -6,10 +6,13 @@ typedef CombatWeapon * LPCOMBATWEAPON;
 
 class CombatWeapon : public GameObject
 {
+	int untouchable;
+	DWORD untouchable_start;
 public:
 	CombatWeapon();
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
-
+	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
 	~CombatWeapon();
 };
 

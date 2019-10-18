@@ -18,7 +18,7 @@
 #include "../GameObjects/Zombie.h"
 #include "../DebugOut//DebugOut.h"
 
-constexpr float SIMON_MOVE_SPEED = 0.1f;
+constexpr float SIMON_MOVE_SPEED = 0.099f;
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
 constexpr float SIMON_GRAVITY = 0.0012f;
@@ -52,12 +52,12 @@ Simon::Simon()
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	GameObject::Update(dt, coObjects);
-
+	GameObject::Update(dt);
+	UpdateWeapon(dt, coObjects);
 	SetupAtacking();
 	SetupSubWeapon(coObjects);
 	handleState();
-	UpdateWeapon(dt, coObjects);
+	
 	if (level == 0)
 	{
 		if (GetTickCount() - comeEntranceStart <= SIMON_ENTRANCE_TIME)
@@ -139,7 +139,7 @@ void Simon::OnKeyDown(int KeyCode)//event
 			SetState(SIMON_STATE_ATTACK_STAND);
 			if (directInput->IsKeyDown(DIK_UP))
 			{
-				SetState(SIMON_STATE_ATTACK_SUBWEAPON);
+				SetState(SIMON_STATE_ATTACK_STAND_SUBWEAPON);
 			}
 		}
 		break;
@@ -149,7 +149,7 @@ void Simon::OnKeyDown(int KeyCode)//event
 			SetState(SIMON_STATE_ATTACK_JUMP);
 			if (directInput->IsKeyDown(DIK_UP))
 			{
-				enableSubWeapon = true;
+				SetState(SIMON_STATE_ATTACK_JUMP_SUBWEAPON);
 			}
 		}
 		else if (KeyCode == DIK_J)
@@ -163,7 +163,7 @@ void Simon::OnKeyDown(int KeyCode)//event
 			SetState(SIMON_STATE_ATTACK_SITDOWN);
 			if (directInput->IsKeyDown(DIK_UP))
 			{
-				enableSubWeapon = true;
+				SetState(SIMON_STATE_ATTACK_SITDOWN_SUBWEAPON);
 			}
 		}
 		break;
@@ -212,17 +212,18 @@ void Simon::SetupAtacking()
 
 void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 {
-	if (enableSubWeapon && startThrowWeapon == 0)
+	if (enableSubWeapon && startThrowWeapon == 0 && baseInfo->getHeart() > 0)
 	{
-		DaggerWeapon *a = new DaggerWeapon();
-
-		a->SetState(STATE_SHOW);
-		a->SetPosition(D3DXVECTOR2(x, y));
-		a->setDirection(nx);
-		startThrowWeapon = GetTickCount();
-		coObjects->push_back(a);
+		if (baseInfo->getIdSubWeapon() != NULL)
+		{
+			baseInfo->getSubWeapon()->SetState(STATE_SHOW);
+			baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y));
+			baseInfo->getSubWeapon()->setDirection(nx);
+			coObjects->push_back(baseInfo->getSubWeapon());
+			startThrowWeapon = GetTickCount();
+			baseInfo->setHeart(baseInfo->getHeart() - 1);
+		}
 	}
-
 }
 
 void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
@@ -231,6 +232,14 @@ void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
 	{
 		whip->updatePostision(animation->getCurrentFrame(), currentAnimation, nx);
 		whip->draw(nx, viewport);
+	}
+}
+
+void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	if (attacking)
+	{
+		whip->Update(dt, coObjects);
 		if (animations.find(currentAnimation)->second->getCurrentFrame() == 2 && whip->getframe() == 2)
 		{
 			animations.find(currentAnimation)->second->SetFinish(true);
@@ -245,14 +254,6 @@ void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
 			animations.find(currentAnimation)->second->SetFinish(true);
 		}
 	}
-}
-
-void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
-	if (attacking)
-	{
-		whip->Update(dt, coObjects);
-	}
 
 	if (baseInfo->getIdSubWeapon() != ID_TEX_NULL)
 	{
@@ -266,9 +267,9 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Simon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	left = x + 25;
+	left = x;
 	top = y;
-	right = x + width + 10;
+	right = x + width;
 	bottom = y + height;
 }
 
@@ -340,9 +341,24 @@ void Simon::handleState()
 		Reset(currentAnimation);
 		break;
 
+	case SIMON_STATE_ATTACK_JUMP_SUBWEAPON:
+		enableSubWeapon = true;
+		checkRewind = false;
+		currentAnimation = SIMON_ANI_ATTACK_STANDING;
+		Reset(currentAnimation);
+		break;
+
 	case SIMON_STATE_ATTACK_STAND:
 		vx = 0;
 		attacking = true;
+		checkRewind = false;
+		currentAnimation = SIMON_ANI_ATTACK_STANDING;
+		Reset(currentAnimation);
+		break;
+
+	case SIMON_STATE_ATTACK_STAND_SUBWEAPON:
+		vx = 0;
+		enableSubWeapon = true;
 		checkRewind = false;
 		currentAnimation = SIMON_ANI_ATTACK_STANDING;
 		Reset(currentAnimation);
@@ -356,6 +372,14 @@ void Simon::handleState()
 
 	case SIMON_STATE_ATTACK_SITDOWN:
 		attacking = true;
+		vx = 0;
+		checkRewind = false;
+		currentAnimation = SIMON_ANI_ATTACK_SITDOWN;
+		Reset(currentAnimation);
+		break;
+
+	case SIMON_STATE_ATTACK_SITDOWN_SUBWEAPON:
+		enableSubWeapon = true;
 		vx = 0;
 		checkRewind = false;
 		currentAnimation = SIMON_ANI_ATTACK_SITDOWN;
@@ -416,13 +440,7 @@ void Simon::handleState()
 		currentAnimation = SIMON_ANI_IDLE_STAIR;
 		y = new_y;
 		break;
-	case SIMON_STATE_ATTACK_SUBWEAPON:
-		vx = 0;
-		enableSubWeapon = true;
-		checkRewind = false;
-		currentAnimation = SIMON_ANI_ATTACK_STANDING;
-		Reset(currentAnimation);
-		break;
+	
 	case SIMON_STATE_HURT:
 		if (!isjumping)
 		{
@@ -459,9 +477,17 @@ void Simon::Reset(int currentAnimation)
 
 	if (animations.find(currentAnimation)->second->IsFinished())
 	{
-		attacking = false;
-		animations.find(currentAnimation)->second->SetFinish(false);
-		SetState(SIMON_STATE_IDLE);
+		if (currentAnimation != SIMON_ANI_SITDOWN)
+		{
+			SetState(SIMON_STATE_IDLE);
+			attacking = false;
+			animations.find(currentAnimation)->second->SetFinish(false);
+		}
+		else {
+			SetState(SIMON_STATE_SITDOWN);
+			attacking = false;
+			animations.find(currentAnimation)->second->SetFinish(false);
+		}
 	}
 
 	if (whip->animations.find(whip->getCurrentAnimation())->second->IsFinished())
@@ -557,19 +583,6 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		float Dx = dx, Dy = dy;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (dynamic_cast<Zombie *>(e->obj))
-			{
-				if (e->nx != 0)
-				{
-					SetState(SIMON_STATE_HURT);
-				}
-			}
-		}
 
 		for (int i = 0; i < coEvents.size(); i++)
 		{

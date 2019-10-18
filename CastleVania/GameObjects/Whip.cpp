@@ -6,7 +6,8 @@
 Whip::Whip()
 {
 	id = ID_TEX_WHIP;
-
+	width = Textures::GetInstance()->GetSizeObject(id).first;
+	height = Textures::GetInstance()->GetSizeObject(id).second;
 	AddAnimation(TYPE1_WHIP);
 	AddAnimation(TYPE2_WHIP);
 	AddAnimation(TYPE3_WHIP);
@@ -140,36 +141,36 @@ void Whip::draw(int direct, Viewport* viewport)
 
 	animations.find(currentAnimation)->second->Render(pos.x, pos.y, flip);
 
-	float l, t, r, b;
-	GetBoundingBox(l, t, r, b);
-
-	bounding = RECT{ int(l), int(t), int(r), int(b) };
-	RenderBoundingBox(viewport);
+	//RenderBoundingBox(viewport);
 }
 
 void Whip::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	left = x;
-	top = y;
-	RECT r;
-
-	switch (state)
+	if (animations.find(currentAnimation)->second->getCurrentFrame() == 2)
 	{
-	case WHIT_STATE_1:
-		r = bbLevel1;
-		break;
-	case WHIT_STATE_2:
-		r = bbLevel2;
-		break;
-	case WHIT_STATE_3:
-		r = bbLevel3;
-		break;
+		left = x;
+		top = y;
+		RECT r;
+
+		switch (state)
+		{
+		case WHIT_STATE_1:
+			r = bbLevel1;
+			break;
+		case WHIT_STATE_2:
+			r = bbLevel2;
+			break;
+		case WHIT_STATE_3:
+			r = bbLevel3;
+			break;
+		}
+
+		float height = r.bottom - r.top;
+		float width = r.right - r.left;
+		right = x + width;
+		bottom = y + height;
 	}
-	
-	float height = r.bottom - r.top;
-	float width = r.right - r.left;
-	right = x + width;
-	bottom = y + height;
+	else left = top = right = bottom = 0.0f;
 }
 
 Whip::~Whip()

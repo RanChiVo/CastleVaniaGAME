@@ -7,8 +7,8 @@ constexpr float KATANA_GRAVITY = 0.0006f;
 Dagger::Dagger()
 {
 	id = ID_TEX_DAGGER;
-	AddAnimation(KATANA_ANI);
-	currentAnimation = KATANA_ANI;
+	AddAnimation(DAGGER_ANI);
+	currentAnimation = DAGGER_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
 	liveTime = GetTickCount();

@@ -2,7 +2,7 @@
 
 <loadresource>
   
- <imagelayer id="ID_TEX_WHIP"  name="WHIP" width="46" height="16">
+ <imagelayer id="ID_TEX_WHIP"  name="WHIP" width="60" height="16">
    <image source="Resources\whip.png" width="176" height="241"/>
  </imagelayer>
   
