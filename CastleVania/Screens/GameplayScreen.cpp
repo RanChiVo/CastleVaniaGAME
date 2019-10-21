@@ -1,7 +1,6 @@
 #include "GameplayScreen.h"
 #include "../WindowUtil.h"
 #include "../Direct3DManager.h"
-#include "../CastleWall.h"
 #include "../Candle.h"
 #include "../PodiumOnWall.h"
 #include "../WallEntrance.h"
@@ -27,23 +26,40 @@ void GameplayScreen::update(float dt)
 
 	updateViewport(dt);
 
-	if (id == ID_TEX_MAP_ENTRANCE)
+	for (int i = 0; i < objects.size(); i++)
 	{
-		for (int i = 0; i < objects.size(); i++)
-		{	
-			objects[i]->Update(dt, &objects);
-			if (objects[i]->GetState() == objects[i]->STATE_DETROY)
-			{
-				objects.erase(objects.begin() + i);
-			}
-			if (objects[i]->getID() == ID_TEX_SIMON)
+		objects[i]->Update(dt, &objects);
+
+		if (objects[i]->getID() == ID_ENTITY_SIMON)
+		{
+			if (id == ID_ENTITY_MAP_ENTRANCE)
 			{
 				if (objects[i]->getLevel() == 1)
 				{
-					id == ID_TEX_MAP_PLAYGAME;
+					id = ID_ENTITY_MAP_PLAYGAME;
+					moveMap = true;
 				}
 			}
 		}
+		if (objects[i]->GetState() == objects[i]->STATE_DETROY)
+		{
+			objects.erase(objects.begin() + i);
+		}
+	}
+	if (id == ID_ENTITY_MAP_PLAYGAME)
+	{
+		if (GetTickCount() - time >= TIME_ZOMBIE)
+		{
+			time = 0;
+			createZombie(viewport);
+		}
+	}
+
+	if (moveMap)
+	{
+		loadResources();
+		createZombie(viewport);
+		moveMap = false;
 	}
 }
 
@@ -70,13 +86,9 @@ void GameplayScreen::renderObject()
 {
 	resourceManagement->getTiledMap(id)->draw(viewport);
 	menu_point->Draw();
-
-	if (id == ID_TEX_MAP_ENTRANCE)
+	for (int i = 0; i < objects.size(); i++)
 	{
-		for (int i = 0; i < objects.size(); i++)
-		{
-			objects[i]->Render(viewport);
-		}
+		objects[i]->Render(viewport);
 	}
 }
 
@@ -86,19 +98,22 @@ void GameplayScreen::createZombie(Viewport* viewport)
 	{
 		Zombie* zombie = new Zombie();
 		zombie->SetState(ZOMBIE_STATE_WALKING_RIGHT);
-		zombie->SetPosition(D3DXVECTOR2(viewport->getX() + 60 * i, 325));
-		objectslv2.push_back(zombie);
+		zombie->SetPosition(D3DXVECTOR2(viewport->getX(), 295));
+		objects.push_back(zombie);
 
 		zombie = new Zombie();
-		zombie->SetPosition(D3DXVECTOR2(viewport->getX() + viewport->getWidth() - i * 60, 325));
 		zombie->SetState(ZOMBIE_STATE_WALKING_LEFT);
-		objectslv2.push_back(zombie);
+		zombie->SetPosition(D3DXVECTOR2(viewport->getX() + viewport->getWidth() - i * 60, 295));
+		objects.push_back(zombie);
 	}
-	timer_zombie = 0;
+	if (time == 0)
+	time = GetTickCount();
 }
 
 void GameplayScreen::getInfoFromObjectInfo(ObjectInfo *info, LPGAMEOBJECT object)
 {
+	object->setName(info->get_name());
+	object->SetPosition(info->get_postition());
 	object->setHeight(info->get_height());
 	object->setWidth(info->get_width());
 	object->setIdHiddenItem(info->get_idHiddenItem());
@@ -106,66 +121,68 @@ void GameplayScreen::getInfoFromObjectInfo(ObjectInfo *info, LPGAMEOBJECT object
 
 void GameplayScreen::loadResources()
 {
-	CastleWall* castlewall = new CastleWall();
+	objects.clear();
+	delete castlewall;
 	for (auto object : resourceManagement->getTiledMap(id)->getObjectInfo())
 	{
-		if (object->get_name() == "Floor")
+		StaticObject* objectInit = nullptr;
+		switch (resourceManagement->getStringToEntity()[object->get_ObjectId()])
 		{
-			Floor* floor = new Floor();
-			floor->SetPosition(object->get_postition());
-			getInfoFromObjectInfo(object, floor);
-			objects.push_back(floor);
+		case ID_ENTITY_FLOOR:
+			objectInit = new Floor();
+			break;
+		case ID_ENTITY_BURNBARREL:
+			objectInit = new BurnBarrel();
+			break;
+		case ID_ENTITY_ENTRANCE:
+			objectInit = new Entrance();
+			break;
+		case ID_ENTITY_WALL_ENTRANCE:
+			objectInit = new WallEntrance();
+			break;
+		case ID_ENTITY_CANDLE:
+			objectInit = new Candle();
+			break;
+		case ID_ENTITY_SIMON:
+			simon = new Simon();
+			simon->loadResource();
+			getInfoFromObjectInfo(object, simon);
+			break;
+		case ID_ENTITY_CASTLEVANIA_WALL:
+			castlewall = new CastleWall();
+			getInfoFromObjectInfo(object, castlewall);
+			break;
 		}
-		else if (object->get_name() == "CastleWall")
+		if (objectInit)
 		{
-				castlewall->SetPosition(object->get_postition());
-			getInfoFromObjectInfo( object, castlewall);
-		
-		}
-		else if (object->get_name() == "BurnBarrel")
-		{
-			BurnBarrel* burnbarrel = new BurnBarrel();
-			getInfoFromObjectInfo(object, burnbarrel);
-			burnbarrel->SetPosition(D3DXVECTOR2(object->get_postition().x, object->get_postition().y - object->get_height()));
-			objects.push_back(burnbarrel);
-		}
-		else if (object->get_name() == "Entrance")
-		{
-			Entrance* entrance = new Entrance();
-			getInfoFromObjectInfo( object, entrance);
-			entrance->SetPosition(object->get_postition());
-			objects.push_back(entrance);
-		}
-		else if (object->get_name() == "wall_frontof_entrance")
-		{
-			CBrick* Brick = new CBrick();
-			getInfoFromObjectInfo(object, Brick);
-			Brick->SetPosition(object->get_postition());
-			objects.push_back(Brick);
-		}
-		else if (object->get_name() == "wall_behind_entrance")
-		{
-			WallEntrance* wallEntrance = new WallEntrance();
-			getInfoFromObjectInfo( object, wallEntrance);
-			wallEntrance->SetPosition(object->get_postition());
-			objects.push_back(wallEntrance);
+			getInfoFromObjectInfo(object, objectInit);
+			objects.push_back(objectInit);
+			objectInit = nullptr;
 		}
 	}
-	simon = new Simon();
-	simon->loadResource();
-	simon->SetPosition(D3DXVECTOR2(0, 0));
-	objects.push_back(simon);
-	objects.push_back(castlewall);
-	menu_point->loadResource();
+
+	if (id == ID_ENTITY_MAP_ENTRANCE)
+	{
+		simon->SetPosition(D3DXVECTOR2(1200, 0));
+		objects.push_back(simon);
+		objects.push_back(castlewall);
+		menu_point->loadResource();
+	}
+	else if (id == ID_ENTITY_MAP_PLAYGAME)
+	{
+		simon->SetPosition(D3DXVECTOR2(0, 300));
+		objects.push_back(simon);
+	}
 }
 
 GameplayScreen::GameplayScreen()
 {
 	resourceManagement = ResourceManagement::GetInstance();
 
-	id = ID_TEX_MAP_ENTRANCE;
-	
+	id = ID_ENTITY_MAP_ENTRANCE;
+
 	menu_point = new MenuPoint();
+
 }
 GameplayScreen::~GameplayScreen()
 {

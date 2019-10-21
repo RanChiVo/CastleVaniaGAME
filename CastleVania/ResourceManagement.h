@@ -44,6 +44,7 @@ public:
 	void readAnimationFromFile(std::string resourcepath);
 	void readSpriteFromFile(std::string resourcepath);
 	static ResourceManagement * GetInstance();
+	std::unordered_map<std::string, EntityID> getStringToEntity();
 
 	~ResourceManagement();
 	

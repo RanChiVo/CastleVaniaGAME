@@ -14,6 +14,7 @@
 #include "../Viewport.h"
 #include "../Game.h"
 #include "../MenuPoint.h"
+#include "../CastleWall.h"
 
 class GameplayScreen: public ScreenBase
 {
@@ -24,17 +25,20 @@ private:
 	D3DXVECTOR2 posWall;
 	EntityID id;
 	Simon* simon;
+	CastleWall* castlewall;
 	ResourceManagement* resourceManagement;
 	RECT rect;
 	DWORD timer_zombie = 0;
-	DWORD TIME_ZOMBIE = 5000;
+	DWORD TIME_ZOMBIE = 15000;
 	MenuPoint* menu_point;
+	bool moveMap = false;
 	bool isActive = false;
 	int time = 0;
 
 public:
 
 	void init() override;
+	//void loadResources() override;
 	void loadResources() override;
 	void update(float dt) override;
 	void updateViewport(float dt);

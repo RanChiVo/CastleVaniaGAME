@@ -1,9 +1,6 @@
 #pragma once
 #include "../GameObjects/GameObject.h"
 
-constexpr int CROSS_STATE_HIDE = 1;
-constexpr int CROSS_STATE_SHOW = 2;
-
 class Cross : public GameObject
 {
 	int untouchable;

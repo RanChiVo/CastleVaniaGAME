@@ -2,6 +2,12 @@
 #include "DebugOut/DebugOut.h"
 #include "AudioManager.h"
 
+constexpr unsigned int ScreenBase_width = 550;
+constexpr unsigned int ScreenBase_height = 528;
+constexpr int max_frame_rate = 120;
+
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0,0,0)
+
 Game::Game()
 {
 	direct3D = Direct3DManager::getInstance();

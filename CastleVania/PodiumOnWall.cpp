@@ -6,7 +6,7 @@ PodiumOnWall::PodiumOnWall()
 
 PodiumOnWall::PodiumOnWall(D3DXVECTOR2 position)
 {
-	id = ID_TEX_PODIUM_ON_WALL;
+	id = ID_ENTITY_PODIUM_ON_WALL;
 	x = position.x;
 	y = position.y;
 }

@@ -4,7 +4,6 @@
 #pragma once
 class StaticObject: public GameObject
 {
-private:
 public:
 	StaticObject();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);

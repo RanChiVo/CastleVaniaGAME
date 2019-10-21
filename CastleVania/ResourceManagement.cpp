@@ -9,15 +9,15 @@ D3DXVECTOR2 ResourceManagement::getFontSize(ID3DXFont* font, std::string text)
 	RECT r;
 
 	if (font)
-		font->DrawTextA(nullptr, text.c_str(), -1,&r , DT_CALCRECT, D3DCOLOR_XRGB(255, 0, 255));
-	
+		font->DrawTextA(nullptr, text.c_str(), -1, &r, DT_CALCRECT, D3DCOLOR_XRGB(255, 0, 255));
+
 	return D3DXVECTOR2(r.right - r.left, r.bottom - r.top);
 }
 
 Sprites* ResourceManagement::getSprite(EntityID id)
 {
 	if (SpriteMapper.find(id)->second != nullptr)
-	 return SpriteMapper.find(id)->second;
+		return SpriteMapper.find(id)->second;
 }
 
 TiledMap * ResourceManagement::getTiledMap(EntityID id)
@@ -28,7 +28,7 @@ TiledMap * ResourceManagement::getTiledMap(EntityID id)
 
 void ResourceManagement::loadResource()
 {
-	Textures::GetInstance()->Add(ID_TEX_BBOX, L"Resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+	Textures::GetInstance()->Add(ID_ENTITY_BBOX, L"Resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	readSpriteFromFile("Resources\\simon.xml");
 	readAnimationFromFile("Resources\\simonAnimation.xml");
@@ -91,15 +91,15 @@ void ResourceManagement::loadResource()
 	//readSpriteFromFile("Resources\\MenuPoint\\double_shoot.xml");
 	//readSpriteFromFile("Resources\\MenuPoint\\triple_shot.xml");
 	//readSpriteFromFile("Resources\\MenuPoint\\triple_shoot.xml");
-	textures->Add(ID_TEX_MAP_ENTRANCE, L"TiledMap\\Entrance_bank.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 textMap_Entrance = textures->Get(ID_TEX_MAP_ENTRANCE);
+	textures->Add(ID_ENTITY_MAP_ENTRANCE, L"TiledMap\\Entrance_bank.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 textMap_Entrance = textures->Get(ID_ENTITY_MAP_ENTRANCE);
 	TiledMap* tiled_map = new TiledMap("TiledMap\\Entrance_map.tmx", textMap_Entrance);
-	TiledMapList[EntityID::ID_TEX_MAP_ENTRANCE] = tiled_map;
+	TiledMapList[EntityID::ID_ENTITY_MAP_ENTRANCE] = tiled_map;
 
-	textures->Add(ID_TEX_GAMEPLAYSCREEN, L"TiledMap\\GamePlay_bank.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_TEX_GAMEPLAYSCREEN);
+	textures->Add(ID_ENTITY_GAMEPLAYSCREEN, L"TiledMap\\GamePlay_bank.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_ENTITY_GAMEPLAYSCREEN);
 	tiled_map = new TiledMap("TiledMap\\GamePlay_map.tmx", textPlayScreen);
-	TiledMapList[EntityID::ID_TEX_MAP_PLAYGAME] = tiled_map;
+	TiledMapList[EntityID::ID_ENTITY_MAP_PLAYGAME] = tiled_map;
 }
 
 void ResourceManagement::readAnimationFromFile(std::string resourcepath)
@@ -121,13 +121,14 @@ void ResourceManagement::readAnimationFromFile(std::string resourcepath)
 		int defaultTime = aniDoc.attribute("default_time").as_int();
 		LPANIMATION animation = new Animation(defaultTime);
 
-		for (auto aniFrame: aniDoc.children("animation_frame"))
+		for (auto aniFrame : aniDoc.children("animation_frame"))
 		{
 			animation->Add(aniFrame.attribute("sprite_id").as_string());
 		}
 		ANI_ID aniID = stringToAniID[idAnimation];
 		Getanimations->Add(aniID, animation);
 	}
+
 }
 
 void ResourceManagement::readSpriteFromFile(std::string resourcepath)
@@ -147,13 +148,13 @@ void ResourceManagement::readSpriteFromFile(std::string resourcepath)
 
 	std::string pathImage = sourceDoc.child("imagelayer").child("image").attribute("source").as_string();
 	std::wstring pathImagefromfile(pathImage.begin(), pathImage.end());
-		
+
 	LPCWSTR pathImageLoad = pathImagefromfile.c_str();
 	loadTexture(idTextfromfile, pathImageLoad, D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texID = textures->Get(idTextfromfile);
 	textures->setSizeObject(idTextfromfile, sourceDoc.child("imagelayer").attribute("width").as_int(),
 		sourceDoc.child("imagelayer").attribute("height").as_int());
-	
+
 	auto sprites = sourceDoc.child("sprites");
 	for (auto sprite : sprites.children("spriteframe"))
 	{
@@ -199,37 +200,37 @@ ResourceManagement::ResourceManagement()
 	Getanimations = Animations::GetInstance();
 
 	stringToEntityID = {
-	{"ID_TEX_SIMON",EntityID::ID_TEX_SIMON },
-	{"ID_TEX_MAINMENU",EntityID::ID_TEX_MAINMENU },
-	{"ID_TEX_GAMEPLAYSCREEN",EntityID::ID_TEX_GAMEPLAYSCREEN },
-	{"ID_TEX_WHIP",EntityID::ID_TEX_WHIP },
-	{"ID_TEX_BURNBARREL",EntityID::ID_TEX_BURNBARREL },
-	{"ID_TEX_BBOX",EntityID::ID_TEX_BBOX },
-	{"ID_TEX_HEART",EntityID::ID_TEX_HEART },
-	{"ID_TEX_EFFECT",EntityID::ID_TEX_EFFECT },
-	{"ID_TEX_STAR",EntityID::ID_TEX_STAR },
-	{"ID_TEX_WEAPON_REWARD",EntityID::ID_TEX_WEAPON_REWARD },
-	{"ID_TEX_DAGGER",EntityID::ID_TEX_DAGGER },
-	{"ID_TEX_MIRACULOUS_BAG",EntityID::ID_TEX_MIRACULOUS_BAG },
-	{"ID_TEX_WALL",EntityID::ID_TEX_WALL },
-	{"ID_TEX_FLOOR",EntityID::ID_TEX_FLOOR },
-	{"ID_TEX_ENTRANCE",EntityID::ID_TEX_ENTRANCE },
-	{"ID_TEX_DAGGER_WEAPON",EntityID::ID_TEX_DAGGER_WEAPON },
-	{"ID_TEX_MAP_ENTRANCE",EntityID::ID_TEX_MAP_ENTRANCE },
-	{"ID_TEX_MAP_PLAYGAME",EntityID::ID_TEX_MAP_PLAYGAME },
-	{"ID_TEX_CASTLEVANIA_WALL",EntityID::ID_TEX_CASTLEVANIA_WALL },
-	{"ID_TEX_CANDLE",EntityID::ID_TEX_CANDLE },
-	{"ID_TEX_PODIUM_ON_WALL",EntityID::ID_TEX_PODIUM_ON_WALL },
-	{"ID_TEX_WALL_ENTRANCE",EntityID::ID_TEX_WALL_ENTRANCE },
-	{"ID_TEX_ZOMBIE",EntityID::ID_TEX_ZOMBIE },
-	{"ID_TEX_SMALL_HEART",EntityID::ID_TEX_SMALL_HEART },
-	{"ID_TEX_CROSS",EntityID::ID_TEX_CROSS },
-	{"ID_TEX_FIRE_BOMB",EntityID::ID_TEX_FIRE_BOMB },
-	{"ID_TEX_HP", EntityID::ID_TEX_HP },
-	{"ID_TEX_HP_ENEMY", EntityID::ID_TEX_HP_ENEMY },
-	{"ID_TEX_LOST_HP", EntityID::ID_TEX_LOST_HP },
-	{"ID_TEX_PLACE", EntityID::ID_TEX_PLACE},
-	{"ID_TEX_BLACK_LEOPARD", EntityID::ID_TEX_BLACK_LEOPARD},
+	{"ID_ENTITY_SIMON",EntityID::ID_ENTITY_SIMON },
+	{"ID_ENTITY_MAINMENU",EntityID::ID_ENTITY_MAINMENU },
+	{"ID_ENTITY_GAMEPLAYSCREEN",EntityID::ID_ENTITY_GAMEPLAYSCREEN },
+	{"ID_ENTITY_WHIP",EntityID::ID_ENTITY_WHIP },
+	{"ID_ENTITY_BURNBARREL",EntityID::ID_ENTITY_BURNBARREL },
+	{"ID_ENTITY_BBOX",EntityID::ID_ENTITY_BBOX },
+	{"ID_ENTITY_HEART",EntityID::ID_ENTITY_HEART },
+	{"ID_ENTITY_EFFECT",EntityID::ID_ENTITY_EFFECT },
+	{"ID_ENTITY_STAR",EntityID::ID_ENTITY_STAR },
+	{"ID_ENTITY_WEAPON_REWARD",EntityID::ID_ENTITY_WEAPON_REWARD },
+	{"ID_ENTITY_DAGGER",EntityID::ID_ENTITY_DAGGER },
+	{"ID_ENTITY_MIRACULOUS_BAG",EntityID::ID_ENTITY_MIRACULOUS_BAG },
+	{"ID_ENTITY_WALL",EntityID::ID_ENTITY_WALL },
+	{"ID_ENTITY_FLOOR",EntityID::ID_ENTITY_FLOOR },
+	{"ID_ENTITY_ENTRANCE",EntityID::ID_ENTITY_ENTRANCE },
+	{"ID_ENTITY_DAGGER_WEAPON",EntityID::ID_ENTITY_DAGGER_WEAPON },
+	{"ID_ENTITY_MAP_ENTRANCE",EntityID::ID_ENTITY_MAP_ENTRANCE },
+	{"ID_ENTITY_MAP_PLAYGAME",EntityID::ID_ENTITY_MAP_PLAYGAME },
+	{"ID_ENTITY_CASTLEVANIA_WALL",EntityID::ID_ENTITY_CASTLEVANIA_WALL },
+	{"ID_ENTITY_CANDLE",EntityID::ID_ENTITY_CANDLE },
+	{"ID_ENTITY_PODIUM_ON_WALL",EntityID::ID_ENTITY_PODIUM_ON_WALL },
+	{"ID_ENTITY_WALL_ENTRANCE",EntityID::ID_ENTITY_WALL_ENTRANCE },
+	{"ID_ENTITY_ZOMBIE",EntityID::ID_ENTITY_ZOMBIE },
+	{"ID_ENTITY_SMALL_HEART",EntityID::ID_ENTITY_SMALL_HEART },
+	{"ID_ENTITY_CROSS",EntityID::ID_ENTITY_CROSS },
+	{"ID_ENTITY_FIRE_BOMB",EntityID::ID_ENTITY_FIRE_BOMB },
+	{"ID_ENTITY_HP", EntityID::ID_ENTITY_HP },
+	{"ID_ENTITY_HP_ENEMY", EntityID::ID_ENTITY_HP_ENEMY },
+	{"ID_ENTITY_LOST_HP", EntityID::ID_ENTITY_LOST_HP },
+	{"ID_ENTITY_PLACE", EntityID::ID_ENTITY_PLACE},
+	{"ID_ENTITY_BLACK_LEOPARD", EntityID::ID_ENTITY_BLACK_LEOPARD},
 	};
 
 	stringToAniID = {
@@ -270,6 +271,11 @@ ResourceManagement * ResourceManagement::GetInstance()
 {
 	if (__instance == nullptr) __instance = new ResourceManagement();
 	return __instance;
+}
+
+std::unordered_map<std::string, EntityID> ResourceManagement::getStringToEntity()
+{
+	return stringToEntityID;
 }
 
 ResourceManagement::~ResourceManagement()

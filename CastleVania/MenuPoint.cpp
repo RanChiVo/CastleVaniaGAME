@@ -10,10 +10,10 @@ MenuPoint::MenuPoint()
 
 void MenuPoint::loadResource()
 {
-	heart = resourceManagement->getSprite(ID_TEX_HEART)->Get("heart1");
-	HP = resourceManagement->getSprite(ID_TEX_HP)->Get("HP1");
-	enemy_HP1 = resourceManagement->getSprite(ID_TEX_HP_ENEMY)->Get("enemy_HP1");
-	place_item1 = resourceManagement->getSprite(ID_TEX_PLACE)->Get("place_item1");
+	heart = resourceManagement->getSprite(ID_ENTITY_HEART)->Get("heart1");
+	HP = resourceManagement->getSprite(ID_ENTITY_HP)->Get("HP1");
+	enemy_HP1 = resourceManagement->getSprite(ID_ENTITY_HP_ENEMY)->Get("enemy_HP1");
+	place_item1 = resourceManagement->getSprite(ID_ENTITY_PLACE)->Get("place_item1");
 	resourceManagement->loadFont(L"Resources\\Fonts\\prstart.ttf");
 	spriteHandler = Direct3DManager::getInstance()->GetSpriteHandler();
 	R = RECT{ 15, 20, 550, 528 };

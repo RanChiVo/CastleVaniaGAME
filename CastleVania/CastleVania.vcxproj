@@ -172,7 +172,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameObjects\Simon.cpp" />
     <ClCompile Include="Screens\MenuScreen.cpp" />
-    <ClCompile Include="ResourceManagerment.cpp" />
+    <ClCompile Include="ResourceManagement.cpp" />
     <ClCompile Include="Screens\ScreenBase.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="GameObjects\SmallHeart.cpp" />

@@ -77,6 +77,7 @@ public:
 	void handleCollisionStair();
 	void handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+	void handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 
 	void RemoveWhip();
 	void SetupAtacking();

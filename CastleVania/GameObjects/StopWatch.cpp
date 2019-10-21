@@ -11,7 +11,7 @@ StopWatch::StopWatch()
 
 StopWatch::StopWatch(D3DXVECTOR2 position)
 {
-	id = ID_TEX_STOP_WATCH;
+	id = ID_ENTITY_STOP_WATCH;
 
 	x = position.x;
 	y = position.y;
@@ -61,7 +61,7 @@ void StopWatch::GetBoundingBox(float & left, float & top, float & right, float &
 {
 	left = x;
 	top = y;
-	RECT r = ResourceManagement::GetInstance()->getSprite(ID_TEX_STOP_WATCH)->Get("stop_watch1")->getRect();
+	RECT r = ResourceManagement::GetInstance()->getSprite(ID_ENTITY_STOP_WATCH)->Get("stop_watch1")->getRect();
 	int height = r.bottom - r.top;
 	int width = r.right - r.left;
 	right = x + width;

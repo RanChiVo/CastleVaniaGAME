@@ -4,12 +4,12 @@
 
 constexpr float WEAPONREWARD_GRAVITY = 0.0006f;
 
-WeaponReward::WeaponReward()
+WeaponReward::WeaponReward(D3DXVECTOR2 position)
 {
-	id = ID_TEX_WEAPON_REWARD;
+	id = ID_ENTITY_WEAPON_REWARD;
 	LPANIMATION ani;
 	AddAnimation(WEAPONREWARD_ANI);
-	SetPosition(D3DXVECTOR2(0, 0));
+	SetPosition(position);
 	currentAnimation = WEAPONREWARD_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;

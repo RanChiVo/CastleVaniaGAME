@@ -3,7 +3,7 @@
 
 Entrance::Entrance()
 {
-	id = ID_TEX_ENTRANCE;
+	id = ID_ENTITY_ENTRANCE;
 }
 
 void Entrance::Render(Viewport * viewport)

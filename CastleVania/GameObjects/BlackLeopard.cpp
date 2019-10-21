@@ -6,7 +6,7 @@ constexpr float BLACKLEOPARD_SPEED = 0.15f;
 
 BlackLeopard::BlackLeopard()
 {
-	id = ID_TEX_BLACK_LEOPARD;
+	id = ID_ENTITY_BLACK_LEOPARD;
 	AddAnimation(BLACK_LEOPARD_ANI_IDLE);
 	AddAnimation(BLACK_LEOPARD_ANI_MOVE);
 
@@ -43,7 +43,7 @@ void BlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			switch (coEvents[i]->obj->getID())
 			{
-			case ID_TEX_FLOOR:
+			case ID_ENTITY_FLOOR:
 				if (ny != 0) vy = 0;
 				Dy = min_ty * dy + ny * 0.4f;
 				break;

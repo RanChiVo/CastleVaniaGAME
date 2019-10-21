@@ -6,7 +6,7 @@ constexpr float MIRACULOUSBAG_GRAVITY = 0.0006f;
 
 MiraculousBag::MiraculousBag()
 {
-	id = ID_TEX_MIRACULOUS_BAG;
+	id = ID_ENTITY_MIRACULOUS_BAG;
 
 	AddAnimation(MIRACULOUSBAG_ANI);
 

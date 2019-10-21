@@ -8,14 +8,11 @@ constexpr float SMALL_HEART_DELTA = 0.05f;
 
 SmallHeart::SmallHeart(D3DXVECTOR2 position)
 {
-	x = position.x;
-	y = position.y;
-	id = ID_TEX_SMALL_HEART;
-
+	id = ID_ENTITY_SMALL_HEART;
+	SetPosition(position);
 	AddAnimation(SMALL_HEART_ANI);
 
 	specifications = 1;
-	state = SMALL_HEART_STATE_HIDE;
 	originalLocation = x;
 	currentAnimation = SMALL_HEART_ANI;
 	delta = 0;
@@ -72,10 +69,6 @@ void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
-	else if (state == SMALL_HEART_STATE_HIDE)
-	{
-		SetPosition(D3DXVECTOR2(0, 0));
-	};
 }
 
 void SmallHeart::GetBoundingBox(float & left, float & top, float & right, float & bottom)

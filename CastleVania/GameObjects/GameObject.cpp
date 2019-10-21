@@ -92,7 +92,7 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
 
-	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_BBOX);
+	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_ENTITY_BBOX);
 
 	float l, t, r, b;
 
@@ -107,6 +107,15 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	
 	sprite->Draw(pos, 100);
+}
+
+bool GameObject::checkInsideViewPort(Viewport * viewport, D3DXVECTOR2 position)
+{
+	if ((position.x + 20) < viewport->getX() || position.x > (viewport->getX() + viewport->getWidth()))
+	{
+		return false;
+	}
+	return true;
 }
 
 bool GameObject::checkCollision(RECT A, RECT B)

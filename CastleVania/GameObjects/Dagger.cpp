@@ -4,9 +4,10 @@
 
 constexpr float KATANA_GRAVITY = 0.0006f;
 
-Dagger::Dagger()
+Dagger::Dagger(D3DXVECTOR2 position)
 {
-	id = ID_TEX_DAGGER;
+	id = ID_ENTITY_DAGGER;
+	SetPosition(position);
 	AddAnimation(DAGGER_ANI);
 	currentAnimation = DAGGER_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
@@ -27,7 +28,6 @@ void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		coEvents.clear();
 
-		if (state != KATANA_STATE_HIDE)
 			CalcPotentialCollisions(coObjects, coEvents);
 
 		if (coEvents.size() == 0)
@@ -61,6 +61,7 @@ void Dagger::GetBoundingBox(float & left, float & top, float & right, float & bo
 
 void Dagger::Render(Viewport * viewport)
 {
+	RenderBoundingBox(viewport);
 	if (state == STATE_SHOW)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));

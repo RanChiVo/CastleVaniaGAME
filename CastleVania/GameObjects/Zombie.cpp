@@ -5,10 +5,12 @@
 constexpr float ZOMBIE_WALKING_SPEED = 0.08f;
 constexpr float ZOMBIE_GRAVITY = 0.0009f;
 
+
 Zombie::Zombie()
 {
-	id = ID_TEX_ZOMBIE;
-
+	id = ID_ENTITY_ZOMBIE;
+	width = Textures::GetInstance()->GetSizeObject(id).first;
+	height = Textures::GetInstance()->GetSizeObject(id).second;
 	AddAnimation(ZOMBIE_ANI_WALKING);
 	currentAnimation = ZOMBIE_ANI_WALKING;
 }
@@ -17,28 +19,34 @@ void Zombie::handleState()
 {
 	switch (state)
 	{
-	case ZOMBIE_STATE_DIE:
-		vx = 0;
-		break;
 	case ZOMBIE_STATE_WALKING_RIGHT:
 		nx = 1;
-		vx = -ZOMBIE_WALKING_SPEED;
+		vx = ZOMBIE_WALKING_SPEED;
 		currentAnimation = ZOMBIE_ANI_WALKING;
 		break;
 	case ZOMBIE_STATE_WALKING_LEFT:
 		nx = -1;
-		vx = ZOMBIE_WALKING_SPEED;
+		vx = -ZOMBIE_WALKING_SPEED;
 		currentAnimation = ZOMBIE_ANI_WALKING;
 		break;
 	}
+}
+
+bool Zombie::checkInsideViewPort(Viewport * viewport, D3DXVECTOR2 position)
+{
+	if ((position.x + width) < viewport->getX() || position.x > (viewport->getX() + viewport->getWidth()))
+	{
+		return false;
+	}
+	return true;
 }
 
 void Zombie::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	left = x;
 	top = y;
-	right = x + width;
-	bottom = y + height;
+	right = left + width;
+	bottom = top + height;
 }
 
 void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -54,12 +62,13 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 
-	if (state != ZOMBIE_STATE_DIE)
+	if (state != STATE_DETROY)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	if (coEvents.size() == 0)
 	{
 		x += dx;
+		y += dy;
 	}
 	else
 	{
@@ -72,7 +81,7 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			switch (coEvents[i]->obj->getID())
 			{
-			case ID_TEX_FLOOR:
+			case ID_ENTITY_FLOOR:
 				if (ny != 0) vy = 0;
 				Dy = min_ty * dy + ny * 0.4f;
 				break;
@@ -83,31 +92,23 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-
-
-	if (state == ZOMBIE_STATE_DIE)
-	{
-		SetPosition(D3DXVECTOR2(-100, -100));
-	}
 }
 
 void Zombie::Render(Viewport* viewport)
 {
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-
-	if (state != ZOMBIE_STATE_DIE)
+	RenderBoundingBox(viewport);
+	Flip flip;
+	if (nx == -1) flip = normal;
+	else flip = flip_horiz;
+	if (checkInsideViewPort(viewport, position))
 	{
-		int ani = ZOMBIE_ANI_WALKING;
-
-		Flip flip = flip_horiz;
-
-		if (nx == 1) flip = normal;
-		else flip = flip_horiz;
-
 		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
-		RenderBoundingBox(viewport);
 	}
-	else return;
+	else
+	{
+		state = STATE_DETROY;
+	}
 }
 
 Zombie::~Zombie()

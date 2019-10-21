@@ -4,7 +4,7 @@
 
 AreaZombie::AreaZombie()
 {
-	id = ID_TEX_AREA_ZOMBIE;
+	id = ID_ENTITY_AREA_ZOMBIE;
 }
 
 void AreaZombie::Render(Viewport * viewport)

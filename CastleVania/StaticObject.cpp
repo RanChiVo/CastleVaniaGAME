@@ -10,6 +10,7 @@ constexpr int FIRE_LIVE_TIME = 300;
 
 StaticObject::StaticObject()
 {
+
 }
 
 void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -21,41 +22,31 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			state = STATE_DETROY;
 			liveTime = 0;
+			GameObject* item = nullptr;
 
-			if (this->getIdHiddenItem() == "weapon_reward")
+			switch (ResourceManagement::GetInstance()->getStringToEntity()[getIdHiddenItem()])
 			{
-				WeaponReward* weaponReward = new WeaponReward();
-				weaponReward->SetPosition(this->getPosition());
-				coObjects->push_back(weaponReward);
+			case ID_ENTITY_WEAPON_REWARD:
+				item = new WeaponReward(this->getPosition());
+				break;
+			case ID_ENTITY_HEART:
+				item = new Heart(this->getPosition());
+				break;
+			case ID_ENTITY_DAGGER:
+				item = new Dagger(this->getPosition());
+				break;
+			case ID_ENTITY_SMALL_HEART:
+				item = new SmallHeart(this->getPosition());
+				break;
+			case ID_ENTITY_CROSS:
+				item = new Cross(this->getPosition());
+				break;
+			case ID_ENTITY_FIRE_BOMB:
+				item = new FireBomb(this->getPosition());
+				break;
 			}
-			else if (this->getIdHiddenItem() == "heart")
-			{
-				Heart* heart = new Heart();
-				heart->SetPosition(this->getPosition());
-				coObjects->push_back(heart);
-			}
-			else if (this->getIdHiddenItem() == "dagger")
-			{
-				Dagger* dagger = new Dagger();
-				dagger->SetPosition(this->getPosition());
-				coObjects->push_back(dagger);
-			}
-			else if (this->getIdHiddenItem() == "small_heart")
-			{
-				SmallHeart* smallHeart = new SmallHeart(this->getPosition());
-				coObjects->push_back(smallHeart);
-			}
-			else if (this->getIdHiddenItem() == "cross")
-			{
-				Cross* cross = new Cross(this->getPosition());
-				coObjects->push_back(cross);
-			}
-			else if (this->getIdHiddenItem() == "fire_bomb")
-			{
-				FireBomb* fire_bomb = new FireBomb();
-				fire_bomb->SetPosition(this->getPosition());
-				coObjects->push_back(fire_bomb);
-			}
+			if(item)
+			coObjects->push_back(item);
 		}
 	}
 }

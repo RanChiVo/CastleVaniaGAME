@@ -5,7 +5,7 @@ constexpr float BOOMERANG_GRAVITY = 0.0006f;
 
 Boomerang::Boomerang(D3DXVECTOR2 position)
 {
-	id = ID_TEX_WEAPON_REWARD;
+	id = ID_ENTITY_WEAPON_REWARD;
 
 	x = position.x;
 	y = position.y;

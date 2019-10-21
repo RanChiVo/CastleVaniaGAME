@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_TEX_DOUBLE_SHOOT"  name="double_shoot" width="42" height="42">
+  <imagelayer id="ID_ENTITY_DOUBLE_SHOOT"  name="double_shoot" width="42" height="42">
     <image source="Resources\MenuGame\black.png" width="42" height="42"/>
   </imagelayer>
   

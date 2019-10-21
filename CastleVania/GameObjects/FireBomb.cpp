@@ -3,11 +3,11 @@
 
 constexpr float FIRE_BOMB_GRAVITY = 0.0006f;
 
-FireBomb::FireBomb()
+FireBomb::FireBomb(D3DXVECTOR2 position)
 {
-	id = ID_TEX_FIRE_BOMB;
+	id = ID_ENTITY_FIRE_BOMB;
+	SetPosition(position);
 	AddAnimation(FIRE_BOMB_ANI);
-	state = FIRE_BOMB_STATE_HIDE;
 	currentAnimation = FIRE_BOMB_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
@@ -16,8 +16,7 @@ FireBomb::FireBomb()
 void FireBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt);
-	if (state == FIRE_BOMB_STATE_SHOW)
-	{
+	
 		vy += FIRE_BOMB_GRAVITY * dt;
 
 		vector<LPCOLLISIONEVENT> coEvents;
@@ -25,7 +24,7 @@ void FireBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		coEvents.clear();
 
-		if (state != FIRE_BOMB_STATE_HIDE)
+		
 			CalcPotentialCollisions(coObjects, coEvents);
 
 		if (coEvents.size() == 0)
@@ -42,11 +41,6 @@ void FireBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	}
-	else if (state == FIRE_BOMB_STATE_HIDE)
-	{
-		SetPosition(D3DXVECTOR2(-100, -100));
-	};
 }
 
 void FireBomb::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -59,16 +53,13 @@ void FireBomb::GetBoundingBox(float & left, float & top, float & right, float & 
 
 void FireBomb::Render(Viewport * viewport)
 {
-	if (state == FIRE_BOMB_STATE_SHOW)
-	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
 		Flip flip = flip_horiz;
 
 		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 		//	RenderBoundingBox(viewport);
-	}
-	else return;
+
 }
 
 FireBomb::~FireBomb()

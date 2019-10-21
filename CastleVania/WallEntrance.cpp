@@ -3,7 +3,7 @@
 
 WallEntrance::WallEntrance()
 {
-	id = ID_TEX_WALL_ENTRANCE;
+	id = ID_ENTITY_WALL_ENTRANCE;
 }
 
 void WallEntrance::Render(Viewport * viewport)

@@ -7,7 +7,7 @@
 
 BurnBarrel::BurnBarrel()
 {
-	id = ID_TEX_BURNBARREL;
+	id = ID_ENTITY_BURNBARREL;
 
 	AddAnimation(BURNBARREL_ANI);
 	currentAnimation = BURNBARREL_ANI;

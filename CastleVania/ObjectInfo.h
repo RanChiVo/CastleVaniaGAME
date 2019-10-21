@@ -14,11 +14,12 @@ class ObjectInfo
 	int width;
 	D3DXVECTOR2 position;
 	std::string idHiddenItem;
+	std::string objectId;
 	std::string ObjectType;
 public:
 
 	ObjectInfo();
-	ObjectInfo(int id, std::string name, int height, int width, D3DXVECTOR2 position, std::string idHiddenItem);
+	ObjectInfo(int id, std::string name, int height, int width, D3DXVECTOR2 position, std::string idHiddenItem, std::string objectId);
 	int get_id();
 	std::string get_name();
 	int get_height();
@@ -26,6 +27,7 @@ public:
 	D3DXVECTOR2 get_postition();
 	std::string get_idHiddenItem();
 	std::string get_ObjectType();
+	std::string get_ObjectId();
 	~ObjectInfo();
 };
 

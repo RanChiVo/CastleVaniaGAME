@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_TEX_HP"  name="HP" width="7" height="12">
+  <imagelayer id="ID_ENTITY_HP"  name="HP" width="7" height="12">
     <image source="Resources\MenuPoint\HP.png" width="7" height="12"/>
   </imagelayer>
   

@@ -5,7 +5,7 @@ ObjectInfo::ObjectInfo()
 {
 }
 
-ObjectInfo::ObjectInfo(int id, std::string name, int height, int width, D3DXVECTOR2 position, std::string idHiddenItem)
+ObjectInfo::ObjectInfo(int id, std::string name, int height, int width, D3DXVECTOR2 position, std::string idHiddenItem, std::string objectId)
 {
 	this->id = id;
 	this->name = name;
@@ -13,6 +13,7 @@ ObjectInfo::ObjectInfo(int id, std::string name, int height, int width, D3DXVECT
 	this->width = width;
 	this->position = position;
 	this->idHiddenItem = idHiddenItem;
+	this->objectId = objectId;
 }
 
 int ObjectInfo::get_id()
@@ -48,6 +49,11 @@ std::string ObjectInfo::get_idHiddenItem()
 std::string ObjectInfo::get_ObjectType()
 {
 	return this->ObjectType;
+}
+
+std::string ObjectInfo::get_ObjectId()
+{
+	return objectId;
 }
 
 ObjectInfo::~ObjectInfo()

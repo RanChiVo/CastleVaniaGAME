@@ -112,8 +112,9 @@ std::vector<ObjectInfo*> TiledMap::getObjectInfo()
 			int width = objectNode.attribute("width").as_int();
 			int height = objectNode.attribute("height").as_int();
 			auto properties = objectNode.child("properties");
-			std::string idHiddenItemString = properties.child("property").attribute("value").as_string();
-			ObjectInfo* info_object = new ObjectInfo(id, name, height, width, D3DXVECTOR2(x, y), idHiddenItemString);
+			std::string idHiddenItemString = properties.first_child().attribute("value").as_string();
+			std::string objectId = properties.last_child().attribute("value").as_string();
+			ObjectInfo* info_object = new ObjectInfo(id, name, height, width, D3DXVECTOR2(x, y), idHiddenItemString, objectId);
 			objectInfo.push_back(info_object);
 		}
 	}

@@ -43,45 +43,50 @@ protected:
 	static int level;
 	bool isCollision = false;
 	int liveTime;
-
+	std::string name;
 	std::string idHiddenItem;
+	std::string objectID;
 	DWORD dt;
 	static unordered_map<int, LPANIMATION> animations;
 
 public:
-	GameObject();
-	static int getLevel() { return level; }
-	void setLevel(int level) { this->level = level; }
-	int getLiveTime() { return liveTime; }
-	void setLiveTime(int liveTime) { this->liveTime = liveTime; }
 	enum StateLive
 	{
 		STATE_DETROY = 1000,
 		STATE_SHOW = 1001,
 		STATE_FIRE = 1002,
 	};
-	virtual void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
-	virtual D3DXVECTOR2 getPosition();
-	virtual void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
+	GameObject();
+	static int getLevel() { return level; }
+	void setLevel(int level) { this->level = level; }
+	int getLiveTime() { return liveTime; }
+	void setLiveTime(int liveTime) { this->liveTime = liveTime; }
+	void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
+	D3DXVECTOR2 getPosition();
+	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
-	virtual void SetCurrentAni(int currentAni) { this->currentAnimation = currentAni; }
-	virtual int GetState() { return this->state; }
-	virtual int getID();
-	virtual int getHeight();
-	virtual void setHeight(int height);
-	virtual int getWidth();
-	virtual void setWidth(int width);
-	virtual std::string getIdHiddenItem();
-	virtual void setIdHiddenItem(std::string idHiddenItem);
-
-	virtual int getDirection() { return this->nx; }
-	virtual void setDirection(int nx) { this->nx = nx; }
-	virtual bool IsChangeLevel();
-	virtual bool checkCollision(RECT A, RECT B);
-	virtual bool IsCollision();
-	virtual bool setIscollision(bool isCollision);
-
+	void SetCurrentAni(int currentAni) { this->currentAnimation = currentAni; }
+	int GetState() { return this->state; }
+	int getID();
+	void setID(int id) { this->id = id; }
+	void setName(std::string name) { this->name = name; }
+	std::string getName() { return name; }
+	int getHeight();
+	void setHeight(int height);
+	int getWidth();
+	void setWidth(int width);
+	std::string getIdHiddenItem();
+	void setIdHiddenItem(std::string idHiddenItem);
+	void setObjectID(std::string objectID) { this->objectID = objectID; }
+	std::string getObjectID() { return objectID; }
+	int getDirection() { return this->nx; }
+	void setDirection(int nx) { this->nx = nx; }
+	bool IsChangeLevel();
+	bool checkCollision(RECT A, RECT B);
+	bool IsCollision();
+	bool setIscollision(bool isCollision);
 	void RenderBoundingBox(Viewport* viewport);
+	bool checkInsideViewPort(Viewport* viewport, D3DXVECTOR2 position);
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);

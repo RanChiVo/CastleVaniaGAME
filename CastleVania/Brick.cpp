@@ -4,7 +4,7 @@
 
 CBrick::CBrick()
 {
-	id = ID_TEX_WALL;
+	id = ID_ENTITY_WALL;
 }
 
 void CBrick::Render(Viewport* viewport)

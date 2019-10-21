@@ -8,7 +8,7 @@ BaseInfo::BaseInfo()
 	heart = 3;
 	scoreNumber = 0;
 	health = 16;
-	idSubWeapon = EntityID::ID_TEX_NULL;
+	idSubWeapon = EntityID::ID_ENTITY_NULL;
 	subWeapon = nullptr;
 }
 
@@ -53,7 +53,7 @@ void BaseInfo::setIdSubWeapon(EntityID IdSubWeapon)
 
 	switch (idSubWeapon)
 	{
-	case ID_TEX_DAGGER:
+	case ID_ENTITY_DAGGER:
 		setSubWeapon(new DaggerWeapon());
 		break;
 	}

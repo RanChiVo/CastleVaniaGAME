@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_TEX_CASTLEVANIA_WALL"  name="castle_vania_wall">
+  <imagelayer id="ID_ENTITY_CASTLEVANIA_WALL"  name="castle_vania_wall">
     <image source="TiledMap\WallCastle.png" width="97" height="288"/>
   </imagelayer>
 

@@ -7,12 +7,6 @@
 #include "WindowUtil.h"
 #include "Input/DirectInput.h"
 
-constexpr unsigned int ScreenBase_width = 550;
-constexpr unsigned int ScreenBase_height = 528;
-constexpr int max_frame_rate = 60;
-
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(0,0,0)
-
 class Game
 {
 protected:

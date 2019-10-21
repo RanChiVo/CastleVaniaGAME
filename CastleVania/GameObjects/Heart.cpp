@@ -3,11 +3,11 @@
 
 constexpr float HEART_GRAVITY = 0.0006f;
 
-Heart::Heart()
+Heart::Heart(D3DXVECTOR2 position)
 {
-	id = ID_TEX_HEART;
+	id = ID_ENTITY_HEART;
 	AddAnimation(HEART_ANI);
-	SetPosition(D3DXVECTOR2(0, 0));
+	SetPosition(position);
 	currentAnimation = HEART_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;

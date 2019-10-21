@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_TEX_STAR"  name="EffectFire" width="16" height="20">
+  <imagelayer id="ID_ENTITY_STAR"  name="EffectFire" width="16" height="20">
     <image source="star.png" width="16" height="20"/>
   </imagelayer>
   <sprites>

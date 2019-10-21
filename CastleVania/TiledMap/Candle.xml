@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_TEX_CANDLE"  name="Candle">
+  <imagelayer id="ID_ENTITY_CANDLE"  name="Candle">
     <image source="TiledMap\Candle.png" width="32" height="32"/>
   </imagelayer>
 

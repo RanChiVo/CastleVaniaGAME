@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_TEX_BURNBARREL"  name="BurnBarrel" width="32" height="64">
+  <imagelayer id="ID_ENTITY_BURNBARREL"  name="BurnBarrel" width="32" height="64">
     <image source="Resources\Items\burn_barrel.png" width="176" height="241"/>
   </imagelayer>
   

@@ -5,7 +5,7 @@
 
 Whip::Whip()
 {
-	id = ID_TEX_WHIP;
+	id = ID_ENTITY_WHIP;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
 	AddAnimation(TYPE1_WHIP);
@@ -14,9 +14,9 @@ Whip::Whip()
 
 	state = WHIT_STATE_1;
 	currentAnimation = TYPE1_WHIP;
-	bbLevel1 = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("type1_whip_3")->getRect();
-	bbLevel2 = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("type2_whip_3")->getRect();
-	bbLevel3 = ResourceManagement::GetInstance()->getSprite(ID_TEX_WHIP)->Get("type3_whip_3")->getRect();
+	bbLevel1 = ResourceManagement::GetInstance()->getSprite(ID_ENTITY_WHIP)->Get("type1_whip_3")->getRect();
+	bbLevel2 = ResourceManagement::GetInstance()->getSprite(ID_ENTITY_WHIP)->Get("type2_whip_3")->getRect();
+	bbLevel3 = ResourceManagement::GetInstance()->getSprite(ID_ENTITY_WHIP)->Get("type3_whip_3")->getRect();
 }
 
 void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
@@ -170,7 +170,7 @@ void Whip::GetBoundingBox(float & left, float & top, float & right, float & bott
 		right = x + width;
 		bottom = y + height;
 	}
-	else left = top = right = bottom = 0.0f;
+	else return;
 }
 
 Whip::~Whip()
