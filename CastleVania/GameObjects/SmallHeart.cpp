@@ -22,7 +22,7 @@ void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt);
 
-	if (state == SMALL_HEART_STATE_SHOW)
+	if (state == STATE_SHOW)
 	{
 		if (GetTickCount() - liveTime > 4000)
 		{
@@ -34,8 +34,8 @@ void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		coEvents.clear();
 
-		if (state != SMALL_HEART_STATE_HIDE)
-			CalcPotentialCollisions(coObjects, coEvents);
+		
+		CalcPotentialCollisions(coObjects, coEvents);
 
 		delta += SMALL_HEART_DELTA;
 		if (specifications)
@@ -81,7 +81,7 @@ void SmallHeart::GetBoundingBox(float & left, float & top, float & right, float 
 
 void SmallHeart::Render(Viewport * viewport)
 {
-	if (state == SMALL_HEART_STATE_SHOW)
+	if (state == STATE_SHOW)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
@@ -89,7 +89,6 @@ void SmallHeart::Render(Viewport * viewport)
 
 		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
-	else return;
 }
 
 void SmallHeart::movement()

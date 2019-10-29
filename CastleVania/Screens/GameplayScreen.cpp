@@ -32,11 +32,11 @@ void GameplayScreen::update(float dt)
 
 		if (objects[i]->getID() == ID_ENTITY_SIMON)
 		{
-			if (id == ID_ENTITY_MAP_ENTRANCE)
+			if (mapId == ID_ENTITY_MAP_ENTRANCE)
 			{
 				if (objects[i]->getLevel() == 1)
 				{
-					id = ID_ENTITY_MAP_PLAYGAME;
+					mapId = ID_ENTITY_MAP_PLAYGAME;
 					moveMap = true;
 				}
 			}
@@ -46,20 +46,24 @@ void GameplayScreen::update(float dt)
 			objects.erase(objects.begin() + i);
 		}
 	}
-	if (id == ID_ENTITY_MAP_PLAYGAME)
-	{
-		if (GetTickCount() - time >= TIME_ZOMBIE)
-		{
-			time = 0;
-			createZombie(viewport);
-		}
-	}
 
 	if (moveMap)
 	{
 		loadResources();
-		createZombie(viewport);
 		moveMap = false;
+	}
+
+	if (mapId == ID_ENTITY_MAP_PLAYGAME)
+	{
+		if (time == 0)
+		{
+			time = GetTickCount();
+			createZombie(viewport);
+		}
+		if (GetTickCount() - time >= TIME_ZOMBIE)
+		{
+			time = 0;
+		}
 	}
 }
 
@@ -74,8 +78,8 @@ void GameplayScreen::updateViewport(float dt)
 	newPosViewport.x = simon->getPosition().x - viewport->getWidth() / 2 + widthframeSimon / 2;
 	newPosViewport.y = viewport->getY();
 
-	newPosViewport.x = min(resourceManagement->getTiledMap(id)->getWidthWorld() - viewport->getWidth(), newPosViewport.x);
-	newPosViewport.y = min(resourceManagement->getTiledMap(id)->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
+	newPosViewport.x = min(resourceManagement->getTiledMap(mapId)->getWidthWorld() - viewport->getWidth(), newPosViewport.x);
+	newPosViewport.y = min(resourceManagement->getTiledMap(mapId)->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
 	newPosViewport.x = max(0, newPosViewport.x);
 	newPosViewport.y = max(0, newPosViewport.y);
 
@@ -84,7 +88,7 @@ void GameplayScreen::updateViewport(float dt)
 
 void GameplayScreen::renderObject()
 {
-	resourceManagement->getTiledMap(id)->draw(viewport);
+	resourceManagement->getTiledMap(mapId)->draw(viewport);
 	menu_point->Draw();
 	for (int i = 0; i < objects.size(); i++)
 	{
@@ -98,7 +102,7 @@ void GameplayScreen::createZombie(Viewport* viewport)
 	{
 		Zombie* zombie = new Zombie();
 		zombie->SetState(ZOMBIE_STATE_WALKING_RIGHT);
-		zombie->SetPosition(D3DXVECTOR2(viewport->getX(), 295));
+		zombie->SetPosition(D3DXVECTOR2(viewport->getX() + i * 60, 295));
 		objects.push_back(zombie);
 
 		zombie = new Zombie();
@@ -106,8 +110,6 @@ void GameplayScreen::createZombie(Viewport* viewport)
 		zombie->SetPosition(D3DXVECTOR2(viewport->getX() + viewport->getWidth() - i * 60, 295));
 		objects.push_back(zombie);
 	}
-	if (time == 0)
-	time = GetTickCount();
 }
 
 void GameplayScreen::getInfoFromObjectInfo(ObjectInfo *info, LPGAMEOBJECT object)
@@ -122,8 +124,8 @@ void GameplayScreen::getInfoFromObjectInfo(ObjectInfo *info, LPGAMEOBJECT object
 void GameplayScreen::loadResources()
 {
 	objects.clear();
-	delete castlewall;
-	for (auto object : resourceManagement->getTiledMap(id)->getObjectInfo())
+	CastleWall* castleWall = nullptr;
+	for (auto object : resourceManagement->getTiledMap(mapId)->getObjectInfo())
 	{
 		StaticObject* objectInit = nullptr;
 		switch (resourceManagement->getStringToEntity()[object->get_ObjectId()])
@@ -149,8 +151,8 @@ void GameplayScreen::loadResources()
 			getInfoFromObjectInfo(object, simon);
 			break;
 		case ID_ENTITY_CASTLEVANIA_WALL:
-			castlewall = new CastleWall();
-			getInfoFromObjectInfo(object, castlewall);
+			castleWall = new CastleWall();
+			getInfoFromObjectInfo(object, castleWall);
 			break;
 		}
 		if (objectInit)
@@ -161,17 +163,18 @@ void GameplayScreen::loadResources()
 		}
 	}
 
-	if (id == ID_ENTITY_MAP_ENTRANCE)
+	switch (mapId)
 	{
+	case ID_ENTITY_MAP_ENTRANCE:
 		simon->SetPosition(D3DXVECTOR2(1200, 0));
 		objects.push_back(simon);
-		objects.push_back(castlewall);
+		objects.push_back(castleWall);
 		menu_point->loadResource();
-	}
-	else if (id == ID_ENTITY_MAP_PLAYGAME)
-	{
+		break;
+	case ID_ENTITY_MAP_PLAYGAME:
 		simon->SetPosition(D3DXVECTOR2(0, 300));
 		objects.push_back(simon);
+		break;
 	}
 }
 
@@ -179,12 +182,13 @@ GameplayScreen::GameplayScreen()
 {
 	resourceManagement = ResourceManagement::GetInstance();
 
-	id = ID_ENTITY_MAP_ENTRANCE;
+	mapId = ID_ENTITY_MAP_ENTRANCE;
 
 	menu_point = new MenuPoint();
-
 }
+
 GameplayScreen::~GameplayScreen()
 {
 	delete simon;
+	delete menu_point;
 }

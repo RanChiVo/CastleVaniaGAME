@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
   <animations>
-  <animation name ="MIRACULOUSBAG_ANI" default_time="100" rewind="true">
+  <animation name ="RED_MIRACULOUSBAG_ANI" default_time="100" rewind="true">
     <animation_frame sprite_id ="miraculous_bag1"/>
+  </animation >
+    <animation name ="BLUE_MIRACULOUSBAG_ANI" default_time="100" rewind="true">
+    <animation_frame sprite_id ="miraculous_bag2"/>
+  </animation >
+    <animation name ="WHITE_MIRACULOUSBAG_ANI" default_time="100" rewind="true">
+    <animation_frame sprite_id ="miraculous_bag3"/>
+  </animation >
+    <animation name ="BONUS_  MIRACULOUSBAG_ANI" default_time="100" rewind="true">
+    <animation_frame sprite_id ="miraculous_bag1"/>
+    <animation_frame sprite_id ="miraculous_bag2"/>
+    <animation_frame sprite_id ="miraculous_bag3"/>
   </animation >
 </animations>
 </loadresource>

@@ -3,7 +3,6 @@
 
 constexpr float CROSS_GRAVITY = 0.0006f;
 
-
 Cross::Cross(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_CROSS;
@@ -57,13 +56,11 @@ void Cross::GetBoundingBox(float & left, float & top, float & right, float & bot
 
 void Cross::Render(Viewport * viewport)
 {
-
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
 		Flip flip = flip_horiz;
 
 		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
-
 }
 
 Cross::~Cross()

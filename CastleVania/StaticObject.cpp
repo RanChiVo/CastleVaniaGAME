@@ -10,7 +10,6 @@ constexpr int FIRE_LIVE_TIME = 300;
 
 StaticObject::StaticObject()
 {
-
 }
 
 void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -23,7 +22,7 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			state = STATE_DETROY;
 			liveTime = 0;
 			GameObject* item = nullptr;
-
+				
 			switch (ResourceManagement::GetInstance()->getStringToEntity()[getIdHiddenItem()])
 			{
 			case ID_ENTITY_WEAPON_REWARD:

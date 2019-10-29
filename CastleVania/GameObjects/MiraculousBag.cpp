@@ -3,24 +3,40 @@
 
 constexpr float MIRACULOUSBAG_GRAVITY = 0.0006f;
 
-
-MiraculousBag::MiraculousBag()
+MiraculousBag::MiraculousBag(EntityID id)
 {
-	id = ID_ENTITY_MIRACULOUS_BAG;
-
-	AddAnimation(MIRACULOUSBAG_ANI);
-
-	state = MIRACULOUSBAG_STATE_HIDE;
-	currentAnimation = MIRACULOUSBAG_ANI;
+	state = STATE_SHOW;
+	AddAnimation(RED_MIRACULOUSBAG_ANI);
+	AddAnimation(BLUE_MIRACULOUSBAG_ANI);
+	AddAnimation(WHITE_MIRACULOUSBAG_ANI);
+	AddAnimation(BONUS_MIRACULOUSBAG_ANI);
+	switch (ID_ENTITY_RED_100_MIRACULOUS_BAG)
+	{
+	case ID_ENTITY_RED_100_MIRACULOUS_BAG:
+		id = ID_ENTITY_RED_100_MIRACULOUS_BAG;
+		currentAnimation = RED_MIRACULOUSBAG_ANI;
+		break;
+	case ID_ENTITY_BLUE_400_MIRACULOUS_BAG:
+		id = ID_ENTITY_RED_100_MIRACULOUS_BAG;
+		currentAnimation = BLUE_MIRACULOUSBAG_ANI;
+		break;
+	case ID_ENTITY_WHITE_700_MIRACULOUS_BAG:
+		id = ID_ENTITY_WHITE_700_MIRACULOUS_BAG;
+		currentAnimation = WHITE_MIRACULOUSBAG_ANI;
+		break;
+	case ID_ENTITY_BONUS_1000_MIRACULOUS_BAG:
+		id = ID_ENTITY_BONUS_1000_MIRACULOUS_BAG;
+		currentAnimation = BONUS_MIRACULOUSBAG_ANI;
+		break;
+	}
 }
 
 void MiraculousBag::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
-	if (state == MIRACULOUSBAG_STATE_SHOW)
+	if (state == STATE_SHOW)
 	{
-
 		vy += MIRACULOUSBAG_GRAVITY * dt;
 
 		vector<LPCOLLISIONEVENT> coEvents;
@@ -28,8 +44,7 @@ void MiraculousBag::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		coEvents.clear();
 
-		if (state != MIRACULOUSBAG_STATE_HIDE)
-			CalcPotentialCollisions(coObjects, coEvents);
+		CalcPotentialCollisions(coObjects, coEvents);
 
 		if (coEvents.size() == 0)
 		{
@@ -43,12 +58,7 @@ void MiraculousBag::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			y += min_ty * dy + ny * 0.4f;
 			if (ny != 0) vy = 0;
 		}
-
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	}
-	else if (state == MIRACULOUSBAG_STATE_HIDE)
-	{
-		SetPosition(D3DXVECTOR2(-100, -100));
 	}
 }
 
@@ -62,15 +72,13 @@ void MiraculousBag::GetBoundingBox(float & left, float & top, float & right, flo
 
 void MiraculousBag::Render(Viewport * viewport)
 {
-	if (state == MIRACULOUSBAG_STATE_SHOW)
+	if (state == STATE_SHOW)
 	{
 		animations.find(currentAnimation)->second->SetLoop(true);
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		Flip flip = flip_horiz;
 		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
-	//	RenderBoundingBox(viewport);
 	}
-	else return;
 }
 
 MiraculousBag::~MiraculousBag()

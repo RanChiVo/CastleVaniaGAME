@@ -5,7 +5,6 @@
 constexpr float ZOMBIE_WALKING_SPEED = 0.08f;
 constexpr float ZOMBIE_GRAVITY = 0.0009f;
 
-
 Zombie::Zombie()
 {
 	id = ID_ENTITY_ZOMBIE;
@@ -90,7 +89,6 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += Dx;
 		y += Dy;
 	}
-
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
@@ -101,7 +99,7 @@ void Zombie::Render(Viewport* viewport)
 	Flip flip;
 	if (nx == -1) flip = normal;
 	else flip = flip_horiz;
-	if (checkInsideViewPort(viewport, position))
+	if (checkInsideViewPort(viewport, D3DXVECTOR2(x, y)))
 	{
 		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}

@@ -1,5 +1,4 @@
 #pragma once
-#include "GameObject.h"
 #include "../CombatWeapon.h"
 
 constexpr int WHIT_STATE_1 = 1;

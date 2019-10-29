@@ -1,9 +1,7 @@
 #include "StopWatch.h"
 #include "../ResourceManagement.h"
 
-
 constexpr float STOP_WATCH_GRAVITY = 0.0006f;
-
 
 StopWatch::StopWatch()
 {
@@ -17,10 +15,8 @@ StopWatch::StopWatch(D3DXVECTOR2 position)
 	y = position.y;
 
 	LPANIMATION ani;
-
 	AddAnimation(STOP_WATCH_ANI);
-
-	state = STOPWATCH_STATE_HIDE;
+	state = STATE_SHOW;
 	currentAnimation = STOP_WATCH_ANI;
 }
 

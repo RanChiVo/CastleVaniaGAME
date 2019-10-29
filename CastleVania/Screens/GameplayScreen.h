@@ -20,12 +20,8 @@ class GameplayScreen: public ScreenBase
 {
 private:
 	vector<LPGAMEOBJECT> objects;
-	vector<LPGAMEOBJECT> objectslv2;
-	vector<LPGAMEOBJECT> staticObjects;
-	D3DXVECTOR2 posWall;
-	EntityID id;
+	EntityID mapId;
 	Simon* simon;
-	CastleWall* castlewall;
 	ResourceManagement* resourceManagement;
 	RECT rect;
 	DWORD timer_zombie = 0;
@@ -38,7 +34,6 @@ private:
 public:
 
 	void init() override;
-	//void loadResources() override;
 	void loadResources() override;
 	void update(float dt) override;
 	void updateViewport(float dt);
