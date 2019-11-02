@@ -25,7 +25,7 @@ private:
 	ResourceManagement* resourceManagement;
 	RECT rect;
 	DWORD timer_zombie = 0;
-	DWORD TIME_ZOMBIE = 15000;
+	DWORD TIME_ZOMBIE = 25000;
 	MenuPoint* menu_point;
 	bool moveMap = false;
 	bool isActive = false;

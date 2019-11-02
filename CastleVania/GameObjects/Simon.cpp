@@ -21,7 +21,7 @@
 constexpr float SIMON_MOVE_SPEED = 0.12f;
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
-constexpr float SIMON_GRAVITY = 0.001f;
+constexpr float SIMON_GRAVITY = 0.0009f;
 constexpr int SIMON_PROTECT_TIME = 2000;
 constexpr float SIMON_UP_STAIR_SPEED_Y = 0.09f;
 constexpr float SIMON_UP_STAIR_SPEED_X = 0.09f;
@@ -589,14 +589,14 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else
 	{
-		handleCollisionIntersectedObject(dt, coObjects);
 		float min_tx, min_ty, nx, ny;
 		float Dx = dx, Dy = dy;
-
+		handleCollisionIntersectedObject(dt, coObjects);
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		for (int i = 0; i < coEvents.size(); i++)
 		{
+			handleAfterCollision(nullptr, coEvents[i]->obj->getID(), i , &coEvents);
 			switch (coEvents[i]->obj->getID())
 			{
 			case ID_ENTITY_WALL:
@@ -619,31 +619,6 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					Dx = min_tx * dx + nx * 0.11f;
 					if (nx != 0) vx = 0;
 				}
-				break;
-			case ID_ENTITY_WEAPON_REWARD:
-				SetState(SIMON_STATE_CHANGECOLOR);
-				if (levelWhip == 1)
-				{
-					levelWhip = 2;
-				}
-				else if (levelWhip == 2)
-				{
-					levelWhip = 3;
-				}
-				coEvents[i]->obj->SetState(STATE_DETROY);
-				break;
-			case ID_ENTITY_HEART:
-				baseInfo->setHeart(baseInfo->getHeart() + 10);
-				coEvents[i]->obj->SetState(STATE_DETROY);
-				break;
-			case ID_ENTITY_DAGGER:
-				baseInfo->setIdSubWeapon(ID_ENTITY_DAGGER);
-				coEvents[i]->obj->SetState(STATE_DETROY);
-				break;
-			case ID_ENTITY_MIRACULOUS_BAG:
-			case ID_ENTITY_SMALL_HEART:
-				baseInfo->setHeart(baseInfo->getHeart() + 1);
-				coEvents[i]->obj->SetState(STATE_DETROY);
 				break;
 			case ID_ENTITY_FLOOR:
 				if (coEvents[i]->obj->getName().compare("HighFloor") == 0)
@@ -668,6 +643,69 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
+void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i, vector<LPCOLLISIONEVENT> *coEvents)
+{
+	switch (id)
+	{
+	case ID_ENTITY_WEAPON_REWARD:
+		SetState(SIMON_STATE_CHANGECOLOR);
+		if (levelWhip == 1)
+		{
+			levelWhip = 2;
+		}
+		else if (levelWhip == 2)
+		{
+			levelWhip = 3;
+		}
+		if (coObjects)
+		{
+			coObjects->at(i)->SetState(STATE_DETROY);
+		}
+		else
+		{
+			coEvents->at(i)->obj->SetState(STATE_DETROY);
+		}
+		break;
+	case ID_ENTITY_HEART:
+		baseInfo->setHeart(baseInfo->getHeart() + 10);
+		if (coObjects)
+		{
+			coObjects->at(i)->SetState(STATE_DETROY);
+		}
+		else
+		{
+			coEvents->at(i)->obj->SetState(STATE_DETROY);
+		}
+		break;
+	case ID_ENTITY_DAGGER:
+		baseInfo->setIdSubWeapon(ID_ENTITY_DAGGER);
+		if (coObjects)
+		{
+			coObjects->at(i)->SetState(STATE_DETROY);
+		}
+		else
+		{
+			coEvents->at(i)->obj->SetState(STATE_DETROY);
+		}
+		break;
+	case ID_ENTITY_SMALL_HEART:
+		baseInfo->setHeart(baseInfo->getHeart() + 1);
+		if (coObjects)
+		{
+			coObjects->at(i)->SetState(STATE_DETROY);
+		}
+		else
+		{
+			coEvents->at(i)->obj->SetState(STATE_DETROY);
+		}
+		break;
+	case ID_ENTITY_ZOMBIE:
+		SetState(SIMON_STATE_HURT);
+		break;
+	}
+	
+}
+
 void Simon::handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	for (int i = 0; i < coObjects->size(); i++)
@@ -683,34 +721,7 @@ void Simon::handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coO
 
 		if (result)
 		{
-			switch (coObjects->at(i)->getID())
-			{
-			case ID_ENTITY_WEAPON_REWARD:
-				SetState(SIMON_STATE_CHANGECOLOR);
-				if (levelWhip == 1)
-				{
-					levelWhip = 2;
-				}
-				else if (levelWhip == 2)
-				{
-					levelWhip = 3;
-				}
-				coObjects->at(i)->SetState(STATE_DETROY);
-				break;
-			case ID_ENTITY_HEART:
-				baseInfo->setHeart(baseInfo->getHeart() + 10);
-				coObjects->at(i)->SetState(STATE_DETROY);
-				break;
-			case ID_ENTITY_DAGGER:
-				baseInfo->setIdSubWeapon(ID_ENTITY_DAGGER);
-				coObjects->at(i)->SetState(STATE_DETROY);
-				break;
-			case ID_ENTITY_MIRACULOUS_BAG:
-			case ID_ENTITY_SMALL_HEART:
-				baseInfo->setHeart(baseInfo->getHeart() + 1);
-				coObjects->at(i)->SetState(STATE_DETROY);
-				break;
-			}
+			handleAfterCollision(coObjects, coObjects->at(i)->getID(), i, nullptr);
 		}
 	}
 }

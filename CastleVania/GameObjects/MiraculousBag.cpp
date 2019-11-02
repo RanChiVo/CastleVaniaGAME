@@ -5,12 +5,13 @@ constexpr float MIRACULOUSBAG_GRAVITY = 0.0006f;
 
 MiraculousBag::MiraculousBag(EntityID id)
 {
+	this->id = ID_ENTITY_MIRACULOUS_BAG;
 	state = STATE_SHOW;
 	AddAnimation(RED_MIRACULOUSBAG_ANI);
 	AddAnimation(BLUE_MIRACULOUSBAG_ANI);
 	AddAnimation(WHITE_MIRACULOUSBAG_ANI);
 	AddAnimation(BONUS_MIRACULOUSBAG_ANI);
-	switch (ID_ENTITY_RED_100_MIRACULOUS_BAG)
+	switch (id)
 	{
 	case ID_ENTITY_RED_100_MIRACULOUS_BAG:
 		id = ID_ENTITY_RED_100_MIRACULOUS_BAG;

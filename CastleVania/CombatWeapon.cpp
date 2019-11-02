@@ -22,6 +22,7 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		switch (coObjects->at(i)->getID())
 		{
 		case ID_ENTITY_BURNBARREL:
+		case ID_ENTITY_ZOMBIE:
 		case ID_ENTITY_CANDLE:
 			float left1, top1, right1, bottom1;
 			coObjects->at(i)->GetBoundingBox(left1, top1, right1, bottom1);

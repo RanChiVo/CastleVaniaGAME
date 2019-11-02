@@ -10,7 +10,7 @@
     <animation name ="WHITE_MIRACULOUSBAG_ANI" default_time="100" rewind="true">
     <animation_frame sprite_id ="miraculous_bag3"/>
   </animation >
-    <animation name ="BONUS_  MIRACULOUSBAG_ANI" default_time="100" rewind="true">
+    <animation name ="BONUS_MIRACULOUSBAG_ANI" default_time="100" rewind="true">
     <animation_frame sprite_id ="miraculous_bag1"/>
     <animation_frame sprite_id ="miraculous_bag2"/>
     <animation_frame sprite_id ="miraculous_bag3"/>
