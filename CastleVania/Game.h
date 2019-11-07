@@ -19,7 +19,7 @@ public:
 
 	Game();
 	void virtual init(HINSTANCE hInstance, int nCmdShow);
-	void virtual update(float dt);
+	void virtual update(DWORD dt);
 	void virtual renderObjects();
 	void virtual loadResource();
 	void virtual handleInput();

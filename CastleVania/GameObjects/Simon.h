@@ -50,8 +50,9 @@ private:
 	bool checkRewind = false;
 	bool touchRect = false;
 	bool isOnStair = false;
+	int directionStair;
 	float positition_stair;
-	int new_y = 0;
+	float new_y = 0;
 
 	std::string stair_direction;
 	Whip* whip;

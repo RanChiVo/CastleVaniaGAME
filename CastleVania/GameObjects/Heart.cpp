@@ -68,7 +68,6 @@ void Heart::Render(Viewport * viewport)
 		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 		RenderBoundingBox(viewport);
 	}
-	
 }
 
 Heart::~Heart()

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_ENTITY_EFFECT_MONEY"  name="EffectFire" width="" height="44">
+    <image source="Resources\Items\effect_money.png" width="128" height="44"/>
+  </imagelayer>
+  <sprites>
+    <spriteframe id="effect_money100" left = "0" top="0" right="30" bottom="16"/>
+    <spriteframe id="effect_money400" left = "30" top="0" right="65" bottom="16"/>
+    <spriteframe id="effect_money700" left = "77" top="0" right="104" bottom="16"/>
+    <spriteframe id="effect1_money1000" left = "110" top="0" right="142" bottom="16"/>
+    <spriteframe id="effect2_money1000" left = "110" top="17" right="142" bottom="33"/>
+    <spriteframe id="effect3_money1000" left = "110" top="34" right="142" bottom="49"/>
+  </sprites>
+</loadresource>

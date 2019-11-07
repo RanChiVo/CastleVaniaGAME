@@ -38,6 +38,7 @@ protected:
 	float vx;
 	float vy;
 	int nx;
+	int ny;
 	int state;
 	int currentAnimation;
 	static int level;
@@ -54,7 +55,7 @@ public:
 	{
 		STATE_DETROY = 1000,
 		STATE_SHOW = 1001,
-		STATE_FIRE = 1002,
+		STATE_EFFECT = 1002,
 	};
 	GameObject();
 	static int getLevel() { return level; }
@@ -75,6 +76,7 @@ public:
 	void setHeight(int height);
 	int getWidth();
 	void setWidth(int width);
+	void setSpeed(float vx, float vy);
 	std::string getIdHiddenItem();
 	void setIdHiddenItem(std::string idHiddenItem);
 	void setObjectID(std::string objectID) { this->objectID = objectID; }
@@ -103,7 +105,6 @@ public:
 	virtual void Render(Viewport* viewport) = 0;
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom)=0;
 	virtual void SetState(int state) { this->state = state; }
-
 	virtual ~GameObject();
 };
 

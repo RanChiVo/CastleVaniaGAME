@@ -4,6 +4,7 @@
 #pragma once
 class StaticObject: public GameObject
 {
+	EntityID idHiddenItem;
 public:
 	StaticObject();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);

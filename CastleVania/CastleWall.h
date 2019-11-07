@@ -1,7 +1,7 @@
 #pragma once
-#include "../CastleVania/GameObjects/GameObject.h"
+#include "StaticObject.h"
 
-class CastleWall : public GameObject
+class CastleWall : public StaticObject
 {
 public:
 	CastleWall();

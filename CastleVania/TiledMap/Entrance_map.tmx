@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="23" height="6" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="53">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="23" height="6" tilewidth="64" tileheight="64" infinite="0" nextlayerid="9" nextobjectid="53">
  <tileset firstgid="1" name="Entrance_bank.png" tilewidth="64" tileheight="64" tilecount="48" columns="8">
   <image source="Entrance_bank.png" width="512" height="384"/>
  </tileset>
@@ -15,46 +15,6 @@
 30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30
 </data>
  </layer>
- <objectgroup color="#aa007f" id="3" name="Static_Object">
-  <object id="47" name="BurnBarrel" x="1200" y="226" width="32" height="64">
-   <properties>
-    <property name="Hidden Item ID" value="ID_ENTITY_DAGGER"/>
-    <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
-   </properties>
-  </object>
-  <object id="49" name="BurnBarrel" x="942" y="226" width="32" height="64">
-   <properties>
-    <property name="Hidden Item ID" value="ID_ENTITY_WEAPON_REWARD"/>
-    <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
-   </properties>
-  </object>
-  <object id="50" name="BurnBarrel" x="686" y="226" width="32" height="64">
-   <properties>
-    <property name="Hidden Item ID" value="ID_ENTITY_HEART"/>
-    <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
-   </properties>
-  </object>
-  <object id="51" name="BurnBarrel" x="433" y="226" width="32" height="64">
-   <properties>
-    <property name="Hidden Item ID" value="ID_ENTITY_WEAPON_REWARD"/>
-    <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
-   </properties>
-  </object>
-  <object id="52" name="BurnBarrel" x="174" y="226" width="32" height="64">
-   <properties>
-    <property name="Hidden Item ID" value="ID_ENTITY_WEAPON_REWARD"/>
-    <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
-   </properties>
-  </object>
- </objectgroup>
- <objectgroup color="#ff0000" id="2" name="Simon">
-  <object id="34" name="Start_Map" x="58" y="229" width="60" height="60">
-   <properties>
-    <property name="Object ID" value="ID_ENTITY_SIMON"/>
-   </properties>
-  </object>
-  <object id="35" name="End_Map" x="1415" y="196" width="40" height="92"/>
- </objectgroup>
  <objectgroup color="#00ff00" id="4" name="Static_Castle">
   <object id="12" name="Entrance" x="1311.5" y="111" width="31" height="177">
    <properties>
@@ -84,6 +44,45 @@
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#0000ff" id="2" name="Simon">
+  <object id="34" name="Start_Map" x="58" y="222" width="60" height="66">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_SIMON"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#aa007f" id="3" name="Static_Object">
+  <object id="47" name="BurnBarrel" x="1200" y="226" width="32" height="64">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_DAGGER"/>
+    <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
+   </properties>
+  </object>
+  <object id="49" name="BurnBarrel" x="942" y="226" width="32" height="64">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_WEAPON_REWARD"/>
+    <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
+   </properties>
+  </object>
+  <object id="50" name="BurnBarrel" x="686" y="226" width="32" height="64">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
+   </properties>
+  </object>
+  <object id="51" name="BurnBarrel" x="433" y="226" width="32" height="64">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_WEAPON_REWARD"/>
+    <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
+   </properties>
+  </object>
+  <object id="52" name="BurnBarrel" x="174" y="226" width="32" height="64">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_WEAPON_REWARD"/>
+    <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
    </properties>
   </object>
  </objectgroup>

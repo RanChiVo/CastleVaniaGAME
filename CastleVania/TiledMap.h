@@ -43,6 +43,7 @@ public:
 	//get info of Objects in Layer 
 	void readMatrixMap();
 	std::vector<ObjectInfo*> getObjectInfo();
+	void clearObjectInfo();
 	void draw(Viewport* viewport);
 	float getHeightWorld();
 	float getWidthWorld();

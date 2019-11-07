@@ -36,6 +36,12 @@ void GameObject::setWidth(int width)
 	this->width = width;
 }
 
+void GameObject::setSpeed(float vx, float vy)
+{
+	this->vx = vx;
+	this->vy = vy;
+}
+
 std::string GameObject::getIdHiddenItem()
 {
 	return idHiddenItem;

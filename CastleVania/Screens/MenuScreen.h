@@ -22,7 +22,7 @@ private:
 public:
 
 		void init() override;
-		void update(float dt) override;
+		void update(DWORD dt) override;
 		void renderObject() override;
 		void loadResources() override;
 

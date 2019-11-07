@@ -12,7 +12,7 @@ void MenuScreen::init()
 	resourceManagement = ResourceManagement::GetInstance();
 }
 
-void MenuScreen::update(float dt)
+void MenuScreen::update(DWORD dt)
 {
 	int waitingTime = 5000;
 	DWORD startTime = GetTickCount();

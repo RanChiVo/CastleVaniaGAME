@@ -5,6 +5,7 @@
 #include "./GameObjects/SmallHeart.h"
 #include "./GameObjects/Cross.h"
 #include "./GameObjects/FireBomb.h"
+#include "./GameObjects/MiraculousBag.h"
 
 constexpr int FIRE_LIVE_TIME = 300;
 
@@ -15,15 +16,15 @@ StaticObject::StaticObject()
 void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
-	if (state == STATE_FIRE)
+	if (state == STATE_EFFECT)
 	{
 		if (GetTickCount() - liveTime > FIRE_LIVE_TIME)
 		{
 			state = STATE_DETROY;
 			liveTime = 0;
 			GameObject* item = nullptr;
-				
-			switch (ResourceManagement::GetInstance()->getStringToEntity()[getIdHiddenItem()])
+			idHiddenItem = ResourceManagement::GetInstance()->getStringToEntity()[getIdHiddenItem()];
+			switch (idHiddenItem)
 			{
 			case ID_ENTITY_WEAPON_REWARD:
 				item = new WeaponReward(this->getPosition());
@@ -38,10 +39,16 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				item = new SmallHeart(this->getPosition());
 				break;
 			case ID_ENTITY_CROSS:
-				item = new Cross(this->getPosition());
+				//item = new Cross(this->getPosition());
 				break;
 			case ID_ENTITY_FIRE_BOMB:
 				item = new FireBomb(this->getPosition());
+				break;
+			case ID_ENTITY_RED_100_MIRACULOUS_BAG:
+			case ID_ENTITY_BLUE_400_MIRACULOUS_BAG:
+			case ID_ENTITY_WHITE_700_MIRACULOUS_BAG:
+			case ID_ENTITY_BONUS_1000_MIRACULOUS_BAG:
+				item = new MiraculousBag(idHiddenItem, this->getPosition());
 				break;
 			}
 			if(item)
@@ -52,7 +59,7 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void StaticObject::Render(Viewport * viewport)
 {
-	if (state == STATE_FIRE)
+	if (state == STATE_EFFECT)
 	{
 		AddAnimation(ANI_EFFECT);
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));

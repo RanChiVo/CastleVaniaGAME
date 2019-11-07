@@ -215,7 +215,7 @@ void Simon::SetupAtacking()
 
 void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 {
-	if (enableSubWeapon && startThrowWeapon == 0 && baseInfo->getHeart() > 0 && animations.find(currentAnimation)->second->getCurrentFrame() >= 1)
+	if (enableSubWeapon && startThrowWeapon == 0 && baseInfo->getHeart() > 0)
 	{
 		if (baseInfo->getIdSubWeapon() != NULL)
 		{
@@ -456,7 +456,7 @@ void Simon::handleState()
 		{
 			isjumping = true;
 			vy = -SIMON_JUMP_SPEED_Y;
-			x -= sin(2.5*3.14 / 100) * 100;
+			x -= (float)sin(2.5*3.14 / 100) * 100;
 			break;
 		}
 		if (vy < 0)
@@ -509,7 +509,7 @@ void Simon::Reset(int currentAnimation)
 void Simon::handleCollisionStair()
 {
 	DirectInput* directInput = DirectInput::getInstance();
-	for (int i = 0; i < objectCollision.size(); i++)
+	for (int i = 0; i < (int)objectCollision.size(); i++)
 	{
 		if (objectCollision.at(i)->getID() == ID_COLLISION_STAIR)
 		{
@@ -594,9 +594,9 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		handleCollisionIntersectedObject(dt, coObjects);
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		for (int i = 0; i < coEvents.size(); i++)
+		for (int i = 0; i < (int)coEvents.size(); i++)
 		{
-			handleAfterCollision(nullptr, coEvents[i]->obj->getID(), i , &coEvents);
+			
 			switch (coEvents[i]->obj->getID())
 			{
 			case ID_ENTITY_WALL:
@@ -635,6 +635,9 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					Dy = min_ty * dy + ny * 0.1f;
 				}
 				break;
+			case ID_ENTITY_ZOMBIE:
+				SetState(SIMON_STATE_HURT);
+				handleAfterCollision(nullptr, coEvents[i]->obj->getID(), i, &coEvents);
 			}
 		}
 		x += Dx;
@@ -699,8 +702,12 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 			coEvents->at(i)->obj->SetState(STATE_DETROY);
 		}
 		break;
-	case ID_ENTITY_ZOMBIE:
-		SetState(SIMON_STATE_HURT);
+	case ID_ENTITY_MIRACULOUS_BAG:
+		if (coObjects)
+		{
+			coObjects->at(i)->SetState(STATE_EFFECT);
+			coObjects->at(i)->SetPosition(D3DXVECTOR2(x, y + 20));
+		}
 		break;
 	}
 	
@@ -708,7 +715,7 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 
 void Simon::handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	for (int i = 0; i < coObjects->size(); i++)
+	for (int i = 0; i < (int)coObjects->size(); i++)
 	{
 		float l, t, r, b;
 		coObjects->at(i)->GetBoundingBox(l, t, r, b);

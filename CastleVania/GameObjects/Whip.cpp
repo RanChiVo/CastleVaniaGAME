@@ -165,8 +165,8 @@ void Whip::GetBoundingBox(float & left, float & top, float & right, float & bott
 			break;
 		}
 
-		float height = r.bottom - r.top;
-		float width = r.right - r.left;
+		float height = float(r.bottom - r.top);
+		float width = float(r.right - r.left);
 		right = x + width;
 		bottom = y + height;
 	}

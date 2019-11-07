@@ -6,7 +6,7 @@ void IntroScreen::init()
 {
 }
 
-void IntroScreen::update(float dt)
+void IntroScreen::update(DWORD dt)
 {
 }
 

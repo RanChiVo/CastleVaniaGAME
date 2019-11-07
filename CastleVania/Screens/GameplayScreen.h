@@ -1,20 +1,10 @@
 #pragma once
 #include "../GameObjects/Simon.h"
-#include "../GameObjects/Whip.h"
-#include "../GameObjects/BurnBarrel.h"
-#include "../GameObjects/Heart.h"
-#include "../GameObjects/WeaponReward.h"
-#include "../GameObjects/Dagger.h"
-#include "../GameObjects/MiraculousBag.h"
-#include "../GameObjects/Floor.h"
-#include "../Brick.h"
-#include "../GameObjects/Entrance.h"
 #include "../Screens/ScreenBase.h"
 #include "../GameObjects/GameObject.h"
 #include "../Viewport.h"
 #include "../Game.h"
 #include "../MenuPoint.h"
-#include "../CastleWall.h"
 
 class GameplayScreen: public ScreenBase
 {
@@ -35,8 +25,8 @@ public:
 
 	void init() override;
 	void loadResources() override;
-	void update(float dt) override;
-	void updateViewport(float dt);
+	void update(DWORD dt) override;
+	void updateViewport(DWORD dt);
 	void renderObject() override;
 	void createZombie(Viewport* viewport);
 	void getInfoFromObjectInfo( ObjectInfo *info, LPGAMEOBJECT object);

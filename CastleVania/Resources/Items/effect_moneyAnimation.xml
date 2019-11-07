@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <animations>
+  <animation name ="EFFECT_100_MONEY_ANI" default_time="100" rewind="true">
+    <animation_frame sprite_id ="effect_money100"/>
+  </animation >
+  <animation name ="EFFECT_400_MONEY_ANI" default_time="100" rewind="true">
+    <animation_frame sprite_id ="effect_money400"/>
+  </animation >
+  <animation name ="EFFECT_700_MONEY_ANI" default_time="100" rewind="true">
+    <animation_frame sprite_id ="effect_money700"/>
+  </animation >
+   <animation name ="EFFECT_1000_MONEY_ANI" default_time="100" rewind="true">
+    <animation_frame sprite_id ="effect1_money1000"/>
+    <animation_frame sprite_id ="effect2_money1000"/>
+    <animation_frame sprite_id ="effect3_money1000"/>
+  </animation >
+</animations>
+  </loadresource>
+  

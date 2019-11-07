@@ -5,14 +5,17 @@
 #include "../PodiumOnWall.h"
 #include "../WallEntrance.h"
 #include "../CollisionStair.h"
-#include "../GameObjects/Zombie.h"
-#include "../GameObjects/Cross.h"
-#include "../GameObjects/SmallHeart.h"
-#include "../GameObjects/FireBomb.h"
-#include "../GameObjects/StopWatch.h"
-#include "../GameObjects/MiraculousBag.h"
 #include "../AreaZombie.h"
 #include "../GameObjects/BlackLeopard.h"
+#include "../GameObjects/Zombie.h"
+#include "../Brick.h"
+#include "../GameObjects/Floor.h"
+#include "../GameObjects/GameObject.h"
+#include "../CastleWall.h"
+#include "../GameObjects/BurnBarrel.h"
+#include "../Candle.h"
+#include "../GameObjects/Entrance.h"
+#include "../ObjectStair.h"
 
 void GameplayScreen::init()
 {
@@ -20,13 +23,13 @@ void GameplayScreen::init()
 	viewport = direct3D->getViewport();
 }
 
-void GameplayScreen::update(float dt)
+void GameplayScreen::update(DWORD dt)
 {
 	menu_point->update();
 
 	updateViewport(dt);
 
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < (int)objects.size(); i++)
 	{
 		objects[i]->Update(dt, &objects);
 
@@ -36,6 +39,7 @@ void GameplayScreen::update(float dt)
 			{
 				if (objects[i]->getLevel() == 1)
 				{
+					resourceManagement->getTiledMap(mapId)->clearObjectInfo();
 					mapId = ID_ENTITY_MAP_PLAYGAME;
 					moveMap = true;
 				}
@@ -55,7 +59,7 @@ void GameplayScreen::update(float dt)
 
 	if (mapId == ID_ENTITY_MAP_PLAYGAME)
 	{
-		if (time == 0)
+		/*if (time == 0)
 		{
 			time = GetTickCount();
 			createZombie(viewport);
@@ -63,11 +67,11 @@ void GameplayScreen::update(float dt)
 		if (GetTickCount() - time >= TIME_ZOMBIE)
 		{
 			time = 0;
-		}
+		}*/
 	}
 }
 
-void GameplayScreen::updateViewport(float dt)
+void GameplayScreen::updateViewport(DWORD dt)
 {
 	D3DXVECTOR2 pos_Simon = simon->getPosition();
 
@@ -90,7 +94,7 @@ void GameplayScreen::renderObject()
 {
 	resourceManagement->getTiledMap(mapId)->draw(viewport);
 	menu_point->Draw();
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < (int)objects.size(); i++)
 	{
 		objects[i]->Render(viewport);
 	}
@@ -151,31 +155,20 @@ void GameplayScreen::loadResources()
 			getInfoFromObjectInfo(object, simon);
 			break;
 		case ID_ENTITY_CASTLEVANIA_WALL:
-			castleWall = new CastleWall();
+			objectInit = new CastleWall();
 			getInfoFromObjectInfo(object, castleWall);
 			break;
+		case ID_ENTITY_STAIR:
+			objectInit = new 
 		}
+
 		if (objectInit)
 		{
 			getInfoFromObjectInfo(object, objectInit);
 			objects.push_back(objectInit);
-			objectInit = nullptr;
 		}
 	}
-
-	switch (mapId)
-	{
-	case ID_ENTITY_MAP_ENTRANCE:
-		simon->SetPosition(D3DXVECTOR2(1200, 0));
-		objects.push_back(simon);
-		objects.push_back(castleWall);
-		menu_point->loadResource();
-		break;
-	case ID_ENTITY_MAP_PLAYGAME:
-		simon->SetPosition(D3DXVECTOR2(0, 300));
-		objects.push_back(simon);
-		break;
-	}
+	menu_point->loadResource();
 }
 
 GameplayScreen::GameplayScreen()

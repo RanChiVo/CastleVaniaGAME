@@ -31,13 +31,13 @@ void MenuPoint::Draw()
 	content = "SCORE_000000 TIME " + timeString + " STAGE 01\n";
 	content += "PLAYER				                    -62\n";
 	content += "ENEMY                    P-03\n";
-	heart->Draw(D3DXVECTOR2(433, 35), Flip::normal);
+	heart->Draw(D3DXVECTOR2(433.0f, 35.0f), Flip::normal);
 	for (int i = 0; i < 16; i++)
 	{
-		HP->Draw(D3DXVECTOR2(125 + 12 * i, 40), Flip::normal);
-		enemy_HP1->Draw(D3DXVECTOR2(125 + 12 * i, 60), Flip::normal);
+		HP->Draw(D3DXVECTOR2(125.0f + 12.0f * i, 40.0f), Flip::normal);
+		enemy_HP1->Draw(D3DXVECTOR2(125.0f + 12.0f * i, 60.0f), Flip::normal);
 	}
-	place_item1->Draw(D3DXVECTOR2(330, 38), Flip::normal);
+	place_item1->Draw(D3DXVECTOR2(330.0f, 38.0f), Flip::normal);
 	if (font)
 		font->DrawTextA(spriteHandler, content.c_str(), -1, &R, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
 }

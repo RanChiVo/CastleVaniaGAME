@@ -27,7 +27,7 @@ void Game::init(HINSTANCE hInstance, int nCmdShow)
 	directInput->initKeyboard(hWnd);	
 }
 
-void Game::update(float dt)
+void Game::update(DWORD dt)
 {
 }
 

@@ -23,7 +23,7 @@ void ScreenManager::loadResources()
 		screens.back()->loadResources();
 }
 
-void ScreenManager::update(float dt)
+void ScreenManager::update(DWORD dt)
 {
 	if (!screens.empty())
 		screens.back()->update(dt);

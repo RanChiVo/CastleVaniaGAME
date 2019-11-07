@@ -14,7 +14,7 @@ public:
 
 	bool init();
 	void loadResources();
-	void update(float dt);
+	void update(DWORD dt);
 	void renderObject();
 
 	void addScreen(ScreenBase* scene);

@@ -14,7 +14,7 @@ protected:
 public:
 	ScreenBase();
 	void virtual init() = 0;
-	void virtual update(float deltatime) = 0;
+	void virtual update(DWORD deltatime) = 0;
 	void virtual loadResources() = 0;
 	void virtual renderObject() = 0;
 	Viewport* getViewport();

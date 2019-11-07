@@ -24,7 +24,7 @@ public:
 	void Init(HINSTANCE hInstance, int nCmdShow);
 	void loadResource();
 	void renderObjects();
-	void update(float dt);
+	void update(DWORD dt);
 	void run();
 	~CastleVania();
 };

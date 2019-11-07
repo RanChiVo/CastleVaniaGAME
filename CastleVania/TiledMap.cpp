@@ -62,7 +62,7 @@ void TiledMap::readMapfromfile()
 	int rowsTileSet = tileSetHeight / tileHeight;
 	int colsTileSet = tileSetWidth / tileWidth;
 	tileset->createTileSet(rowsTileSet, colsTileSet);
-
+	//read MatrixMap
 	this->readMatrixMap();
 }
 
@@ -119,6 +119,11 @@ std::vector<ObjectInfo*> TiledMap::getObjectInfo()
 		}
 	}
 	return objectInfo;
+}
+
+void TiledMap::clearObjectInfo()
+{
+	objectInfo.clear();
 }
 
 void TiledMap::draw(Viewport* viewport)

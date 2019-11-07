@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_ENTITY_MIRACULOUS_BAG"  name="miraculous_bag" width="32" height="30">
+  <imagelayer id="ID_ENTITY_MIRACULOUS_BAG" name="miraculous_bag" width="32" height="30">
     <image source="Resources\Items\miraculous_bag.png" width="32" height="30"/>
   </imagelayer>
   <sprites>
     <spriteframe id="miraculous_bag1" left = "0" top="0" right="32" bottom="30"/>
     <spriteframe id="miraculous_bag2" left = "32" top="0" right="62" bottom="30"/>
-    <spriteframe id="miraculous_bag2" left = "62" top="0" right="93" bottom="30"/>
+    <spriteframe id="miraculous_bag3" left = "62" top="0" right="93" bottom="30"/>
   </sprites>
 </loadresource>
