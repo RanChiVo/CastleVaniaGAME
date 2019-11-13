@@ -98,7 +98,7 @@ void TiledMap::readMatrixMap()
 	}
 }
 
-std::vector<ObjectInfo*> TiledMap::getObjectInfo()
+std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 {
 	for (auto objectGroupNode : rootNode.children("objectgroup"))
 	{
@@ -112,10 +112,41 @@ std::vector<ObjectInfo*> TiledMap::getObjectInfo()
 			int width = objectNode.attribute("width").as_int();
 			int height = objectNode.attribute("height").as_int();
 			auto properties = objectNode.child("properties");
-			std::string idHiddenItemString = properties.first_child().attribute("value").as_string();
-			std::string objectId = properties.last_child().attribute("value").as_string();
-			ObjectInfo* info_object = new ObjectInfo(id, name, height, width, D3DXVECTOR2(x, y), idHiddenItemString, objectId);
-			objectInfo.push_back(info_object);
+			std::string idHiddenItemString = "";
+			std::string objectId = "";
+			int stairHeight = 0;
+			int nx = 0;
+			int ny = 0;
+			for (auto propertyNode : properties)
+			{
+				std::string nameProperty = propertyNode.attribute("name").as_string();
+				if (nameProperty.compare("Hidden Item ID") == 0)
+				{
+					idHiddenItemString = propertyNode.attribute("value").as_string();
+				}
+				else if (nameProperty.compare("Object ID") == 0)
+				{
+					objectId = propertyNode.attribute("value").as_string();
+				}
+				else if (nameProperty.compare("Stair Height"))
+				{
+					stairHeight = propertyNode.attribute("value").as_int();
+				}
+				else if (nameProperty.compare("nx") == 0)
+				{
+					nx = propertyNode.attribute("value").as_int();
+				}
+				else if (nameProperty.compare("ny") == 0)
+				{
+					ny = propertyNode.attribute("value").as_int();
+				}
+			}
+			ObjectInfo::builder* object_info = new ObjectInfo::builder();
+			object_info->set_id(id).set_name(name)
+				.set_height(height).set_width(width).set_position(D3DXVECTOR2(x, y))
+				.set_idHiddenItem(idHiddenItemString).set_ObjectId(objectId).set_stairHeight(stairHeight);
+
+			objectInfo.push_back(object_info);
 		}
 	}
 	return objectInfo;

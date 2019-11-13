@@ -81,8 +81,10 @@ public:
 	void setIdHiddenItem(std::string idHiddenItem);
 	void setObjectID(std::string objectID) { this->objectID = objectID; }
 	std::string getObjectID() { return objectID; }
-	int getDirection() { return this->nx; }
-	void setDirection(int nx) { this->nx = nx; }
+	void set_nx(int nx) { this->nx = nx; }
+	int get_nx() { return nx; }
+	void set_ny(int ny) { this->ny = ny; }
+	int get_ny() { return ny; }
 	bool IsChangeLevel();
 	bool checkCollision(RECT A, RECT B);
 	bool IsCollision();

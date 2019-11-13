@@ -150,9 +150,6 @@
     <ClCompile Include="GameObjects\Cross.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AreaZombie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

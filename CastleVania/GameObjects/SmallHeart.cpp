@@ -18,7 +18,7 @@ SmallHeart::SmallHeart(D3DXVECTOR2 position)
 	height = Textures::GetInstance()->GetSizeObject(id).second;
 	delta = 0;
 	liveTime = GetTickCount();
-	height = 30;
+	height = 25;
 }
 
 void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

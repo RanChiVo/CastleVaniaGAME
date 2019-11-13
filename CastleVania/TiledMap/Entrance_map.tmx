@@ -15,45 +15,6 @@
 30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30
 </data>
  </layer>
- <objectgroup color="#00ff00" id="4" name="Static_Castle">
-  <object id="12" name="Entrance" x="1311.5" y="111" width="31" height="177">
-   <properties>
-    <property name="Hidden Item ID" value=""/>
-    <property name="Object ID" value="ID_ENTITY_ENTRANCE"/>
-   </properties>
-  </object>
-  <object id="18" name="CastleWall" x="1343.5" y="1" width="99" height="288">
-   <properties>
-    <property name="Hidden Item ID" value=""/>
-    <property name="Object ID" value="ID_ENTITY_CASTLEVANIA_WALL"/>
-   </properties>
-  </object>
-  <object id="19" name="Wall_behind_entrance" x="1425.5" y="0" width="16" height="289">
-   <properties>
-    <property name="Hidden Item ID" value=""/>
-    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
-   </properties>
-  </object>
-  <object id="20" name="Wall_frontof_entrance" x="2.5" y="1" width="16" height="291">
-   <properties>
-    <property name="Hidden Item ID" value=""/>
-    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
-   </properties>
-  </object>
-  <object id="26" name="Floor" x="2.5" y="290" width="1470" height="29">
-   <properties>
-    <property name="Hidden Item ID" value=""/>
-    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
-   </properties>
-  </object>
- </objectgroup>
- <objectgroup color="#0000ff" id="2" name="Simon">
-  <object id="34" name="Start_Map" x="58" y="222" width="60" height="66">
-   <properties>
-    <property name="Object ID" value="ID_ENTITY_SIMON"/>
-   </properties>
-  </object>
- </objectgroup>
  <objectgroup color="#aa007f" id="3" name="Static_Object">
   <object id="47" name="BurnBarrel" x="1200" y="226" width="32" height="64">
    <properties>
@@ -83,6 +44,45 @@
    <properties>
     <property name="Hidden Item ID" value="ID_ENTITY_WEAPON_REWARD"/>
     <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
+   </properties>
+  </object>
+ </objectgroup>
+  <objectgroup color="#0000ff" id="2" name="Simon">
+  <object id="34" name="Start_Map" x="58" y="222" width="60" height="66">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_SIMON"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#00ff00" id="4" name="Static_Castle">
+  <object id="12" name="Entrance" x="1311.5" y="111" width="31" height="177">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="18" name="CastleWall" x="1342.5" y="2" width="99" height="288">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_CASTLEVANIA_WALL"/>
+   </properties>
+  </object>
+  <object id="19" name="Wall_behind_entrance" x="1425.5" y="0" width="16" height="289">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="20" name="Wall_frontof_entrance" x="2.5" y="1" width="16" height="291">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="26" name="Floor" x="2.5" y="290" width="1470" height="29">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
   </object>
  </objectgroup>

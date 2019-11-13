@@ -157,7 +157,6 @@
     <ClCompile Include="GameObjects\Dagger.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="MenuPoint.cpp" />
-    <ClCompile Include="ObjectInfo.cpp" />
     <ClCompile Include="DaggerWeapon.cpp" />
     <ClCompile Include="Library\pugixml.cpp" />
     <ClCompile Include="GameObjects\MiraculousBag.cpp" />

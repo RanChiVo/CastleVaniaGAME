@@ -21,7 +21,7 @@
 constexpr float SIMON_MOVE_SPEED = 0.12f;
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
-constexpr float SIMON_GRAVITY = 0.0009f;
+constexpr float SIMON_GRAVITY = 0.00095f;
 constexpr int SIMON_PROTECT_TIME = 2000;
 constexpr float SIMON_UP_STAIR_SPEED_Y = 0.09f;
 constexpr float SIMON_UP_STAIR_SPEED_X = 0.09f;
@@ -228,7 +228,7 @@ void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 			{
 				baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y));
 			}
-			baseInfo->getSubWeapon()->setDirection(nx);
+			baseInfo->getSubWeapon()->set_nx(nx);
 			coObjects->push_back(baseInfo->getSubWeapon());
 			startThrowWeapon = GetTickCount();
 			baseInfo->setHeart(baseInfo->getHeart() - 1);

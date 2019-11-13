@@ -116,7 +116,7 @@ void GameplayScreen::createZombie(Viewport* viewport)
 	}
 }
 
-void GameplayScreen::getInfoFromObjectInfo(ObjectInfo *info, LPGAMEOBJECT object)
+void GameplayScreen::getInfoFromObjectInfo(ObjectInfo::builder* info, LPGAMEOBJECT object)
 {
 	object->setName(info->get_name());
 	object->SetPosition(info->get_postition());
@@ -153,14 +153,16 @@ void GameplayScreen::loadResources()
 			simon = new Simon();
 			simon->loadResource();
 			getInfoFromObjectInfo(object, simon);
+			objects.push_back(simon);
 			break;
 		case ID_ENTITY_CASTLEVANIA_WALL:
 			objectInit = new CastleWall();
-			getInfoFromObjectInfo(object, castleWall);
 			break;
 		case ID_ENTITY_STAIR:
-			objectInit = new 
-		}
+			objectInit = new ObjectStair(object->get_postition(), D3DXVECTOR4(object->get_height(), 
+				object->get_width(), object->get_nx(), object->get_ny()), object->get_height() );
+			break;
+		}	
 
 		if (objectInit)
 		{

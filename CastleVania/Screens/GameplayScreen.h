@@ -29,7 +29,7 @@ public:
 	void updateViewport(DWORD dt);
 	void renderObject() override;
 	void createZombie(Viewport* viewport);
-	void getInfoFromObjectInfo( ObjectInfo *info, LPGAMEOBJECT object);
+	void getInfoFromObjectInfo(ObjectInfo::builder*, LPGAMEOBJECT object);
 
 	GameplayScreen();
 	~GameplayScreen();

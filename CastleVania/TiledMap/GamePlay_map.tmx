@@ -13,9 +13,6 @@
 22,21,22,22,22,21,22,22,22,21,22,22,22,21,22,22,22,21,22,31,22,22,22,22,21,22,22,21,22,21,22,22,21,22,21,22,21,22,21,22,31,22,22,22,22,22,21,48,49,38,28,21,28,21,50,51,52,40,21,38,21,50,51,53,22,22,21,22,22,21,22,21,22,22,22,34,21,22,21,22,21,22,21,22,21,22,22,48
 </data>
  </layer>
- <objectgroup color="#0055ff" id="2" name="Simon">
-  <object id="122" name="StarMap" x="16" y="221" width="60" height="66"/>
- </objectgroup>
  <objectgroup color="#55ff00" id="4" name="Static_Castle">
   <object id="70" name="StartWall" x="3" y="11" width="15" height="279">
    <properties>
@@ -41,7 +38,7 @@
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
   </object>
-  <object id="74" name="HighFloor" x="1377" y="160.5" width="98" height="29" visible="0">
+  <object id="74" name="HighFloor" x="1377" y="160.5" width="98" height="29">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
@@ -70,48 +67,72 @@
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="160"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="1"/>
    </properties>
   </object>
-  <object id="113" name="Stair" x="1345" y="146.5" width="32" height="32">
+  <object id="113" name="Stair" x="1363" y="129.5" width="32" height="32">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="160"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="-1"/>
    </properties>
   </object>
-  <object id="114" name="Stair" x="1471" y="83.5" width="32" height="32">
+  <object id="114" name="Stair" x="1471" y="67.5" width="32" height="32">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="64"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="-1"/>
    </properties>
   </object>
-  <object id="115" name="Stair" x="1442" y="130.5" width="32" height="32">
+  <object id="115" name="Stair" x="1442" y="128.5" width="32" height="32">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="64"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="1"/>
    </properties>
   </object>
-  <object id="116" name="Stair" x="1822" y="82.5" width="32" height="32">
+  <object id="116" name="Stair" x="1821" y="67.5" width="32" height="32">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="64"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="-1"/>
    </properties>
   </object>
-  <object id="117" name="Stair" x="1871" y="131.5" width="32" height="32">
+  <object id="117" name="Stair" x="1888" y="131.5" width="32" height="32">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="64"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="1"/>
    </properties>
   </object>
   <object id="118" name="Stair" x="2578" y="253.5" width="32" height="32">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="192"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="1"/>
    </properties>
   </object>
-  <object id="119" name="Stair" x="2754" y="80.5" width="32" height="32">
+  <object id="119" name="Stair" x="2767" y="65.5" width="32" height="32">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="192"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="-1"/>
    </properties>
   </object>
  </objectgroup>
@@ -258,6 +279,13 @@
    <properties>
     <property name="Hidden Item ID" value="ID_ENTITY_FIRE_BOMB"/>
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#0055ff" id="2" name="Simon">
+  <object id="122" name="Start_Map" x="16" y="221" width="60" height="66">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_SIMON"/>
    </properties>
   </object>
  </objectgroup>

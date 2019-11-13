@@ -35,14 +35,15 @@ private:
 	int tileSetHeight;
 
 	//Info Game Object 
-	std::vector<ObjectInfo*> objectInfo;
+	std::vector<ObjectInfo::builder*> objectInfo;
+	
 public:
 	TiledMap(std::string resourcepath, LPDIRECT3DTEXTURE9 IDtex);
 	void readMapfromfile();
 	void checkGoodFile();
 	//get info of Objects in Layer 
 	void readMatrixMap();
-	std::vector<ObjectInfo*> getObjectInfo();
+	std::vector <ObjectInfo::builder*> getObjectInfo();
 	void clearObjectInfo();
 	void draw(Viewport* viewport);
 	float getHeightWorld();
