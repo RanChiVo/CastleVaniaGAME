@@ -23,8 +23,7 @@ constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
 constexpr float SIMON_GRAVITY = 0.00095f;
 constexpr int SIMON_PROTECT_TIME = 2000;
-constexpr float SIMON_UP_STAIR_SPEED_Y = 0.09f;
-constexpr float SIMON_UP_STAIR_SPEED_X = 0.09f;
+constexpr float SIMON_STAIR_SPEED = 0.08f;
 constexpr auto GROUND_POSITION = 289;
 constexpr auto MAPSIZE_WIDTH = 1475;
 constexpr auto P0SITION_ENTRANCE = 1300;
@@ -39,7 +38,7 @@ Simon::Simon()
 	__hook(&DirectInput::KeyState, directInput, &Simon::OnKeyStateChange);
 	__hook(&DirectInput::OnKeyDown, directInput, &Simon::OnKeyDown);
 	__hook(&DirectInput::OnKeyUp, directInput, &Simon::OnKeyUp);
-	level = 0;
+	level = 1;
 	SetState(SIMON_STATE_IDLE);
 	currentAnimation = SIMON_ANI_IDLE;
 	WHIP_STATE = 1;
@@ -66,9 +65,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else if (comeEntranceStart > 0)
 			comeEntranceStart = 0;
 	}
-
-	handleCollisionStair();
-
+	updateCollisionStair();
 	handleCollisionObjectGame(dt, coObjects);
 }
 
@@ -107,16 +104,53 @@ void Simon::OnKeyStateChange(BYTE * states)//state
 		{
 			SetState(SIMON_STATE_WALKING_LEFT);
 		}
-		else if (directInput->IsKeyDown(DIK_J) && isOnGround())
+		else if (directInput->IsKeyDown(DIK_UP))
 		{
-			SetState(SIMON_STATE_SITDOWN);
+			if (stair)
+			{
+				SetState(SIMON_STATE_GO_UP_STAIR);
+			}
+		}
+		else if (directInput->IsKeyDown(DIK_DOWN))
+		{
+			if (stair)
+			{
+				SetState(SIMON_STATE_GO_DOWN_STAIR);
+			}
 		}
 		break;
+	case SIMON_STATE_IDLE_ON_STAIR:
 	case SIMON_STATE_WALKING_RIGHT:
 	case SIMON_STATE_WALKING_LEFT:
 		if (directInput->IsKeyDown(DIK_J) && isOnGround())
 		{
 			SetState(SIMON_STATE_SITDOWN);
+		}
+		else if (directInput->IsKeyDown(DIK_UP))
+		{
+			if (stair)
+			{
+				SetState(SIMON_STATE_GO_UP_STAIR);
+			}
+		}
+		else if (directInput->IsKeyDown(DIK_DOWN))
+		{
+			if (stair)
+			{
+				SetState(SIMON_STATE_GO_DOWN_STAIR);
+			}
+		}
+		break;
+	case SIMON_STATE_GO_UP_STAIR:
+		if (directInput->IsKeyDown(DIK_DOWN))
+		{
+			SetState(SIMON_STATE_GO_DOWN_STAIR);
+		}
+		break;
+	case SIMON_STATE_GO_DOWN_STAIR:
+		if (directInput->IsKeyDown(DIK_UP))
+		{
+			SetState(SIMON_STATE_GO_UP_STAIR);
 		}
 		break;
 	}
@@ -133,7 +167,6 @@ void Simon::OnKeyDown(int KeyCode)//event
 	case SIMON_STATE_IDLE:
 	case SIMON_STATE_WALKING_RIGHT:
 	case SIMON_STATE_WALKING_LEFT:
-	case SIMON_STATE_IDLE_ON_STAIR:
 		if (KeyCode == DIK_X) SetState(SIMON_STATE_JUMPING);
 		if (KeyCode == DIK_Z)
 		{
@@ -291,7 +324,7 @@ void Simon::Render(Viewport* viewport)
 
 	LPANIMATION animation = animations.find(currentAnimation)->second;
 
-	if (animation != nullptr)
+	if (animation)
 	{
 		Flip flip;
 		if (nx == 1) flip = normal;
@@ -398,6 +431,7 @@ void Simon::handleState()
 
 	case SIMON_STATE_IDLE:
 		vx = 0;
+		isOnStair = false;
 		checkRewind = false;
 		currentAnimation = SIMON_ANI_IDLE;
 		break;
@@ -416,39 +450,30 @@ void Simon::handleState()
 		Reset(currentAnimation);
 		break;
 
-	case SIMON_STATE_GO_UP_STAIR_RIGHT:
-		nx = 1;
+	case SIMON_STATE_GO_UP_STAIR:
 		checkRewind = false;
-		vy = -SIMON_UP_STAIR_SPEED_Y;
-		vx = SIMON_UP_STAIR_SPEED_X;
+		isOnStair = true;
+		set_nx(stair->get_nx());
+		set_ny(stair->get_ny());
+		SetSpeed(nx*SIMON_STAIR_SPEED, -SIMON_STAIR_SPEED);
 		currentAnimation = SIMON_ANI_GO_STAIR;
 		Reset(currentAnimation);
 		break;
 
-	case SIMON_STATE_GO_DOWN_STAIR_RIGHT:
-		nx = 1;
+	case SIMON_STATE_GO_DOWN_STAIR:
 		checkRewind = false;
-		vy = SIMON_UP_STAIR_SPEED_Y;
-		vx = -SIMON_MOVE_SPEED;
-		currentAnimation = SIMON_ANI_GO_STAIR;
-		Reset(currentAnimation);
-		break;
-
-	case SIMON_STATE_GO_DOWN_STAIR_LEFT:
-		nx = -1;
-		checkRewind = false;
-		vy = SIMON_UP_STAIR_SPEED_Y;
-		vx = -SIMON_MOVE_SPEED;
+		isOnStair = true;
+		set_nx(stair->get_nx());
+		set_ny(stair->get_ny());
+		SetSpeed(nx*SIMON_STAIR_SPEED, SIMON_STAIR_SPEED);
 		currentAnimation = SIMON_ANI_GO_STAIR;
 		Reset(currentAnimation);
 		break;
 
 	case SIMON_STATE_IDLE_ON_STAIR:
-		new_y = y;
-		vy = 0;
-		vx = 0;
+		SetSpeed(0,0);
+		isOnStair = true;
 		currentAnimation = SIMON_ANI_IDLE_STAIR;
-		y = new_y;
 		break;
 
 	case SIMON_STATE_HURT:
@@ -506,69 +531,24 @@ void Simon::Reset(int currentAnimation)
 	}
 }
 
-void Simon::handleCollisionStair()
+void Simon::updateCollisionStair()
 {
-	DirectInput* directInput = DirectInput::getInstance();
-	for (int i = 0; i < (int)objectCollision.size(); i++)
+	if (isOnStair)
 	{
-		if (objectCollision.at(i)->getID() == ID_COLLISION_STAIR)
+		if ((stair->get_ny() > 0 && (y  <= (stair->getPosition().y - stair->getHeight()) || y >= stair->getPosition().y)) ||
+			(stair->get_ny() < 0 && (y >= stair->getPosition().y + stair->getHeight() || y <= stair->getPosition().y)))
 		{
-			float l, t, r, b;
-			objectCollision.at(i)->GetBoundingBox(l, t, r, b);
-			RECT rect1 = RECT{ int(l), int(t), int(r), int(b) };
-
-			float L, T, R, B;
-			GetBoundingBox(L, T, R, B);
-			RECT rect2 = RECT{ int(L), int(T), int(R), int(B) };
-
-			bool result = checkCollision(rect2, rect1);
-
-			if (result)
-			{
-				if (directInput->IsKeyDown(DIK_UP) && objectCollision.at(i)->getIdHiddenItem() == "right-up")
-				{
-					SetState(SIMON_STATE_GO_UP_STAIR_RIGHT);
-					isOnStair = true;
-				}
-				else if (directInput->IsKeyDown(DIK_DOWN) && objectCollision.at(i)->getIdHiddenItem() == "left-down")
-				{
-					SetState(SIMON_STATE_GO_DOWN_STAIR_LEFT);
-					isOnStair = true;
-				}
-				else if (isOnStair && objectCollision.at(i)->getIdHiddenItem() == "right-up-idle")
-				{
-					SetState(SIMON_STATE_IDLE);
-					isOnStair = false;
-				}
-				/*else if (isOnStair && objectCollision.at(i)->getIdHiddenItem() == "left-down-idle")
-				{
-					SetState(SIMON_STATE_IDLE);
-
-				}*/
-			}
-			else
-			{
-				if (state == SIMON_STATE_IDLE_ON_STAIR)
-				{
-					if (directInput->IsKeyDown(DIK_UP))
-					{
-						SetState(SIMON_STATE_GO_UP_STAIR_RIGHT);
-						isOnStair = true;
-					}
-					else if (directInput->IsKeyDown(DIK_DOWN))
-					{
-						SetState(SIMON_STATE_GO_DOWN_STAIR_LEFT);
-						isOnStair = true;
-					}
-				}
-			}
+			SetState(SIMON_STATE_IDLE);
 		}
 	}
 }
 
 void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	vy += SIMON_GRAVITY * dt;
+	if (!isOnStair)
+	{
+		vy += SIMON_GRAVITY * dt;
+	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
@@ -596,7 +576,6 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		for (int i = 0; i < (int)coEvents.size(); i++)
 		{
-			
 			switch (coEvents[i]->obj->getID())
 			{
 			case ID_ENTITY_WALL:
@@ -621,19 +600,21 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				break;
 			case ID_ENTITY_FLOOR:
-				if (coEvents[i]->obj->getName().compare("HighFloor") == 0)
-				{
-					if (ny < 0) 
+				
+					if (coEvents[i]->obj->getName().compare("HighFloor") == 0)
 					{
-						vy = 0;
+						if (ny < 0)
+						{
+							vy = 0;
+							Dy = min_ty * dy + ny * 0.1f;
+						}
+					}
+					else
+					{
+						if (ny != 0) vy = 0;
 						Dy = min_ty * dy + ny * 0.1f;
 					}
-				}
-				else
-				{
-					if (ny != 0) vy = 0;
-					Dy = min_ty * dy + ny * 0.1f;
-				}
+				
 				break;
 			case ID_ENTITY_ZOMBIE:
 				SetState(SIMON_STATE_HURT);
@@ -707,6 +688,12 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 		{
 			coObjects->at(i)->SetState(STATE_EFFECT);
 			coObjects->at(i)->SetPosition(D3DXVECTOR2(x, y + 20));
+		}
+		break;
+	case ID_ENTITY_STAIR:
+		if (!isOnStair)
+		{
+			stair = dynamic_cast<ObjectStair*>(coObjects->at(i));
 		}
 		break;
 	}

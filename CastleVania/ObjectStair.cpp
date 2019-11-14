@@ -7,6 +7,8 @@ ObjectStair::ObjectStair(D3DXVECTOR2 pos, D3DXVECTOR4 infoStair, int height)
 	this->infoStair = infoStair;
 	this->bboxWidth = infoStair.x;
 	this->bboxHeight = infoStair.y;
+	this->nx = infoStair.z;
+	this->ny = infoStair.w;
 	this->height = height;
 }
 

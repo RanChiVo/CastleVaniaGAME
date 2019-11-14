@@ -132,7 +132,8 @@ void GameplayScreen::loadResources()
 	for (auto object : resourceManagement->getTiledMap(mapId)->getObjectInfo())
 	{
 		StaticObject* objectInit = nullptr;
-		switch (resourceManagement->getStringToEntity()[object->get_ObjectId()])
+		idObject = resourceManagement->getStringToEntity()[object->get_ObjectId()];
+		switch (idObject)
 		{
 		case ID_ENTITY_FLOOR:
 			objectInit = new Floor();
@@ -159,14 +160,17 @@ void GameplayScreen::loadResources()
 			objectInit = new CastleWall();
 			break;
 		case ID_ENTITY_STAIR:
-			objectInit = new ObjectStair(object->get_postition(), D3DXVECTOR4(object->get_height(), 
-				object->get_width(), object->get_nx(), object->get_ny()), object->get_height() );
+			objectInit = new ObjectStair(object->get_postition(), D3DXVECTOR4(object->get_width(), 
+				object->get_height(), object->get_nx(), object->get_ny()), object->get_stairHeight());
 			break;
 		}	
 
 		if (objectInit)
 		{
-			getInfoFromObjectInfo(object, objectInit);
+			if (idObject != ID_ENTITY_STAIR)
+			{
+				getInfoFromObjectInfo(object, objectInit);
+			}
 			objects.push_back(objectInit);
 		}
 	}

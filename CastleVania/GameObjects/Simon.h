@@ -6,6 +6,7 @@
 #include "../DaggerWeapon.h"
 #include "../CombatWeapon.h"
 #include "../BaseInfo.h"
+#include "../ObjectStair.h"
 
 class Simon: public GameObject
 {
@@ -28,15 +29,10 @@ private:
 		SIMON_STATE_DIE,
 		SIMON_STATE_CHANGECOLOR,
 		SIMON_STATE_CHANGECOLOR1,
-		SIMON_STATE_GO_UP_STAIR_RIGHT,
-		SIMON_STATE_GO_UP_STAIR_LEFT,
-		SIMON_STATE_GO_DOWN_STAIR_RIGHT,
-		SIMON_STATE_GO_DOWN_STAIR_LEFT,
+		SIMON_STATE_GO_UP_STAIR,
+		SIMON_STATE_GO_DOWN_STAIR,
 		SIMON_STATE_IDLE_ON_STAIR,
-		SIMON_STATE_ATTACK_UP_ON_STAIR_RIGHT,
-		SIMON_STATE_ATTACK_UP_ON_STAIR_LEFT,
-		SIMON_STATE_ATTACK_DOWN_ON_STAIR_RIGHT,
-		SIMON_STATE_ATTACK_DOWN_ON_STAIR_LEFT,
+		SIMON_STATE_ATTACK_ON_STAIR,
 		SIMON_STATE_HURT,
 	};
 
@@ -52,6 +48,7 @@ private:
 	bool isOnStair = false;
 	int directionStair;
 	float positition_stair;
+	ObjectStair* stair = nullptr;
 	float new_y = 0;
 
 	std::string stair_direction;
@@ -75,7 +72,7 @@ public:
 	void SetState(int state);
 	void Reset(int currentAnimation);
 	void handleState();
-	void handleCollisionStair();
+	void updateCollisionStair();
 	void handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void handleAfterCollision(vector<LPGAMEOBJECT> *coObjects, int id ,int i, vector<LPCOLLISIONEVENT> *coEvents);

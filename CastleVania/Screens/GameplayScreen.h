@@ -12,6 +12,7 @@ private:
 	vector<LPGAMEOBJECT> objects;
 	EntityID mapId;
 	Simon* simon;
+	EntityID idObject;
 	ResourceManagement* resourceManagement;
 	RECT rect;
 	DWORD timer_zombie = 0;

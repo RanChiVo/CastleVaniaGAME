@@ -128,7 +128,7 @@ std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 				{
 					objectId = propertyNode.attribute("value").as_string();
 				}
-				else if (nameProperty.compare("Stair Height"))
+				else if (nameProperty.compare("Stair Height") == 0)
 				{
 					stairHeight = propertyNode.attribute("value").as_int();
 				}
@@ -144,7 +144,7 @@ std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 			ObjectInfo::builder* object_info = new ObjectInfo::builder();
 			object_info->set_id(id).set_name(name)
 				.set_height(height).set_width(width).set_position(D3DXVECTOR2(x, y))
-				.set_idHiddenItem(idHiddenItemString).set_ObjectId(objectId).set_stairHeight(stairHeight);
+				.set_idHiddenItem(idHiddenItemString).set_ObjectId(objectId).set_stairHeight(stairHeight).set_nx(nx).set_ny(ny);
 
 			objectInfo.push_back(object_info);
 		}
