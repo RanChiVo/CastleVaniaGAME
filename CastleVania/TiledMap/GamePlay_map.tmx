@@ -136,7 +136,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup color="#ff0000" id="3" name="StaticObject" visible="0">
+ <objectgroup color="#ff0000" id="3" name="StaticObject">
   <object id="84" name="Candle" x="567" y="230" width="16" height="32">
    <properties>
     <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>

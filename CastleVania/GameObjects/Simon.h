@@ -31,7 +31,8 @@ private:
 		SIMON_STATE_CHANGECOLOR1,
 		SIMON_STATE_GO_UP_STAIR,
 		SIMON_STATE_GO_DOWN_STAIR,
-		SIMON_STATE_IDLE_ON_STAIR,
+		SIMON_STATE_IDLE_UP_STAIR,
+		SIMON_STATE_IDLE_DOWN_STAIR,
 		SIMON_STATE_ATTACK_ON_STAIR,
 		SIMON_STATE_HURT,
 	};
@@ -48,7 +49,8 @@ private:
 	bool isOnStair = false;
 	int directionStair;
 	float positition_stair;
-	ObjectStair* stair = nullptr;
+	ObjectStair* originalStair = nullptr;
+	ObjectStair* reverseStair = nullptr;
 	float new_y = 0;
 
 	std::string stair_direction;

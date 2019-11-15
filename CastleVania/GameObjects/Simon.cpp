@@ -79,8 +79,10 @@ void Simon::loadResource()
 	AddAnimation(SIMON_ANI_ATTACK_SITDOWN);
 	AddAnimation(SIMON_ANI_COLOR);
 	AddAnimation(SIMON_ANI_COLOR1);
-	AddAnimation(SIMON_ANI_GO_STAIR);
-	AddAnimation(SIMON_ANI_IDLE_STAIR);
+	AddAnimation(SIMON_ANI_GO_UP_STAIR);
+	AddAnimation(SIMON_ANI_GO_DOWN_STAIR);
+	AddAnimation(SIMON_ANI_IDLE_GO_UP_STAIR);
+	AddAnimation(SIMON_ANI_IDLE_GO_DOWN_STAIR);
 	AddAnimation(SIMON_ANI_HURT);
 }
 
@@ -96,6 +98,9 @@ void Simon::OnKeyStateChange(BYTE * states)//state
 	switch (state)
 	{
 	case SIMON_STATE_IDLE:
+	
+	case SIMON_STATE_WALKING_RIGHT:
+	case SIMON_STATE_WALKING_LEFT:
 		if (directInput->IsKeyDown(DIK_K))
 		{
 			SetState(SIMON_STATE_WALKING_RIGHT);
@@ -104,55 +109,88 @@ void Simon::OnKeyStateChange(BYTE * states)//state
 		{
 			SetState(SIMON_STATE_WALKING_LEFT);
 		}
-		else if (directInput->IsKeyDown(DIK_UP))
-		{
-			if (stair)
-			{
-				SetState(SIMON_STATE_GO_UP_STAIR);
-			}
-		}
-		else if (directInput->IsKeyDown(DIK_DOWN))
-		{
-			if (stair)
-			{
-				SetState(SIMON_STATE_GO_DOWN_STAIR);
-			}
-		}
-		break;
-	case SIMON_STATE_IDLE_ON_STAIR:
-	case SIMON_STATE_WALKING_RIGHT:
-	case SIMON_STATE_WALKING_LEFT:
-		if (directInput->IsKeyDown(DIK_J) && isOnGround())
+		else if (directInput->IsKeyDown(DIK_J) && isOnGround())
 		{
 			SetState(SIMON_STATE_SITDOWN);
 		}
 		else if (directInput->IsKeyDown(DIK_UP))
 		{
-			if (stair)
+			if (originalStair)
 			{
+				set_nx(originalStair->get_nx());
+				set_ny(originalStair->get_ny());
 				SetState(SIMON_STATE_GO_UP_STAIR);
 			}
 		}
 		else if (directInput->IsKeyDown(DIK_DOWN))
 		{
-			if (stair)
+
+			if (originalStair)
 			{
+				set_nx(originalStair->get_nx());
+				set_ny(originalStair->get_ny());
 				SetState(SIMON_STATE_GO_DOWN_STAIR);
 			}
 		}
 		break;
-	case SIMON_STATE_GO_UP_STAIR:
-		if (directInput->IsKeyDown(DIK_DOWN))
-		{
-			SetState(SIMON_STATE_GO_DOWN_STAIR);
-		}
-		break;
-	case SIMON_STATE_GO_DOWN_STAIR:
+	case SIMON_STATE_IDLE_UP_STAIR:
 		if (directInput->IsKeyDown(DIK_UP))
 		{
-			SetState(SIMON_STATE_GO_UP_STAIR);
+			if (originalStair)
+			{
+				set_nx(originalStair->get_nx());
+				set_ny(originalStair->get_ny());
+				SetState(SIMON_STATE_GO_UP_STAIR);
+			}
+		}
+		else if (directInput->IsKeyDown(DIK_DOWN))
+		{
+			if (originalStair)
+			{
+				set_nx(-originalStair->get_nx());
+				set_ny(originalStair->get_ny());
+				SetState(SIMON_STATE_GO_DOWN_STAIR);
+			}
 		}
 		break;
+	case SIMON_STATE_IDLE_DOWN_STAIR:
+		if (directInput->IsKeyDown(DIK_UP))
+		{
+			if (originalStair)
+			{
+				set_nx(-originalStair->get_nx());
+				set_ny(originalStair->get_ny());
+				SetState(SIMON_STATE_GO_UP_STAIR);
+			}
+		}
+		else if (directInput->IsKeyDown(DIK_DOWN))
+		{
+			if (originalStair)
+			{
+				set_nx(originalStair->get_nx());
+				set_ny(originalStair->get_ny());
+				SetState(SIMON_STATE_GO_DOWN_STAIR);
+			}
+		}
+		break;
+	//case SIMON_STATE_GO_UP_STAIR:
+	//	if (originalStair)
+	//	{
+	//		if (directInput->IsKeyDown(DIK_DOWN))
+	//		{
+	//			SetState(SIMON_STATE_GO_DOWN_STAIR);
+	//		}
+	//	}
+	//	break;
+	//case SIMON_STATE_GO_DOWN_STAIR:
+	//	if (originalStair)
+	//	{
+	//		if (directInput->IsKeyDown(DIK_UP))
+	//		{
+	//			SetState(SIMON_STATE_GO_UP_STAIR);
+	//		}
+	//	}
+	//	break;
 	}
 }
 
@@ -312,7 +350,7 @@ void Simon::GetBoundingBox(float & left, float & top, float & right, float & bot
 {
 	left = x;
 	top = y;
-	right = left + width;
+	right = left + width - 20;
 	bottom = top + height;
 }
 
@@ -434,6 +472,7 @@ void Simon::handleState()
 		isOnStair = false;
 		checkRewind = false;
 		currentAnimation = SIMON_ANI_IDLE;
+		originalStair = nullptr;
 		break;
 
 	case SIMON_STATE_CHANGECOLOR:
@@ -453,27 +492,31 @@ void Simon::handleState()
 	case SIMON_STATE_GO_UP_STAIR:
 		checkRewind = false;
 		isOnStair = true;
-		set_nx(stair->get_nx());
-		set_ny(stair->get_ny());
 		SetSpeed(nx*SIMON_STAIR_SPEED, -SIMON_STAIR_SPEED);
-		currentAnimation = SIMON_ANI_GO_STAIR;
+		currentAnimation = SIMON_ANI_GO_UP_STAIR;
 		Reset(currentAnimation);
 		break;
 
 	case SIMON_STATE_GO_DOWN_STAIR:
 		checkRewind = false;
 		isOnStair = true;
-		set_nx(stair->get_nx());
-		set_ny(stair->get_ny());
+		/*set_nx(originalStair->get_nx());
+		set_ny(originalStair->get_ny());*/
 		SetSpeed(nx*SIMON_STAIR_SPEED, SIMON_STAIR_SPEED);
-		currentAnimation = SIMON_ANI_GO_STAIR;
+		currentAnimation = SIMON_ANI_GO_DOWN_STAIR;
 		Reset(currentAnimation);
 		break;
 
-	case SIMON_STATE_IDLE_ON_STAIR:
-		SetSpeed(0,0);
+	case SIMON_STATE_IDLE_UP_STAIR:
+		SetSpeed(0, 0);
 		isOnStair = true;
-		currentAnimation = SIMON_ANI_IDLE_STAIR;
+		currentAnimation = SIMON_ANI_IDLE_GO_UP_STAIR;
+		break;
+
+	case SIMON_STATE_IDLE_DOWN_STAIR:
+		SetSpeed(0, 0);
+		isOnStair = true;
+		currentAnimation = SIMON_ANI_IDLE_GO_DOWN_STAIR;
 		break;
 
 	case SIMON_STATE_HURT:
@@ -501,28 +544,27 @@ void Simon::handleState()
 
 void Simon::Reset(int currentAnimation)
 {
-	if (currentAnimation == SIMON_ANI_GO_STAIR)
-	{
-		if (animations.find(currentAnimation)->second->IsFinished())
-		{
-			animations.find(currentAnimation)->second->SetFinish(false);
-			SetState(SIMON_STATE_IDLE_ON_STAIR);
-		}
-	}
-
 	if (animations.find(currentAnimation)->second->IsFinished())
 	{
-		if (currentAnimation != SIMON_ANI_SITDOWN && currentAnimation != SIMON_ANI_ATTACK_SITDOWN)
+		switch (currentAnimation)
 		{
-			SetState(SIMON_STATE_IDLE);
-			attacking = false;
-			animations.find(currentAnimation)->second->SetFinish(false);
-		}
-		else {
+		case SIMON_ANI_GO_UP_STAIR:
+			SetState(SIMON_STATE_IDLE_UP_STAIR);
+			break;
+		case SIMON_ANI_GO_DOWN_STAIR:
+			SetState(SIMON_STATE_IDLE_DOWN_STAIR);
+			break;
+		case SIMON_ANI_SITDOWN:
+		case SIMON_ANI_ATTACK_SITDOWN:
 			SetState(SIMON_STATE_SITDOWN);
 			attacking = false;
-			animations.find(currentAnimation)->second->SetFinish(false);
+			break;
+		default:
+			SetState(SIMON_STATE_IDLE);
+			attacking = false;
+			break;
 		}
+		animations.find(currentAnimation)->second->SetFinish(false);
 	}
 
 	if (whip->animations.find(whip->getCurrentAnimation())->second->IsFinished())
@@ -535,8 +577,8 @@ void Simon::updateCollisionStair()
 {
 	if (isOnStair)
 	{
-		if ((stair->get_ny() > 0 && (y  <= (stair->getPosition().y - stair->getHeight()) || y >= stair->getPosition().y)) ||
-			(stair->get_ny() < 0 && (y >= stair->getPosition().y + stair->getHeight() || y <= stair->getPosition().y)))
+		if ((originalStair->get_ny() > 0 && (y <= (originalStair->getPosition().y - originalStair->getHeight()) || y >= originalStair->getPosition().y)) ||
+			(originalStair->get_ny() < 0 && (y >= originalStair->getPosition().y + originalStair->getHeight() || y <= originalStair->getPosition().y)))
 		{
 			SetState(SIMON_STATE_IDLE);
 		}
@@ -600,21 +642,20 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				break;
 			case ID_ENTITY_FLOOR:
-				
-					if (coEvents[i]->obj->getName().compare("HighFloor") == 0)
+				if (coEvents[i]->obj->getName().compare("HighFloor") == 0)
+				{
+					if (ny < 0)
 					{
-						if (ny < 0)
-						{
-							vy = 0;
-							Dy = min_ty * dy + ny * 0.1f;
-						}
-					}
-					else
-					{
-						if (ny != 0) vy = 0;
+						vy = 0;
 						Dy = min_ty * dy + ny * 0.1f;
 					}
-				
+				}
+				else
+				{
+					if (ny != 0) vy = 0;
+					Dy = min_ty * dy + ny * 0.1f;
+				}
+
 				break;
 			case ID_ENTITY_ZOMBIE:
 				SetState(SIMON_STATE_HURT);
@@ -693,11 +734,11 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 	case ID_ENTITY_STAIR:
 		if (!isOnStair)
 		{
-			stair = dynamic_cast<ObjectStair*>(coObjects->at(i));
+			originalStair = dynamic_cast<ObjectStair*>(coObjects->at(i));
+			//currentStair = originalStair;
 		}
 		break;
 	}
-	
 }
 
 void Simon::handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coObjects)

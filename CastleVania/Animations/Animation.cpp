@@ -64,7 +64,6 @@ void Animation::Render(float x, float y, Flip flip)
 			}
 		}
 	}
-
 	frames[currentFrame]->GetSprite()->Draw(D3DXVECTOR2(x, y), flip);
 }
 
