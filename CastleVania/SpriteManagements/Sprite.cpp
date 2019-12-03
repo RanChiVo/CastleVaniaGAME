@@ -32,20 +32,20 @@ LPDIRECT3DTEXTURE9 Sprite::getText()
 	return texture;
 }
 
-void Sprite::Draw(D3DXVECTOR2 position)
+void Sprite::Draw(D3DXVECTOR2 position, int alpha)
 {
 	D3DXVECTOR3 p(floor(position.x), floor(position.y), 0);
 	Direct3DManager* direct3D = Direct3DManager::getInstance();
 
-	direct3D->GetSpriteHandler()->Draw(texture, &rect, nullptr, &p, D3DCOLOR_XRGB(255, 255, 255));
+	direct3D->GetSpriteHandler()->Draw(texture, &rect, nullptr, &p, alpha);
 }
 
-void Sprite::Draw(D3DXVECTOR2 position, int alpha)
-{
-	D3DXVECTOR3 p(position.x, position.y, 0);
-	Direct3DManager* direct3D = Direct3DManager::getInstance();
-	direct3D->GetSpriteHandler()->Draw(texture, &rect, nullptr, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
-}
+//void Sprite::Draw(D3DXVECTOR2 position, int alpha)
+//{
+//	D3DXVECTOR3 p(position.x, position.y, 0);
+//	Direct3DManager* direct3D = Direct3DManager::getInstance();
+//	direct3D->GetSpriteHandler()->Draw(texture, &rect, nullptr, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+//}
 
 void Sprite::Draw(D3DXVECTOR2 position, Flip flip)
 {

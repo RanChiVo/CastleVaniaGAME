@@ -2,7 +2,7 @@
 #include "Zombie.h"
 #include "../ResourceManagement.h"
 
-constexpr float ZOMBIE_WALKING_SPEED = 0.08f;
+constexpr float ZOMBIE_WALKING_SPEED = 0.05f;
 constexpr float ZOMBIE_GRAVITY = 0.0009f;
 
 Zombie::Zombie()
@@ -33,7 +33,8 @@ void Zombie::handleState()
 
 bool Zombie::checkInsideViewPort(Viewport * viewport, D3DXVECTOR2 position)
 {
-	if ((position.x + width) < viewport->getX() || position.x > (viewport->getX() + viewport->getWidth()))
+	if ((position.x + width) < viewport->getX() ||
+		position.x > (viewport->getX() + viewport->getWidth()))
 	{
 		return false;
 	}
@@ -90,6 +91,8 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += Dy;
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	Enemy::Update(dt, coObjects);
 }
 
 void Zombie::Render(Viewport* viewport)

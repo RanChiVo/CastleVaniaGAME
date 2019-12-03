@@ -39,7 +39,7 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				item = new SmallHeart(this->getPosition());
 				break;
 			case ID_ENTITY_CROSS:
-				//item = new Cross(this->getPosition());
+				item = new Cross(this->getPosition());
 				break;
 			case ID_ENTITY_FIRE_BOMB:
 				item = new FireBomb(this->getPosition());
@@ -55,6 +55,8 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			coObjects->push_back(item);
 		}
 	}
+
+
 }
 
 void StaticObject::Render(Viewport * viewport)

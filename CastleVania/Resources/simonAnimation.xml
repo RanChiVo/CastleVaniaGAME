@@ -65,6 +65,18 @@
       <animation_frame sprite_id="GoDownStair1" />
     </animation>
 
+    <animation name="SIMON_ANI_ATTACK_UP_STAIR" default_time="200" rewind="true">
+      <animation_frame sprite_id="AttackUpStair1" />
+      <animation_frame sprite_id="AttackUpStair2" />
+      <animation_frame sprite_id="AttackUpStair3" />
+    </animation>
+
+    <animation name="SIMON_ANI_ATTACK_DOWN_STAIR" default_time="200" rewind="true">
+      <animation_frame sprite_id="AttackDownStair1" />
+      <animation_frame sprite_id="AttackDownStair2" />
+      <animation_frame sprite_id="AttackDownStair3" />
+    </animation>
+
     <animation name="SIMON_ANI_HURT" default_time="100" rewind="true">
       <animation_frame sprite_id="Hurt1" />
     </animation>

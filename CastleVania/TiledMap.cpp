@@ -5,6 +5,7 @@
 #include "SpriteManagements/Sprite.h"
 
 constexpr int EXTRA_HEIGHT_SCREEN = 90;
+constexpr int TILEMAP_CROSS_EFFECT_TIME = 1000;
 
 //handle string
 void eraseAllSubStr(std::string & mainStr, const std::string & toErase)
@@ -31,6 +32,7 @@ TiledMap::TiledMap(std::string resourcepath, LPDIRECT3DTEXTURE9 IDtex)
 	this->resourcepath = resourcepath;
 	this->IDtex = IDtex;
 	this->readMapfromfile();
+	createEffect = 0;
 }
 
 void TiledMap::checkGoodFile()
@@ -42,6 +44,12 @@ void TiledMap::checkGoodFile()
 		return;
 	}
 	this->rootNode = doc.child("map");
+}
+
+void TiledMap::Update(DWORD dt, vector<LPGAMEOBJECT>* object)
+{
+	if (createEffect > 0 && GetTickCount() - createEffect > TILEMAP_CROSS_EFFECT_TIME)
+		createEffect = 0;
 }
 
 void TiledMap::readMapfromfile()
@@ -114,6 +122,7 @@ std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 			auto properties = objectNode.child("properties");
 			std::string idHiddenItemString = "";
 			std::string objectId = "";
+			std::string enemyName = "";
 			int stairHeight = 0;
 			int nx = 0;
 			int ny = 0;
@@ -127,6 +136,10 @@ std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 				else if (nameProperty.compare("Object ID") == 0)
 				{
 					objectId = propertyNode.attribute("value").as_string();
+				}
+				else if (nameProperty.compare("Enemy Name") == 0)
+				{
+					enemyName = propertyNode.attribute("value").as_string();
 				}
 				else if (nameProperty.compare("Stair Height") == 0)
 				{
@@ -144,11 +157,12 @@ std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 			ObjectInfo::builder* object_info = new ObjectInfo::builder();
 			object_info->set_id(id).set_name(name)
 				.set_height(height).set_width(width).set_position(D3DXVECTOR2(x, y))
-				.set_idHiddenItem(idHiddenItemString).set_ObjectId(objectId).set_stairHeight(stairHeight).set_nx(nx).set_ny(ny);
+				.set_idHiddenItem(idHiddenItemString).set_ObjectId(objectId).set_enemyName(enemyName).set_stairHeight(stairHeight).set_nx(nx).set_ny(ny);
 
 			objectInfo.push_back(object_info);
 		}
 	}
+
 	return objectInfo;
 }
 
@@ -157,7 +171,7 @@ void TiledMap::clearObjectInfo()
 	objectInfo.clear();
 }
 
-void TiledMap::draw(Viewport* viewport)
+void TiledMap::draw(Viewport* viewport, int alpha)
 {
 	int beginCol = viewport->getX() / tileWidth;
 	int endCol = viewport->getX() + viewport->getWidth() / tileWidth + 1;
@@ -169,6 +183,13 @@ void TiledMap::draw(Viewport* viewport)
 	beginRow = (beginRow < 0) ? 0 : ((beginRow > (tilesInMapHeight)) ? (tilesInMapHeight) : beginRow);
 	endRow = (endRow < 0) ? 0 : ((endRow > (tilesInMapHeight)) ? (tilesInMapHeight) : endRow);
 
+	if (createEffect > 0)
+	{
+		alpha = GetTickCount() % 100 > 50 ? 80 : 255;
+		if (alpha == 80)
+			Direct3DManager::getInstance()->GetDirect3DDevice()->ColorFill(Direct3DManager::getInstance()->GetBackBuffer(), NULL, D3DXCOLOR(0xBBBBBB));
+	}
+
 	for (int row = beginRow; row < endRow; row++)
 	{
 		for (int col = beginCol; col < endCol; col++)
@@ -177,7 +198,7 @@ void TiledMap::draw(Viewport* viewport)
 			worldPosition.x = tileWidth * col;
 			worldPosition.y = tileHeight * row + EXTRA_HEIGHT_SCREEN;
 			viewPosition = viewport->WorldToScreen(worldPosition);
-			tile.Draw(viewPosition);
+			tile.Draw(viewPosition, alpha);
 		}
 	}
 }

@@ -2,7 +2,7 @@
 
 enum Flip
 {
-	normal,
-	flip_horiz,
+	normal=1,
+	flip_horiz=-1,
 	flip_vert,
 };

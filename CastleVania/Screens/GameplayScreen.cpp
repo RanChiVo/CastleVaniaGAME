@@ -6,7 +6,6 @@
 #include "../WallEntrance.h"
 #include "../CollisionStair.h"
 #include "../AreaZombie.h"
-#include "../GameObjects/BlackLeopard.h"
 #include "../GameObjects/Zombie.h"
 #include "../Brick.h"
 #include "../GameObjects/Floor.h"
@@ -16,6 +15,7 @@
 #include "../Candle.h"
 #include "../GameObjects/Entrance.h"
 #include "../ObjectStair.h"
+#include "../Panther.h"
 
 void GameplayScreen::init()
 {
@@ -26,7 +26,7 @@ void GameplayScreen::init()
 void GameplayScreen::update(DWORD dt)
 {
 	menu_point->update();
-
+	resourceManagement->getTiledMap(mapId)->Update(dt, &objects);
 	updateViewport(dt);
 
 	for (int i = 0; i < (int)objects.size(); i++)
@@ -35,6 +35,7 @@ void GameplayScreen::update(DWORD dt)
 
 		if (objects[i]->getID() == ID_ENTITY_SIMON)
 		{
+			playerSpawn = dynamic_cast<Simon*>((objects[i]));
 			if (mapId == ID_ENTITY_MAP_ENTRANCE)
 			{
 				if (objects[i]->getLevel() == 1)
@@ -42,6 +43,30 @@ void GameplayScreen::update(DWORD dt)
 					resourceManagement->getTiledMap(mapId)->clearObjectInfo();
 					mapId = ID_ENTITY_MAP_PLAYGAME;
 					moveMap = true;
+				}
+			}
+			else {
+
+				checkSimonInSpawn = playerSpawn->checkisInSpawn();
+				idEnemy = playerSpawn->getIdEnemySpawn();
+				if (mapId = ID_ENTITY_MAP_PLAYGAME)
+				{
+					if (time == 0)
+					{
+						if (checkSimonInSpawn)
+						{
+							time = GetTickCount();
+							if (idEnemy == ID_ENTITY_ZOMBIE)
+							{
+								createZombie(viewport);
+							}
+						}
+					}
+					if (GetTickCount() - time >= TIME_ZOMBIE)
+					{
+						time = 0;
+						playerSpawn->setIsInSpawn(false);
+					}
 				}
 			}
 		}
@@ -55,19 +80,6 @@ void GameplayScreen::update(DWORD dt)
 	{
 		loadResources();
 		moveMap = false;
-	}
-
-	if (mapId == ID_ENTITY_MAP_PLAYGAME)
-	{
-		/*if (time == 0)
-		{
-			time = GetTickCount();
-			createZombie(viewport);
-		}
-		if (GetTickCount() - time >= TIME_ZOMBIE)
-		{
-			time = 0;
-		}*/
 	}
 }
 
@@ -104,16 +116,22 @@ void GameplayScreen::createZombie(Viewport* viewport)
 {
 	for (int i = 0; i < 3; i++)
 	{
-		Zombie* zombie = new Zombie();
-		zombie->SetState(ZOMBIE_STATE_WALKING_RIGHT);
-		zombie->SetPosition(D3DXVECTOR2(viewport->getX() + i * 60, 295));
-		objects.push_back(zombie);
-
-		zombie = new Zombie();
-		zombie->SetState(ZOMBIE_STATE_WALKING_LEFT);
-		zombie->SetPosition(D3DXVECTOR2(viewport->getX() + viewport->getWidth() - i * 60, 295));
-		objects.push_back(zombie);
+		if (RandomEnemy == 1)
+		{
+			Zombie* zombie = new Zombie();
+			zombie->SetState(ZOMBIE_STATE_WALKING_RIGHT);
+			zombie->SetPosition(D3DXVECTOR2(viewport->getX() + i * 60, 313));
+			objects.push_back(zombie);
+		}
+		else
+		{
+			Zombie* zombie = new Zombie();
+			zombie->SetState(ZOMBIE_STATE_WALKING_LEFT);
+			zombie->SetPosition(D3DXVECTOR2(viewport->getX() + viewport->getWidth() - i * 60,313));
+			objects.push_back(zombie);
+		}
 	}
+	RandomEnemy = -RandomEnemy;
 }
 
 void GameplayScreen::getInfoFromObjectInfo(ObjectInfo::builder* info, LPGAMEOBJECT object)
@@ -123,6 +141,7 @@ void GameplayScreen::getInfoFromObjectInfo(ObjectInfo::builder* info, LPGAMEOBJE
 	object->setHeight(info->get_height());
 	object->setWidth(info->get_width());
 	object->setIdHiddenItem(info->get_idHiddenItem());
+	object->setEnemyName(info->get_enemyName());
 }
 
 void GameplayScreen::loadResources()
@@ -132,6 +151,7 @@ void GameplayScreen::loadResources()
 	for (auto object : resourceManagement->getTiledMap(mapId)->getObjectInfo())
 	{
 		StaticObject* objectInit = nullptr;
+		Enemy* objectEnemy = nullptr;
 		idObject = resourceManagement->getStringToEntity()[object->get_ObjectId()];
 		switch (idObject)
 		{
@@ -146,6 +166,7 @@ void GameplayScreen::loadResources()
 			break;
 		case ID_ENTITY_WALL_ENTRANCE:
 			objectInit = new WallEntrance();
+			objectInit->set_nx(object->get_nx());
 			break;
 		case ID_ENTITY_CANDLE:
 			objectInit = new Candle();
@@ -163,8 +184,12 @@ void GameplayScreen::loadResources()
 			objectInit = new ObjectStair(object->get_postition(), D3DXVECTOR4(object->get_width(), 
 				object->get_height(), object->get_nx(), object->get_ny()), object->get_stairHeight());
 			break;
+		case ID_ENTITY_PANTHER:
+			objectEnemy = new Panther(object->get_postition(), object->get_nx());
+			getInfoFromObjectInfo(object, objectEnemy);
+			objects.push_back(objectEnemy);
+			break;
 		}	
-
 		if (objectInit)
 		{
 			if (idObject != ID_ENTITY_STAIR)

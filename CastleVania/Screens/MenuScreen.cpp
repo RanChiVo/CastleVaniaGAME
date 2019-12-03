@@ -29,7 +29,7 @@ void MenuScreen::update(DWORD dt)
 
 void MenuScreen::renderObject()
 {
-	loadBackGround->Draw(D3DXVECTOR2(0, 0));
+	loadBackGround->Draw(D3DXVECTOR2(0, 0), 255);
 
 	RECT R;
 	R.left = 180;

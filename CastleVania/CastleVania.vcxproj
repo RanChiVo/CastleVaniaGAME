@@ -139,7 +139,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="BaseInfo.cpp" />
     <ClCompile Include="CombatWeapon.cpp" />
-    <ClCompile Include="GameObjects\BlackLeopard.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameObjects\Boomerang.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Candle.cpp" />
@@ -161,6 +161,7 @@
     <ClCompile Include="Library\pugixml.cpp" />
     <ClCompile Include="GameObjects\MiraculousBag.cpp" />
     <ClCompile Include="ObjectStair.cpp" />
+    <ClCompile Include="Panther.cpp" />
     <ClCompile Include="PodiumOnWall.cpp" />
     <ClCompile Include="Screens\IntroScreen.cpp" />
     <ClCompile Include="Library\DSUtil.cpp" />
@@ -197,7 +198,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BaseInfo.h" />
     <ClInclude Include="CombatWeapon.h" />
-    <ClInclude Include="GameObjects\BlackLeopard.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameObjects\Boomerang.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Candle.h" />
@@ -223,6 +224,7 @@
     <ClInclude Include="Library\pugixml.hpp" />
     <ClInclude Include="GameObjects\MiraculousBag.h" />
     <ClInclude Include="ObjectStair.h" />
+    <ClInclude Include="Panther.h" />
     <ClInclude Include="PodiumOnWall.h" />
     <ClInclude Include="Screens\IntroScreen.h" />
     <ClInclude Include="Library\DSUtil.h" />

@@ -47,6 +47,7 @@ protected:
 	std::string name;
 	std::string idHiddenItem;
 	std::string objectID;
+	std::string nameEnemy;
 	DWORD dt;
 	static unordered_map<int, LPANIMATION> animations;
 
@@ -81,6 +82,8 @@ public:
 	void setIdHiddenItem(std::string idHiddenItem);
 	void setObjectID(std::string objectID) { this->objectID = objectID; }
 	std::string getObjectID() { return objectID; }
+	void setEnemyName(std::string nameEnemy) { this->nameEnemy = nameEnemy; }
+	std::string getEnemyName() { return nameEnemy; }
 	void set_nx(int nx) { this->nx = nx; }
 	int get_nx() { return nx; }
 	void set_ny(int ny) { this->ny = ny; }

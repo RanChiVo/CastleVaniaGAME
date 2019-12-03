@@ -8,6 +8,7 @@
 #include "../BaseInfo.h"
 #include "../ObjectStair.h"
 
+
 class Simon: public GameObject
 {
 private: 
@@ -33,7 +34,8 @@ private:
 		SIMON_STATE_GO_DOWN_STAIR,
 		SIMON_STATE_IDLE_UP_STAIR,
 		SIMON_STATE_IDLE_DOWN_STAIR,
-		SIMON_STATE_ATTACK_ON_STAIR,
+		SIMON_STATE_ATTACK_UP_STAIR,
+		SIMON_STATE_ATTACK_DOWN_STAIR,
 		SIMON_STATE_HURT,
 	};
 
@@ -41,17 +43,18 @@ private:
 	int untouchable;
 	DWORD untouchable_start;
 	DWORD comeEntranceStart = 0;
+	bool isInSpawn = false;
+	EntityID idEnemySpawn;
 	bool enableSubWeapon = false;
 	bool isjumping = false;
 	bool attacking = false;
 	bool checkRewind = false;
-	bool touchRect = false;
 	bool isOnStair = false;
 	int directionStair;
 	float positition_stair;
 	ObjectStair* originalStair = nullptr;
 	ObjectStair* reverseStair = nullptr;
-	float new_y = 0;
+	Flip flip;
 
 	std::string stair_direction;
 	Whip* whip;
@@ -72,6 +75,10 @@ public:
 	bool isOnGround();
 	int GetLevel() { return level; }
 	void SetState(int state);
+	bool checkisInSpawn() { return isInSpawn; }
+	void setIsInSpawn(bool isInSpawn) { this->isInSpawn = isInSpawn; }
+	EntityID getIdEnemySpawn() { return idEnemySpawn; }
+	void setIdEnemySpawn(EntityID idEnemySpawn) { this->idEnemySpawn = idEnemySpawn; }
 	void Reset(int currentAnimation);
 	void handleState();
 	void updateCollisionStair();

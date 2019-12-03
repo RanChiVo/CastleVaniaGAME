@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<loadresource>
+  <animations>
+    <animation name="PANTHER_ANI_IDLE" default_time="100" rewind="true">
+      <animation_frame sprite_id="panther_idle1"/>
+    </animation>
+
+    <animation name="PANTHER_ANI_MOVE" default_time="100" rewind="true">
+      <animation_frame sprite_id="panther_run1"/>
+      <animation_frame sprite_id="panther_run2"/>
+      <animation_frame sprite_id="panther_run3"/>
+    </animation>
+
+    <animation name="PANTHER_ANI_JUMP" default_time="100" rewind="true">
+      <animation_frame sprite_id="panther_run3"/>
+    </animation>
+  </animations>
+</loadresource>

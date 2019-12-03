@@ -1,5 +1,4 @@
 #include "ResourceManagement.h"
-#include "Direct3DManager.h"
 #include "Library/pugixml.hpp"
 
 ResourceManagement * ResourceManagement::__instance = nullptr;
@@ -62,6 +61,9 @@ void ResourceManagement::loadResource()
 
 	readSpriteFromFile("Resources\\Enemy\\zombie.xml");
 	readAnimationFromFile("Resources\\Enemy\\zombieAnimation.xml");
+
+	readSpriteFromFile("Resources\\Enemy\\panther.xml");
+	readAnimationFromFile("Resources\\Enemy\\pantherAnimation.xml");
 
 	readSpriteFromFile("TiledMap\\Candle.xml");
 	readAnimationFromFile("TiledMap\\CandleAnimation.xml");
@@ -237,7 +239,7 @@ ResourceManagement::ResourceManagement()
 	{"ID_ENTITY_HP_ENEMY", EntityID::ID_ENTITY_HP_ENEMY },
 	{"ID_ENTITY_LOST_HP", EntityID::ID_ENTITY_LOST_HP },
 	{"ID_ENTITY_PLACE", EntityID::ID_ENTITY_PLACE},
-	{"ID_ENTITY_BLACK_LEOPARD", EntityID::ID_ENTITY_BLACK_LEOPARD},
+	{"ID_ENTITY_PANTHER", EntityID::ID_ENTITY_PANTHER},
 	};
 	stringToAniID = {
 	{"SIMON_ANI_IDLE", ANI_ID::SIMON_ANI_IDLE },
@@ -272,13 +274,16 @@ ResourceManagement::ResourceManagement()
 	{"SIMON_ANI_GO_DOWN_STAIR", ANI_ID::SIMON_ANI_GO_DOWN_STAIR},
 	{"SIMON_ANI_IDLE_GO_UP_STAIR", ANI_ID::SIMON_ANI_IDLE_GO_UP_STAIR},
 	{"SIMON_ANI_IDLE_GO_DOWN_STAIR", ANI_ID::SIMON_ANI_IDLE_GO_DOWN_STAIR},
+	{"SIMON_ANI_ATTACK_UP_STAIR", ANI_ID::SIMON_ANI_ATTACK_UP_STAIR},
+	{"SIMON_ANI_ATTACK_DOWN_STAIR", ANI_ID::SIMON_ANI_ATTACK_DOWN_STAIR},
 	{"ZOMBIE_ANI_WALKING", ANI_ID::ZOMBIE_ANI_WALKING},
+	{"PANTHER_ANI_IDLE", ANI_ID::PANTHER_ANI_IDLE},
+	{"PANTHER_ANI_MOVE", ANI_ID::PANTHER_ANI_MOVE},
+	{"PANTHER_ANI_JUMP", ANI_ID::PANTHER_ANI_JUMP},
 	{"SMALL_HEART_ANI", ANI_ID::SMALL_HEART_ANI},
 	{"STOP_WATCH_ANI", ANI_ID::STOP_WATCH_ANI},
 	{"CROSS_ANI", ANI_ID::CROSS_ANI},
 	{"FIRE_BOMB_ANI", ANI_ID::FIRE_BOMB_ANI},
-	{"BLACK_LEOPARD_ANI_IDLE", ANI_ID::BLACK_LEOPARD_ANI_IDLE},
-	{"BLACK_LEOPARD_ANI_MOVE", ANI_ID::BLACK_LEOPARD_ANI_MOVE},
 	};
 }
 

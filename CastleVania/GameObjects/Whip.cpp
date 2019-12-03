@@ -95,6 +95,80 @@ void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 			}
 		}
 	}
+	else if (currentAni == SIMON_ANI_ATTACK_UP_STAIR)
+	{
+		if (direct == 1)
+		{
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x - 8, y + 20));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x - 5, y + 15));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x + 57, y + 20));
+				break;
+			default:
+				break;
+			}
+		}
+		else
+		{
+			switch (currentFrameSimon)
+			{
+			case 0:
+				SetPosition(D3DXVECTOR2(x + 57, y + 20));
+				break;
+			case 1:
+				SetPosition(D3DXVECTOR2(x + 35, y + 30));
+				break;
+			case 2:
+				SetPosition(D3DXVECTOR2(x - 50, y + 30));
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	else if (currentAni == SIMON_ANI_ATTACK_DOWN_STAIR)
+	{
+	if (direct == 1)
+	{
+		switch (currentFrameSimon)
+		{
+		case 0:
+			SetPosition(D3DXVECTOR2(x - 8, y + 20));
+			break;
+		case 1:
+			SetPosition(D3DXVECTOR2(x - 5, y + 15));
+			break;
+		case 2:
+			SetPosition(D3DXVECTOR2(x + 57, y + 20));
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		switch (currentFrameSimon)
+		{
+		case 0:
+			SetPosition(D3DXVECTOR2(x + 57, y + 20));
+			break;
+		case 1:
+			SetPosition(D3DXVECTOR2(x + 35, y + 15));
+			break;
+		case 2:
+			SetPosition(D3DXVECTOR2(x - 50, y + 10));
+			break;
+		default:
+			break;
+		}
+	}
+	}
 }
 
 int Whip::getframe()
@@ -141,7 +215,7 @@ void Whip::draw(int direct, Viewport* viewport)
 
 	animations.find(currentAnimation)->second->Render(pos.x, pos.y, flip);
 
-	//RenderBoundingBox(viewport);
+	RenderBoundingBox(viewport);
 }
 
 void Whip::GetBoundingBox(float & left, float & top, float & right, float & bottom)

@@ -11,6 +11,7 @@ FireBomb::FireBomb(D3DXVECTOR2 position)
 	currentAnimation = FIRE_BOMB_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
+	liveTime = GetTickCount();
 }
 
 void FireBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -41,6 +42,11 @@ void FireBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		if (GetTickCount() - liveTime > 4000)
+		{
+			state = STATE_DETROY;
+			liveTime = 0;
+		}
 }
 
 void FireBomb::GetBoundingBox(float & left, float & top, float & right, float & bottom)

@@ -15,8 +15,9 @@ public:
 		std::string idHiddenItem,
 		std::string objectId,
 		std::string ObjectType,
+		std::string enemyName,
 		int stairHeight, int nx, int ny) :id{ id }, name{ name }, height{ height }, width{ width }, position{ position },
-		idHiddenItem{ idHiddenItem }, objectId{ objectId }, ObjectType{ ObjectType }, stairHeight{ stairHeight }, nx {nx}, ny {ny}
+		idHiddenItem{ idHiddenItem }, objectId{ objectId }, ObjectType{ ObjectType }, enemyName{ enemyName }, stairHeight{ stairHeight }, nx{ nx }, ny{ ny }
 	{}
 
 	int id;
@@ -27,6 +28,7 @@ public:
 	std::string idHiddenItem;
 	std::string objectId;
 	std::string ObjectType;
+	std::string enemyName;
 	int stairHeight;
 	int nx;
 	int ny;
@@ -43,6 +45,7 @@ public:
 	builder& set_idHiddenItem(std::string value) { idHiddenItem = value; return *this; };
 	builder& set_ObjectId(std::string value) { objectId = value; return *this; };
 	builder& set_ObjectType(std::string value) { ObjectType = value; return *this; };
+	builder& set_enemyName(std::string value) { enemyName = value; return *this; };
 	builder& set_stairHeight(int value) { stairHeight = value; return *this; };
 	builder& set_nx(int value) { nx = value; return *this; };
 	builder& set_ny(int value) { ny = value; return *this; };
@@ -54,13 +57,14 @@ public:
 	std::string get_idHiddenItem() { return idHiddenItem; }
 	std::string get_ObjectType() { return ObjectType; }
 	std::string get_ObjectId() { return objectId; }
+	std::string get_enemyName() { return enemyName; }
 	int get_stairHeight() { return stairHeight; }
 	int get_nx() { return nx; }
 	int get_ny() { return ny; }
 
 	ObjectInfo build() const
 	{
-		return ObjectInfo{ id, name, height, width, position, idHiddenItem, objectId , ObjectType , stairHeight, nx, ny };
+		return ObjectInfo{ id, name, height, width, position, idHiddenItem, objectId , ObjectType, enemyName, stairHeight, nx, ny };
 	}
 
 private:
@@ -72,6 +76,7 @@ private:
 	std::string idHiddenItem = "";
 	std::string objectId = "";
 	std::string ObjectType = "";
+	std::string enemyName = "";
 	int stairHeight = 0;
 	int nx = 0;
 	int ny = 0;

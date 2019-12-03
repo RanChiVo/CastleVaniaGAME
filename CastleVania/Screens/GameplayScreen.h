@@ -13,15 +13,18 @@ private:
 	EntityID mapId;
 	Simon* simon;
 	EntityID idObject;
+	bool checkSimonInSpawn = false;
 	ResourceManagement* resourceManagement;
+	EntityID idEnemy;
 	RECT rect;
 	DWORD timer_zombie = 0;
-	DWORD TIME_ZOMBIE = 25000;
+	DWORD TIME_ZOMBIE = 10000;
+	int RandomEnemy = 1;
 	MenuPoint* menu_point;
 	bool moveMap = false;
 	bool isActive = false;
 	int time = 0;
-
+	Simon* playerSpawn = nullptr;
 public:
 
 	void init() override;

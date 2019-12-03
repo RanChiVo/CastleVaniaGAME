@@ -19,10 +19,14 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	for (int i = 0; i < coObjects->size(); i++)
 	{
-		switch (coObjects->at(i)->getID())
+		int ID = coObjects->at(i)->getID();
+		switch (ID)
 		{
 		case ID_ENTITY_BURNBARREL:
 		case ID_ENTITY_CANDLE:
+		case ID_ENTITY_ZOMBIE:
+		case ID_ENTITY_PANTHER:
+		
 			float left1, top1, right1, bottom1;
 			coObjects->at(i)->GetBoundingBox(left1, top1, right1, bottom1);
 			RECT rect1 = RECT{ long(left1), long(top1), long(right1), long(bottom1) };
@@ -50,18 +54,23 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
+
+	if (state != STATE_DETROY)
 	CalcPotentialCollisions(coObjects, coEvents);
 
-	if (coEvents.size() == 0)
-	{
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx, ny;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-	}
+	float min_tx, min_ty, nx, ny;
+	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
+	for (int i = 0; i < (int)coEvents.size(); i++)
+	{
+		switch (coEvents[i]->obj->getID())
+		{
+		case ID_ENTITY_ZOMBIE:
+			coEvents[i]->obj->SetState(STATE_EFFECT);
+			coEvents[i]->obj->setLiveTime(GetTickCount());
+			break;
+		}
+	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 

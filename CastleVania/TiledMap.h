@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include "Library/pugixml.hpp"
+#include "GameObjects/GameObject.h"
 
 class TiledMap
 {
@@ -37,15 +38,19 @@ private:
 	//Info Game Object 
 	std::vector<ObjectInfo::builder*> objectInfo;
 	
+	//Create effect when collision Cross
+	static DWORD createEffect;
 public:
+	static void CreateEffect() { createEffect = GetTickCount(); }
 	TiledMap(std::string resourcepath, LPDIRECT3DTEXTURE9 IDtex);
 	void readMapfromfile();
 	void checkGoodFile();
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* object = NULL);
 	//get info of Objects in Layer 
 	void readMatrixMap();
 	std::vector <ObjectInfo::builder*> getObjectInfo();
 	void clearObjectInfo();
-	void draw(Viewport* viewport);
+	void draw(Viewport* viewport, int alpha = 255);
 	float getHeightWorld();
 	float getWidthWorld();
 	~TiledMap();
