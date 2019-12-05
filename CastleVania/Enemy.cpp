@@ -7,6 +7,7 @@
 #include "./GameObjects/Cross.h"
 #include "./GameObjects/SmallHeart.h"
 #include "./GameObjects/MiraculousBag.h"
+#include "VampireBat.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -23,10 +24,14 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (GetTickCount() - liveTime > FIRE_LIVE_TIME)
 			
 				//rand() % (b – a + 1) + a.
-				state = STATE_DETROY;
+				if (id == ID_ENTITY_VAMPIRE_BAT)
+				{
+					state = VampireBat::VAMPIRE_STATE_HIDDEN;
+				}
+				else state = STATE_DETROY;
 				liveTime = 0;
 				GameObject* item = nullptr;
-				int idRandom = rand() % 7 + 7;
+				int idRandom = rand() % 13 + 8;
 				switch (idRandom)
 				{
 				case ID_ENTITY_WEAPON_REWARD:
@@ -40,9 +45,6 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					break;
 				case ID_ENTITY_SMALL_HEART:
 					item = new SmallHeart(this->getPosition());
-					break;
-				case ID_ENTITY_CROSS:
-					item = new Cross(this->getPosition());
 					break;
 				case ID_ENTITY_FIRE_BOMB:
 					item = new FireBomb(this->getPosition());
@@ -72,6 +74,10 @@ void Enemy::Render(Viewport * viewport)
 
 void Enemy::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
+	left = x;
+	top = y;
+	right = left + width;
+	bottom = top + height;
 }
 
 Enemy::~Enemy()

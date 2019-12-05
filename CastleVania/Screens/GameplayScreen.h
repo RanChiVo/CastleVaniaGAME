@@ -11,7 +11,6 @@ class GameplayScreen: public ScreenBase
 private:
 	vector<LPGAMEOBJECT> objects;
 	EntityID mapId;
-	Simon* simon;
 	EntityID idObject;
 	bool checkSimonInSpawn = false;
 	ResourceManagement* resourceManagement;
@@ -24,13 +23,16 @@ private:
 	bool moveMap = false;
 	bool isActive = false;
 	int time = 0;
-	Simon* playerSpawn = nullptr;
+	float extraWidth = 0;
+	float extraWorld = 0;
 public:
 
 	void init() override;
 	void loadResources() override;
 	void update(DWORD dt) override;
 	void updateViewport(DWORD dt);
+	void updateMap();
+	void updateEnemy();
 	void renderObject() override;
 	void createZombie(Viewport* viewport);
 	void getInfoFromObjectInfo(ObjectInfo::builder*, LPGAMEOBJECT object);

@@ -53,8 +53,14 @@ void ResourceManagement::loadResource()
 	readSpriteFromFile("Resources\\Items\\weapon_reward.xml");
 	readAnimationFromFile("Resources\\Items\\weapon_rewardAnimation.xml");
 
-	readSpriteFromFile("Resources\\Items\\katana.xml");
-	readAnimationFromFile("Resources\\Items\\katanaAnimation.xml");
+	readSpriteFromFile("Resources\\Items\\dagger.xml");
+	readAnimationFromFile("Resources\\Items\\daggerAnimation.xml");
+
+	readSpriteFromFile("Resources\\Items\\axe.xml");
+	readAnimationFromFile("Resources\\Items\\axeAnimation.xml");
+
+	readSpriteFromFile("Resources\\Items\\pork_chop.xml");
+	readAnimationFromFile("Resources\\Items\\pork_chopAnimation.xml");
 
 	readSpriteFromFile("Resources\\Items\\miraculous_bag.xml");
 	readAnimationFromFile("Resources\\Items\\miraculous_bagAnimation.xml");
@@ -62,11 +68,20 @@ void ResourceManagement::loadResource()
 	readSpriteFromFile("Resources\\Enemy\\zombie.xml");
 	readAnimationFromFile("Resources\\Enemy\\zombieAnimation.xml");
 
+	readSpriteFromFile("Resources\\Enemy\\vampireBat.xml");
+	readAnimationFromFile("Resources\\Enemy\\vampireBatAnimation.xml");
+
 	readSpriteFromFile("Resources\\Enemy\\panther.xml");
 	readAnimationFromFile("Resources\\Enemy\\pantherAnimation.xml");
 
 	readSpriteFromFile("TiledMap\\Candle.xml");
 	readAnimationFromFile("TiledMap\\CandleAnimation.xml");
+
+	readSpriteFromFile("Resources\\Items\\door.xml");
+	readAnimationFromFile("Resources\\Items\\doorAnimation.xml");
+
+	readSpriteFromFile("TiledMap\\brick.xml");
+	readAnimationFromFile("TiledMap\\brickAnimation.xml");
 
 	readSpriteFromFile("TiledMap\\WallCastle.xml");
 	readAnimationFromFile("TiledMap\\WallCastleAnimation.xml");
@@ -83,10 +98,8 @@ void ResourceManagement::loadResource()
 	readSpriteFromFile("Resources\\Items\\stop_watch.xml");
 	readAnimationFromFile("Resources\\Items\\stop_watchAnimation.xml");
 
-	readSpriteFromFile("Resources\\Enemy\\black_leopard.xml");
-	readAnimationFromFile("Resources\\Enemy\\black_leopardAnimation.xml");
-
 	/*readSpriteFromFile("Resources\\MenuPoint\\black.xml");*/
+	readSpriteFromFile("Resources\\MenuPoint\\heartMenuPoint.xml");
 	readSpriteFromFile("Resources\\MenuPoint\\HP.xml");
 	readSpriteFromFile("Resources\\MenuPoint\\enemy_HP.xml");
 	readSpriteFromFile("Resources\\MenuPoint\\lost_HP.xml");
@@ -101,9 +114,9 @@ void ResourceManagement::loadResource()
 	TiledMap* tiled_map = new TiledMap("TiledMap\\Entrance_map.tmx", textMap_Entrance);
 	TiledMapList[EntityID::ID_ENTITY_MAP_ENTRANCE] = tiled_map;
 
-	textures->Add(ID_ENTITY_GAMEPLAYSCREEN, L"TiledMap\\GamePlay_bank.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_ENTITY_GAMEPLAYSCREEN, L"TiledMap\\GamePlayCastle_bank.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_ENTITY_GAMEPLAYSCREEN);
-	tiled_map = new TiledMap("TiledMap\\GamePlay_map.tmx", textPlayScreen);
+	tiled_map = new TiledMap("TiledMap\\GamePlayCastle_map.tmx", textPlayScreen);
 	TiledMapList[EntityID::ID_ENTITY_MAP_PLAYGAME] = tiled_map;
 }
 
@@ -211,16 +224,18 @@ ResourceManagement::ResourceManagement()
 	{"ID_ENTITY_WHIP",EntityID::ID_ENTITY_WHIP },
 	{"ID_ENTITY_BURNBARREL",EntityID::ID_ENTITY_BURNBARREL },
 	{"ID_ENTITY_BBOX",EntityID::ID_ENTITY_BBOX },
+	{"ID_ENTITY_PORK_CHOP",EntityID::ID_ENTITY_PORK_CHOP },
 	{"ID_ENTITY_HEART",EntityID::ID_ENTITY_HEART },
 	{"ID_ENTITY_EFFECT",EntityID::ID_ENTITY_EFFECT },
 	{"ID_ENTITY_WEAPON_REWARD",EntityID::ID_ENTITY_WEAPON_REWARD },
 	{"ID_ENTITY_DAGGER",EntityID::ID_ENTITY_DAGGER },
+	{"ID_ENTITY_AXE",EntityID::ID_ENTITY_AXE },
 	{"ID_ENTITY_MIRACULOUS_BAG",EntityID::ID_ENTITY_MIRACULOUS_BAG },
 	{"ID_ENTITY_RED_100_MIRACULOUS_BAG",EntityID::ID_ENTITY_RED_100_MIRACULOUS_BAG},
 	{"ID_ENTITY_BLUE_400_MIRACULOUS_BAG",EntityID::ID_ENTITY_BLUE_400_MIRACULOUS_BAG},
 	{"ID_ENTITY_WHITE_700_MIRACULOUS_BAG",EntityID::ID_ENTITY_WHITE_700_MIRACULOUS_BAG},
 	{"ID_ENTITY_BONUS_1000_MIRACULOUS_BAG",EntityID::ID_ENTITY_BONUS_1000_MIRACULOUS_BAG},
-	{"ID_ENTITY_WALL",EntityID::ID_ENTITY_WALL },
+	{"ID_ENTITY_BRICK",EntityID::ID_ENTITY_BRICK },
 	{"ID_ENTITY_FLOOR",EntityID::ID_ENTITY_FLOOR },
 	{"ID_ENTITY_ENTRANCE",EntityID::ID_ENTITY_ENTRANCE },
 	{"ID_ENTITY_DAGGER_WEAPON",EntityID::ID_ENTITY_DAGGER_WEAPON },
@@ -230,6 +245,7 @@ ResourceManagement::ResourceManagement()
 	{"ID_ENTITY_CANDLE",EntityID::ID_ENTITY_CANDLE },
 	{"ID_ENTITY_PODIUM_ON_WALL",EntityID::ID_ENTITY_PODIUM_ON_WALL },
 	{"ID_ENTITY_WALL_ENTRANCE",EntityID::ID_ENTITY_WALL_ENTRANCE },
+	{"ID_ENTITY_DOOR",EntityID::ID_ENTITY_DOOR },
 	{"ID_ENTITY_STAIR",EntityID::ID_ENTITY_STAIR },
 	{"ID_ENTITY_ZOMBIE",EntityID::ID_ENTITY_ZOMBIE },
 	{"ID_ENTITY_SMALL_HEART",EntityID::ID_ENTITY_SMALL_HEART },
@@ -240,6 +256,8 @@ ResourceManagement::ResourceManagement()
 	{"ID_ENTITY_LOST_HP", EntityID::ID_ENTITY_LOST_HP },
 	{"ID_ENTITY_PLACE", EntityID::ID_ENTITY_PLACE},
 	{"ID_ENTITY_PANTHER", EntityID::ID_ENTITY_PANTHER},
+	{"ID_ENTITY_VAMPIRE_BAT", EntityID::ID_ENTITY_VAMPIRE_BAT},
+
 	};
 	stringToAniID = {
 	{"SIMON_ANI_IDLE", ANI_ID::SIMON_ANI_IDLE },
@@ -258,13 +276,16 @@ ResourceManagement::ResourceManagement()
 	{"BURNBARREL_ANI", ANI_ID::BURNBARREL_ANI},
 	{"CANDLE_ANI", ANI_ID::CANDLE_ANI},
 	{"ANI_EFFECT", ANI_ID::ANI_EFFECT},
+	{"ANI_EFFECT_BRICK", ANI_ID::ANI_EFFECT_BRICK},
 	{"EFFECT_100_MONEY_ANI", ANI_ID::EFFECT_100_MONEY_ANI},
 	{"EFFECT_400_MONEY_ANI", ANI_ID::EFFECT_400_MONEY_ANI},
 	{"EFFECT_700_MONEY_ANI", ANI_ID::EFFECT_700_MONEY_ANI},
 	{"EFFECT_1000_MONEY_ANI", ANI_ID::EFFECT_1000_MONEY_ANI},
 	{"HEART_ANI", ANI_ID::HEART_ANI},
+	{"PORK_CHOP_ANI", ANI_ID::PORK_CHOP_ANI},
 	{"WEAPONREWARD_ANI", ANI_ID::WEAPONREWARD_ANI},
 	{"DAGGER_ANI", ANI_ID::DAGGER_ANI},
+	{"AXE_ANI", ANI_ID::AXE_ANI},
 	{"RED_MIRACULOUSBAG_ANI", ANI_ID::RED_MIRACULOUSBAG_ANI},
 	{"BLUE_MIRACULOUSBAG_ANI", ANI_ID::BLUE_MIRACULOUSBAG_ANI},
 	{"WHITE_MIRACULOUSBAG_ANI", ANI_ID::WHITE_MIRACULOUSBAG_ANI},
@@ -280,10 +301,22 @@ ResourceManagement::ResourceManagement()
 	{"PANTHER_ANI_IDLE", ANI_ID::PANTHER_ANI_IDLE},
 	{"PANTHER_ANI_MOVE", ANI_ID::PANTHER_ANI_MOVE},
 	{"PANTHER_ANI_JUMP", ANI_ID::PANTHER_ANI_JUMP},
+	{"VAMPIRE_BAT_IDLE_ANI1", ANI_ID::VAMPIRE_BAT_IDLE_ANI1},
+	{"VAMPIRE_BAT_FLY_ANI1", ANI_ID::VAMPIRE_BAT_FLY_ANI1},
+	{"VAMPIRE_BAT_FLY_ANI2", ANI_ID::VAMPIRE_BAT_FLY_ANI2},
+	{"VAMPIRE_BAT_FLY_ANI3", ANI_ID::VAMPIRE_BAT_IDLE_ANI1},
 	{"SMALL_HEART_ANI", ANI_ID::SMALL_HEART_ANI},
 	{"STOP_WATCH_ANI", ANI_ID::STOP_WATCH_ANI},
 	{"CROSS_ANI", ANI_ID::CROSS_ANI},
 	{"FIRE_BOMB_ANI", ANI_ID::FIRE_BOMB_ANI},
+	{"OPEN_ANI", ANI_ID::OPEN_ANI},
+	{"CLOSE_ANI", ANI_ID::CLOSE_ANI},
+	{"OPENING_ANI", ANI_ID::OPENING_ANI},
+	{"CLOSING_ANI", ANI_ID::CLOSING_ANI},
+	{"BRICK_ANI1", ANI_ID::BRICK_ANI1},
+	{"BRICK_ANI2", ANI_ID::BRICK_ANI2},
+	{"BRICK_ANI3", ANI_ID::BRICK_ANI3},
+	{"BRICK_ANI4", ANI_ID::BRICK_ANI4},
 	};
 }
 

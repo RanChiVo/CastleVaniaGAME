@@ -1,13 +1,15 @@
 #pragma once
-#include "../CastleVania/GameObjects/GameObject.h"
+#include "./StaticObject.h"
 
-class CBrick : public GameObject
+class CBrick : public StaticObject
 {
-public:
-	CBrick();
+private:
+	bool isBroken;
 
+public:
+	CBrick(std::string name);
 	virtual void Render(Viewport* viewport);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 	~CBrick();
-
 };

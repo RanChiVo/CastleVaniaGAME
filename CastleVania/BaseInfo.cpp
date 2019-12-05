@@ -1,11 +1,10 @@
 #include "BaseInfo.h"
-#include "DaggerWeapon.h"
 
 constexpr int MAX_HEALTH = 12;
 
 BaseInfo::BaseInfo()
 {
-	heart = 3;
+	heart = 130;
 	scoreNumber = 0;
 	health = 16;
 	idSubWeapon = EntityID::ID_ENTITY_NULL;
@@ -53,8 +52,11 @@ void BaseInfo::setIdSubWeapon(EntityID IdSubWeapon)
 
 	switch (idSubWeapon)
 	{
-	case ID_ENTITY_DAGGER:
+	case ID_ENTITY_DAGGER_WEAPON:
 		setSubWeapon(new DaggerWeapon());
+		break;
+	case ID_ENTITY_AXE_WEAPON:
+		setSubWeapon(new AxeWeapon());
 		break;
 	}
 }

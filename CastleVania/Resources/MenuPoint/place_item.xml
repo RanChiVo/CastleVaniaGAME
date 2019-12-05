@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_ENTITY_PLACE"  name="place_item" width="69" height="45">
-    <image source="Resources\MenuPoint\place_item.png" width="69" height="45"/>
+  <imagelayer id="ID_ENTITY_PLACE"  name="place_item" width="60" height="44">
+    <image source="Resources\MenuPoint\place_item.png" width="60" height="44"/>
   </imagelayer>
   
   <sprites>
-    <spriteframe id="place_item1" left = "0" top="0" right="69" bottom="45"/>
+    <spriteframe id="place_item1" left = "0" top="0" right="60" bottom="44"/>
     
   </sprites>
 </loadresource>

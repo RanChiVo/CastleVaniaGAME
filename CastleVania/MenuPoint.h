@@ -22,6 +22,7 @@ private:
 	Sprite* HP;
 	Sprite* enemy_HP1;
 	Sprite* place_item1;
+	Sprite* lost_HP;
 	DWORD startTime;
 	ResourceManagement* resourceManagement;
 	LPD3DXSPRITE spriteHandler;

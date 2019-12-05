@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="88" height="5" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="142">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="88" height="5" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="159">
  <tileset firstgid="1" name="GamePlay_bank.png" tilewidth="64" tileheight="64" tilecount="54" columns="9">
   <image source="GamePlay_bank.png" width="576" height="384"/>
  </tileset>
@@ -26,7 +26,7 @@
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
   </object>
-  <object id="72" name="HighFloor" x="1854" y="164" width="159" height="29" visible="0">
+  <object id="72" name="HighFloor" x="1854" y="161.5" width="159" height="31.5">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
@@ -50,19 +50,19 @@
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
   </object>
-  <object id="76" name="UnderEndWall" x="3057" y="129" width="27" height="159">
+  <object id="76" name="UnderEndWall" x="3057" y="129" width="31.6667" height="159">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
    </properties>
   </object>
-  <object id="79" name="OnEndWall" x="3058" y="0" width="17" height="94">
+  <object id="79" name="Door" x="3054.67" y="1" width="16" height="96">
    <properties>
     <property name="Hidden Item ID" value=""/>
-    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+    <property name="Object ID" value="ID_ENTITY_DOOR"/>
    </properties>
   </object>
-  <object id="109" name="Brick" x="2014" y="164" width="28" height="29"/>
+  <object id="109" name="BrickSmall" x="2014.75" y="161" width="32" height="32"/>
   <object id="112" name="Stair" x="1247.33" y="272.167" width="16" height="16">
    <properties>
     <property name="Hidden Item ID" value=""/>
@@ -206,6 +206,70 @@
     <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
    </properties>
   </object>
+  <object id="142" name="HighFloor" x="3327" y="162" width="98" height="30">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="143" name="Floor" x="3168.33" y="288" width="539.667" height="30">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="147" name="BigSitdownBrick" x="3584.67" y="257" width="32" height="30.3333"/>
+  <object id="148" name="BigStandBrick" x="3584.67" y="223" width="32" height="32.3334"/>
+  <object id="149" name="Wall" x="3586" y="1.33333" width="28" height="220">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="150" name="Wall" x="3617.67" y="207" width="30" height="80">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="151" name="Stair" x="3422" y="145" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="144"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="-1"/>
+   </properties>
+  </object>
+  <object id="152" name="Stair" x="3536.33" y="272" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="144"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="1"/>
+   </properties>
+  </object>
+  <object id="154" name="UnderEndWall" x="3057" y="129" width="31.6667" height="159">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="155" name="UnderEndWall" x="3057" y="129" width="31.6667" height="159">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="156" name="UnderEndWall" x="3057" y="129" width="31.6667" height="159">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="157" name="UnderEndWall" x="3057" y="129" width="31.6667" height="159">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup color="#ff0000" id="3" name="StaticObject">
   <object id="84" name="Candle" x="567" y="230" width="16" height="32">
@@ -288,7 +352,7 @@
   </object>
   <object id="97" name="Candle" x="1845" y="231" width="16" height="32">
    <properties>
-    <property name="Hidden Item ID" value="ID_ENTITY_CROSS"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>
@@ -360,7 +424,7 @@
   </object>
  </objectgroup>
  <objectgroup color="#0055ff" id="2" name="Simon">
-  <object id="122" name="Start_Map" x="738.67" y="218.333" width="60" height="66">
+  <object id="122" name="Start_Map" x="2824.67" y="26.9997" width="60" height="66">
    <properties>
     <property name="Object ID" value="ID_ENTITY_SIMON"/>
    </properties>

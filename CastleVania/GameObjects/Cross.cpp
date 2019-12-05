@@ -8,7 +8,7 @@ Cross::Cross(D3DXVECTOR2 position)
 	id = ID_ENTITY_CROSS;
 	SetPosition(position);
 	AddAnimation(CROSS_ANI);
-	currentAnimation = WEAPONREWARD_ANI;
+	currentAnimation = CROSS_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
 	liveTime = GetTickCount();
@@ -54,7 +54,7 @@ void Cross::GetBoundingBox(float & left, float & top, float & right, float & bot
 void Cross::Render(Viewport * viewport)
 {
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	Flip flip = flip_horiz;
+	Flip flip = normal;
 	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 }
 

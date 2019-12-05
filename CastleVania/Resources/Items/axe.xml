@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<loadresource>
+  <imagelayer id="ID_ENTITY_AXE" name="axe" width="30" height="28">
+    <image source="Resources\Items\axe.png" width="30" height="28" />
+  </imagelayer>
+
+  <sprites>
+    <spriteframe id="axe1" left = "0" top="0" right="30" bottom="28"/>
+  </sprites>
+
+</loadresource>

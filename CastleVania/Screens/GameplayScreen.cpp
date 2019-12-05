@@ -16,6 +16,8 @@
 #include "../GameObjects/Entrance.h"
 #include "../ObjectStair.h"
 #include "../Panther.h"
+#include "../VampireBat.h"
+#include "../Door.h"
 
 void GameplayScreen::init()
 {
@@ -26,50 +28,16 @@ void GameplayScreen::init()
 void GameplayScreen::update(DWORD dt)
 {
 	menu_point->update();
+
 	resourceManagement->getTiledMap(mapId)->Update(dt, &objects);
+
 	updateViewport(dt);
+
+	updateMap();
 
 	for (int i = 0; i < (int)objects.size(); i++)
 	{
 		objects[i]->Update(dt, &objects);
-
-		if (objects[i]->getID() == ID_ENTITY_SIMON)
-		{
-			playerSpawn = dynamic_cast<Simon*>((objects[i]));
-			if (mapId == ID_ENTITY_MAP_ENTRANCE)
-			{
-				if (objects[i]->getLevel() == 1)
-				{
-					resourceManagement->getTiledMap(mapId)->clearObjectInfo();
-					mapId = ID_ENTITY_MAP_PLAYGAME;
-					moveMap = true;
-				}
-			}
-			else {
-
-				checkSimonInSpawn = playerSpawn->checkisInSpawn();
-				idEnemy = playerSpawn->getIdEnemySpawn();
-				if (mapId = ID_ENTITY_MAP_PLAYGAME)
-				{
-					if (time == 0)
-					{
-						if (checkSimonInSpawn)
-						{
-							time = GetTickCount();
-							if (idEnemy == ID_ENTITY_ZOMBIE)
-							{
-								createZombie(viewport);
-							}
-						}
-					}
-					if (GetTickCount() - time >= TIME_ZOMBIE)
-					{
-						time = 0;
-						playerSpawn->setIsInSpawn(false);
-					}
-				}
-			}
-		}
 		if (objects[i]->GetState() == objects[i]->STATE_DETROY)
 		{
 			objects.erase(objects.begin() + i);
@@ -85,21 +53,75 @@ void GameplayScreen::update(DWORD dt)
 
 void GameplayScreen::updateViewport(DWORD dt)
 {
-	D3DXVECTOR2 pos_Simon = simon->getPosition();
+	if (viewport->getState() == viewport->STATE_ACTION)
+	{
+		D3DXVECTOR2 pos_Simon = Simon::getInstance()->getPosition();
 
-	int widthframeSimon = simon->getWidth();
+		int widthframeSimon = Simon::getInstance()->getWidth();
+		
 
-	D3DXVECTOR2 newPosViewport = D3DXVECTOR2{};
+		if (Simon::getInstance()->isMovedMap())
+		{
+			extraWidth = viewport->getX();
+			Simon::getInstance()->SetStateMoveMap(false);
+		}
+		
+		D3DXVECTOR2 newPosViewport = D3DXVECTOR2{};
 
-	newPosViewport.x = simon->getPosition().x - viewport->getWidth() / 2 + widthframeSimon / 2;
-	newPosViewport.y = viewport->getY();
+		newPosViewport.x = Simon::getInstance()->getPosition().x - viewport->getWidth() / 2 + widthframeSimon / 2;
+		newPosViewport.x = min(resourceManagement->getTiledMap(mapId)->getWidthWorld()  - viewport->getWidth(), newPosViewport.x);
+		newPosViewport.y = min(resourceManagement->getTiledMap(mapId)->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
+		
+		newPosViewport.x = max(extraWidth, newPosViewport.x);
+		newPosViewport.y = max(0, newPosViewport.y);
 
-	newPosViewport.x = min(resourceManagement->getTiledMap(mapId)->getWidthWorld() - viewport->getWidth(), newPosViewport.x);
-	newPosViewport.y = min(resourceManagement->getTiledMap(mapId)->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
-	newPosViewport.x = max(0, newPosViewport.x);
-	newPosViewport.y = max(0, newPosViewport.y);
+		viewport->SetPosition(float(newPosViewport.x), float(newPosViewport.y));
+	}
+	else return;
+}
 
-	viewport->SetPosition(float(newPosViewport.x), float(newPosViewport.y));
+void GameplayScreen::updateMap()
+{
+	switch (mapId)
+	{
+	case ID_ENTITY_MAP_ENTRANCE:
+		if (Simon::getInstance()->getLevel() == 1)
+		{
+			resourceManagement->getTiledMap(mapId)->clearObjectInfo();
+			mapId = ID_ENTITY_MAP_PLAYGAME;
+			moveMap = true;
+		}
+		break;
+	case ID_ENTITY_MAP_PLAYGAME:
+		updateEnemy();
+		break;
+	}
+}
+
+void GameplayScreen::updateEnemy()
+{
+	checkSimonInSpawn = Simon::getInstance()->checkisInSpawn();
+	idEnemy = Simon::getInstance()->getIdEnemySpawn();
+	if (checkSimonInSpawn)
+{
+		if (idEnemy == ID_ENTITY_ZOMBIE)
+		{
+		if (time == 0)
+		{
+			time = GetTickCount();
+			if (idEnemy == ID_ENTITY_ZOMBIE)
+			{
+				createZombie(viewport);
+			}
+		}
+		}
+	}
+
+	if ((GetTickCount() - time >= TIME_ZOMBIE) && idEnemy == ID_ENTITY_ZOMBIE)
+	{
+		time = 0;
+		Simon::getInstance()->setIsInSpawn(false);
+	}
 }
 
 void GameplayScreen::renderObject()
@@ -127,7 +149,7 @@ void GameplayScreen::createZombie(Viewport* viewport)
 		{
 			Zombie* zombie = new Zombie();
 			zombie->SetState(ZOMBIE_STATE_WALKING_LEFT);
-			zombie->SetPosition(D3DXVECTOR2(viewport->getX() + viewport->getWidth() - i * 60,313));
+			zombie->SetPosition(D3DXVECTOR2(viewport->getX() + viewport->getWidth() - i * 60, 313));
 			objects.push_back(zombie);
 		}
 	}
@@ -158,8 +180,19 @@ void GameplayScreen::loadResources()
 		case ID_ENTITY_FLOOR:
 			objectInit = new Floor();
 			break;
+		case ID_ENTITY_DOOR:
+			objectInit = new Door(object->get_postition());
+			break;
+		case ID_ENTITY_BRICK:
+			objectInit = new CBrick(object->get_name());
+			break;
 		case ID_ENTITY_BURNBARREL:
 			objectInit = new BurnBarrel();
+			break;
+		case ID_ENTITY_VAMPIRE_BAT:
+			objectEnemy = new VampireBat();
+			getInfoFromObjectInfo(object, objectEnemy);
+			objects.push_back(objectEnemy);
 			break;
 		case ID_ENTITY_ENTRANCE:
 			objectInit = new Entrance();
@@ -172,16 +205,15 @@ void GameplayScreen::loadResources()
 			objectInit = new Candle();
 			break;
 		case ID_ENTITY_SIMON:
-			simon = new Simon();
-			simon->loadResource();
-			getInfoFromObjectInfo(object, simon);
-			objects.push_back(simon);
+			Simon::getInstance()->loadResource();
+			getInfoFromObjectInfo(object, Simon::getInstance());
+			objects.push_back(Simon::getInstance());
 			break;
 		case ID_ENTITY_CASTLEVANIA_WALL:
 			objectInit = new CastleWall();
 			break;
 		case ID_ENTITY_STAIR:
-			objectInit = new ObjectStair(object->get_postition(), D3DXVECTOR4(object->get_width(), 
+			objectInit = new ObjectStair(object->get_postition(), D3DXVECTOR4(object->get_width(),
 				object->get_height(), object->get_nx(), object->get_ny()), object->get_stairHeight());
 			break;
 		case ID_ENTITY_PANTHER:
@@ -189,7 +221,7 @@ void GameplayScreen::loadResources()
 			getInfoFromObjectInfo(object, objectEnemy);
 			objects.push_back(objectEnemy);
 			break;
-		}	
+		}
 		if (objectInit)
 		{
 			if (idObject != ID_ENTITY_STAIR)
@@ -213,6 +245,6 @@ GameplayScreen::GameplayScreen()
 
 GameplayScreen::~GameplayScreen()
 {
-	delete simon;
+	delete Simon::getInstance();
 	delete menu_point;
 }

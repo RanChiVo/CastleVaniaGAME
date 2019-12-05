@@ -12,6 +12,36 @@
 class Simon: public GameObject
 {
 private: 
+	
+	int ani;
+	int untouchable;
+	DWORD untouchable_start;
+	DWORD comeEntranceStart = 0;
+	bool isInSpawn = false;
+	EntityID idEnemySpawn;
+	bool enableSubWeapon = false;
+	bool isjumping = false;
+	bool attacking = false;
+	bool checkRewind = false;
+	bool isOnStair = false;
+	int directionStair;
+	float positition_stair;
+	bool hasMovedMap = false;
+	ObjectStair* originalStair = nullptr;
+	ObjectStair* reverseStair = nullptr;
+	Flip flip;
+
+	std::string stair_direction;
+	Whip* whip;
+	int levelWhip;
+	int WHIP_STATE;
+	int startThrowWeapon = 0;
+	BaseInfo* baseInfo;
+	std::vector<LPGAMEOBJECT> objectCollision;
+	static Simon* _instance;
+	Simon();
+
+public:
 	enum State
 	{
 		SIMON_STATE_IDLE,
@@ -39,39 +69,15 @@ private:
 		SIMON_STATE_HURT,
 	};
 
-	int ani;
-	int untouchable;
-	DWORD untouchable_start;
-	DWORD comeEntranceStart = 0;
-	bool isInSpawn = false;
-	EntityID idEnemySpawn;
-	bool enableSubWeapon = false;
-	bool isjumping = false;
-	bool attacking = false;
-	bool checkRewind = false;
-	bool isOnStair = false;
-	int directionStair;
-	float positition_stair;
-	ObjectStair* originalStair = nullptr;
-	ObjectStair* reverseStair = nullptr;
-	Flip flip;
-
-	std::string stair_direction;
-	Whip* whip;
-	int levelWhip;
-	int WHIP_STATE;
-	int startThrowWeapon = 0;
-	BaseInfo* baseInfo;
-	std::vector<LPCOMBATWEAPON> subWeapon;
-	std::vector<LPGAMEOBJECT> objectCollision;
-
-public:
-	Simon();
+	static Simon* getInstance();
 	virtual void loadResource();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render(Viewport* viewport);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
+
+	bool isMovedMap();
+	void SetStateMoveMap(bool hasMovedMap);
 	bool isOnGround();
 	int GetLevel() { return level; }
 	void SetState(int state);
@@ -96,7 +102,7 @@ public:
 	void OnKeyStateChange(BYTE *states);
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
-
+	void moveRight(DWORD dt);
 	~Simon();
 };
 

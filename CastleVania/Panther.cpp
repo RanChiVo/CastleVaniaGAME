@@ -125,6 +125,9 @@ void Panther::Render(Viewport * viewport)
 	else flip = flip_horiz;
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	
+	if (!checkInsideViewPort(viewport) && state == PANTHER_STATE_ACTIVATE)
+		state = STATE_DETROY;
 }
 
 void Panther::GetBoundingBox(float & left, float & top, float & right, float & bottom)

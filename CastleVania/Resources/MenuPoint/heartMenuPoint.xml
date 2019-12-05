@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_ENTITY_HEART_MENU_POINT" name="heartMenuPoint" width="18" height="18">
+    <image source="Resources\MenuPoint\heartMenuPoint.png" width="18" height="18" />
+  </imagelayer>
+  <sprites>
+    <spriteframe id="heartMenuPoint" left = "0" top="0" right="18" bottom="18"/>
+  </sprites>
+</loadresource>

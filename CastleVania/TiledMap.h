@@ -39,9 +39,9 @@ private:
 	std::vector<ObjectInfo::builder*> objectInfo;
 	
 	//Create effect when collision Cross
-	static DWORD createEffect;
+	static DWORD createEffectStart;
 public:
-	static void CreateEffect() { createEffect = GetTickCount(); }
+	static void CreateEffectStart() { createEffectStart = GetTickCount(); }
 	TiledMap(std::string resourcepath, LPDIRECT3DTEXTURE9 IDtex);
 	void readMapfromfile();
 	void checkGoodFile();

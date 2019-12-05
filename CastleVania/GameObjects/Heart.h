@@ -3,8 +3,6 @@
 
 class Heart: public GameObject
 {
-	int untouchable;
-	DWORD untouchable_start;
 public:
 	Heart(D3DXVECTOR2 position);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

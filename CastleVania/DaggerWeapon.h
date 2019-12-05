@@ -4,11 +4,8 @@
 
 class DaggerWeapon : public CombatWeapon
 {
-	int type;
-	int ani;
 	int untouchable;
 	DWORD untouchable_start;
-	RECT bounding = RECT{ 0, 0, 0, 0 };
 	int width;
 	int height;
 

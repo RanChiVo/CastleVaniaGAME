@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_ENTITY_FIRE_BOMB_WEAPON"  name="fire_bombWeapon" width="34" height="30">
+    <image source="Resources\Items\fireBombWeapon.png" width="240" height="30"/>
+  </imagelayer>
+  <sprites>
+    <spriteframe id="fire_bomb1" left = "0" top="0" right="34" bottom="30"/>
+    <spriteframe id="fire_bomb2" left="34" top="0" right="68" bottom="30" />
+    <spriteframe id="fire_bomb3" left="68" top="0" right="102" bottom="30" />
+    <spriteframe id="fire_bomb4" left="102" top="0" right="136" bottom="30" />
+    <spriteframe id="fire_bomb5" left="136" top="0" right="170" bottom="30" />
+    <spriteframe id="fire_bomb6" left="170" top="0" right="204" bottom="30" />
+  </sprites>
+</loadresource>

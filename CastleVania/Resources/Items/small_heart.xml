@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <loadresource>
-  <imagelayer id="ID_ENTITY_SMALL_HEART" name="Simon" width="16" height="16">
-    <image source="Resources\Items\small_heart.png" width="16" height="16"/>
+  <imagelayer id="ID_ENTITY_SMALL_HEART" name="Simon" width="16" height="29">
+    <image source="Resources\Items\small_heart.png" width="16" height="29"/>
   </imagelayer>
 
   <sprites>
-    <spriteframe id="small_heart1" left = "0" top="0" right="16" bottom="16"/>
+    <spriteframe id="small_heart1" left = "0" top="0" right="16" bottom="29"/>
   </sprites>
 
 </loadresource>

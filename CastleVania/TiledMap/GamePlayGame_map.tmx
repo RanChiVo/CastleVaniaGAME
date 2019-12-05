@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="85" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="293">
+ <tileset firstgid="1" name="GamePlayGame_bank.png" tilewidth="64" tileheight="64" tilecount="99" columns="9">
+  <image source="GamePlayGame_bank.png" width="576" height="704"/>
+ </tileset>
+ <layer id="1" name="ShoeBox Tile Grab" width="85" height="10">
+  <data encoding="csv">
+1,2,3,4,5,2,3,4,5,2,6,4,5,2,3,4,1,2,3,7,5,5,5,5,2,8,7,2,5,5,5,1,2,7,2,7,2,7,2,5,7,5,5,5,5,7,2,9,10,11,12,13,12,14,14,14,13,11,2,12,12,14,14,9,5,1,2,5,5,2,7,5,2,3,1,5,15,16,2,17,15,16,2,17,15,
+5,2,8,7,5,2,3,7,5,2,3,7,5,2,3,7,5,2,3,7,5,5,18,19,20,21,22,22,23,24,5,5,2,7,2,7,2,7,2,4,7,5,18,19,22,21,20,25,26,27,27,20,12,12,28,28,2,28,2,12,11,27,27,25,21,22,22,23,24,2,7,5,2,8,5,5,2,5,2,5,2,5,2,4,2,
+5,2,5,7,5,2,8,7,4,2,3,7,5,2,8,7,5,2,3,7,18,19,29,30,2,5,1,2,31,32,21,33,2,7,2,7,2,7,2,1,7,18,34,30,5,5,15,35,36,28,28,2,27,37,38,28,39,39,40,27,37,38,11,41,6,5,15,31,32,22,21,22,22,23,24,5,2,5,2,5,2,5,2,1,2,
+5,2,5,7,4,2,5,7,1,2,8,7,5,2,5,7,1,2,8,18,34,30,4,5,2,5,5,2,5,2,4,4,2,7,2,7,2,7,2,4,18,34,30,4,5,5,2,35,36,12,12,13,28,2,42,38,43,39,13,28,2,42,38,41,8,5,2,5,4,2,1,2,1,31,44,24,2,5,2,5,2,5,2,5,2,
+21,20,21,21,21,20,21,21,21,20,21,21,21,20,21,21,21,20,21,29,21,21,21,21,20,21,21,20,21,20,21,21,20,21,20,21,20,21,20,21,29,21,21,21,21,21,20,45,46,47,48,49,50,51,52,53,54,55,56,47,57,58,59,60,21,21,20,21,21,20,21,20,21,21,21,32,20,21,20,21,20,21,20,21,20,
+61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,62,63,64,65,66,66,65,66,62,66,67,63,64,68,67,69,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,
+70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,71,72,63,73,66,66,74,66,67,66,67,72,63,64,67,69,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,
+70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,73,75,75,76,77,78,73,66,79,66,79,75,75,80,81,69,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,
+70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,65,82,82,65,83,84,62,85,62,85,62,84,86,82,62,87,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,
+70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,88,89,89,88,89,90,91,92,91,92,91,90,92,89,79,93,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70
+</data>
+ </layer>
+ <objectgroup color="#00ff00" id="2" name="Static_Castle">
+  <object id="1" name="StartWall" x="2.27423" y="11.3333" width="15" height="279">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="2" name="Floor" x="1.27423" y="288.333" width="3165" height="30">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="3" name="HighFloor" x="1853.27" y="161.833" width="159" height="31.5">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="4" name="HighFloor" x="1503.27" y="97.3333" width="318" height="32">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="5" name="HighFloor" x="1376.27" y="160.833" width="98" height="29">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="6" name="HighFloor" x="2785.27" y="97.8333" width="537" height="29">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="7" name="UnderEndWall" x="3056.27" y="129.333" width="31.6667" height="159">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="8" name="Door" x="3053.94" y="1.33333" width="16" height="96">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_DOOR"/>
+   </properties>
+  </object>
+  <object id="9" name="BrickSmall" x="2014.02" y="161.333" width="32" height="32"/>
+  <object id="10" name="Stair" x="1246.6" y="272.5" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="144"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="1"/>
+   </properties>
+  </object>
+  <object id="11" name="Stair" x="1363.27" y="143.833" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="144"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="-1"/>
+   </properties>
+  </object>
+  <object id="12" name="Stair" x="1480.94" y="77.8333" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="80"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="-1"/>
+   </properties>
+  </object>
+  <object id="13" name="Stair" x="1437.27" y="144.166" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="110"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="1"/>
+   </properties>
+  </object>
+  <object id="14" name="Stair" x="1828.27" y="77.8333" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="80"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="-1"/>
+   </properties>
+  </object>
+  <object id="15" name="Stair" x="1869.94" y="142.5" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="64"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="1"/>
+   </properties>
+  </object>
+  <object id="16" name="Stair" x="2591.94" y="272.5" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="238"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="1"/>
+   </properties>
+  </object>
+  <object id="17" name="Stair" x="2770.27" y="79.8333" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value="208"/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="192"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="-1"/>
+   </properties>
+  </object>
+  <object id="18" name="Spawn Panther" x="1093.27" y="4.33333" width="1140.67" height="282.667"/>
+  <object id="19" name="Spawn Zombie" x="65.9409" y="223" width="831" height="61.3333">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="20" name="Panther2" x="1722.94" y="65" width="60" height="32">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_PANTHER"/>
+   </properties>
+  </object>
+  <object id="21" name="Panther1" x="1384.6" y="126.666" width="60" height="32">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_PANTHER"/>
+   </properties>
+  </object>
+  <object id="22" name="Panther3" x="1872.6" y="129" width="60" height="32">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_PANTHER"/>
+   </properties>
+  </object>
+  <object id="23" name="WallActivatePanther" x="1551.27" y="1" width="12" height="284.667">
+   <properties>
+    <property name="Enemy Name" value="Panther1"/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+    <property name="nx" value="-1"/>
+   </properties>
+  </object>
+  <object id="24" name="WallActivatePanther" x="1690.6" y="1.33317" width="12" height="284.667">
+   <properties>
+    <property name="Enemy Name" value="Panther2"/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+    <property name="nx" value="1"/>
+   </properties>
+  </object>
+  <object id="25" name="WallActivatePanther" x="1851.94" y="1.33317" width="11.9999" height="284.667">
+   <properties>
+    <property name="Enemy Name" value="Panther3"/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+    <property name="nx" value="1"/>
+   </properties>
+  </object>
+  <object id="26" name="WallActivatePanther" x="1262.6" y="1.33317" width="12" height="286.667">
+   <properties>
+    <property name="Enemy Name" value="Panther1"/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+    <property name="nx" value="1"/>
+   </properties>
+  </object>
+  <object id="27" name="WallActivatePanther" x="1827.94" y="1.99983" width="11.9999" height="284.667">
+   <properties>
+    <property name="Enemy Name" value="Panther2"/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+    <property name="nx" value="-1"/>
+   </properties>
+  </object>
+  <object id="28" name="WallActivatePanther" x="2047.94" y="1.33317" width="11.9999" height="284.667">
+   <properties>
+    <property name="Enemy Name" value="Panther3"/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+    <property name="nx" value="-1"/>
+   </properties>
+  </object>
+  <object id="29" name="Spawn Zombie" x="2272.27" y="2.33333" width="730" height="286">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="30" name="HighFloor" x="3326.27" y="162.333" width="98" height="30">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="31" name="Floor" x="3167.6" y="288.333" width="539.667" height="30">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="32" name="BigSitdownBrick" x="3583.94" y="257.333" width="32" height="30.3333"/>
+  <object id="33" name="BigStandBrick" x="3583.94" y="223.333" width="32" height="32.3334"/>
+  <object id="34" name="Wall" x="3585.27" y="1.66666" width="28" height="220">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="35" name="Wall" x="3616.94" y="207.333" width="30" height="80">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="36" name="Stair" x="3421.27" y="145.333" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="144"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="-1"/>
+   </properties>
+  </object>
+  <object id="37" name="Stair" x="3535.6" y="272.333" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="144"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="1"/>
+   </properties>
+  </object>
+  <object id="38" name="UnderEndWall" x="3056.27" y="129.333" width="31.6667" height="159">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="39" name="UnderEndWall" x="3056.27" y="129.333" width="31.6667" height="159">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="40" name="UnderEndWall" x="3056.27" y="129.333" width="31.6667" height="159">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="41" name="UnderEndWall" x="3056.27" y="129.333" width="31.6667" height="159">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ff0000" id="3" name="StaticObject" visible="0">
+  <object id="267" name="Candle" x="565.295" y="230.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="268" name="Candle" x="173.295" y="161.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="269" name="Candle" x="436.295" y="165.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="270" name="Candle" x="690.295" y="164.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="271" name="Candle" x="819.295" y="232.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_STOP_WATCH"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="272" name="Candle" x="949.295" y="163.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="273" name="Candle" x="1073.3" y="228.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="274" name="Candle" x="1202.3" y="162.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="275" name="Candle" x="1329.3" y="39.3939" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="276" name="Candle" x="1452.3" y="228.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_RED_100_MIRACULOUS_BAG"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="277" name="Candle" x="1716.3" y="232.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_BONUS_1000_MIRACULOUS_BAG"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="278" name="Candle" x="1727.3" y="33.3939" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="279" name="Candle" x="1968.3" y="35.3939" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="280" name="Candle" x="1843.3" y="231.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="281" name="Candle" x="2099.3" y="233.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="282" name="Candle" x="2230.3" y="232.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_MIRACULOUS_BAG"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="283" name="Candle" x="2355.3" y="231.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="284" name="Candle" x="2484.3" y="230.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="285" name="Candle" x="2741.3" y="162.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="286" name="Candle" x="2868.3" y="39.3939" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_CROSS"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="287" name="Candle" x="1529.3" y="231.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_BONUS_1000_MIRACULOUS_BAG"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="288" name="Candle" x="64.2955" y="228.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_BLUE_400_MIRACULOUS_BAG"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="289" name="Candle" x="311.295" y="230.394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_WHITE_700_MIRACULOUS_BAG"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="290" name="Candle" x="1595.3" y="3.39394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_FIRE_BOMB"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="291" name="Candle" x="3004.8" y="1.39394" width="16" height="32">
+   <properties>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#0000ff" id="4" name="Simon">
+  <object id="292" name="Start_Map" x="2907" y="29" width="60" height="66">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_SIMON"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

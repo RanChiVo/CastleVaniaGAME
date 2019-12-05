@@ -93,7 +93,7 @@ public:
 	bool IsCollision();
 	bool setIscollision(bool isCollision);
 	void RenderBoundingBox(Viewport* viewport);
-	bool checkInsideViewPort(Viewport* viewport, D3DXVECTOR2 position);
+	bool checkInsideViewPort(Viewport* viewport);
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);

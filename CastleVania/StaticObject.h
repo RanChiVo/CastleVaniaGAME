@@ -4,6 +4,7 @@
 #pragma once
 class StaticObject: public GameObject
 {
+protected:
 	EntityID idHiddenItem;
 public:
 	StaticObject();

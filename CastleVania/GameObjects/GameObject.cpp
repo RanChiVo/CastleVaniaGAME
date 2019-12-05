@@ -115,13 +115,16 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 	sprite->Draw(pos, 100);
 }
 
-bool GameObject::checkInsideViewPort(Viewport * viewport, D3DXVECTOR2 position)
+bool GameObject::checkInsideViewPort(Viewport * viewport)
 {
-	if ((position.x + 20) < viewport->getX() || position.x > (viewport->getX() + viewport->getWidth()))
-	{
-		return false;
-	}
-	return true;
+	float l, t, r, b;
+	GetBoundingBox(l, t, r, b);
+
+	RECT viewportBB{ viewport->getX(), viewport->getY(),
+		viewport->getX() + viewport->getWidth(), viewport->getY() + viewport->getHeight()};
+	
+	if ((checkCollision(viewportBB, RECT{ long(l), long(t), long(r), long(b) }))) return true;
+	return false;
 }
 
 bool GameObject::checkCollision(RECT A, RECT B)

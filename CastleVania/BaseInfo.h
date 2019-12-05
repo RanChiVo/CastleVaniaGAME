@@ -1,6 +1,8 @@
 #pragma once
 #include "EntityID.h"
 #include "CombatWeapon.h"
+#include "DaggerWeapon.h"
+#include "AxeWeapon.h"
 
 class BaseInfo
 {

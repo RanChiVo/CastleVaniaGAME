@@ -18,6 +18,7 @@
 #include "../GameObjects/Zombie.h"
 #include "../DebugOut//DebugOut.h"
 #include "../Panther.h"
+#include "../Door.h"
 
 constexpr float SIMON_MOVE_SPEED = 0.12f;
 constexpr int SIMON_JUMP_VEL = 350;
@@ -28,6 +29,15 @@ constexpr float SIMON_STAIR_SPEED = 0.074f;
 constexpr auto P0SITION_ENTRANCE = 1300;
 constexpr int SIMON_UNTOUCHABLE_TIME = 5000;
 constexpr int SIMON_ENTRANCE_TIME = 3000;
+
+Simon* Simon::_instance = nullptr;
+
+Simon * Simon::getInstance()
+{
+	if (_instance == nullptr)
+		_instance = new Simon();
+	return _instance;
+}
 
 Simon::Simon()
 {
@@ -241,6 +251,12 @@ void Simon::OnKeyUp(int KeyCode)
 	}
 }
 
+void Simon::moveRight(DWORD dt)
+{
+	state = SIMON_STATE_WALKING_RIGHT;
+	x += 0.15 * dt;
+}
+
 void Simon::SetupAtacking()
 {
 	if (attacking)
@@ -319,6 +335,7 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			enableSubWeapon = false;
 			startThrowWeapon = 0;
+			baseInfo->setIdSubWeapon(baseInfo->getIdSubWeapon());
 		}
 	}
 }
@@ -374,6 +391,16 @@ void Simon::Render(Viewport* viewport)
 		animation->Render(pos.x, pos.y, flip);
 	}
 	RenderWeapon(animation, viewport);
+}
+
+bool Simon::isMovedMap()
+{
+	return hasMovedMap; 
+}
+
+void Simon::SetStateMoveMap(bool hasMovedMap)
+{
+	this->hasMovedMap = hasMovedMap; 
 }
 
 bool Simon::isOnGround()
@@ -614,7 +641,7 @@ void Simon::Reset(int currentAnimation)
 			break;
 		default:
 			SetState(SIMON_STATE_IDLE);
-			attacking = false;
+			
 			break;
 		}
 		animations.find(currentAnimation)->second->SetFinish(false);
@@ -673,9 +700,20 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			switch (coEvents[i]->obj->getID())
 			{
-			case ID_ENTITY_WALL:
-				Dx = min_tx * dx + nx * 0.11f;
-				if (nx != 0) vx = 0;
+			case ID_ENTITY_BRICK:
+				if (coEvents[i]->obj->getName().compare("SmallBrick") == 0)
+				{
+					if (ny < 0)
+					{
+						vy = 0;
+						Dy = min_ty * dy + ny * 0.1f;
+					}
+				}
+				else
+				{
+					Dx = min_tx * dx + nx * 0.11f;
+					if (nx != 0) vx = 0;
+				}
 				break;
 			case ID_ENTITY_ENTRANCE:
 				comeEntranceStart = GetTickCount();
@@ -685,6 +723,11 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					this->isInSpawn = true;
 					idEnemySpawn = ID_ENTITY_ZOMBIE;
+				}
+				else if (coEvents[i]->obj->getName().compare("Spawn Bat") == 0)
+				{	
+					this->isInSpawn = true;
+					idEnemySpawn = ID_ENTITY_VAMPIRE_BAT;
 				}
 				else if (coEvents[i]->obj->getName().compare("WallActivatePanther") == 0)
 				{
@@ -718,6 +761,21 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					Dy = min_ty * dy + ny * 0.1f;
 				}
 				break;
+			case ID_ENTITY_DOOR:
+				for (int j = 0; j < (int)coObjects->size(); j++)
+				{
+					switch (coObjects->at(j)->getID())
+					{
+					case ID_ENTITY_ZOMBIE:
+					case ID_ENTITY_PANTHER:
+						coObjects->at(j)->SetState(STATE_DETROY);
+						break;
+					}
+				}
+				SetState(SIMON_STATE_IDLE);
+				Dx = min_tx * dx + nx * 0.11f;
+				Door::startAction();
+				break;
 			case ID_ENTITY_ZOMBIE:
 			case ID_ENTITY_PANTHER:
 				SetState(SIMON_STATE_HURT);
@@ -742,6 +800,11 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 		{
 			this->isInSpawn = true;
 			idEnemySpawn = ID_ENTITY_ZOMBIE;
+		}
+		else if (coObjects->at(i)->getName().compare("Spawn Bat") == 0)
+		{
+			this->isInSpawn = true;
+			idEnemySpawn = ID_ENTITY_VAMPIRE_BAT;
 		}
 		break;
 	case ID_ENTITY_WEAPON_REWARD:
@@ -785,10 +848,41 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 		}
 		break;
 	case ID_ENTITY_CROSS:
-		TiledMap::CreateEffect();
+		TiledMap::CreateEffectStart();
+		for (int j = 0; j < (int)coObjects->size(); j++)
+		{
+			switch (coObjects->at(j)->getID())
+			{
+			case ID_ENTITY_ZOMBIE:
+			case ID_ENTITY_PANTHER:
+				coObjects->at(j)->SetState(STATE_DETROY);
+				break;
+			}
+		}
+		if (coObjects)
+		{
+			coObjects->at(i)->SetState(STATE_DETROY);
+		}
+		else
+		{
+			coEvents->at(i)->obj->SetState(STATE_DETROY);
+		}
 		break;
 	case ID_ENTITY_DAGGER:
-		baseInfo->setIdSubWeapon(ID_ENTITY_DAGGER);
+		baseInfo->setIdSubWeapon(ID_ENTITY_DAGGER_WEAPON);
+		
+		if (coObjects)
+		{
+			coObjects->at(i)->SetState(STATE_DETROY);
+		}
+		else
+		{
+			coEvents->at(i)->obj->SetState(STATE_DETROY);
+		}
+		break;
+	case ID_ENTITY_AXE:
+		baseInfo->setIdSubWeapon(ID_ENTITY_AXE_WEAPON);
+
 		if (coObjects)
 		{
 			coObjects->at(i)->SetState(STATE_DETROY);
@@ -800,6 +894,17 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 		break;
 	case ID_ENTITY_SMALL_HEART:
 		baseInfo->setHeart(baseInfo->getHeart() + 1);
+		if (coObjects)
+		{
+			coObjects->at(i)->SetState(STATE_DETROY);
+		}
+		else
+		{
+			coEvents->at(i)->obj->SetState(STATE_DETROY);
+		}
+		break;
+	case ID_ENTITY_PORK_CHOP:
+		baseInfo->setHeart(baseInfo->getHeart() + 10);
 		if (coObjects)
 		{
 			coObjects->at(i)->SetState(STATE_DETROY);
@@ -822,6 +927,7 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 			originalStair = dynamic_cast<ObjectStair*>(coObjects->at(i));
 		}
 		break;
+	
 	case ID_ENTITY_PANTHER:
 		Panther* panther = dynamic_cast<Panther*>(coObjects->at(i));
 		panther->setActivate(true);

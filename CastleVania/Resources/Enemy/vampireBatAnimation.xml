@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <animations>
+    <animation name="VAMPIRE_BAT_IDLE_ANI1" default_time="100" rewind="true">
+      <animation_frame sprite_id="idle_01" />
+    </animation>
+    <animation name="VAMPIRE_BAT_FLY_ANI1" default_time="100" rewind="true">
+      <animation_frame sprite_id="fly_01" />
+      <animation_frame sprite_id="fly_02" />
+      <animation_frame sprite_id="fly_03" />
+    </animation>
+    <animation name="VAMPIRE_BAT_FLY_ANI2" default_time="100" rewind="true">
+      <animation_frame sprite_id="fly_02" />
+    </animation>
+    <animation name="VAMPIRE_BAT_FLY_ANI3" default_time="100" rewind="true">
+      <animation_frame sprite_id="fly_03" />
+    </animation>
+  </animations>
+</loadresource>

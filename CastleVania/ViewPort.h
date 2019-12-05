@@ -8,8 +8,14 @@ protected:
 	float y;
 	float width;
 	float height;
-
+	int state;
 public:
+	enum StateViewPort
+	{
+		STATE_ACTION,
+		STATE_LOCK,
+		STATE_MOVE_RIGHT
+	};
 
 	Viewport(int x, int y, int width, int height);
 
@@ -28,6 +34,12 @@ public:
 	float getX() { return x; }
 
 	float getY(){ return y; }
+
+	void moveRight(DWORD dt);
+
+	void setState(StateViewPort state) { this->state = state; }
+
+	int getState() { return state; }
 
 	~Viewport();
 };

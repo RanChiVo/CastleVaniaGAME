@@ -27,12 +27,14 @@ void findAndReplaceAll(std::string & data, std::string toSearch, std::string rep
 	}
 }
 
+DWORD TiledMap::createEffectStart;
+
 TiledMap::TiledMap(std::string resourcepath, LPDIRECT3DTEXTURE9 IDtex)
 {
 	this->resourcepath = resourcepath;
 	this->IDtex = IDtex;
 	this->readMapfromfile();
-	createEffect = 0;
+	createEffectStart = 0;
 }
 
 void TiledMap::checkGoodFile()
@@ -48,8 +50,8 @@ void TiledMap::checkGoodFile()
 
 void TiledMap::Update(DWORD dt, vector<LPGAMEOBJECT>* object)
 {
-	if (createEffect > 0 && GetTickCount() - createEffect > TILEMAP_CROSS_EFFECT_TIME)
-		createEffect = 0;
+	if (createEffectStart > 0 && GetTickCount() - createEffectStart > TILEMAP_CROSS_EFFECT_TIME)
+		createEffectStart = 0;
 }
 
 void TiledMap::readMapfromfile()
@@ -183,7 +185,7 @@ void TiledMap::draw(Viewport* viewport, int alpha)
 	beginRow = (beginRow < 0) ? 0 : ((beginRow > (tilesInMapHeight)) ? (tilesInMapHeight) : beginRow);
 	endRow = (endRow < 0) ? 0 : ((endRow > (tilesInMapHeight)) ? (tilesInMapHeight) : endRow);
 
-	if (createEffect > 0)
+	if (createEffectStart > 0)
 	{
 		alpha = GetTickCount() % 100 > 50 ? 80 : 255;
 		if (alpha == 80)

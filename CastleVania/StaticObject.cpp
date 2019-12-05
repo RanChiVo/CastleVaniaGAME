@@ -6,6 +6,7 @@
 #include "./GameObjects/Cross.h"
 #include "./GameObjects/FireBomb.h"
 #include "./GameObjects/MiraculousBag.h"
+#include "./Axe.h"
 
 constexpr int FIRE_LIVE_TIME = 300;
 
@@ -32,6 +33,9 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			case ID_ENTITY_HEART:
 				item = new Heart(this->getPosition());
 				break;
+			case ID_ENTITY_AXE:
+				item = new Axe(this->getPosition());
+				break;
 			case ID_ENTITY_DAGGER:
 				item = new Dagger(this->getPosition());
 				break;
@@ -55,8 +59,6 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			coObjects->push_back(item);
 		}
 	}
-
-
 }
 
 void StaticObject::Render(Viewport * viewport)

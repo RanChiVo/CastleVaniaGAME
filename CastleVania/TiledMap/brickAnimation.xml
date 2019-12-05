@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <animations>
+    <animation name ="BRICK_ANI1" default_time="100" rewind="true">
+      <animation_frame sprite_id ="brick01"/>
+     </animation >
+    <animation name="BRICK_ANI2" default_time="100" rewind="true">
+      <animation_frame sprite_id="brick02" />
+    </animation>
+    <animation name="BRICK_ANI3" default_time="100" rewind="true">
+      <animation_frame sprite_id="brick03" />
+    </animation>
+    <animation name="BRICK_ANI4" default_time="100" rewind="true">
+      <animation_frame sprite_id="brick04" />
+    </animation>
+  </animations>
+</loadresource>

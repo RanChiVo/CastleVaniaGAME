@@ -7,8 +7,6 @@ class SmallHeart :public GameObject
 	int originalLocation;
 	float specifications;
 	float delta;
-	DWORD untouchable_start;
-
 public:
 	SmallHeart(D3DXVECTOR2 position);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
