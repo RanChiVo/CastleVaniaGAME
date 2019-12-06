@@ -53,6 +53,8 @@ public:
 	void draw(Viewport* viewport, int alpha = 255);
 	float getHeightWorld();
 	float getWidthWorld();
+	void setHeightWorld(float heightWorld);
+	void setWidthWorld(float widthWorld);
 	~TiledMap();
 };
 

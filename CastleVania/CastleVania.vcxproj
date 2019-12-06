@@ -140,6 +140,9 @@
     <ClCompile Include="Axe.cpp" />
     <ClCompile Include="AxeWeapon.cpp" />
     <ClCompile Include="BaseInfo.cpp" />
+    <ClCompile Include="CrystalBall.cpp" />
+    <ClCompile Include="FishMan.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="VampireBat.cpp" />
     <ClCompile Include="BrickBrokenEffect.cpp" />
     <ClCompile Include="CombatWeapon.cpp" />
@@ -196,6 +199,7 @@
     <ClCompile Include="GameObjects\Whip.cpp" />
     <ClCompile Include="GameObjects\WeaponReward.cpp" />
     <ClCompile Include="WallEntrance.cpp" />
+    <ClCompile Include="WaterEffect.cpp" />
     <ClCompile Include="WindowUtil.cpp" />
     <ClCompile Include="GameObjects\Zombie.cpp" />
   </ItemGroup>
@@ -207,6 +211,9 @@
     <ClInclude Include="Axe.h" />
     <ClInclude Include="AxeWeapon.h" />
     <ClInclude Include="BaseInfo.h" />
+    <ClInclude Include="CrystalBall.h" />
+    <ClInclude Include="FishMan.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="VampireBat.h" />
     <ClInclude Include="BrickBrokenEffect.h" />
     <ClInclude Include="CombatWeapon.h" />
@@ -266,6 +273,7 @@
     <ClInclude Include="GameObjects\Whip.h" />
     <ClInclude Include="GameObjects\WeaponReward.h" />
     <ClInclude Include="WallEntrance.h" />
+    <ClInclude Include="WaterEffect.h" />
     <ClInclude Include="WindowUtil.h" />
     <ClInclude Include="GameObjects\Zombie.h" />
   </ItemGroup>

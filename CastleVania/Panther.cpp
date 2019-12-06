@@ -93,7 +93,6 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			state = PANTHER_STATE_ACTIVATE;
 			vx = -this->nx * PANTHER_RUN_SPEED;
 			isOnGround = false;
-			activate = false;
 			
 		}
 
@@ -107,7 +106,6 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				vy = -PANTHER_JUMP_SPEED;
 				state = PANTHER_STATE_JUMP;
 				isOnGround = false;
-				activate = false;
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="84" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="115">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="84" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="146">
  <tileset firstgid="1" name="GamePlayCastle_bank.png" tilewidth="64" tileheight="64" tilecount="180" columns="15">
   <image source="GamePlayCastle_bank.png" width="960" height="768"/>
  </tileset>
@@ -217,12 +217,12 @@
     <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
    </properties>
   </object>
-  <object id="71" name="HighFloor" x="3328" y="194.666" width="98" height="30">
+  <object id="71" name="HighFloor" x="3584" y="543.666" width="65" height="30">
    <properties>
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
   </object>
-  <object id="72" name="Floor" x="3169.33" y="320.667" width="539.667" height="30">
+  <object id="72" name="Floor" x="3967.66" y="671.667" width="61.3337" height="30">
    <properties>
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
@@ -290,7 +290,7 @@
     <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
    </properties>
   </object>
-  <object id="109" name="TunelBrick" x="3998" y="546" width="32" height="32">
+  <object id="109" name="TunelBrick" x="3993" y="543" width="32" height="32">
    <properties>
     <property name="Object ID" value="ID_ENTITY_BRICK"/>
    </properties>
@@ -303,6 +303,109 @@
   <object id="114" name="Spawn Bat" x="3094" y="3" width="491" height="317">
    <properties>
     <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="115" name="Stair" x="3246.67" y="466" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="144"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="1"/>
+   </properties>
+  </object>
+  <object id="123" name="Wall" x="4074.67" y="377.333" width="19.3333" height="230"/>
+  <object id="127" name="Stair" x="3168" y="305.333" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="144"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="-1"/>
+   </properties>
+  </object>
+  <object id="128" name="StartNewMap" x="3168.67" y="321.333" width="32" height="30"/>
+  <object id="129" name="HighFloor" x="3709" y="545" width="283" height="30">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="130" name="HighFloor" x="4024" y="609" width="70" height="30">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="131" name="HighFloor" x="3071" y="545" width="450" height="30">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="132" name="HighFloor" x="3306" y="194" width="98" height="30">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="133" name="HighFloor" x="3261.5" y="481" width="65" height="30">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="134" name="HightFoor" x="3070.5" y="672" width="895" height="62">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="135" name="Water" x="4031.5" y="673" width="65" height="62">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="136" name="Floor" x="3201.83" y="320" width="446.334" height="30">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="137" name="Wall" x="3071" y="578" width="28" height="93">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="138" name="Wall" x="3072" y="352" width="28" height="192">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="139" name="Stair" x="3950" y="526" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="144"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="1"/>
+   </properties>
+  </object>
+  <object id="140" name="Stair" x="3810" y="303" width="16" height="16">
+   <properties>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="144"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="1"/>
+   </properties>
+  </object>
+  <object id="143" name="Spawn Fish Man" x="3105.17" y="346.833" width="985.667" height="330.333">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
+   </properties>
+  </object>
+  <object id="144" name="FishMan" x="3198" y="602" width="96" height="64">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FISH_MAN"/>
+   </properties>
+  </object>
+  <object id="145" name="FishMan" x="3824.5" y="601" width="96" height="64">
+   <properties>
+    <property name="Object ID" value="ID_ENTITY_FISH_MAN"/>
    </properties>
   </object>
  </objectgroup>
@@ -459,7 +562,7 @@
   </object>
  </objectgroup>
  <objectgroup color="#0000ff" id="4" name="Simon">
-  <object id="108" name="Start_Map" x="2968" y="62" width="60" height="66">
+  <object id="108" name="Start_Map" x="3146.67" y="475.333" width="60" height="66">
    <properties>
     <property name="Object ID" value="ID_ENTITY_SIMON"/>
    </properties>

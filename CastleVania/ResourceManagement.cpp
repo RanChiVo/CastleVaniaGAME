@@ -74,6 +74,12 @@ void ResourceManagement::loadResource()
 	readSpriteFromFile("Resources\\Enemy\\panther.xml");
 	readAnimationFromFile("Resources\\Enemy\\pantherAnimation.xml");
 
+	readSpriteFromFile("Resources\\Items\\crystal_ball.xml");
+	readAnimationFromFile("Resources\\Items\\crystal_ballAnimation.xml");
+
+	readSpriteFromFile("Resources\\Enemy\\fishMan.xml");
+	readAnimationFromFile("Resources\\Enemy\\fishManAnimation.xml");
+
 	readSpriteFromFile("TiledMap\\Candle.xml");
 	readAnimationFromFile("TiledMap\\CandleAnimation.xml");
 
@@ -114,9 +120,9 @@ void ResourceManagement::loadResource()
 	TiledMap* tiled_map = new TiledMap("TiledMap\\Entrance_map.tmx", textMap_Entrance);
 	TiledMapList[EntityID::ID_ENTITY_MAP_ENTRANCE] = tiled_map;
 
-	textures->Add(ID_ENTITY_GAMEPLAYSCREEN, L"TiledMap\\GamePlayCastle_bank.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_ENTITY_GAMEPLAYSCREEN, L"TiledMap\\PlayGameGround_bank.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_ENTITY_GAMEPLAYSCREEN);
-	tiled_map = new TiledMap("TiledMap\\GamePlayCastle_map.tmx", textPlayScreen);
+	tiled_map = new TiledMap("TiledMap\\PlayGameGround_map.tmx", textPlayScreen);
 	TiledMapList[EntityID::ID_ENTITY_MAP_PLAYGAME] = tiled_map;
 }
 
@@ -257,8 +263,10 @@ ResourceManagement::ResourceManagement()
 	{"ID_ENTITY_PLACE", EntityID::ID_ENTITY_PLACE},
 	{"ID_ENTITY_PANTHER", EntityID::ID_ENTITY_PANTHER},
 	{"ID_ENTITY_VAMPIRE_BAT", EntityID::ID_ENTITY_VAMPIRE_BAT},
-
+	{"ID_ENTITY_FISH_MAN", EntityID::ID_ENTITY_FISH_MAN},
+	{"ID_ENTITY_CRYSTAL_BALL", EntityID::ID_ENTITY_CRYSTAL_BALL},
 	};
+
 	stringToAniID = {
 	{"SIMON_ANI_IDLE", ANI_ID::SIMON_ANI_IDLE },
 	{"SIMON_ANI_WALKING", ANI_ID::SIMON_ANI_WALKING},
@@ -317,6 +325,10 @@ ResourceManagement::ResourceManagement()
 	{"BRICK_ANI2", ANI_ID::BRICK_ANI2},
 	{"BRICK_ANI3", ANI_ID::BRICK_ANI3},
 	{"BRICK_ANI4", ANI_ID::BRICK_ANI4},
+	{"FISH_MAN_ANI_IDLE", ANI_ID::FISH_MAN_ANI_IDLE},
+	{"FISH_MAN_ANI_WALK", ANI_ID::FISH_MAN_ANI_WALK},
+	{"FISH_MAN_ANI_SHOOT", ANI_ID::FISH_MAN_ANI_SHOOT},
+	{"CRYSTAL_BALL_ANI", ANI_ID::CRYSTAL_BALL_ANI},
 	};
 }
 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<loadresource>
+  <imagelayer id="ID_ENTITY_FISH_MAN" name="FishMan" width="96" height="64">
+    <image source="Resources\Enemy\fishMan.png" width="34" height="66" />
+  </imagelayer>
+  <sprites>
+    <spriteframe id="walk_01" left="0" top="0" right="34" bottom="66" />
+    <spriteframe id="walk_02" left="34" top="0" right="68" bottom="66" />
+    <spriteframe id="shoot_01" left="68" top="0" right="102" bottom="66" />
+  </sprites>
+</loadresource>

@@ -215,6 +215,16 @@ float TiledMap::getWidthWorld()
 	return widthWorld;
 }
 
+void TiledMap::setHeightWorld(float heightWorld)
+{
+	this->heightWorld = heightWorld;
+}
+
+void TiledMap::setWidthWorld(float widthWorld)
+{
+	this->widthWorld = widthWorld;
+}
+
 TiledMap::~TiledMap()
 {
 	delete tileset;

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<loadresource>
+  <animations>
+    <animation name="FISH_MAN_ANI_IDLE" default_time="100" rewind="true">
+      <animation_frame sprite_id="walk_01" />
+    </animation>
+
+    <animation name="FISH_MAN_ANI_WALK" default_time="100" rewind="true">
+      <animation_frame sprite_id="walk_01" />
+      <animation_frame sprite_id="walk_02" />
+    </animation>
+
+    <animation name="FISH_MAN_ANI_SHOOT" default_time="100" rewind="true">
+      <animation_frame sprite_id="shoot_01" />
+    </animation>
+  </animations>
+</loadresource>

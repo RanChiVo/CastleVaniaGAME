@@ -17,6 +17,7 @@
 #include "../ObjectStair.h"
 #include "../Panther.h"
 #include "../VampireBat.h"
+#include "../FishMan.h"
 #include "../Door.h"
 
 void GameplayScreen::init()
@@ -58,24 +59,25 @@ void GameplayScreen::updateViewport(DWORD dt)
 		D3DXVECTOR2 pos_Simon = Simon::getInstance()->getPosition();
 
 		int widthframeSimon = Simon::getInstance()->getWidth();
-		
+		D3DXVECTOR2 newPosViewport = D3DXVECTOR2{};
+
 
 		if (Simon::getInstance()->isMovedMap())
 		{
 			extraWidth = viewport->getX();
+			//resourceManagement->getTiledMap(mapId)->setWidthWorld(extraWidth);
+
 			Simon::getInstance()->SetStateMoveMap(false);
 		}
-		
-		D3DXVECTOR2 newPosViewport = D3DXVECTOR2{};
 
 		newPosViewport.x = Simon::getInstance()->getPosition().x - viewport->getWidth() / 2 + widthframeSimon / 2;
 		newPosViewport.x = min(resourceManagement->getTiledMap(mapId)->getWidthWorld()  - viewport->getWidth(), newPosViewport.x);
-		newPosViewport.y = min(resourceManagement->getTiledMap(mapId)->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
+		//newPosViewport.y = min(resourceManagement->getTiledMap(mapId)->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
 		
-		newPosViewport.x = max(extraWidth, newPosViewport.x);
-		newPosViewport.y = max(0, newPosViewport.y);
-
-		viewport->SetPosition(float(newPosViewport.x), float(newPosViewport.y));
+		newPosViewport.x = max(0 + extraWidth, newPosViewport.x);
+		//newPosViewport.y = max(0, newPosViewport.y);
+		viewport->setX(float(newPosViewport.x));
+		//viewport->SetPosition(float(newPosViewport.x), float(newPosViewport.y));
 	}
 	else return;
 }
@@ -106,14 +108,14 @@ void GameplayScreen::updateEnemy()
 {
 		if (idEnemy == ID_ENTITY_ZOMBIE)
 		{
-		if (time == 0)
-		{
-			time = GetTickCount();
-			if (idEnemy == ID_ENTITY_ZOMBIE)
+			if (time == 0)
 			{
-				createZombie(viewport);
+				time = GetTickCount();
+				if (idEnemy == ID_ENTITY_ZOMBIE)
+				{
+					createZombie(viewport);
+				}
 			}
-		}
 		}
 	}
 
@@ -142,14 +144,14 @@ void GameplayScreen::createZombie(Viewport* viewport)
 		{
 			Zombie* zombie = new Zombie();
 			zombie->SetState(ZOMBIE_STATE_WALKING_RIGHT);
-			zombie->SetPosition(D3DXVECTOR2(viewport->getX() + i * 60, 313));
+			zombie->SetPosition(D3DXVECTOR2(viewport->getX() + i * 60, 344));
 			objects.push_back(zombie);
 		}
 		else
 		{
 			Zombie* zombie = new Zombie();
 			zombie->SetState(ZOMBIE_STATE_WALKING_LEFT);
-			zombie->SetPosition(D3DXVECTOR2(viewport->getX() + viewport->getWidth() - i * 60, 313));
+			zombie->SetPosition(D3DXVECTOR2(viewport->getX() + viewport->getWidth() - i * 60, 344));
 			objects.push_back(zombie);
 		}
 	}
@@ -203,6 +205,11 @@ void GameplayScreen::loadResources()
 			break;
 		case ID_ENTITY_CANDLE:
 			objectInit = new Candle();
+			break;
+		case ID_ENTITY_FISH_MAN:
+			objectEnemy = new FishMan(object->get_postition());
+			getInfoFromObjectInfo(object, objectEnemy);
+			objects.push_back(objectEnemy);
 			break;
 		case ID_ENTITY_SIMON:
 			Simon::getInstance()->loadResource();

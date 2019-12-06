@@ -19,6 +19,7 @@
 #include "../DebugOut//DebugOut.h"
 #include "../Panther.h"
 #include "../Door.h"
+#include "../Viewport.h"
 
 constexpr float SIMON_MOVE_SPEED = 0.12f;
 constexpr int SIMON_JUMP_VEL = 350;
@@ -186,6 +187,24 @@ void Simon::OnKeyDown(int KeyCode)//event
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
 	DirectInput* directInput = DirectInput::getInstance();
+	
+	switch (KeyCode)
+	{
+	case DIK_A:
+		SetPosition(D3DXVECTOR2(64.0f, 248.0f));
+		isInTunel = false;
+		break;
+	case DIK_B:
+		SetPosition(D3DXVECTOR2(2867.45f, 60.58f));
+		isInTunel = false;
+		break;
+	case DIK_C:
+		SetPosition(D3DXVECTOR2(3261.88f, 425.30f));
+		isInTunel = true;
+		Direct3DManager::getInstance()->getViewport()->SetPosition(Direct3DManager::getInstance()->getViewport()->getX(), 430);
+		break;
+	
+	}
 
 	switch (state)
 	{
@@ -226,6 +245,7 @@ void Simon::OnKeyDown(int KeyCode)//event
 			}
 		}
 		break;
+	
 	}
 }
 
@@ -609,7 +629,6 @@ void Simon::handleState()
 		else if (isOnGround() && isjumping)
 		{
 			SetState(SIMON_STATE_IDLE);
-			attacking = false;
 		}
 		checkRewind = false;
 		break;
@@ -641,7 +660,6 @@ void Simon::Reset(int currentAnimation)
 			break;
 		default:
 			SetState(SIMON_STATE_IDLE);
-			
 			break;
 		}
 		animations.find(currentAnimation)->second->SetFinish(false);
@@ -729,6 +747,11 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					this->isInSpawn = true;
 					idEnemySpawn = ID_ENTITY_VAMPIRE_BAT;
 				}
+				else if (coEvents[i]->obj->getName().compare("Spawn Fish Man") == 0)
+				{
+					this->isInSpawn = true;
+					idEnemySpawn = ID_ENTITY_FISH_MAN;
+				}
 				else if (coEvents[i]->obj->getName().compare("WallActivatePanther") == 0)
 				{
 
@@ -777,7 +800,10 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				Door::startAction();
 				break;
 			case ID_ENTITY_ZOMBIE:
+			case ID_ENTITY_FISH_MAN:
+			case ID_ENTITY_CRYSTAL_BALL:
 			case ID_ENTITY_PANTHER:
+			case ID_ENTITY_VAMPIRE_BAT:
 				SetState(SIMON_STATE_HURT);
 				break;
 			}
@@ -793,6 +819,9 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 	switch (id)
 	{
 	case ID_ENTITY_ZOMBIE:
+	case ID_ENTITY_FISH_MAN:
+	case ID_ENTITY_CRYSTAL_BALL:
+	case ID_ENTITY_VAMPIRE_BAT:
 		SetState(SIMON_STATE_HURT);
 		break;
 	case ID_ENTITY_WALL_ENTRANCE:
@@ -805,6 +834,11 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 		{
 			this->isInSpawn = true;
 			idEnemySpawn = ID_ENTITY_VAMPIRE_BAT;
+		}
+		else if (coObjects->at(i)->getName().compare("Spawn Fish Man") == 0)
+		{
+			this->isInSpawn = true;
+			idEnemySpawn = ID_ENTITY_FISH_MAN;
 		}
 		break;
 	case ID_ENTITY_WEAPON_REWARD:
@@ -927,7 +961,6 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 			originalStair = dynamic_cast<ObjectStair*>(coObjects->at(i));
 		}
 		break;
-	
 	case ID_ENTITY_PANTHER:
 		Panther* panther = dynamic_cast<Panther*>(coObjects->at(i));
 		panther->setActivate(true);
@@ -946,17 +979,20 @@ void Simon::handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coO
 	RECT rect2;
 	for (int i = 0; i < (int)coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->getID() == ID_ENTITY_PANTHER && coObjects->at(i)->GetState()!= 0)
+		if (coObjects->at(i)->getID() == ID_ENTITY_PANTHER && coObjects->at(i)->GetState() != 0)
 		{
 			Panther* panther = nullptr;
 			panther = dynamic_cast<Panther*>(coObjects->at(i));
-			if (nx > 0)
+			if (!panther->IsActivate())
 			{
-				rect1 = panther->getBBActivateRight();
-			}
-			else if (nx < 0)
-			{
-				rect1 =  panther->getBBActivateLeft();
+				if (nx > 0)
+				{
+					rect1 = panther->getBBActivateRight();
+				}
+				else if (nx < 0)
+				{
+					rect1 = panther->getBBActivateLeft();
+				}
 			}
 		}
 		else 

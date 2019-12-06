@@ -28,6 +28,7 @@ public:
 	virtual void Render(Viewport* viewport);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void setActivate(bool isActivate) { this->activate = isActivate; }
+	bool IsActivate() { return activate; }
 	RECT getBBActivateLeft() { return bbActivateLeft; }
 	void setBBActivateLeft(RECT bbActivateLeft);
 	RECT getBBActivateRight() { return bbActivateRight; }

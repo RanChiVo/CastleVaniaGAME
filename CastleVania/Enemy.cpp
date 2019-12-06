@@ -8,6 +8,7 @@
 #include "./GameObjects/SmallHeart.h"
 #include "./GameObjects/MiraculousBag.h"
 #include "VampireBat.h"
+#include "FishMan.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -27,6 +28,11 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (id == ID_ENTITY_VAMPIRE_BAT)
 				{
 					state = VampireBat::VAMPIRE_STATE_HIDDEN;
+				}
+				else if(id == ID_ENTITY_FISH_MAN)
+				{
+					state = FishMan::FISH_MAN_STATE_HIDDEN;
+
 				}
 				else state = STATE_DETROY;
 				liveTime = 0;

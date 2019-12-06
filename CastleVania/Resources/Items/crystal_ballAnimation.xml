@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <animations>
+    <animation name="CRYSTAL_BALL_ANI" default_time="100" rewind="true">
+      <animation_frame sprite_id="crystal_ball1" />
+      <animation_frame sprite_id="crystal_ball2" />
+    </animation>
+  </animations>
+</loadresource>

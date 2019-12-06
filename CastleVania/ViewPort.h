@@ -35,6 +35,10 @@ public:
 
 	float getY(){ return y; }
 
+	void setX(float x) { this->x = x; }
+
+	void setY(float x) { this->y = y; }
+
 	void moveRight(DWORD dt);
 
 	void setState(StateViewPort state) { this->state = state; }

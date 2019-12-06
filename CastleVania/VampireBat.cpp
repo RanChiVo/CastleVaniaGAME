@@ -5,7 +5,6 @@
 constexpr float VAMPIRE_BAT_SPEED = 0.13f;
 constexpr DWORD VAMPIRE_BAT_REVIVAL_TIME = 6000;
 
-
 VampireBat::VampireBat()
 {
 	id = ID_ENTITY_VAMPIRE_BAT;

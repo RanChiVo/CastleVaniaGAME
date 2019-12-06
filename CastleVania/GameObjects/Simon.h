@@ -27,6 +27,7 @@ private:
 	int directionStair;
 	float positition_stair;
 	bool hasMovedMap = false;
+	bool isInTunel = false;
 	ObjectStair* originalStair = nullptr;
 	ObjectStair* reverseStair = nullptr;
 	Flip flip;
@@ -78,6 +79,8 @@ public:
 
 	bool isMovedMap();
 	void SetStateMoveMap(bool hasMovedMap);
+	bool IsInTunel() { return isInTunel; }
+	void setInTunel(bool isInTunel) { this->isInTunel = isInTunel; }
 	bool isOnGround();
 	int GetLevel() { return level; }
 	void SetState(int state);
