@@ -11,6 +11,7 @@
     <spriteframe id="effect4" left = "80" top="0" right="120" bottom="44"/>
     <spriteframe id="effect5" left = "120" top="0" right="160" bottom="44"/>
     <spriteframe id="effect6" left="177" top="20" right="191" bottom="36" />
+    <spriteframe id="effect7" left="200" top="6" right="216" bottom="36" />
   </sprites>
 
 </loadresource>

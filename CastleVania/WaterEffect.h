@@ -1,8 +1,11 @@
 #pragma once
-class WaterEffect
+#include "Effect.h"
+
+class WaterEffect: public Effect
 {
+
 public:
-	WaterEffect();
+	WaterEffect(D3DXVECTOR2 position);
 	~WaterEffect();
 };
 

@@ -143,6 +143,7 @@
     <ClCompile Include="CrystalBall.cpp" />
     <ClCompile Include="FishMan.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="UndergroundScreen.cpp" />
     <ClCompile Include="VampireBat.cpp" />
     <ClCompile Include="BrickBrokenEffect.cpp" />
     <ClCompile Include="CombatWeapon.cpp" />
@@ -202,6 +203,7 @@
     <ClCompile Include="WaterEffect.cpp" />
     <ClCompile Include="WindowUtil.cpp" />
     <ClCompile Include="GameObjects\Zombie.cpp" />
+    <ClCompile Include="YardScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations\Animations.h" />
@@ -214,6 +216,7 @@
     <ClInclude Include="CrystalBall.h" />
     <ClInclude Include="FishMan.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="UndergroundScreen.h" />
     <ClInclude Include="VampireBat.h" />
     <ClInclude Include="BrickBrokenEffect.h" />
     <ClInclude Include="CombatWeapon.h" />
@@ -276,6 +279,7 @@
     <ClInclude Include="WaterEffect.h" />
     <ClInclude Include="WindowUtil.h" />
     <ClInclude Include="GameObjects\Zombie.h" />
+    <ClInclude Include="YardScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\Musics\Game_Start_Prologue.wav" />

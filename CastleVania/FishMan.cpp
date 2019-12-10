@@ -1,6 +1,7 @@
 #include "FishMan.h"
 #include "ResourceManagement.h"
 #include "./CrystalBall.h"
+#include "./WaterEffect.h"
 
 constexpr float FISH_MAN_GRAVITY = 0.001f;
 constexpr float FISH_MAN_SPEED_WALK = 0.12f;
@@ -17,6 +18,7 @@ FishMan::FishMan(D3DXVECTOR2 position)
 	AddAnimation(FISH_MAN_ANI_WALK);
 	AddAnimation(FISH_MAN_ANI_SHOOT);
 	currentAnimation = FISH_MAN_ANI_IDLE;
+	posRevival = position;
 	vx = 0;
 	timeRevival = 0;
 	simon = Simon::getInstance();
@@ -52,15 +54,19 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			timeRevival = GetTickCount();
 			SetState(FISH_MAN_STATE_IDLE);
 			vy = -FISH_MAN_SPEED_JUMP;
+			WaterEffect* effect = new WaterEffect(getPosition());
+			coObjects->push_back(effect);
+
 		}
 	}
 
-	if (state == FISH_MAN_STATE_IDLE)
+	if (state != FISH_MAN_STATE_HIDDEN)
 	{
 		if (GetTickCount() - timeRevival > FISH_MAN_REVIVAL_TIME)
 		{
 			SetState(FISH_MAN_STATE_HIDDEN);
 			timeRevival = 0;
+			SetPosition(posRevival);
 			Simon::getInstance()->setIsInSpawn(false);
 		}
 	}
@@ -159,7 +165,7 @@ void FishMan::handleState()
 		currentAnimation = FISH_MAN_ANI_SHOOT;
 		break;
 	case FISH_MAN_STATE_HIDDEN:
-		vx = vy = 0;
+		vx = 0;
 		break;
 	}
 }

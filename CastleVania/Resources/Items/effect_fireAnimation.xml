@@ -11,10 +11,8 @@
     <animation name="ANI_EFFECT_BRICK" default_time="100" rewind="false">
       <animation_frame sprite_id="effect6" />
     </animation>
-    <animation name="ANI_EFFECT_BRICK" default_time="100" rewind="true">
-      <animation_frame sprite_id="effect3" />
-      <animation_frame sprite_id="effect3" />
-      <animation_frame sprite_id="effect3" />
+    <animation name="ANI_EFFECT_WATER" default_time="100" rewind="false">
+      <animation_frame sprite_id="effect7" />
     </animation>
 </animations>
   </loadresource>

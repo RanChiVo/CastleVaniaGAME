@@ -192,10 +192,12 @@ void Simon::OnKeyDown(int KeyCode)//event
 	{
 	case DIK_A:
 		SetPosition(D3DXVECTOR2(64.0f, 248.0f));
+		Direct3DManager::getInstance()->getViewport()->SetPosition(Direct3DManager::getInstance()->getViewport()->getX(), 0);
 		isInTunel = false;
 		break;
 	case DIK_B:
 		SetPosition(D3DXVECTOR2(2867.45f, 60.58f));
+		Direct3DManager::getInstance()->getViewport()->SetPosition(Direct3DManager::getInstance()->getViewport()->getX(), 0);
 		isInTunel = false;
 		break;
 	case DIK_C:
@@ -375,6 +377,9 @@ void Simon::Render(Viewport* viewport)
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
 	LPANIMATION animation = animations.find(currentAnimation)->second;
+	DebugOut(L"state:{%d}\n", state);
+
+	DebugOut(L"animation:{%d}\n", currentAnimation);
 
 	if (animation)
 	{
@@ -628,13 +633,14 @@ void Simon::handleState()
 		}
 		else if (isOnGround() && isjumping)
 		{
+			Reset(currentAnimation);
 			SetState(SIMON_STATE_IDLE);
 		}
 		checkRewind = false;
 		break;
 	}
-	DebugOut(L"subweapon:{%d}\n", enableSubWeapon);
 	animations.find(currentAnimation)->second->SetLoop(checkRewind);
+	DebugOut(L"state:{%d}\n", state);
 }
 
 void Simon::Reset(int currentAnimation)
@@ -872,6 +878,8 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 		}
 		break;
 	case ID_ENTITY_FIRE_BOMB:
+		baseInfo->setIdSubWeapon(ID_ENTITY_FIRE_BOMP_WEAPON);
+
 		if (coObjects)
 		{
 			coObjects->at(i)->SetState(STATE_DETROY);
@@ -955,7 +963,7 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 			coObjects->at(i)->SetPosition(D3DXVECTOR2(x, y + 20));
 		}
 		break;
-	case ID_ENTITY_STAIR:
+		case ID_ENTITY_STAIR:
 		if (!isOnStair)
 		{
 			originalStair = dynamic_cast<ObjectStair*>(coObjects->at(i));

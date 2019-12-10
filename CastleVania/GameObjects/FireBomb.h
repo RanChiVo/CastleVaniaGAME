@@ -2,8 +2,7 @@
 #include "GameObject.h"
 class FireBomb : public GameObject
 {
-	int untouchable;
-	DWORD untouchable_start;
+
 public:
 	
 	FireBomb(D3DXVECTOR2 position);

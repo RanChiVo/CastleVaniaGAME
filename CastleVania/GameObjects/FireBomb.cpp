@@ -17,36 +17,36 @@ FireBomb::FireBomb(D3DXVECTOR2 position)
 void FireBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt);
-	
-		vy += FIRE_BOMB_GRAVITY * dt;
 
-		vector<LPCOLLISIONEVENT> coEvents;
-		vector<LPCOLLISIONEVENT> coEventsResult;
+	vy += FIRE_BOMB_GRAVITY * dt;
 
-		coEvents.clear();
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
 
-		
-			CalcPotentialCollisions(coObjects, coEvents);
+	coEvents.clear();
 
-		if (coEvents.size() == 0)
-		{
-			y += dy;
-		}
-		else
-		{
-			float min_tx, min_ty, nx, ny;
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-			if (ny != 0) vy = 0;
 
-			y += min_ty * dy + ny * 0.4f;
-		}
+	CalcPotentialCollisions(coObjects, coEvents);
 
-		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-		if (GetTickCount() - liveTime > 4000)
-		{
-			state = STATE_DETROY;
-			liveTime = 0;
-		}
+	if (coEvents.size() == 0)
+	{
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx, ny;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		if (ny != 0) vy = 0;
+
+		y += min_ty * dy + ny * 0.4f;
+	}
+
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	if (GetTickCount() - liveTime > 4000)
+	{
+		state = STATE_DETROY;
+		liveTime = 0;
+	}
 }
 
 void FireBomb::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -59,12 +59,12 @@ void FireBomb::GetBoundingBox(float & left, float & top, float & right, float & 
 
 void FireBomb::Render(Viewport * viewport)
 {
-		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-		Flip flip = flip_horiz;
+	Flip flip = flip_horiz;
 
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
-		//	RenderBoundingBox(viewport);
+	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	//	RenderBoundingBox(viewport);
 
 }
 

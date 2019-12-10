@@ -27,6 +27,8 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		case ID_ENTITY_ZOMBIE:
 		case ID_ENTITY_PANTHER:
 		case ID_ENTITY_BRICK:
+		case ID_ENTITY_VAMPIRE_BAT:
+		case ID_ENTITY_FISH_MAN:
 		
 			float left1, top1, right1, bottom1;
 			coObjects->at(i)->GetBoundingBox(left1, top1, right1, bottom1);
@@ -68,9 +70,7 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 		case ID_ENTITY_ZOMBIE:
 		case ID_ENTITY_PANTHER:
-			coEvents[i]->obj->SetState(STATE_EFFECT);
-			coEvents[i]->obj->setLiveTime(GetTickCount());
-			break;
+		case ID_ENTITY_VAMPIRE_BAT:
 		case ID_ENTITY_FLOOR:
 			if ((coEvents[i]->obj->getName().compare("Floor") == 0))
 			{

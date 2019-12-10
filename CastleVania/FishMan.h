@@ -9,6 +9,7 @@ private:
 	DWORD timeShoot;
 	DWORD timeRevival;
 	Simon* simon;
+	D3DXVECTOR2 posRevival;
 public:
 	enum stateFishMan
 	{

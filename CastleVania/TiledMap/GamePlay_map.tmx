@@ -298,7 +298,7 @@
   </object>
   <object id="88" name="Candle" x="821" y="232" width="16" height="32">
    <properties>
-    <property name="Hidden Item ID" value="ID_ENTITY_STOP_WATCH"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_AXE"/>
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>
@@ -310,7 +310,7 @@
   </object>
   <object id="90" name="Candle" x="1075" y="228" width="16" height="32">
    <properties>
-    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_FIRE_BOMB"/>
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>
@@ -406,7 +406,7 @@
   </object>
   <object id="107" name="Candle" x="313" y="230" width="16" height="32">
    <properties>
-    <property name="Hidden Item ID" value="ID_ENTITY_WHITE_700_MIRACULOUS_BAG"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_AXE"/>
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>

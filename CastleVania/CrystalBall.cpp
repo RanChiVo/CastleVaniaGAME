@@ -13,7 +13,7 @@ CrystalBall::CrystalBall(D3DXVECTOR2 pos, int nx)
 	currentAnimation = CRYSTAL_BALL_ANI;
 	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_CRYSTAL_BALL).first;
 	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_CRYSTAL_BALL).second;
-	vx = nx * 0.18f;
+	vx = nx * 0.1f;
 	timeShoot = 0;
 }
 
@@ -27,11 +27,19 @@ void CrystalBall::startShoot()
 
 void CrystalBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CombatWeapon::Update(dt, coObjects);
+	GameObject::Update(dt, coObjects);
+	x += dx;
+	y += dy;
+
 	if (GetTickCount() - timeShoot > SHOOT_TIME && timeShoot)
 	{
 		state = STATE_DETROY;
 		timeShoot = 0;
+	}
+
+	if (!checkInsideViewPort(Direct3DManager::getInstance()->getViewport()))
+	{
+		state = STATE_DETROY;
 	}
 }
 

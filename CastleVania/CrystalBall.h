@@ -1,7 +1,7 @@
 #pragma once
-#include "CombatWeapon.h"
+#include "./GameObjects/GameObject.h"
 
-class CrystalBall : public CombatWeapon
+class CrystalBall:public GameObject
 {
 private:
 	DWORD timeShoot;

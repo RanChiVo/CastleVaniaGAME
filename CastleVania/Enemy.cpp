@@ -32,7 +32,6 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else if(id == ID_ENTITY_FISH_MAN)
 				{
 					state = FishMan::FISH_MAN_STATE_HIDDEN;
-
 				}
 				else state = STATE_DETROY;
 				liveTime = 0;

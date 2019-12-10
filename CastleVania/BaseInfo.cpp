@@ -58,6 +58,9 @@ void BaseInfo::setIdSubWeapon(EntityID IdSubWeapon)
 	case ID_ENTITY_AXE_WEAPON:
 		setSubWeapon(new AxeWeapon());
 		break;
+	case ID_ENTITY_FIRE_BOMP_WEAPON:
+		setSubWeapon(new FireBombWeapon());
+		break;
 	}
 }
 

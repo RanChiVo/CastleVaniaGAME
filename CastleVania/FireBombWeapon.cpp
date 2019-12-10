@@ -19,8 +19,8 @@ FireBombWeapon::FireBombWeapon()
 	AddAnimation(FIRE_BOMP_ANI4);
 	AddAnimation(FIRE_BOMP_ANI5);
 	currentAnimation = FIRE_BOMP_ANI1;
-	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_FIRE_BOMP_WEAPON).first;
-	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_FIRE_BOMP_WEAPON).second;
+	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_FIRE_BOMB).first;
+	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_FIRE_BOMB).second;
 }
 
 void FireBombWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -68,6 +68,8 @@ void FireBombWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isOnGround = true;
 				fireStart = GetTickCount();
 			}
+			x += dx;
+			y += dy;
 		}
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -78,11 +80,12 @@ void FireBombWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void FireBombWeapon::Render(Viewport * viewport)
 {
-	RenderBoundingBox(viewport);
-	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	Flip flip;
-	if (nx == 1) flip = normal;
-	else flip = flip_horiz;
+	if (state == STATE_SHOW)
+	{
+		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+		Flip flip = normal;
+		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	}
 }
 
 void FireBombWeapon::GetBoundingBox(float & left, float & top, float & right, float & bottom)

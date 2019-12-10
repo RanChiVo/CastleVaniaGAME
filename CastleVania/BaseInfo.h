@@ -3,6 +3,7 @@
 #include "CombatWeapon.h"
 #include "DaggerWeapon.h"
 #include "AxeWeapon.h"
+#include "FireBombWeapon.h"
 
 class BaseInfo
 {
