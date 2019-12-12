@@ -1,11 +1,12 @@
 #include "CastleVania.h"
 #include "ScreenManager.h"
 #include "ResourceManagement.h"
+#include "Direct3DManager.h"
 
 CastleVania::CastleVania()
 {
-	menuscreen = new MenuScreen();
 	screenmanager = new ScreenManager();
+	viewport = Direct3DManager::getInstance()->getViewport();
 }
 
 void CastleVania::Init(HINSTANCE hInstance, int nCmdShow)
@@ -14,15 +15,13 @@ void CastleVania::Init(HINSTANCE hInstance, int nCmdShow)
 	screenmanager->addScreen(new GameplayScreen());
 }
 
-void CastleVania::renderObjects()	
-{
-	screenmanager->renderObject();
+void CastleVania::render()	
+{	
+	screenmanager->renderObject(viewport);
 }
 
 void CastleVania::loadResource()
 {
-	ResourceManagement::GetInstance()->loadResource();
-
 	screenmanager->loadResources();
 }
 

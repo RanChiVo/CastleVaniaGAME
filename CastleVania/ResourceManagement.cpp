@@ -3,7 +3,6 @@
 #include <iostream>
 #include <fstream>
 
-
 ResourceManagement * ResourceManagement::__instance = nullptr;
 
 D3DXVECTOR2 ResourceManagement::getFontSize(ID3DXFont* font, std::string text)
@@ -28,18 +27,12 @@ TiledMap * ResourceManagement::getTiledMap(EntityID id)
 		return TiledMapList.find(id)->second;
 }
 
-void readFile(std::string path)
+void ResourceManagement::loadResource(std::string path)
 {
-
-}
-
-void ResourceManagement::loadResource()
-{
-
 	Textures::GetInstance()->Add(ID_ENTITY_BBOX, L"Resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	fstream fs;
-	fs.open("ReadSprite.txt", ios::in);
+	fs.open(path, ios::in);
 	if (fs.fail())
 	{
 		DebugOut(L"[ERROR] Scene %d load data failed\n");
@@ -47,111 +40,26 @@ void ResourceManagement::loadResource()
 		return;
 	}
 
-
 	std::string pathSprite;
 	std::string pathAnimation;
-
+	int d = 0;
 	while (!fs.eof())
 	{
+		d++;
 		fs >> pathSprite >> pathAnimation;
-		readSpriteFromFile(pathSprite);
-		if (pathAnimation!="")
+		if (!pathSprite.empty())
+		{
+			readSpriteFromFile(pathSprite);
+		}
+		if (!pathAnimation.empty()& pathAnimation.compare("---")!=0)
 		{
 			readAnimationFromFile(pathAnimation);
 		}
+		pathSprite = "";
+		pathAnimation = "";
 	}
 	fs.close();
 
-
-	//readSpriteFromFile("Resources\\simon.xml");
-	//readAnimationFromFile("Resources\\simonAnimation.xml");
-
-	//readSpriteFromFile("Resources\\whip.xml");
-	//readAnimationFromFile("Resources\\whipAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\burn_barrel.xml");
-	//readAnimationFromFile("Resources\\Items\\burn_barrelAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\effect_fire.xml");
-	//readAnimationFromFile("Resources\\Items\\effect_fireAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\effect_money.xml");
-	//readAnimationFromFile("Resources\\Items\\effect_moneyAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\star.xml");
-	//readAnimationFromFile("Resources\\Items\\starAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\heart.xml");
-	//readAnimationFromFile("Resources\\Items\\heartAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\weapon_reward.xml");
-	//readAnimationFromFile("Resources\\Items\\weapon_rewardAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\dagger.xml");
-	//readAnimationFromFile("Resources\\Items\\daggerAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\axe.xml");
-	//readAnimationFromFile("Resources\\Items\\axeAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\pork_chop.xml");
-	//readAnimationFromFile("Resources\\Items\\pork_chopAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\miraculous_bag.xml");
-	//readAnimationFromFile("Resources\\Items\\miraculous_bagAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Enemy\\zombie.xml");
-	//readAnimationFromFile("Resources\\Enemy\\zombieAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Enemy\\vampireBat.xml");
-	//readAnimationFromFile("Resources\\Enemy\\vampireBatAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Enemy\\panther.xml");
-	//readAnimationFromFile("Resources\\Enemy\\pantherAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\crystal_ball.xml");
-	//readAnimationFromFile("Resources\\Items\\crystal_ballAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Enemy\\fishMan.xml");
-	//readAnimationFromFile("Resources\\Enemy\\fishManAnimation.xml");
-
-	//readSpriteFromFile("TiledMap\\Candle.xml");
-	//readAnimationFromFile("TiledMap\\CandleAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\door.xml");
-	//readAnimationFromFile("Resources\\Items\\doorAnimation.xml");
-
-	//readSpriteFromFile("TiledMap\\brick.xml");
-	//readAnimationFromFile("TiledMap\\brickAnimation.xml");
-
-	//readSpriteFromFile("TiledMap\\WallCastle.xml");
-	//readAnimationFromFile("TiledMap\\WallCastleAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\small_heart.xml");
-	//readAnimationFromFile("Resources\\Items\\small_heartAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\fire_bomb.xml");
-	//readAnimationFromFile("Resources\\Items\\firebombAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\fireBombWeapon.xml");
-	//readAnimationFromFile("Resources\\Items\\fireBombWeaponAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\cross.xml");
-	//readAnimationFromFile("Resources\\Items\\crossAnimation.xml");
-
-	//readSpriteFromFile("Resources\\Items\\stop_watch.xml");
-	//readAnimationFromFile("Resources\\Items\\stop_watchAnimation.xml");
-
-	/*readSpriteFromFile("Resources\\MenuPoint\\black.xml");*/
-	//readSpriteFromFile("Resources\\MenuPoint\\heartMenuPoint.xml");
-	//readSpriteFromFile("Resources\\MenuPoint\\HP.xml");
-	//readSpriteFromFile("Resources\\MenuPoint\\enemy_HP.xml");
-	//readSpriteFromFile("Resources\\MenuPoint\\lost_HP.xml");
-	//readSpriteFromFile("Resources\\MenuPoint\\place_item.xml");
-
-	//readSpriteFromFile("Resources\\MenuPoint\\double_shot.xml");
-	//readSpriteFromFile("Resources\\MenuPoint\\double_shoot.xml");
-	//readSpriteFromFile("Resources\\MenuPoint\\triple_shot.xml");
-	//readSpriteFromFile("Resources\\MenuPoint\\triple_shoot.xml");
 	textures->Add(ID_ENTITY_MAP_ENTRANCE, L"TiledMap\\Entrance_bank.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 textMap_Entrance = textures->Get(ID_ENTITY_MAP_ENTRANCE);
 	TiledMap* tiled_map = new TiledMap("TiledMap\\Entrance_map.tmx", textMap_Entrance);
@@ -263,7 +171,6 @@ ResourceManagement::ResourceManagement()
 	stringToEntityID = {
 	{"ID_ENTITY_SIMON",EntityID::ID_ENTITY_SIMON },
 	{"ID_ENTITY_MAINMENU",EntityID::ID_ENTITY_MAINMENU },
-	{"ID_ENTITY_GAMEPLAYSCREEN",EntityID::ID_ENTITY_GAMEPLAYSCREEN },
 	{"ID_ENTITY_WHIP",EntityID::ID_ENTITY_WHIP },
 	{"ID_ENTITY_BURNBARREL",EntityID::ID_ENTITY_BURNBARREL },
 	{"ID_ENTITY_BBOX",EntityID::ID_ENTITY_BBOX },

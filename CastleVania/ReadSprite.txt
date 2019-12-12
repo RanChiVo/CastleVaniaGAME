@@ -24,8 +24,8 @@ Resources\\Items\\fire_bomb.xml		Resources\\Items\\firebombAnimation.xml
 Resources\\Items\\fireBombWeapon.xml	Resources\\Items\\fireBombWeaponAnimation.xml
 Resources\\Items\\cross.xml		Resources\\Items\\crossAnimation.xml
 Resources\\Items\\stop_watch.xml		Resources\\Items\\stop_watchAnimation.xm
-Resources\\MenuPoint\\heartMenuPoint.xml
-Resources\\MenuPoint\\heartMenuPoint.xml
-Resources\\MenuPoint\\enemy_HP.xml
-Resources\\MenuPoint\\lost_HP.xml
-Resources\\MenuPoint\\place_item.xml
+Resources\\MenuPoint\\heartMenuPoint.xml	---
+Resources\\MenuPoint\\HP.xml		---
+Resources\\MenuPoint\\enemy_HP.xml	---
+Resources\\MenuPoint\\lost_HP.xml		---
+Resources\\MenuPoint\\place_item.xml	---

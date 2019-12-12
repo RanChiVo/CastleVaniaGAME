@@ -1,5 +1,6 @@
 #include "ScreenManager.h"
-
+#include "../CastleVania/Screens/GameplayScreen.h"
+#include "../CastleVania/GameObjects/Simon.h"
 
 ScreenManager::~ScreenManager()
 {
@@ -27,17 +28,23 @@ void ScreenManager::update(DWORD dt)
 {
 	if (!screens.empty())
 		screens.back()->update(dt);
+
+	if (currentScreenID!= Simon::getInstance()->GetLevel())
+	{
+		changeScreen(Simon::getInstance()->GetLevel());
+	}
 }
 
-void ScreenManager::renderObject()
+void ScreenManager::renderObject(Viewport* viewport)
 {
 	if (!screens.empty())
-		screens.back()->renderObject();
+		screens.back()->renderObject(viewport);
 }
 
 void ScreenManager::addScreen(ScreenBase* _screen)
 {
 	screens.push_back(_screen);
+	currentScreenID = _screen->getIDScreen();
 	screens.back()->init();
 }
 
@@ -50,10 +57,20 @@ void ScreenManager::removeScreen()
 	}
 }
 
-void ScreenManager::changeScreen(ScreenBase * _screen)
+void ScreenManager::changeScreen(int level)
 {
 	this->removeScreen();
-	this->addScreen(_screen);
+	switch (level)
+	{
+	case 0:
+		screen = new GameplayScreen();
+		break;
+	case 1:
+		screen = new GameplayScreen();
+		break;
+	}
+	this->addScreen(screen);
+	currentScreenID = screen->getIDScreen();
 }
 
 void ScreenManager::clearScreen()

@@ -8,18 +8,18 @@ class ScreenManager
 {
 private:
 	std::vector<ScreenBase*> screens;
-	
+	ScreenBase* screen;
+	EntityID currentScreenID;
 public:
 	ScreenManager();
 
 	bool init();
 	void loadResources();
 	void update(DWORD dt);
-	void renderObject();
-
+	void renderObject(Viewport* viewport);
 	void addScreen(ScreenBase* scene);
 	void removeScreen();
-	void changeScreen(ScreenBase* scene);
+	void changeScreen(int level);
 	void clearScreen();
 
 	ScreenBase* getScene();

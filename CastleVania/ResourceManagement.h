@@ -37,7 +37,7 @@ public:
 	Sprites* getSprite(EntityID id);
 	TiledMap* getTiledMap(EntityID id);
 
-	void loadResource();
+	void loadResource(std::string path);
 	void loadFont(LPTSTR path);
 	void loadTexture(int id, LPCWSTR filePath, D3DCOLOR transparentColor);
 	void loadSprites(std::string id, RECT r, int idCharater);

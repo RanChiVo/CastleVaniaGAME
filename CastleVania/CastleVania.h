@@ -16,14 +16,13 @@ private:
 	HINSTANCE hInstance;
 	int nCmdShow;
 	ScreenManager* screenmanager;
-	MenuScreen* menuscreen;
 	GameplayScreen* gameplayscreen;
-
+	Viewport* viewport;
 public:
 	CastleVania();
 	void Init(HINSTANCE hInstance, int nCmdShow);
 	void loadResource();
-	void renderObjects();
+	void render();
 	void update(DWORD dt);
 	void run();
 	~CastleVania();
