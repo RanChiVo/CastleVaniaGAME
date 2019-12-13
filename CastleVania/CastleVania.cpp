@@ -11,7 +11,7 @@ CastleVania::CastleVania()
 
 void CastleVania::Init(HINSTANCE hInstance, int nCmdShow)
 {	
-	init(hInstance, nCmdShow);
+	Game::init(hInstance, nCmdShow);
 	screenmanager->addScreen(new GameplayScreen());
 }
 
@@ -32,7 +32,7 @@ void CastleVania::update(DWORD dt)
 
 void CastleVania::run()
 {
-	Run();
+	Game::Run();
 }
 
 CastleVania::~CastleVania()
