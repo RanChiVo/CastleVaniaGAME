@@ -39,6 +39,7 @@ MiraculousBag::MiraculousBag(EntityID id, D3DXVECTOR2 pos)
 
 void MiraculousBag::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	vy += MIRACULOUSBAG_GRAVITY * dt;
 	GameObject::Update(dt, coObjects);
 	if (state == STATE_EFFECT && startMoneyEffectTime == 0)
 	{
@@ -65,9 +66,20 @@ void MiraculousBag::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else
 		{
 			float min_tx, min_ty, nx, ny;
+			float Dx = dx, Dy = dy;
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-			y += min_ty * dy + ny * 0.4f;
-			if (ny != 0) vy = 0;
+			for (int i = 0; i < coEvents.size(); i++)
+			{
+				switch (coEvents[i]->obj->getID())
+				{
+				case ID_ENTITY_FLOOR:
+					if (ny < 0) vy = 0;
+					Dy = min_ty * dy + ny * 0.1f;
+					break;
+				}
+			}
+			x += Dx;
+			y += Dy;
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 		if (GetTickCount() - liveTime > 4000)
@@ -75,7 +87,6 @@ void MiraculousBag::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			state = STATE_DETROY;
 			liveTime = 0;
 		}
-		vy += MIRACULOUSBAG_GRAVITY * dt;
 	}
 }
 

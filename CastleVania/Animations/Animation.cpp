@@ -41,7 +41,7 @@ void Animation::Add(std::string spriteId, DWORD time)
 	isFinished = false;
 }
 
-void Animation::Render(float x, float y, Flip flip)
+void Animation::Render(float x, float y, Flip flip, int alpha)
 {
 	DWORD now = GetTickCount();
 
@@ -64,7 +64,7 @@ void Animation::Render(float x, float y, Flip flip)
 			}
 		}
 	}
-	frames[currentFrame]->GetSprite()->Draw(D3DXVECTOR2(x, y), flip);
+	frames[currentFrame]->GetSprite()->Draw(D3DXVECTOR2(x, y), flip, alpha);
 }
 
 void Animation::update()

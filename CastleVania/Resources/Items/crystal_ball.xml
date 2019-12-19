@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_ENTITY_CRYSTAL_BALL" name="CrystalBall" width="28" height="32">
-    <image source="Resources\Items\crystal_ball.png" width="56" height="32" />
+  <imagelayer id="ID_ENTITY_CRYSTAL_BALL" name="CrystalBall" width="14" height="12">
+    <image source="Resources\Items\crystalBall.png" width="14" height="12" />
   </imagelayer>
   <sprites>
-    <spriteframe id="crystal_ball1" left = "0" top="0" right="26" bottom="32"/>
-    <spriteframe id="crystal_ball2" left = "27" top="0" right="56" bottom="32"/>
+    <spriteframe id="crystal_ball1" left = "0" top="0" right="14" bottom="12"/>
   </sprites>
 </loadresource>
 

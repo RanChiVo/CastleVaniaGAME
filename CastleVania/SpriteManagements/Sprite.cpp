@@ -47,7 +47,7 @@ void Sprite::Draw(D3DXVECTOR2 position, int alpha)
 //	direct3D->GetSpriteHandler()->Draw(texture, &rect, nullptr, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 //}
 
-void Sprite::Draw(D3DXVECTOR2 position, Flip flip)
+void Sprite::Draw(D3DXVECTOR2 position, Flip flip, int alpha)
 {
 	Direct3DManager* direct3D = Direct3DManager::getInstance();
 	D3DXVECTOR3 p2(position.x, position.y, 0);
@@ -55,6 +55,7 @@ void Sprite::Draw(D3DXVECTOR2 position, Flip flip)
 	D3DXMATRIX afterScale;
 
 	D3DXVECTOR2 center;
+
 	center.x = position.x + (rect.right - rect.left) / 2;
 	center.y = position.y + (rect.bottom - rect.top) / 2;
 	D3DXMATRIX beforeScale;
@@ -88,7 +89,7 @@ void Sprite::Draw(D3DXVECTOR2 position, Flip flip)
 	
 	direct3D->GetSpriteHandler()->SetTransform(&afterScale);
 
-	direct3D->GetSpriteHandler()->Draw(texture, &rect, nullptr, &p2, D3DCOLOR_XRGB(255, 255, 255));
+	direct3D->GetSpriteHandler()->Draw(texture, &rect, nullptr, &p2, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 
 	direct3D->GetSpriteHandler()->SetTransform(&beforeScale);
 }

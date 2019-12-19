@@ -73,7 +73,7 @@
     <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
    </properties>
   </object>
-  <object id="20" name="Wall_frontof_entrance" x="2.5" y="1" width="16" height="291">
+  <object id="20" name="Wall" x="2.5" y="1" width="16" height="291">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>

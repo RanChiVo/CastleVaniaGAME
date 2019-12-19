@@ -7,6 +7,7 @@ constexpr float ZOMBIE_GRAVITY = 0.0009f;
 Zombie::Zombie()
 {
 	id = ID_ENTITY_ZOMBIE;
+	state = STATE_SHOW;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
 	AddAnimation(ZOMBIE_ANI_WALKING);
@@ -27,6 +28,8 @@ void Zombie::handleState()
 		vx = -ZOMBIE_WALKING_SPEED;
 		currentAnimation = ZOMBIE_ANI_WALKING;
 		break;
+	case STATE_EFFECT:
+		vx = 0;
 	}
 }
 
@@ -50,7 +53,7 @@ void Zombie::GetBoundingBox(float & left, float & top, float & right, float & bo
 
 void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	GameObject::Update(dt, coObjects);
+	Enemy::Update(dt, coObjects);
 
 	handleState();
 
@@ -61,7 +64,7 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 
-	if (state != STATE_DETROY)
+	if (state != STATE_EFFECT)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	if (coEvents.size() == 0)
@@ -82,7 +85,13 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 			case ID_ENTITY_FLOOR:
 				if (ny != 0) vy = 0;
-				Dy = min_ty * dy + ny * 0.4f;
+				Dy = min_ty * dy + ny * 0.1f;
+				break;
+			case ID_ENTITY_WALL_ENTRANCE:
+				if (coEvents[i]->obj->getName().compare("Wall") == 0)
+				{
+					SetState(STATE_DETROY);
+				}
 				break;
 			}
 		}
@@ -90,25 +99,25 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += Dy;
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-
-	Enemy::Update(dt, coObjects);
 }
 
 void Zombie::Render(Viewport* viewport)
 {
-	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	RenderBoundingBox(viewport);
-	Flip flip;
-	if (nx == -1) flip = normal;
-	else flip = flip_horiz;
-	if (checkInsideViewPort(viewport, D3DXVECTOR2(x, y)))
+	if (state!= STATE_EFFECT)
 	{
+		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+		RenderBoundingBox(viewport);
+		Flip flip;
+		if (nx == -1) flip = normal;
+		else flip = flip_horiz;
 		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
-	else
+	
+	if (!GameObject::checkInsideViewPort(viewport))
 	{
 		state = STATE_DETROY;
 	}
+	Enemy::Render(viewport);
 }
 
 Zombie::~Zombie()

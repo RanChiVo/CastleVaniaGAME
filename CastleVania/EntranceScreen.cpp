@@ -1,25 +1,19 @@
-#include "UndergroundScreen.h"
-#include "GameObjects/Simon.h"
+#include "EntranceScreen.h"
 
-UndergroundScreen::UndergroundScreen()
+EntranceScreen::EntranceScreen()
 {
-	path = "ReadSprite.txt";
-	IdScreen = ID_ENTITY_MAP_UNDERGROUND;
+	IdScreen = ID_ENTITY_MAP_ENTRANCE;
+	path = "ReadSpriteEntrance.txt";
 }
 
-void UndergroundScreen::loadResources()
-{
-	ScreenBase::loadResources();
-}
-
-void UndergroundScreen::update(DWORD dt)
+void EntranceScreen::update(DWORD dt)
 {
 	ScreenBase::update(dt);
 
 	updateViewport(dt);
 }
 
-void UndergroundScreen::updateViewport(DWORD dt)
+void EntranceScreen::updateViewport(DWORD dt)
 {
 	if (viewport->getState() == viewport->STATE_ACTION)
 	{
@@ -37,6 +31,6 @@ void UndergroundScreen::updateViewport(DWORD dt)
 	else return;
 }
 
-UndergroundScreen::~UndergroundScreen()
+EntranceScreen::~EntranceScreen()
 {
 }

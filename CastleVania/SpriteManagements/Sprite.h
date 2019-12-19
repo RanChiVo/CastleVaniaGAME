@@ -31,7 +31,7 @@ public:
 
 	//void Draw(D3DXVECTOR2 position, int alpha);
 
-	void Draw(D3DXVECTOR2 position, Flip flip);
+	void Draw(D3DXVECTOR2 position, Flip flip, int alpha );
 };
 
 typedef Sprite * LPSPRITE;

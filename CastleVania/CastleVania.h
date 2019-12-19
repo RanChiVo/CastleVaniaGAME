@@ -22,7 +22,7 @@ public:
 	CastleVania();
 	void Init(HINSTANCE hInstance, int nCmdShow);
 	void loadResource();
-	void render();
+	void renderObjects();
 	void update(DWORD dt);
 	void run();
 	~CastleVania();

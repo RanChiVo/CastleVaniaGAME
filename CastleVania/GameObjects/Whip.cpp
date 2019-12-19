@@ -34,9 +34,7 @@ void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 				SetPosition(D3DXVECTOR2(x, y + 5));
 				break;
 			case 2:
-				SetPosition(D3DXVECTOR2(x + 57, y + 15));
-				break;
-			default:
+				SetPosition(D3DXVECTOR2(x + 57, y + 20));
 				break;
 			}
 		}
@@ -48,12 +46,16 @@ void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 				SetPosition(D3DXVECTOR2(x + 53, y + 20 ));
 				break;
 			case 1:
-				SetPosition(D3DXVECTOR2(x + 30, y + 10));
+				SetPosition(D3DXVECTOR2(x + 30, y + 5));
 				break;
 			case 2:
-				SetPosition(D3DXVECTOR2(x - 50, y + 15));
-				break;
-			default:
+				if (state == WHIT_STATE_1)
+				{
+					SetPosition(D3DXVECTOR2(x - 45, y + 18));
+				}
+				else {
+					SetPosition(D3DXVECTOR2(x - 70, y + 20));
+				}
 				break;
 			}
 		}
@@ -73,8 +75,6 @@ void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 			case 2:
 				SetPosition(D3DXVECTOR2(x + 57, y + 25));
 				break;
-			default:
-				break;
 			}
 		}
 		else
@@ -89,8 +89,6 @@ void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 				break;
 			case 2:
 				SetPosition(D3DXVECTOR2(x - 50, y + 30));
-				break;
-			default:
 				break;
 			}
 		}
@@ -110,8 +108,6 @@ void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 			case 2:
 				SetPosition(D3DXVECTOR2(x + 57, y + 20));
 				break;
-			default:
-				break;
 			}
 		}
 		else
@@ -126,8 +122,6 @@ void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 				break;
 			case 2:
 				SetPosition(D3DXVECTOR2(x - 50, y + 30));
-				break;
-			default:
 				break;
 			}
 		}
@@ -147,8 +141,6 @@ void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 		case 2:
 			SetPosition(D3DXVECTOR2(x + 57, y + 20));
 			break;
-		default:
-			break;
 		}
 	}
 	else
@@ -163,8 +155,6 @@ void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 			break;
 		case 2:
 			SetPosition(D3DXVECTOR2(x - 50, y + 10));
-			break;
-		default:
 			break;
 		}
 	}
@@ -244,7 +234,7 @@ void Whip::GetBoundingBox(float & left, float & top, float & right, float & bott
 		right = x + width;
 		bottom = y + height;
 	}
-	else return;
+	else left = top = right = bottom = 0;
 }
 
 Whip::~Whip()

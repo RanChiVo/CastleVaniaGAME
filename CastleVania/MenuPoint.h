@@ -16,13 +16,17 @@ private:
 	std::vector<LPGAMEOBJECT> Simon_Item;
 	int start_time;
 	int gameTime;
+	int Score = 0;
+	int healthSimon = 0;
 
-	int score;
+	std::string score;
 	std::string timeString;
 	Sprite* HP;
 	Sprite* enemy_HP1;
 	Sprite* place_item1;
 	Sprite* lost_HP;
+	Sprite* menu;
+	Sprite* subWeapon;
 	DWORD startTime;
 	ResourceManagement* resourceManagement;
 	LPD3DXSPRITE spriteHandler;

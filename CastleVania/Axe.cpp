@@ -6,8 +6,8 @@ Axe::Axe(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_AXE;
 	SetPosition(position);
-	AddAnimation(AXE_ANI);
-	currentAnimation = AXE_ANI;
+	AddAnimation(AXE_ANI_ITEM);
+	currentAnimation = AXE_ANI_ITEM;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
 	liveTime = GetTickCount();

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
 <animations>
-  <animation name ="AXE_ANI" default_time="100" rewind="true">
+  <animation name ="AXE_ANI_ITEM" default_time="100" rewind="true">
     <animation_frame sprite_id ="axe1"/>
+  </animation >
+   <animation name ="AXE_ANI_THROW" default_time="200" rewind="true">
+    <animation_frame sprite_id ="axe1"/>
+    <animation_frame sprite_id ="axe2"/>
   </animation >
 </animations>
 </loadresource>

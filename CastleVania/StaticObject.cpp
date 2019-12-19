@@ -6,7 +6,9 @@
 #include "./GameObjects/Cross.h"
 #include "./GameObjects/FireBomb.h"
 #include "./GameObjects/MiraculousBag.h"
+#include "./GameObjects/StopWatch.h"
 #include "./Axe.h"
+#include "./InvisibilityPotion.h"
 
 constexpr int FIRE_LIVE_TIME = 300;
 
@@ -25,13 +27,20 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			liveTime = 0;
 			GameObject* item = nullptr;
 			idHiddenItem = ResourceManagement::GetInstance()->getStringToEntity()[getIdHiddenItem()];
+			//idHiddenItem = ID_ENTITY_FIRE_BOMB;
 			switch (idHiddenItem)
 			{
+			case ID_ENTITY_STOP_WATCH:
+				item = new StopWatch(this->getPosition());
+				break;
 			case ID_ENTITY_WEAPON_REWARD:
 				item = new WeaponReward(this->getPosition());
 				break;
 			case ID_ENTITY_HEART:
 				item = new Heart(this->getPosition());
+				break;
+			case ID_ENTITY_INVISIBILITY_POTION:
+				item = new InvisibilityPotion(this->getPosition());
 				break;
 			case ID_ENTITY_AXE:
 				item = new Axe(this->getPosition());

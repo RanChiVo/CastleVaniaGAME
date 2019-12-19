@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
   <imagelayer id="ID_ENTITY_DOOR"  name="door" width="24" height="20" >
-    <image source="Resources\Items\door.png" width="24" height="20"/>
+    <image source="Resources\Items\door.png" width="24" height="191"/>
   </imagelayer>
   <sprites>
     <spriteframe id="door1" left = "3" top="4" right="24" bottom="92"/>

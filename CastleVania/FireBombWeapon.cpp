@@ -1,10 +1,10 @@
 #include "FireBombWeapon.h"
 #include "ResourceManagement.h"
 
-constexpr float FIRE_BOMP_SPEED_X = 0.18f;;
-constexpr float FIRE_BOMP_GRAVITY = 0.0008f;
-constexpr float FIRE_BOMP_THROW_SPEED_Y = 0.24f;
-constexpr int FIRE_BOMP_FIRE_TIME = 4000;
+constexpr float FIRE_BOMP_SPEED_X = 0.1f;;
+constexpr float FIRE_BOMP_GRAVITY = 0.0005f;
+constexpr float FIRE_BOMP_THROW_SPEED_Y = 0.2f;
+constexpr DWORD FIRE_BOMP_FIRE_TIME = 2000;
 
 FireBombWeapon::FireBombWeapon()
 {
@@ -15,9 +15,6 @@ FireBombWeapon::FireBombWeapon()
 	vx = FIRE_BOMP_SPEED_X;
 	AddAnimation(FIRE_BOMP_ANI1);
 	AddAnimation(FIRE_BOMP_ANI2);
-	AddAnimation(FIRE_BOMP_ANI3);
-	AddAnimation(FIRE_BOMP_ANI4);
-	AddAnimation(FIRE_BOMP_ANI5);
 	currentAnimation = FIRE_BOMP_ANI1;
 	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_FIRE_BOMB).first;
 	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_FIRE_BOMB).second;
@@ -27,10 +24,9 @@ void FireBombWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
-	if (GetTickCount() - fireStart >= FIRE_BOMP_FIRE_TIME && fireStart > 0)
-		SetState(STATE_DETROY);	
+	handleState();
 
-	if (!isOnGround)
+	if (state==STATE_SHOW)
 	{
 		vx = nx * FIRE_BOMP_SPEED_X;
 		vy += FIRE_BOMP_GRAVITY * dt;
@@ -39,57 +35,67 @@ void FireBombWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
 		coEvents.clear();
-
-		vector<LPGAMEOBJECT> floorObjects;
-
-		for (int i = 0; i < coObjects->size(); i++)
-		{
-			if (coObjects->at(i)->getID() == ID_ENTITY_FLOOR)
-			{
-				floorObjects.push_back(coObjects->at(i));
-			}
-		}
-
-		CalcPotentialCollisions(&floorObjects, coEvents);
-
+		CalcPotentialCollisions(coObjects, coEvents);
+	
 		if (coEvents.size() != 0)
 		{
-			float min_tx, min_ty, nx = 0, ny;
-
+			float min_tx, min_ty, nx, ny;
+			float Dx = dx, Dy = dy;
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-			// block 
-			y += min_ty * dy + ny * 0.1f;
-
-			if (ny != 0)
+			for (int i = 0; i < coEvents.size(); i++)
 			{
-				vx = 0;
-				vy = 0;
-				isOnGround = true;
-				fireStart = GetTickCount();
+				switch (coEvents[i]->obj->getID())
+				{
+				case ID_ENTITY_FLOOR:
+					if (ny != 0)
+					{
+						vx = 0;
+						vy = 0;
+						state = STATE_EFFECT;
+						fireStart = GetTickCount();
+					}
+					Dy = min_ty * dy + ny * 0.11f;
+					break;
+				}
 			}
-			x += dx;
-			y += dy;
+			y += Dy;
 		}
-
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-		coEvents.clear();
 	}
+	
 	CombatWeapon::Update(dt, coObjects);
+
+	if (GetTickCount() - fireStart > FIRE_BOMP_FIRE_TIME && fireStart > 0)
+		SetState(STATE_DETROY);
 }
 
 void FireBombWeapon::Render(Viewport * viewport)
 {
-	if (state == STATE_SHOW)
-	{
-		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-		Flip flip = normal;
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
-	}
+	RenderBoundingBox(viewport);
+	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+	Flip flip = normal;
+	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 }
 
 void FireBombWeapon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
+	left = x;
+	top = y;
+	right = x + width;
+	bottom = y + height;
+}
+
+void FireBombWeapon::handleState()
+{
+	switch (state)
+	{
+	case STATE_SHOW:
+		currentAnimation = FIRE_BOMP_ANI1;
+		break;
+	case STATE_EFFECT:
+		currentAnimation = FIRE_BOMP_ANI2;
+		break;
+	}
 }
 
 FireBombWeapon::~FireBombWeapon()

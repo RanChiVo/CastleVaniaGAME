@@ -12,59 +12,83 @@
 #include <cstdlib>
 #include <ctime>
 
-constexpr int FIRE_LIVE_TIME = 300;
+constexpr DWORD LIVE_TIME = 100;
+constexpr DWORD STOP_WATCH_TIME = 4000;
+
+DWORD Enemy::stopWatchStart = 0;
 
 Enemy::Enemy()
 {
+
 }
 
 void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-		if (state == STATE_EFFECT)
+	if (stopWatchStart > 0 && GetTickCount() - stopWatchStart > STOP_WATCH_TIME)
+	{
+		stopWatchStart = 0;
+	}
+	GameObject::Update(dt, coObjects);
+
+	if (stopWatchStart!= 0)
+	{
+		dx = dy = 0;
+	}
+
+	if (state == STATE_EFFECT)
+	{
+		if (GetTickCount() - liveTime > LIVE_TIME)
 		{
-			if (GetTickCount() - liveTime > FIRE_LIVE_TIME)
-			
-				//rand() % (b – a + 1) + a.
-				if (id == ID_ENTITY_VAMPIRE_BAT)
-				{
-					state = VampireBat::VAMPIRE_STATE_HIDDEN;
-				}
-				else if(id == ID_ENTITY_FISH_MAN)
-				{
-					state = FishMan::FISH_MAN_STATE_HIDDEN;
-				}
-				else state = STATE_DETROY;
-				liveTime = 0;
-				GameObject* item = nullptr;
-				int idRandom = rand() % 13 + 8;
-				switch (idRandom)
-				{
-				case ID_ENTITY_WEAPON_REWARD:
-					item = new WeaponReward(this->getPosition());
-					break;
-				case ID_ENTITY_HEART:
-					item = new Heart(this->getPosition());
-					break;
-				case ID_ENTITY_DAGGER:
-					item = new Dagger(this->getPosition());
-					break;
-				case ID_ENTITY_SMALL_HEART:
-					item = new SmallHeart(this->getPosition());
-					break;
-				case ID_ENTITY_FIRE_BOMB:
-					item = new FireBomb(this->getPosition());
-					break;
-				case ID_ENTITY_RED_100_MIRACULOUS_BAG:
-				case ID_ENTITY_BLUE_400_MIRACULOUS_BAG:
-				case ID_ENTITY_WHITE_700_MIRACULOUS_BAG:
-				case ID_ENTITY_BONUS_1000_MIRACULOUS_BAG:
-					item = new MiraculousBag((EntityID)idRandom, this->getPosition());
-					break;
-				}
-				if (item)
-					coObjects->push_back(item);
+			DebugOut(L"liveTime:{%d}\n", liveTime);
+
+			//rand() % (b – a + 1) + a.
+			if (id == ID_ENTITY_VAMPIRE_BAT)
+			{
+				state = VampireBat::VAMPIRE_STATE_HIDDEN;
 			}
+			else if (id == ID_ENTITY_FISH_MAN)
+			{
+				state = FishMan::FISH_MAN_STATE_HIDDEN;
+			}
+			else state = STATE_DETROY;
+			GameObject* item = nullptr;
+			int idRandom = rand() % (20 - 5 + 1) + 5;
+
+			if (idRandom < 5)
+			{
+				item = nullptr;
+			}
+
+			liveTime = 0;
+			switch (idRandom)
+			{
+			case ID_ENTITY_WEAPON_REWARD:
+				item = new WeaponReward(D3DXVECTOR2(this->getPosition().x, this->getPosition().y));
+				break;
+			case ID_ENTITY_HEART:
+				item = new Heart(D3DXVECTOR2(this->getPosition().x, this->getPosition().y ));
+				break;
+			case ID_ENTITY_DAGGER:
+				item = new Dagger(D3DXVECTOR2(this->getPosition().x, this->getPosition().y ));
+				break;
+			case ID_ENTITY_SMALL_HEART:
+				item = new SmallHeart(D3DXVECTOR2(this->getPosition().x, this->getPosition().y ));
+				break;
+			case ID_ENTITY_FIRE_BOMB:
+				item = new FireBomb(D3DXVECTOR2(this->getPosition().x, this->getPosition().y ));
+				break;	
+			case ID_ENTITY_RED_100_MIRACULOUS_BAG:
+			case ID_ENTITY_BLUE_400_MIRACULOUS_BAG:
+			case ID_ENTITY_WHITE_700_MIRACULOUS_BAG:
+			case ID_ENTITY_BONUS_1000_MIRACULOUS_BAG:
+				item = new MiraculousBag((EntityID)idRandom, (D3DXVECTOR2(this->getPosition().x, this->getPosition().y - 40)));
+				break;
+			}
+			if (item)
+				coObjects->push_back(item);
 		}
+	}
+}
 
 void Enemy::Render(Viewport * viewport)
 {
@@ -83,6 +107,24 @@ void Enemy::GetBoundingBox(float & left, float & top, float & right, float & bot
 	top = y;
 	right = left + width;
 	bottom = top + height;
+}
+
+void Enemy::setTimeRevival(DWORD timeRevival)
+{
+	this->timeRevival = timeRevival;
+}
+
+void Enemy::StopWatchStart()
+{
+	if (stopWatchStart == 0)
+	{
+		stopWatchStart = GetTickCount();
+	}
+}
+
+DWORD Enemy::getTimeRevival(DWORD timeRevival)
+{
+	return timeRevival;
 }
 
 Enemy::~Enemy()

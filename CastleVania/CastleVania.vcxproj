@@ -140,7 +140,9 @@
     <ClCompile Include="Axe.cpp" />
     <ClCompile Include="AxeWeapon.cpp" />
     <ClCompile Include="BaseInfo.cpp" />
+    <ClCompile Include="Boomerang.cpp" />
     <ClCompile Include="CrystalBall.cpp" />
+    <ClCompile Include="EntranceScreen.cpp" />
     <ClCompile Include="FishMan.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="UndergroundScreen.cpp" />
@@ -203,17 +205,17 @@
     <ClCompile Include="WaterEffect.cpp" />
     <ClCompile Include="WindowUtil.cpp" />
     <ClCompile Include="GameObjects\Zombie.cpp" />
-    <ClCompile Include="YardScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations\Animations.h" />
     <ClInclude Include="Animations\Animation.h" />
     <ClInclude Include="AreaZombie.h" />
-    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Axe.h" />
     <ClInclude Include="AxeWeapon.h" />
     <ClInclude Include="BaseInfo.h" />
+    <ClInclude Include="Boomerang.h" />
     <ClInclude Include="CrystalBall.h" />
+    <ClInclude Include="EntranceScreen.h" />
     <ClInclude Include="FishMan.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="UndergroundScreen.h" />
@@ -279,7 +281,6 @@
     <ClInclude Include="WaterEffect.h" />
     <ClInclude Include="WindowUtil.h" />
     <ClInclude Include="GameObjects\Zombie.h" />
-    <ClInclude Include="YardScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\Musics\Game_Start_Prologue.wav" />

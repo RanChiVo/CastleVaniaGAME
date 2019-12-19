@@ -3,13 +3,12 @@
   <animations>
     <animation name="FIRE_BOMP_ANI1" default_time="100" rewind="true">
       <animation_frame sprite_id="fire_bomb1" />
+    </animation>
+    <animation name="FIRE_BOMP_ANI2" default_time="100" rewind="true">
       <animation_frame sprite_id="fire_bomb2" />
       <animation_frame sprite_id="fire_bomb3" />
       <animation_frame sprite_id="fire_bomb4" />
       <animation_frame sprite_id="fire_bomb5" />
-    </animation>
-    <animation name="FIRE_BOMP_ANI2" default_time="100" rewind="true">
-      <animation_frame sprite_id="fire_bomb2" />
     </animation>
     <animation name="FIRE_BOMP_ANI3" default_time="100" rewind="true">
       <animation_frame sprite_id="fire_bomb3" />

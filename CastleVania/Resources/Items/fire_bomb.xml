@@ -4,6 +4,6 @@
     <image source="Resources\Items\fire_bomb.png" width="32" height="32"/>
   </imagelayer>
   <sprites>
-    <spriteframe id="fire_bomb1" left = "0" top="0" right="32" bottom="32"/>
+    <spriteframe id="fire_bomb" left = "0" top="0" right="32" bottom="32"/>
   </sprites>
 </loadresource>

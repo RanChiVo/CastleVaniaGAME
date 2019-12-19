@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+<animations>
+  <animation name="INVISIBILITY_POTION_ANI" default_time="100" rewind="true">
+    <animation_frame sprite_id="invisible_Potion" />
+  </animation >
+</animations>
+</loadresource>
+  

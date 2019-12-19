@@ -7,7 +7,7 @@ constexpr int DOOR_ACTION_1_TIME = 980;
 constexpr int DOOR_ACTION_2_TIME = 225;
 constexpr int DOOR_ACTION_3_TIME = 1000;
 constexpr int DOOR_ACTION_4_TIME = 230;
-constexpr int DOOR_ACTION_5_TIME = 1800;
+constexpr int DOOR_ACTION_5_TIME = 3300;
 
 DWORD Door::action1Start;
 DWORD Door::action2Start;
@@ -96,12 +96,12 @@ void Door::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			action5Start = 0;
 			Direct3DManager::getInstance()->getViewport()->setState(Direct3DManager::getInstance()->getViewport()->STATE_ACTION);
 			id = ID_ENTITY_WALL_ENTRANCE;
+			Simon::getInstance()->setStartViewPort(Direct3DManager::getInstance()->getViewport()->getX()); 
 		}
 		else
 		{
 			state = DOOR_STATE_CLOSE;
 			Direct3DManager::getInstance()->getViewport()->moveRight(dt);
-			Simon::getInstance()->SetStateMoveMap(true);
 		}
 	}
 }

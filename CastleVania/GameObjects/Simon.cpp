@@ -20,16 +20,19 @@
 #include "../Panther.h"
 #include "../Door.h"
 #include "../Viewport.h"
+#include "../WaterEffect.h"
 
-constexpr float SIMON_MOVE_SPEED = 0.12f;
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
+constexpr float SIMON_MOVE_SPEED = 0.12f;
 constexpr float SIMON_GRAVITY = 0.001f;
-constexpr int SIMON_PROTECT_TIME = 2000;
-constexpr float SIMON_STAIR_SPEED = 0.074f;
-constexpr auto P0SITION_ENTRANCE = 1300;
-constexpr int SIMON_UNTOUCHABLE_TIME = 5000;
-constexpr int SIMON_ENTRANCE_TIME = 3000;
+constexpr float SIMON_HURT_SPEED_Y = 0.2f;
+constexpr float SIMON_STAIR_SPEED = 0.05f;
+constexpr DWORD SIMON_ENTRANCE_TIME = 1000;
+constexpr DWORD INVISIBLE_TIME = 4000;
+constexpr DWORD SIMON_UNTOUCHABLE_TIME = 2000;
+constexpr DWORD SIMON_PROTECT_TIME = 2000;
+constexpr DWORD SIMON_HURT_TIME = 1000;
 
 Simon* Simon::_instance = nullptr;
 
@@ -42,18 +45,20 @@ Simon * Simon::getInstance()
 
 Simon::Simon()
 {
-	id = ID_ENTITY_SIMON;
 	DirectInput* directInput = DirectInput::getInstance();
-
 	__hook(&DirectInput::KeyState, directInput, &Simon::OnKeyStateChange);
 	__hook(&DirectInput::OnKeyDown, directInput, &Simon::OnKeyDown);
 	__hook(&DirectInput::OnKeyUp, directInput, &Simon::OnKeyUp);
+	id = ID_ENTITY_SIMON;
+	width = Textures::GetInstance()->GetSizeObject(id).first;
+	height = Textures::GetInstance()->GetSizeObject(id).second;
 	level = 1;
 	SetState(SIMON_STATE_IDLE);
 	currentAnimation = SIMON_ANI_IDLE;
 	WHIP_STATE = 1;
 	levelWhip = 1;
 	whip = new Whip();
+	whip->SetPosition(getPosition());
 	baseInfo = new BaseInfo();
 }
 
@@ -64,16 +69,27 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	SetupAtacking();
 	SetupSubWeapon(coObjects);
 	handleState();
+	
+	if (GetTickCount() - comeEntranceStart <= SIMON_ENTRANCE_TIME)
+		SetState(SIMON_STATE_WALKING_RIGHT);
 
-	if (level == 0)
-	{
-		if (GetTickCount() - comeEntranceStart <= SIMON_ENTRANCE_TIME)
-			SetState(SIMON_STATE_WALKING_RIGHT);
-		else if (comeEntranceStart > 0)
-			comeEntranceStart = 0;
-	}
+	else if (comeEntranceStart > 0)
+		comeEntranceStart = 0;
+
 	updateCollisionStair();
+	updateCollisionSubStair();
 	handleCollisionObjectGame(dt, coObjects);
+
+	if (startHurt > 0 && GetTickCount() - startHurt > SIMON_HURT_TIME)
+	{
+		startHurt = 0;
+	}
+
+	if (invisible_Potion_Start > 0 && GetTickCount() - invisible_Potion_Start > INVISIBLE_TIME)
+	{
+		invisible_Potion_Start = 0;
+		isVisible = false;
+	}
 }
 
 void Simon::loadResource()
@@ -127,14 +143,53 @@ void Simon::OnKeyStateChange(BYTE * states)//state
 			{
 				if (originalStair->get_ny() > 0)
 				{
+					if (!isOnStair)
+					{
+						SetPosition(D3DXVECTOR2(originalStair->getPosition().x - 30, y));
+					}
 					SetState(SIMON_STATE_GO_UP_STAIR);
+					updateCollisionStair();
 				}
 			}
 			else if (directInput->IsKeyDown(DIK_DOWN))
 			{
 				if (originalStair->get_ny() < 0)
 				{
+					if (!isOnStair)
+					{
+						SetPosition(D3DXVECTOR2(originalStair->getPosition().x-15, y));
+					}
 					SetState(SIMON_STATE_GO_DOWN_STAIR);
+					updateCollisionStair();
+				}
+			}
+		}
+		break;
+	case SIMON_STATE_HURT:
+		if (originalStair)
+		{
+			if (directInput->IsKeyDown(DIK_UP))
+			{
+				if (originalStair->get_ny() > 0)
+				{
+					if (!isOnStair)
+					{
+						SetPosition(D3DXVECTOR2(originalStair->getPosition().x - 30, y));
+					}
+					SetState(SIMON_STATE_GO_UP_STAIR);
+					updateCollisionStair();
+				}
+			}
+			else if (directInput->IsKeyDown(DIK_DOWN))
+			{
+				if (originalStair->get_ny() < 0)
+				{
+					if (!isOnStair)
+					{
+						SetPosition(D3DXVECTOR2(originalStair->getPosition().x - 15, y));
+					}
+					SetState(SIMON_STATE_GO_DOWN_STAIR);
+					updateCollisionStair();
 				}
 			}
 		}
@@ -171,6 +226,7 @@ void Simon::OnKeyStateChange(BYTE * states)//state
 				else if (directInput->IsKeyDown(DIK_DOWN))
 				{
 					SetState(SIMON_STATE_GO_DOWN_STAIR);
+					
 				}
 				else if (directInput->IsKeyDown(DIK_Z))
 				{
@@ -187,7 +243,7 @@ void Simon::OnKeyDown(int KeyCode)//event
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
 	DirectInput* directInput = DirectInput::getInstance();
-	
+
 	switch (KeyCode)
 	{
 	case DIK_A:
@@ -205,7 +261,7 @@ void Simon::OnKeyDown(int KeyCode)//event
 		isInTunel = true;
 		Direct3DManager::getInstance()->getViewport()->SetPosition(Direct3DManager::getInstance()->getViewport()->getX(), 430);
 		break;
-	
+
 	}
 
 	switch (state)
@@ -247,7 +303,6 @@ void Simon::OnKeyDown(int KeyCode)//event
 			}
 		}
 		break;
-	
 	}
 }
 
@@ -270,13 +325,19 @@ void Simon::OnKeyUp(int KeyCode)
 		if (KeyCode == DIK_J)
 			SetState(SIMON_STATE_IDLE);
 		break;
+	case SIMON_STATE_GO_UP_STAIR:
+		SetState(SIMON_STATE_IDLE_UP_STAIR);
+		break;
+	case SIMON_STATE_GO_DOWN_STAIR:
+		SetState(SIMON_STATE_IDLE_DOWN_STAIR);
+		break;
 	}
 }
 
 void Simon::moveRight(DWORD dt)
 {
 	state = SIMON_STATE_WALKING_RIGHT;
-	x += 0.15 * dt;
+	x += 0.025 * dt;
 }
 
 void Simon::SetupAtacking()
@@ -305,19 +366,26 @@ void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (baseInfo->getIdSubWeapon() != NULL)
 		{
-			baseInfo->getSubWeapon()->SetState(STATE_SHOW);
-			if (state == SIMON_STATE_ATTACK_SITDOWN_SUBWEAPON)
+			if (baseInfo->getIdSubWeapon() == ID_ENTITY_STOP_WATCH)
 			{
-				baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y + 30));
+				Enemy::StopWatchStart();
 			}
 			else
 			{
-				baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y));
+				baseInfo->getSubWeapon()->SetState(STATE_SHOW);
+				if (state == SIMON_STATE_ATTACK_SITDOWN_SUBWEAPON)
+				{
+					baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y + 30));
+				}
+				else
+				{
+					baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y));
+				}
+				baseInfo->getSubWeapon()->set_nx(nx);
+				coObjects->push_back(baseInfo->getSubWeapon());
+				startThrowWeapon = GetTickCount();
 			}
-			baseInfo->getSubWeapon()->set_nx(nx);
-			coObjects->push_back(baseInfo->getSubWeapon());
-			startThrowWeapon = GetTickCount();
-			baseInfo->setHeart(baseInfo->getHeart() - 1);
+			baseInfo->setHeart(max(0,baseInfo->getHeart() - 1));
 		}
 	}
 }
@@ -329,6 +397,10 @@ void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
 		whip->updatePostision(animation->getCurrentFrame(), currentAnimation, flip);
 		whip->draw(flip, viewport);
 	}
+	else
+	{
+		whip->SetPosition(D3DXVECTOR2(x, y));
+	}
 }
 
 void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -336,24 +408,35 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (attacking)
 	{
 		whip->Update(dt, coObjects);
-		if (animations.find(currentAnimation)->second->getCurrentFrame() == 2 && whip->getframe() == 2)
+
+		if (startAtack == 0)
 		{
-			animations.find(currentAnimation)->second->SetFinish(true);
-			whip->animations.find(whip->getCurrentAnimation())->second->SetFinish(true);
+			startAtack = GetTickCount();
+		}
+		else if (startAtack > 0 && GetTickCount() - startAtack > 600)
+		{
+			Reset(currentAnimation);
+			startAtack = 0;
 		}
 	}
 
 	if (enableSubWeapon)
 	{
-		if (animations.find(currentAnimation)->second->getCurrentFrame() == 2)
+		if (startAtackSub == 0)
 		{
-			animations.find(currentAnimation)->second->SetFinish(true);
+			startAtackSub = GetTickCount();
+		}
+		else if (startAtackSub > 0 && GetTickCount() - startAtackSub > 600)
+		{
+			SetState(SIMON_STATE_IDLE);
+			animations.find(currentAnimation)->second->SetFinish(false);
+			startAtackSub = 0;
 		}
 	}
 
 	if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
 	{
-		if (GetTickCount() - startThrowWeapon > 500 && startThrowWeapon > 0)
+		if (GetTickCount() - startThrowWeapon > 600 && startThrowWeapon > 0 && enableSubWeapon)
 		{
 			enableSubWeapon = false;
 			startThrowWeapon = 0;
@@ -364,9 +447,9 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Simon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	left = x;
+	left = x + 20;
 	top = y;
-	right = left + width - 20;
+	right = left + width / 2;
 	bottom = top + height;
 }
 
@@ -388,7 +471,7 @@ void Simon::Render(Viewport* viewport)
 
 		if (isOnStair)
 		{
-			if (state == SIMON_STATE_GO_DOWN_STAIR || state == SIMON_STATE_IDLE_DOWN_STAIR 
+			if (state == SIMON_STATE_GO_DOWN_STAIR || state == SIMON_STATE_IDLE_DOWN_STAIR
 				|| state == SIMON_STATE_ATTACK_DOWN_STAIR)
 			{
 				if (nx > 0 && ny > 0)
@@ -413,19 +496,37 @@ void Simon::Render(Viewport* viewport)
 				}
 			}
 		}
-		animation->Render(pos.x, pos.y, flip);
+
+		if (checkInsideViewPort(viewport))
+		{ 
+			if (!untouchable && !isVisible)
+			{
+				animation->Render(pos.x, pos.y, flip);
+			}
+			else if (untouchable)
+			{
+				int alpha = rand() % 100 > 50 ? 80 : 170;
+				animation->Render(pos.x, pos.y, flip, alpha);
+			} 
+			else if (isVisible)
+			{
+				int alpha = 100;
+				animation->Render(pos.x, pos.y, flip, alpha);
+			}
+		}
+		else return;
 	}
 	RenderWeapon(animation, viewport);
 }
 
 bool Simon::isMovedMap()
 {
-	return hasMovedMap; 
+	return hasMovedMap;
 }
 
 void Simon::SetStateMoveMap(bool hasMovedMap)
 {
-	this->hasMovedMap = hasMovedMap; 
+	this->hasMovedMap = hasMovedMap;
 }
 
 bool Simon::isOnGround()
@@ -452,7 +553,6 @@ void Simon::handleState()
 		nx = -1;
 		attacking = false;
 		checkRewind = true;
-		attacking = false;
 		currentAnimation = SIMON_ANI_WALKING;
 		break;
 
@@ -476,33 +576,33 @@ void Simon::handleState()
 		break;
 
 	case SIMON_STATE_ATTACK_JUMP:
+		enableSubWeapon = false;
 		attacking = true;
 		checkRewind = false;
 		currentAnimation = SIMON_ANI_ATTACK_STANDING;
-		Reset(currentAnimation);
 		break;
 
 	case SIMON_STATE_ATTACK_JUMP_SUBWEAPON:
 		enableSubWeapon = true;
+		attacking = false;
 		checkRewind = false;
 		currentAnimation = SIMON_ANI_ATTACK_STANDING;
-		Reset(currentAnimation);
 		break;
 
 	case SIMON_STATE_ATTACK_STAND:
+		enableSubWeapon = false;
 		vx = 0;
 		attacking = true;
-		checkRewind = false;
+		checkRewind = true;
 		currentAnimation = SIMON_ANI_ATTACK_STANDING;
-		Reset(currentAnimation);
 		break;
 
 	case SIMON_STATE_ATTACK_STAND_SUBWEAPON:
 		vx = 0;
 		enableSubWeapon = true;
-		checkRewind = false;
+		attacking = false;
+		checkRewind = true;
 		currentAnimation = SIMON_ANI_ATTACK_STANDING;
-		Reset(currentAnimation);
 		break;
 
 	case SIMON_STATE_SITDOWN:
@@ -512,25 +612,26 @@ void Simon::handleState()
 		break;
 
 	case SIMON_STATE_ATTACK_SITDOWN:
+		enableSubWeapon = false;
 		attacking = true;
 		vx = 0;
-		checkRewind = false;
+		checkRewind = true;
 		currentAnimation = SIMON_ANI_ATTACK_SITDOWN;
-		Reset(currentAnimation);
 		break;
 
 	case SIMON_STATE_ATTACK_SITDOWN_SUBWEAPON:
 		enableSubWeapon = true;
+		attacking = true;
 		vx = 0;
-		checkRewind = false;
+		checkRewind = true;
 		currentAnimation = SIMON_ANI_ATTACK_SITDOWN;
-		Reset(currentAnimation);
 		break;
 
 	case SIMON_STATE_IDLE:
 		vx = 0;
 		isOnStair = false;
 		attacking = false;
+		enableSubWeapon = false;
 		checkRewind = false;
 		currentAnimation = SIMON_ANI_IDLE;
 		originalStair = nullptr;
@@ -552,39 +653,29 @@ void Simon::handleState()
 		break;
 
 	case SIMON_STATE_GO_UP_STAIR:
-		checkRewind = false;
+		checkRewind = true;
 		isOnStair = true;
 		set_nx(originalStair->get_nx());
 		set_ny(originalStair->get_ny());
 		SetSpeed(nx*SIMON_STAIR_SPEED, -SIMON_STAIR_SPEED);
-		if (nx < 0 && ny < 0)
+		if (ny < 0)
 		{
-			SetSpeed(SIMON_STAIR_SPEED, -SIMON_STAIR_SPEED);
-		}
-		else if (nx > 0 && ny < 0)
-		{
-			SetSpeed(-SIMON_STAIR_SPEED, -SIMON_STAIR_SPEED);
+			SetSpeed(-nx*SIMON_STAIR_SPEED, -SIMON_STAIR_SPEED);
 		}
 		currentAnimation = SIMON_ANI_GO_UP_STAIR;
-		Reset(currentAnimation);
 		break;
 
 	case SIMON_STATE_GO_DOWN_STAIR:
-		checkRewind = false;
+		checkRewind = true;
 		isOnStair = true;
 		set_nx(originalStair->get_nx());
 		set_ny(originalStair->get_ny());
-		SetSpeed(nx*SIMON_STAIR_SPEED, SIMON_STAIR_SPEED);
-		if (nx > 0 && ny > 0)
+		SetSpeed(nx*(SIMON_STAIR_SPEED), SIMON_STAIR_SPEED);
+		if ( ny > 0)
 		{
-			SetSpeed(-SIMON_STAIR_SPEED, SIMON_STAIR_SPEED);
-		}
-		else if (nx < 0 && ny > 0)
-		{
-			SetSpeed(SIMON_STAIR_SPEED, SIMON_STAIR_SPEED);
+			SetSpeed(-nx* SIMON_STAIR_SPEED, SIMON_STAIR_SPEED);
 		}
 		currentAnimation = SIMON_ANI_GO_DOWN_STAIR;
-		Reset(currentAnimation);
 		break;
 
 	case SIMON_STATE_IDLE_UP_STAIR:
@@ -603,27 +694,28 @@ void Simon::handleState()
 
 	case SIMON_STATE_ATTACK_UP_STAIR:
 		attacking = true;
-		checkRewind = false;
+		enableSubWeapon = false;
+		checkRewind = true;
 		isOnStair = true;
 		set_nx(originalStair->get_nx());
 		currentAnimation = SIMON_ANI_ATTACK_UP_STAIR;
-		Reset(currentAnimation);
 		break;
 
 	case SIMON_STATE_ATTACK_DOWN_STAIR:
 		attacking = true;
-		checkRewind = false;
+		checkRewind = true;
+		enableSubWeapon = false;
 		isOnStair = true;
 		set_nx(originalStair->get_nx());
 		currentAnimation = SIMON_ANI_ATTACK_DOWN_STAIR;
-		Reset(currentAnimation);
 		break;
 
 	case SIMON_STATE_HURT:
-		if (!isjumping)
+		attacking = false;
+		if (!isjumping && isOnGround()&& !isOnStair)
 		{
-			isjumping = true;
-			vy = -SIMON_JUMP_SPEED_Y;
+ 			isjumping = true;
+			vy = -SIMON_HURT_SPEED_Y;
 			vx = -nx * SIMON_MOVE_SPEED;
 			break;
 		}
@@ -633,10 +725,10 @@ void Simon::handleState()
 		}
 		else if (isOnGround() && isjumping)
 		{
-			Reset(currentAnimation);
 			SetState(SIMON_STATE_IDLE);
 		}
-		checkRewind = false;
+		checkRewind = true;
+		animations.find(currentAnimation)->second->SetFinish(false);
 		break;
 	}
 	animations.find(currentAnimation)->second->SetLoop(checkRewind);
@@ -645,46 +737,58 @@ void Simon::handleState()
 
 void Simon::Reset(int currentAnimation)
 {
-	if (animations.find(currentAnimation)->second->IsFinished())
+	switch (currentAnimation)
 	{
-		switch (currentAnimation)
-		{
-		case SIMON_ANI_GO_UP_STAIR:
-		case SIMON_ANI_ATTACK_UP_STAIR:
-			SetState(SIMON_STATE_IDLE_UP_STAIR);
-			attacking = false;
-			break;
-		case SIMON_ANI_GO_DOWN_STAIR:
-		case SIMON_ANI_ATTACK_DOWN_STAIR:
-			SetState(SIMON_STATE_IDLE_DOWN_STAIR);
-			attacking = false;
-			break;
-		case SIMON_ANI_SITDOWN:
-		case SIMON_ANI_ATTACK_SITDOWN:
-			SetState(SIMON_STATE_SITDOWN);
-			attacking = false;
-			break;
-		default:
-			SetState(SIMON_STATE_IDLE);
-			break;
-		}
-		animations.find(currentAnimation)->second->SetFinish(false);
+	case SIMON_ANI_GO_UP_STAIR:
+	case SIMON_ANI_ATTACK_UP_STAIR:
+		SetState(SIMON_STATE_IDLE_UP_STAIR);
+		attacking = false;
+		break;
+	case SIMON_ANI_GO_DOWN_STAIR:
+	case SIMON_ANI_ATTACK_DOWN_STAIR:
+		SetState(SIMON_STATE_IDLE_DOWN_STAIR);
+		attacking = false;
+		break;
+	case SIMON_ANI_SITDOWN:
+	case SIMON_ANI_ATTACK_SITDOWN:
+		SetState(SIMON_STATE_SITDOWN);
+		attacking = false;
+		break;
+	default:
+		SetState(SIMON_STATE_IDLE);
+		attacking = false;
+		break;
 	}
 
-	if (whip->animations.find(whip->getCurrentAnimation())->second->IsFinished())
+	if (!enableSubWeapon)
 	{
 		whip->animations.find(whip->getCurrentAnimation())->second->SetFinish(false);
-	}
+	}	
+	animations.find(currentAnimation)->second->SetFinish(false);
 }
 
 void Simon::updateCollisionStair()
 {
 	if (isOnStair)
 	{
-		if ((originalStair->get_ny() > 0 && (y <= (originalStair->getPosition().y - originalStair->getHeight()) || y + height >= originalStair->getPosition().y)) ||
-			(originalStair->get_ny() < 0 && (y >= (originalStair->getPosition().y + originalStair->getHeight() - height) || y <= originalStair->getPosition().y)))
+		if(originalStair->get_ny() > 0 && (y + height <= (originalStair->getPosition().y + originalStair->getInfoStair().x - originalStair->getHeight()))
+		|| originalStair->get_ny() < 0 && (y + height >= (originalStair->getPosition().y + originalStair->getHeight())))
 		{
 			SetState(SIMON_STATE_IDLE);
+			//nx = originalStair->get_ny()* originalStair->get_nx()*nx;
+		}
+	}
+}
+
+void Simon::updateCollisionSubStair()
+{
+	if (isOnStair)
+	{
+		if (originalStair->get_ny() > 0 && (y + height <= (originalStair->getPosition().y + originalStair->getInfoStair().x - originalStair->getHeight())|| y + height >= originalStair->getPosition().y)
+			|| originalStair->get_ny() < 0 && (y + height >= (originalStair->getPosition().y + originalStair->getHeight()) || y + height <= originalStair->getPosition().y + originalStair->getInfoStair().x))
+		{
+			SetState(SIMON_STATE_IDLE);
+			//nx = originalStair->get_ny()* originalStair->get_nx()*nx;
 		}
 	}
 }
@@ -743,51 +847,80 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				comeEntranceStart = GetTickCount();
 				break;
 			case ID_ENTITY_WALL_ENTRANCE:
-				if (coEvents[i]->obj->getName().compare("Spawn Zombie") == 0)
+				if (isOnStair)
 				{
-					this->isInSpawn = true;
-					idEnemySpawn = ID_ENTITY_ZOMBIE;
-				}
-				else if (coEvents[i]->obj->getName().compare("Spawn Bat") == 0)
-				{	
-					this->isInSpawn = true;
-					idEnemySpawn = ID_ENTITY_VAMPIRE_BAT;
-				}
-				else if (coEvents[i]->obj->getName().compare("Spawn Fish Man") == 0)
-				{
-					this->isInSpawn = true;
-					idEnemySpawn = ID_ENTITY_FISH_MAN;
-				}
-				else if (coEvents[i]->obj->getName().compare("WallActivatePanther") == 0)
-				{
-
+					if (ny < 0 && coEvents[i]->obj->getName().compare("MoveMapDown1") == 0)
+					{
+						level = 3;
+						originalStair->SetPosition(D3DXVECTOR2(179.17f, 175.f));
+						originalStair->set_nx(-1);
+						originalStair->set_ny(1);
+						SetPosition(D3DXVECTOR2(15.f, -20.f));
+						setStartViewPort(coEvents[i]->obj->getStartViewPort());
+					}
+					else if (ny > 0 && (coEvents[i]->obj->getName().compare("MoveMapUp1") == 0))
+					{
+						level = 2;
+						originalStair->SetPosition(D3DXVECTOR2(3147.25f, 405.f));
+						originalStair->set_ny(-1);
+						originalStair->set_nx(1);
+						SetPosition(D3DXVECTOR2(3180.00, 394.00));
+						setStartViewPort(coEvents[i]->obj->getStartViewPort());
+					}
+					if (ny < 0 && coEvents[i]->obj->getName().compare("MoveMapDown1") == 0)
+					{
+						level = 3;
+						originalStair->SetPosition(D3DXVECTOR2(179.17f, 175.f));
+						originalStair->set_nx(-1);
+						originalStair->set_ny(1);
+						SetPosition(D3DXVECTOR2(15.f, -20.f));
+						setStartViewPort(coEvents[i]->obj->getStartViewPort());
+					}
+					else if (ny > 0 && (coEvents[i]->obj->getName().compare("MoveMapUp1") == 0))
+					{
+						level = 2;
+						originalStair->SetPosition(D3DXVECTOR2(3147.25f, 405.f));
+						originalStair->set_ny(-1);
+						originalStair->set_nx(1);
+						SetPosition(D3DXVECTOR2(3180.00, 394.00));
+						setStartViewPort(coEvents[i]->obj->getStartViewPort());
+					}
 				}
 				else if (coEvents[i]->obj->getName().compare("Wall_behind_entrance") == 0)
 				{
-					level = 1;
-					y = 291.00;
-					x = 50;
+					level = 2;
+					x = 0;
 					SetState(SIMON_STATE_IDLE);
 				}
-				else
+				else if (coEvents[i]->obj->getName().compare("Wall") == 0)
 				{
+					if (ny != 0) vy = 0;
+					Dy = min_ty * dy + ny * 0.1f;
 					Dx = min_tx * dx + nx * 0.11f;
 					if (nx != 0) vx = 0;
 				}
 				break;
 			case ID_ENTITY_FLOOR:
-				if (coEvents[i]->obj->getName().compare("HighFloor") == 0)
+				if (!isOnStair)
 				{
-					if (ny < 0)
+					if (coEvents[i]->obj->getName().compare("HighFloor") == 0)
 					{
-						vy = 0;
+						if (ny < 0)
+						{
+							vy = 0;
+							Dy = min_ty * dy + ny * 0.1f;
+						}
+					}
+					else if (coEvents[i]->obj->getName().compare("Floor") == 0)
+					{
+						if (ny != 0) vy = 0;
 						Dy = min_ty * dy + ny * 0.1f;
 					}
-				}
-				else
-				{
-					if (ny != 0) vy = 0;
-					Dy = min_ty * dy + ny * 0.1f;
+					if (coEvents[i]->obj->getName().compare("Water") == 0)
+					{
+						WaterEffect* effect = new WaterEffect(getPosition());
+						coObjects->push_back(effect);
+					}
 				}
 				break;
 			case ID_ENTITY_DOOR:
@@ -805,13 +938,6 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				Dx = min_tx * dx + nx * 0.11f;
 				Door::startAction();
 				break;
-			case ID_ENTITY_ZOMBIE:
-			case ID_ENTITY_FISH_MAN:
-			case ID_ENTITY_CRYSTAL_BALL:
-			case ID_ENTITY_PANTHER:
-			case ID_ENTITY_VAMPIRE_BAT:
-				SetState(SIMON_STATE_HURT);
-				break;
 			}
 		}
 		x += Dx;
@@ -828,23 +954,11 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 	case ID_ENTITY_FISH_MAN:
 	case ID_ENTITY_CRYSTAL_BALL:
 	case ID_ENTITY_VAMPIRE_BAT:
-		SetState(SIMON_STATE_HURT);
-		break;
-	case ID_ENTITY_WALL_ENTRANCE:
-		if (coObjects->at(i)->getName().compare("Spawn Zombie") == 0)
+		if (!untouchable && !isVisible)
 		{
-			this->isInSpawn = true;
-			idEnemySpawn = ID_ENTITY_ZOMBIE;
-		}
-		else if (coObjects->at(i)->getName().compare("Spawn Bat") == 0)
-		{
-			this->isInSpawn = true;
-			idEnemySpawn = ID_ENTITY_VAMPIRE_BAT;
-		}
-		else if (coObjects->at(i)->getName().compare("Spawn Fish Man") == 0)
-		{
-			this->isInSpawn = true;
-			idEnemySpawn = ID_ENTITY_FISH_MAN;
+			SetState(SIMON_STATE_HURT);
+			baseInfo->setHealth(max(0,baseInfo->getHealth() - 1));
+			StartUntouchable();
 		}
 		break;
 	case ID_ENTITY_WEAPON_REWARD:
@@ -877,9 +991,19 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 			coEvents->at(i)->obj->SetState(STATE_DETROY);
 		}
 		break;
+	case ID_ENTITY_STOP_WATCH:
+		baseInfo->setIdSubWeapon(ID_ENTITY_STOP_WATCH);
+		if (coObjects)
+		{
+			coObjects->at(i)->SetState(STATE_DETROY);
+		}
+		else
+		{
+			coEvents->at(i)->obj->SetState(STATE_DETROY);
+		}
+		break;
 	case ID_ENTITY_FIRE_BOMB:
 		baseInfo->setIdSubWeapon(ID_ENTITY_FIRE_BOMP_WEAPON);
-
 		if (coObjects)
 		{
 			coObjects->at(i)->SetState(STATE_DETROY);
@@ -912,7 +1036,21 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 		break;
 	case ID_ENTITY_DAGGER:
 		baseInfo->setIdSubWeapon(ID_ENTITY_DAGGER_WEAPON);
-		
+		if (coObjects)
+		{
+			coObjects->at(i)->SetState(STATE_DETROY);
+		}
+		else
+		{
+			coEvents->at(i)->obj->SetState(STATE_DETROY);
+		}
+		break;
+	case ID_ENTITY_INVISIBILITY_POTION:
+		isVisible = true;
+		if (invisible_Potion_Start == 0)
+		{
+			invisible_Potion_Start = GetTickCount();
+		} 
 		if (coObjects)
 		{
 			coObjects->at(i)->SetState(STATE_DETROY);
@@ -924,7 +1062,6 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 		break;
 	case ID_ENTITY_AXE:
 		baseInfo->setIdSubWeapon(ID_ENTITY_AXE_WEAPON);
-
 		if (coObjects)
 		{
 			coObjects->at(i)->SetState(STATE_DETROY);
@@ -963,18 +1100,24 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, int id, int i
 			coObjects->at(i)->SetPosition(D3DXVECTOR2(x, y + 20));
 		}
 		break;
-		case ID_ENTITY_STAIR:
+	case ID_ENTITY_STAIR:
 		if (!isOnStair)
 		{
-			originalStair = dynamic_cast<ObjectStair*>(coObjects->at(i));
+			originalStair = new ObjectStair(dynamic_cast<ObjectStair*>(coObjects->at(i)));
 		}
 		break;
 	case ID_ENTITY_PANTHER:
 		Panther* panther = dynamic_cast<Panther*>(coObjects->at(i));
-		panther->setActivate(true);
-		float l, t, r, b;
-		GetBoundingBox(l, t, r, b);
-		panther->setBBPlayer(D3DXVECTOR4(l, t, r, b));
+		if (!panther->IsActivate())
+		{
+			panther->setActivate(true);
+		}
+		else if(!untouchable && !isVisible)
+		{
+			SetState(SIMON_STATE_HURT);
+			baseInfo->setHealth(max(0, baseInfo->getHealth() - 1));
+			StartUntouchable();
+		}
 		break;
 	}
 }
@@ -987,7 +1130,7 @@ void Simon::handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coO
 	RECT rect2;
 	for (int i = 0; i < (int)coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->getID() == ID_ENTITY_PANTHER && coObjects->at(i)->GetState() != 0)
+		if (coObjects->at(i)->getID() == ID_ENTITY_PANTHER && coObjects->at(i)->GetState() != Panther::PANTHER_STATE_ACTIVATE)
 		{
 			Panther* panther = nullptr;
 			panther = dynamic_cast<Panther*>(coObjects->at(i));
@@ -1003,7 +1146,7 @@ void Simon::handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coO
 				}
 			}
 		}
-		else 
+		else
 		{
 			coObjects->at(i)->GetBoundingBox(l, t, r, b);
 			rect1 = RECT{ long(l), long(t), long(r), long(b) };

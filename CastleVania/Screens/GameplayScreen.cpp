@@ -20,64 +20,31 @@
 #include "../FishMan.h"
 #include "../Door.h"
 
-void GameplayScreen::init()
-{
-	Direct3DManager* direct3D = Direct3DManager::getInstance();
-	viewport = direct3D->getViewport();
-	path = "ReadSprite.txt";
-	IdScreen = ID_ENTITY_MAP_PLAYGAME;
-	resourceManagement = ResourceManagement::GetInstance();
-}
-
-void GameplayScreen::loadResources()
-{
-	ScreenBase::loadResources();
-}
 
 void GameplayScreen::update(DWORD dt)
 {
 	ScreenBase::update(dt);
-
 	updateViewport(dt);
-
-	updateMap();
-
-	for (int i = 0; i < (int)objects.size(); i++)
-	{
-		objects[i]->Update(dt, &objects);
-		if (objects[i]->GetState() == objects[i]->STATE_DETROY)
-		{
-			objects.erase(objects.begin() + i);
-		}
-	}
-}
-
-void GameplayScreen::renderObject(Viewport * viewport)
-{
-	ScreenBase::renderObject(viewport);
+	updateEnemy();
 }
 
 void GameplayScreen::updateViewport(DWORD dt)
 {
-	if (viewport->getState() == viewport->STATE_ACTION)
+	if (viewport ->getState()== viewport->STATE_ACTION)
 	{
 		D3DXVECTOR2 pos_Simon = Simon::getInstance()->getPosition();
 		int widthframeSimon = Simon::getInstance()->getWidth();
 		D3DXVECTOR2 newPosViewport = D3DXVECTOR2{};
 		newPosViewport.x = Simon::getInstance()->getPosition().x - viewport->getWidth() / 2 + widthframeSimon / 2;
-		newPosViewport.x = min(resourceManagement->getTiledMap(IdScreen)->getWidthWorld()  - viewport->getWidth(), newPosViewport.x);
-		newPosViewport.y = min(resourceManagement->getTiledMap(IdScreen)->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
-		newPosViewport.x = max(0, newPosViewport.x);
+		
+		newPosViewport.x = min(widthGameWorld - viewport->getWidth(), newPosViewport.x);
+		newPosViewport.y = min(heightGameWorld - viewport->getHeight(), newPosViewport.y);
+		newPosViewport.x = max( Simon::getInstance()->getStartViewPort(), newPosViewport.x);
 		newPosViewport.y = max(0, newPosViewport.y);
 		viewport->setX(float(newPosViewport.x));
 		viewport->SetPosition(float(newPosViewport.x), float(newPosViewport.y));
 	}
 	else return;
-}
-
-void GameplayScreen::updateMap()
-{
-	updateEnemy();
 }
 
 void GameplayScreen::updateEnemy()
@@ -130,6 +97,11 @@ void GameplayScreen::createZombie(Viewport* viewport)
 
 GameplayScreen::GameplayScreen()
 {
+	path = "ReadSprite.txt";
+	IdScreen = ID_ENTITY_MAP_PLAYGAME;
+	widthGameWorld = resourceManagement->getTiledMap(IdScreen)->getWidthWorld();
+	heightGameWorld = resourceManagement->getTiledMap(IdScreen)->getHeightWorld();
+	Simon::getInstance()->SetState(Simon::SIMON_STATE_IDLE);
 }
 
 GameplayScreen::~GameplayScreen()

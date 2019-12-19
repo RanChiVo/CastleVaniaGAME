@@ -43,11 +43,12 @@ protected:
 	int currentAnimation;
 	static int level;
 	bool isCollision = false;
-	int liveTime;
+	DWORD liveTime;
 	std::string name;
 	std::string idHiddenItem;
 	std::string objectID;
 	std::string nameEnemy;
+	float startViewPort;
 	DWORD dt;
 	static unordered_map<int, LPANIMATION> animations;
 
@@ -61,8 +62,8 @@ public:
 	GameObject();
 	static int getLevel() { return level; }
 	void setLevel(int level) { this->level = level; }
-	int getLiveTime() { return liveTime; }
-	void setLiveTime(int liveTime) { this->liveTime = liveTime; }
+	DWORD getLiveTime() { return liveTime; }
+	void setLiveTime(DWORD liveTime) { this->liveTime = liveTime; }
 	void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
 	D3DXVECTOR2 getPosition();
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
@@ -84,6 +85,9 @@ public:
 	std::string getObjectID() { return objectID; }
 	void setEnemyName(std::string nameEnemy) { this->nameEnemy = nameEnemy; }
 	std::string getEnemyName() { return nameEnemy; }
+	float getStartViewPort() { return startViewPort; }
+	void setStartViewPort(float startViewPort) { this->startViewPort = startViewPort; }
+
 	void set_nx(int nx) { this->nx = nx; }
 	int get_nx() { return nx; }
 	void set_ny(int ny) { this->ny = ny; }

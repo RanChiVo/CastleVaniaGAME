@@ -16,8 +16,8 @@ public:
 		std::string objectId,
 		std::string ObjectType,
 		std::string enemyName,
-		int stairHeight, int nx, int ny) :id{ id }, name{ name }, height{ height }, width{ width }, position{ position },
-		idHiddenItem{ idHiddenItem }, objectId{ objectId }, ObjectType{ ObjectType }, enemyName{ enemyName }, stairHeight{ stairHeight }, nx{ nx }, ny{ ny }
+		int stairHeight, float startViewport, int nx, int ny) :id{ id }, name{ name }, height{ height }, width{ width }, position{ position },
+		idHiddenItem{ idHiddenItem }, objectId{ objectId }, ObjectType{ ObjectType }, enemyName{ enemyName }, stairHeight{ stairHeight }, startViewport{ startViewport }, nx{ nx }, ny{ ny }
 	{}
 
 	int id;
@@ -30,6 +30,7 @@ public:
 	std::string ObjectType;
 	std::string enemyName;
 	int stairHeight;
+	float startViewport;
 	int nx;
 	int ny;
 };
@@ -49,6 +50,7 @@ public:
 	builder& set_stairHeight(int value) { stairHeight = value; return *this; };
 	builder& set_nx(int value) { nx = value; return *this; };
 	builder& set_ny(int value) { ny = value; return *this; };
+	builder& set_startViewPort(int value) { startViewport = value; return *this; };
 
 	std::string get_name() { return name; }
 	int get_height() { return height; }
@@ -59,12 +61,13 @@ public:
 	std::string get_ObjectId() { return objectId; }
 	std::string get_enemyName() { return enemyName; }
 	int get_stairHeight() { return stairHeight; }
+	int get_StartViewPort() { return startViewport; }
 	int get_nx() { return nx; }
 	int get_ny() { return ny; }
 
 	ObjectInfo build() const
 	{
-		return ObjectInfo{ id, name, height, width, position, idHiddenItem, objectId , ObjectType, enemyName, stairHeight, nx, ny };
+		return ObjectInfo{ id, name, height, width, position, idHiddenItem, objectId , ObjectType, enemyName, stairHeight, startViewport, nx, ny };
 	}
 
 private:
@@ -78,6 +81,7 @@ private:
 	std::string ObjectType = "";
 	std::string enemyName = "";
 	int stairHeight = 0;
+	float startViewport = 0;
 	int nx = 0;
 	int ny = 0;
 };

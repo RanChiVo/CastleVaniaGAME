@@ -37,9 +37,20 @@ void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else
 		{
 			float min_tx, min_ty, nx, ny;
+			float Dx = dx, Dy = dy;
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-			y += min_ty * dy + ny * 0.1f;
-			if (ny != 0) vy = 0;
+			for (int i = 0; i < coEvents.size(); i++)
+			{
+				switch (coEvents[i]->obj->getID())
+				{
+				case ID_ENTITY_FLOOR:
+					if (ny < 0) vy = 0;
+					Dy = min_ty * dy + ny * 0.11f;
+					break;
+				}
+			}
+			x += Dx;
+			y += Dy;
 		}
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

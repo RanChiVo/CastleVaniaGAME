@@ -12,6 +12,18 @@ ObjectStair::ObjectStair(D3DXVECTOR2 pos, D3DXVECTOR4 infoStair, int height)
 	this->height = height;
 }
 
+ObjectStair::ObjectStair(ObjectStair * o)
+{
+	this->id = ID_ENTITY_STAIR;
+	SetPosition(o->getPosition());
+	this->infoStair = o->infoStair;
+	this->bboxWidth = o-> infoStair.x;
+	this->bboxHeight = o->infoStair.y;
+	this->nx = o->infoStair.z;
+	this->ny = o->infoStair.w;
+	this->height = o->height;
+}
+
 void ObjectStair::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	left = x;

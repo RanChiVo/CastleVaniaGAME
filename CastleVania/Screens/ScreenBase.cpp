@@ -18,7 +18,14 @@
 
 ScreenBase::ScreenBase()
 {
+	Direct3DManager* direct3D = Direct3DManager::getInstance();
+	viewport = Direct3DManager::getInstance()->getViewport();
+	resourceManagement = ResourceManagement::GetInstance();
 	menu_point = new MenuPoint();
+}
+
+void ScreenBase::init()
+{
 }
 
 void ScreenBase::update(DWORD deltatime)
@@ -26,11 +33,25 @@ void ScreenBase::update(DWORD deltatime)
 	menu_point->update();
 
 	ResourceManagement::GetInstance()->getTiledMap(IdScreen)->Update(deltatime, &objects);
+
+	for (int i = 0; i < (int)objects.size(); i++)
+	{
+		objects[i]->Update(deltatime, &objects);
+		if (objects[i]->GetState() == objects[i]->STATE_DETROY)
+		{
+			objects.erase(objects.begin() + i);
+		}
+	}
+
+	Simon::getInstance()->Update(deltatime, &objects);
+
 }
 
 void ScreenBase::loadResources()
 {
 	ResourceManagement::GetInstance()->loadResource(path);
+	Simon::getInstance()->loadResource();
+
 	menu_point->loadResource();
 	objects.clear();
 	CastleWall* castleWall = nullptr;
@@ -73,11 +94,6 @@ void ScreenBase::loadResources()
 			getInfoFromObjectInfo(object, objectEnemy);
 			objects.push_back(objectEnemy);
 			break;
-		case ID_ENTITY_SIMON:
-			Simon::getInstance()->loadResource();
-			getInfoFromObjectInfo(object, Simon::getInstance());
-			objects.push_back(Simon::getInstance());
-			break;
 		case ID_ENTITY_CASTLEVANIA_WALL:
 			objectInit = new CastleWall();
 			break;
@@ -105,11 +121,14 @@ void ScreenBase::loadResources()
 void ScreenBase::renderObject(Viewport * viewport)
 {
 	ResourceManagement::GetInstance()->getTiledMap(IdScreen)->draw(viewport);
-	menu_point->Draw();
-	for (int i = 0; i < (int)objects.size(); i++)
+
+		for (int i = 0; i < (int)objects.size(); i++)
 	{
 		objects[i]->Render(viewport);
 	}
+	Simon::getInstance()->Render(viewport);
+	menu_point->Draw();
+
 }
 
 void ScreenBase::getInfoFromObjectInfo(ObjectInfo::builder *info, LPGAMEOBJECT object)
@@ -120,6 +139,7 @@ void ScreenBase::getInfoFromObjectInfo(ObjectInfo::builder *info, LPGAMEOBJECT o
 	object->setWidth(info->get_width());
 	object->setIdHiddenItem(info->get_idHiddenItem());
 	object->setEnemyName(info->get_enemyName());
+	object->setStartViewPort(info->get_StartViewPort());
 }
 
 ScreenBase::~ScreenBase()

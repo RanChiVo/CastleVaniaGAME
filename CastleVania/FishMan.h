@@ -7,9 +7,9 @@ class FishMan : public Enemy
 private:
 	DWORD timeWalk;
 	DWORD timeShoot;
-	DWORD timeRevival;
 	Simon* simon;
 	D3DXVECTOR2 posRevival;
+	bool isActivated = false;
 public:
 	enum stateFishMan
 	{
@@ -23,6 +23,7 @@ public:
 	virtual void Render(Viewport* viewport);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	void setTimeRevival(DWORD timeRevival);
 	void handleState();
 	~FishMan();
 };

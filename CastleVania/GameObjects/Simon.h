@@ -8,15 +8,14 @@
 #include "../BaseInfo.h"
 #include "../ObjectStair.h"
 
-
 class Simon: public GameObject
 {
 private: 
-	
 	int ani;
 	int untouchable;
 	DWORD untouchable_start;
 	DWORD comeEntranceStart = 0;
+	DWORD invisible_Potion_Start = 0;
 	bool isInSpawn = false;
 	EntityID idEnemySpawn;
 	bool enableSubWeapon = false;
@@ -28,6 +27,10 @@ private:
 	float positition_stair;
 	bool hasMovedMap = false;
 	bool isInTunel = false;
+	bool isVisible = false;
+	DWORD startAtack = 0;
+	DWORD startAtackSub= 0;
+	DWORD startHurt;
 	ObjectStair* originalStair = nullptr;
 	ObjectStair* reverseStair = nullptr;
 	Flip flip;
@@ -41,7 +44,6 @@ private:
 	std::vector<LPGAMEOBJECT> objectCollision;
 	static Simon* _instance;
 	Simon();
-
 public:
 	enum State
 	{
@@ -76,7 +78,7 @@ public:
 	virtual void Render(Viewport* viewport);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
-
+	BaseInfo* getBaseInfo() { return baseInfo; }
 	bool isMovedMap();
 	void SetStateMoveMap(bool hasMovedMap);
 	bool IsInTunel() { return isInTunel; }
@@ -91,10 +93,11 @@ public:
 	void Reset(int currentAnimation);
 	void handleState();
 	void updateCollisionStair();
+	void updateCollisionSubStair();
 	void handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
-	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void handleAfterCollision(vector<LPGAMEOBJECT> *coObjects, int id ,int i, vector<LPCOLLISIONEVENT> *coEvents);
 	void handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	void RemoveWhip();
 	void SetupAtacking();

@@ -4,20 +4,20 @@
 #include "./WaterEffect.h"
 
 constexpr float FISH_MAN_GRAVITY = 0.001f;
-constexpr float FISH_MAN_SPEED_WALK = 0.12f;
+constexpr float FISH_MAN_SPEED_WALK = 0.08f;
 constexpr float FISH_MAN_SPEED_JUMP = 0.7f;
-constexpr DWORD  FISH_MAN_SHOOT = 500;
-constexpr DWORD  FISH_MAN_WALK = 1000;
-constexpr DWORD  FISH_MAN_REVIVAL_TIME = 6000;
+constexpr DWORD  FISH_MAN_SHOOT = 3000;
+constexpr DWORD  FISH_MAN_WALK = 1200;
+constexpr DWORD  FISH_MAN_REVIVAL_TIME = 20000;
 
-FishMan::FishMan(D3DXVECTOR2 position)
+FishMan::FishMan(D3DXVECTOR2 position) 
 {
 	id = ID_ENTITY_FISH_MAN;
-	state = FISH_MAN_STATE_HIDDEN;
 	AddAnimation(FISH_MAN_ANI_IDLE);
 	AddAnimation(FISH_MAN_ANI_WALK);
 	AddAnimation(FISH_MAN_ANI_SHOOT);
 	currentAnimation = FISH_MAN_ANI_IDLE;
+	state = FISH_MAN_STATE_HIDDEN;
 	posRevival = position;
 	vx = 0;
 	timeRevival = 0;
@@ -31,43 +31,47 @@ void FishMan::Render(Viewport * viewport)
 	Flip flip;
 	if (nx == 1) flip = normal;
 	else flip = flip_horiz;
-	if (state != FISH_MAN_STATE_HIDDEN)
+	if (!checkInsideViewPort(viewport))
+	{
+		SetState(FISH_MAN_STATE_HIDDEN);
+	}
+
+	if (state != STATE_EFFECT && state != FISH_MAN_STATE_HIDDEN)
 	{
 		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
+	Enemy::Render(viewport);
 }
 
 void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
+
 	handleState();
-
-	if (state!= FISH_MAN_STATE_HIDDEN)
-	{
-		vy += FISH_MAN_GRAVITY * dt;
-	}
-
+	
 	if (state == FISH_MAN_STATE_HIDDEN)
 	{
-		if( Simon::getInstance()->checkisInSpawn() && Simon::getInstance()->getIdEnemySpawn() == id && timeRevival == 0)
+		if (Simon::getInstance()->checkisInSpawn() && Simon::getInstance()->getIdEnemySpawn() == id)
 		{
-			timeRevival = GetTickCount();
-			SetState(FISH_MAN_STATE_IDLE);
-			vy = -FISH_MAN_SPEED_JUMP;
-			WaterEffect* effect = new WaterEffect(getPosition());
-			coObjects->push_back(effect);
-
-		}
-	}
-
-	if (state != FISH_MAN_STATE_HIDDEN)
-	{
-		if (GetTickCount() - timeRevival > FISH_MAN_REVIVAL_TIME)
-		{
-			SetState(FISH_MAN_STATE_HIDDEN);
-			timeRevival = 0;
-			SetPosition(posRevival);
-			Simon::getInstance()->setIsInSpawn(false);
+			if (isActivated)
+			{
+				if (GetTickCount() - timeRevival > 3000 && timeRevival > 0)
+				{
+					SetState(FISH_MAN_STATE_IDLE);
+					timeRevival = 0;
+					vy = -FISH_MAN_SPEED_JUMP;
+					WaterEffect* effect = new WaterEffect(getPosition());
+					coObjects->push_back(effect);
+				}
+			}
+			else 
+			{
+				isActivated = true;
+				SetState(FISH_MAN_STATE_IDLE);
+				vy = -FISH_MAN_SPEED_JUMP;
+				WaterEffect* effect = new WaterEffect(getPosition());
+				coObjects->push_back(effect);
+			}
 		}
 	}
 
@@ -77,6 +81,11 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state != FISH_MAN_STATE_HIDDEN)
 		CalcPotentialCollisions(coObjects, coEvents);
+
+	if (state != FISH_MAN_STATE_HIDDEN)
+	{
+		vy += FISH_MAN_GRAVITY * dt;
+	
 
 	if (coEvents.size() == 0)
 	{
@@ -106,10 +115,17 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
-				else
+				else if (coEvents[i]->obj->getName().compare("Floor") == 0)
 				{
+					SetState(FISH_MAN_STATE_HIDDEN);
 					if (ny != 0) vy = 0;
 					Dy = min_ty * dy + ny * 0.1f;
+				}
+
+				if (coEvents[i]->obj->getName().compare("Water") == 0)
+				{
+					WaterEffect* effect = new WaterEffect(getPosition());
+					coObjects->push_back(effect);
 				}
 				break;
 			}
@@ -123,7 +139,7 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		timeWalk = 0;
 		timeShoot = GetTickCount();
 		SetState(FISH_MAN_STATE_SHOOT);
-		CrystalBall* crystalBall = new CrystalBall(D3DXVECTOR2(x, y), nx);
+		CrystalBall* crystalBall = new CrystalBall(D3DXVECTOR2(x + nx*16, y), nx);
 		coObjects->push_back(crystalBall);
 	}
 
@@ -134,7 +150,7 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		nx = -nx;
 		timeWalk = GetTickCount();
 	}
-
+	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	Enemy::Update(dt, coObjects);
 }
@@ -147,6 +163,11 @@ void FishMan::GetBoundingBox(float & left, float & top, float & right, float & b
 	bottom = y + 66;
 }
 
+void FishMan::setTimeRevival(DWORD timeRevival)
+{
+	this->timeRevival = timeRevival;
+}
+
 void FishMan::handleState()
 {
 	switch (state)
@@ -157,7 +178,6 @@ void FishMan::handleState()
 		break;
 	case FISH_MAN_STATE_WALK:
 		vx = nx * FISH_MAN_SPEED_WALK;
-		vy = 0;
 		currentAnimation = FISH_MAN_ANI_WALK;
 		break;
 	case FISH_MAN_STATE_SHOOT:
@@ -165,6 +185,22 @@ void FishMan::handleState()
 		currentAnimation = FISH_MAN_ANI_SHOOT;
 		break;
 	case FISH_MAN_STATE_HIDDEN:
+		if (isActivated)
+		{
+			if (name.compare("FirstFishMan") == 0)
+			{
+				SetPosition(D3DXVECTOR2(Simon::getInstance()->getPosition().x - 64, posRevival.y));
+			}
+			else if (name.compare("SecondFishMan") == 0)
+			{
+				SetPosition(D3DXVECTOR2(Simon::getInstance()->getPosition().x + 64, posRevival.y));
+			}
+			if (timeRevival == 0)
+			{
+				setTimeRevival(GetTickCount());
+			}
+		}
+		vy = 0;
 		vx = 0;
 		break;
 	}

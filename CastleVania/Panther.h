@@ -13,7 +13,6 @@ private:
 	Simon* simon = nullptr;
 	bool isOnGround = false;
 	bool activate = false;
-	D3DXVECTOR4 bbPlayer;
 	RECT bbActivateLeft;
 	RECT bbActivateRight;
 
@@ -33,7 +32,6 @@ public:
 	void setBBActivateLeft(RECT bbActivateLeft);
 	RECT getBBActivateRight() { return bbActivateRight; }
 	void setBBActivateRight(RECT bbActivateRight);
-	void setBBPlayer(D3DXVECTOR4 bbPlayer);
 	void  handleState();
 	~Panther();
 };

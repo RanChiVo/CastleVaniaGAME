@@ -1,4 +1,5 @@
 #include "ResourceManagement.h"
+#include "ResourceManagement.h"
 #include "Library/pugixml.hpp"
 #include <iostream>
 #include <fstream>
@@ -69,6 +70,11 @@ void ResourceManagement::loadResource(std::string path)
 	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_ENTITY_GAMEPLAYSCREEN);
 	tiled_map = new TiledMap("TiledMap\\InsideCastle_map.tmx", textPlayScreen);
 	TiledMapList[EntityID::ID_ENTITY_MAP_PLAYGAME] = tiled_map;
+
+	textures->Add(ID_ENTITY_MAP_UNDERGROUND, L"TiledMap\\BasementCaslte_bank.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 textUnderGround = textures->Get(ID_ENTITY_MAP_UNDERGROUND);
+	tiled_map = new TiledMap("TiledMap\\BasementCaslte_map.tmx", textUnderGround);
+	TiledMapList[EntityID::ID_ENTITY_MAP_UNDERGROUND] = tiled_map;
 }
 
 void ResourceManagement::readAnimationFromFile(std::string resourcepath)
@@ -202,6 +208,8 @@ ResourceManagement::ResourceManagement()
 	{"ID_ENTITY_CROSS",EntityID::ID_ENTITY_CROSS },
 	{"ID_ENTITY_FIRE_BOMB",EntityID::ID_ENTITY_FIRE_BOMB },
 	{"ID_ENTITY_FIRE_BOMP_WEAPON",EntityID::ID_ENTITY_FIRE_BOMP_WEAPON },
+	{"ID_ENTITY_INVISIBILITY_POTION",EntityID::ID_ENTITY_INVISIBILITY_POTION },
+	{"ID_ENTITY_STOP_WATCH",EntityID::ID_ENTITY_STOP_WATCH },
 
 	{"ID_ENTITY_HP", EntityID::ID_ENTITY_HP },
 	{"ID_ENTITY_HP_ENEMY", EntityID::ID_ENTITY_HP_ENEMY },
@@ -211,7 +219,7 @@ ResourceManagement::ResourceManagement()
 	{"ID_ENTITY_VAMPIRE_BAT", EntityID::ID_ENTITY_VAMPIRE_BAT},
 	{"ID_ENTITY_FISH_MAN", EntityID::ID_ENTITY_FISH_MAN},
 	{"ID_ENTITY_CRYSTAL_BALL", EntityID::ID_ENTITY_CRYSTAL_BALL},
-
+	{"ID_ENTITY_MENU", EntityID::ID_ENTITY_MENU},
 	};
 
 	stringToAniID = {
@@ -241,7 +249,8 @@ ResourceManagement::ResourceManagement()
 	{"PORK_CHOP_ANI", ANI_ID::PORK_CHOP_ANI},
 	{"WEAPONREWARD_ANI", ANI_ID::WEAPONREWARD_ANI},
 	{"DAGGER_ANI", ANI_ID::DAGGER_ANI},
-	{"AXE_ANI", ANI_ID::AXE_ANI},
+	{"AXE_ANI_ITEM", ANI_ID::AXE_ANI_ITEM},
+	{"AXE_ANI_THROW", ANI_ID::AXE_ANI_THROW},
 	{"RED_MIRACULOUSBAG_ANI", ANI_ID::RED_MIRACULOUSBAG_ANI},
 	{"BLUE_MIRACULOUSBAG_ANI", ANI_ID::BLUE_MIRACULOUSBAG_ANI},
 	{"WHITE_MIRACULOUSBAG_ANI", ANI_ID::WHITE_MIRACULOUSBAG_ANI},
@@ -282,6 +291,7 @@ ResourceManagement::ResourceManagement()
 	{"FIRE_BOMP_ANI3", ANI_ID::FIRE_BOMP_ANI3},
 	{"FIRE_BOMP_ANI4", ANI_ID::FIRE_BOMP_ANI4},
 	{"FIRE_BOMP_ANI5", ANI_ID::FIRE_BOMP_ANI5},
+	{"INVISIBILITY_POTION_ANI", ANI_ID::INVISIBILITY_POTION_ANI},
 	};
 }
 

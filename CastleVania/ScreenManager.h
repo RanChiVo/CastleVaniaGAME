@@ -10,6 +10,11 @@ private:
 	std::vector<ScreenBase*> screens;
 	ScreenBase* screen;
 	EntityID currentScreenID;
+
+	ScreenBase* previousScreen;
+	ScreenBase* nextScreen;
+	ScreenBase* currentScreen;
+
 public:
 	ScreenManager();
 

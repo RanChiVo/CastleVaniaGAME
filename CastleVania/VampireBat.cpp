@@ -3,7 +3,7 @@
 #include "Direct3DManager.h"
 
 constexpr float VAMPIRE_BAT_SPEED = 0.13f;
-constexpr DWORD VAMPIRE_BAT_REVIVAL_TIME = 6000;
+constexpr DWORD VAMPIRE_BAT_REVIVAL_TIME = 5000;
 
 VampireBat::VampireBat()
 {
@@ -22,15 +22,16 @@ VampireBat::VampireBat()
 
 void VampireBat::Render(Viewport * viewport)
 {
+	if (state == STATE_SHOW)
+	{
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	RenderBoundingBox(viewport);
 	Flip flip;
 	if (nx == -1) flip = normal;
 	else flip = flip_horiz;
-	if ( state == STATE_SHOW)
-	{
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
+	Enemy::Render(viewport);
 }
 
 void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -73,6 +74,7 @@ void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		delta += 3.7f;
 		y = sin(delta * 3.14 / 180) * 12 + originalLocationY;
 	}
+
 	Enemy::Update(dt, coObjects);
 }
 
@@ -93,6 +95,9 @@ void VampireBat::handleState()
 	{
 	case STATE_SHOW:
 		currentAnimation = VAMPIRE_BAT_FLY_ANI1;
+		break;
+	case VAMPIRE_STATE_HIDDEN:
+		timeActivate = 0;
 		break;
 	}
 }

@@ -46,41 +46,13 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				coObjects->at(i)->SetState(STATE_EFFECT);
 				coObjects->at(i)->setLiveTime(GetTickCount());
+				DebugOut(L"liveTime:{%d}\n", coObjects->at(i)->getLiveTime());
 				if (id == ID_ENTITY_DAGGER_WEAPON)
 					SetState(STATE_DETROY);
 			}
 			break;
 		}
 	}
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	if (state != STATE_DETROY)
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	float min_tx, min_ty, nx, ny;
-	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-	for (int i = 0; i < (int)coEvents.size(); i++)
-	{
-		switch (coEvents[i]->obj->getID())
-		{
-		case ID_ENTITY_ZOMBIE:
-		case ID_ENTITY_PANTHER:
-		case ID_ENTITY_VAMPIRE_BAT:
-		case ID_ENTITY_FLOOR:
-			if ((coEvents[i]->obj->getName().compare("Floor") == 0))
-			{
-				y += min_ty * dy + ny * 0.1f;
-				SetState(STATE_DETROY);
-			}
-			break;
-		}
-	}
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 

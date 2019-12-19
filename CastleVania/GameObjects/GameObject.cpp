@@ -95,6 +95,7 @@ GameObject::GameObject()
 void GameObject::RenderBoundingBox(Viewport* viewport)
 {
 	Sprite *sprite;
+
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
 
@@ -111,8 +112,11 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 	sprite = new Sprite("BoundingBox", RECT{ rect.left, rect.top, rect.right, rect.bottom }, bbox);
 
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	
-	sprite->Draw(pos, 100);
+	if (id == ID_ENTITY_SIMON)
+	{
+		sprite->Draw(D3DXVECTOR2(pos.x + 20, pos.y), 100);
+	}
+	else sprite->Draw(pos, 100);
 }
 
 bool GameObject::checkInsideViewPort(Viewport * viewport)

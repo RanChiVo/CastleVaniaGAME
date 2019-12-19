@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_ENTITY_INVISIBILITY_POTION" name="Invisible_Potion" width="26" height="36">
+    <image source="Resources\Items\invisible_Potion.png" width="26" height="36" />
+  </imagelayer>
+  <sprites>
+    <spriteframe id="invisible_Potion" left="0" top="0" right="26" bottom="36" />
+  </sprites>
+</loadresource>

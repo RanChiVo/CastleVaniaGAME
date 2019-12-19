@@ -1,5 +1,7 @@
 #include "ScreenManager.h"
 #include "../CastleVania/Screens/GameplayScreen.h"
+#include "../CastleVania/EntranceScreen.h"
+#include "UndergroundScreen.h"
 #include "../CastleVania/GameObjects/Simon.h"
 
 ScreenManager::~ScreenManager()
@@ -44,8 +46,8 @@ void ScreenManager::renderObject(Viewport* viewport)
 void ScreenManager::addScreen(ScreenBase* _screen)
 {
 	screens.push_back(_screen);
-	currentScreenID = _screen->getIDScreen();
 	screens.back()->init();
+	currentScreenID = _screen->getIDScreen();
 }
 
 void ScreenManager::removeScreen()
@@ -62,11 +64,17 @@ void ScreenManager::changeScreen(int level)
 	this->removeScreen();
 	switch (level)
 	{
-	case 0:
-		screen = new GameplayScreen();
-		break;
 	case 1:
+		screen = new EntranceScreen();
+		screen->loadResources();
+		break;
+	case 2:
 		screen = new GameplayScreen();
+		screen->loadResources();
+		break;
+	case 3:
+		screen = new UndergroundScreen();
+		screen->loadResources();
 		break;
 	}
 	this->addScreen(screen);

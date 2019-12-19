@@ -118,14 +118,22 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Panther::Render(Viewport * viewport)
 {
 	RenderBoundingBox(viewport);
-	Flip flip;
-	if (nx == 1) flip = normal;
-	else flip = flip_horiz;
-	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
-	
-	if (!checkInsideViewPort(viewport) && state == PANTHER_STATE_ACTIVATE)
-		state = STATE_DETROY;
+	if (state!= STATE_EFFECT)
+	{
+		Flip flip;
+		if (nx == 1) flip = normal;
+		else flip = flip_horiz;
+
+		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+
+		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+
+		if (!checkInsideViewPort(viewport) && state == PANTHER_STATE_ACTIVATE)
+		{
+			state = STATE_DETROY;
+		}
+	}
+	Enemy::Render(viewport);
 }
 
 void Panther::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -144,14 +152,6 @@ void Panther::setBBActivateLeft(RECT bbActivateLeft)
 void Panther::setBBActivateRight(RECT bbActivateRight)
 {
 	this->bbActivateRight = bbActivateRight;
-}
-
-void Panther::setBBPlayer(D3DXVECTOR4 bbPlayer)
-{
-	this->bbPlayer.x = bbPlayer.x;
-	this->bbPlayer.y = bbPlayer.y;
-	this->bbPlayer.z = bbPlayer.z;
-	this->bbPlayer.w = bbPlayer.w;
 }
 
 void Panther::handleState()
