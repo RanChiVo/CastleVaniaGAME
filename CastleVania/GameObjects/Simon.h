@@ -28,6 +28,7 @@ private:
 	bool hasMovedMap = false;
 	bool isInTunel = false;
 	bool isVisible = false;
+	bool isMovingDoor = false;
 	DWORD startAtack = 0;
 	DWORD startAtackSub= 0;
 	DWORD startHurt;
@@ -84,6 +85,8 @@ public:
 	bool IsInTunel() { return isInTunel; }
 	void setInTunel(bool isInTunel) { this->isInTunel = isInTunel; }
 	bool isOnGround();
+	bool IsMovingDoor() { return isMovingDoor; }
+	void setIsMovingDoor(bool isMovingDoor) {this->isMovingDoor = isMovingDoor;}
 	int GetLevel() { return level; }
 	void SetState(int state);
 	bool checkisInSpawn() { return isInSpawn; }

@@ -181,9 +181,9 @@ void TiledMap::clearObjectInfo()
 void TiledMap::draw(Viewport* viewport, int alpha)
 {
 	int beginCol = viewport->getX() / tileWidth;
-	int endCol = viewport->getX() + viewport->getWidth() / tileWidth + 1;
+	int endCol = (viewport->getX() + viewport->getWidth()) / tileWidth + 1;
 	int beginRow = viewport->getY() / tileHeight;
-	int endRow = viewport->getY() + viewport->getHeight() / tileHeight + 1;
+	int endRow = (viewport->getY() + viewport->getHeight())/ tileHeight + 1;
 
 	beginCol = (beginCol < 0) ? 0 : ((beginCol > (tilesInMapWidth)) ? (tilesInMapWidth) : beginCol);
 	endCol = (endCol < 0) ? 0 : ((endCol > (tilesInMapWidth)) ? (tilesInMapWidth) : endCol);

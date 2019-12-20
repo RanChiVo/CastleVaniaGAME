@@ -145,6 +145,7 @@
     <ClCompile Include="EntranceScreen.cpp" />
     <ClCompile Include="FishMan.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="ObjectGridCreation.cpp" />
     <ClCompile Include="UndergroundScreen.cpp" />
     <ClCompile Include="VampireBat.cpp" />
     <ClCompile Include="BrickBrokenEffect.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="EntranceScreen.h" />
     <ClInclude Include="FishMan.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="ObjectGridCreation.h" />
     <ClInclude Include="UndergroundScreen.h" />
     <ClInclude Include="VampireBat.h" />
     <ClInclude Include="BrickBrokenEffect.h" />

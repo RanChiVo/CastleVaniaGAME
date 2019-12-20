@@ -322,7 +322,7 @@
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
   </object>
-  <object id="108" name="Door" x="3055.42" y="38.6668" width="33" height="96">
+  <object id="108" name="Door" x="3055.42" y="36.6668" width="33" height="96">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_DOOR"/>
@@ -352,7 +352,7 @@
     <property name="ny" value="-1"/>
    </properties>
   </object>
-  <object id="112" name="Stair" x="1488.59" y="116.5" width="16" height="12">
+  <object id="112" name="Stair" x="1488.59" y="114.5" width="16" height="12">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_STAIR"/>
@@ -610,24 +610,18 @@
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
   </object>
-  <object id="197" name="Door" x="4059.5" y="40" width="33" height="96">
-   <properties>
-    <property name="Hidden Item ID" value=""/>
-    <property name="Object ID" value="ID_ENTITY_DOOR"/>
-   </properties>
-  </object>
   <object id="240" name="MoveMapDown2" x="3784.83" y="351" width="89" height="6">
    <properties>
     <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
    </properties>
   </object>
-  <object id="241" name="Wall" x="3051.5" y="120.5" width="31.6667" height="159">
+  <object id="241" name="Wall" x="3055.5" y="157.5" width="31.6667" height="159">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
    </properties>
   </object>
-  <object id="242" name="Stair" x="3531.33" y="300.667" width="16" height="12">
+  <object id="242" name="Stair" x="3551.33" y="303.667" width="16" height="12">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_STAIR"/>

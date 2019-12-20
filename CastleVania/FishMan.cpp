@@ -27,7 +27,7 @@ FishMan::FishMan(D3DXVECTOR2 position)
 void FishMan::Render(Viewport * viewport)
 {
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	RenderBoundingBox(viewport);
+	//RenderBoundingBox(viewport);
 	Flip flip;
 	if (nx == 1) flip = normal;
 	else flip = flip_horiz;

@@ -2,7 +2,7 @@
 #include "DebugOut/DebugOut.h"
 #include "AudioManager.h"
 
-constexpr unsigned int ScreenBase_width = 550;
+constexpr unsigned int ScreenBase_width = 512;
 constexpr unsigned int ScreenBase_height = 512;
 constexpr int max_frame_rate = 120;
 

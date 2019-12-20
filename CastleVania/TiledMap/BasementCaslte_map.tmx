@@ -80,7 +80,7 @@
     <property name="Object ID" value="ID_ENTITY_WALL_ENTRANCE"/>
    </properties>
   </object>
-  <object id="31" name="Second Stair" x="884.5" y="147.75" width="16" height="12">
+  <object id="31" name="Second Stair" x="894.5" y="149.083" width="16" height="12">
    <properties>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_STAIR"/>

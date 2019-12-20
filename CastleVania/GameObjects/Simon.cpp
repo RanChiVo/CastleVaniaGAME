@@ -27,7 +27,7 @@ constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
 constexpr float SIMON_MOVE_SPEED = 0.12f;
 constexpr float SIMON_GRAVITY = 0.001f;
 constexpr float SIMON_HURT_SPEED_Y = 0.2f;
-constexpr float SIMON_STAIR_SPEED = 0.05f;
+constexpr float SIMON_STAIR_SPEED = 0.06f;
 constexpr DWORD SIMON_ENTRANCE_TIME = 1000;
 constexpr DWORD INVISIBLE_TIME = 4000;
 constexpr DWORD SIMON_UNTOUCHABLE_TIME = 2000;
@@ -52,7 +52,7 @@ Simon::Simon()
 	id = ID_ENTITY_SIMON;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
-	level = 1;
+	level = 2;
 	SetState(SIMON_STATE_IDLE);
 	currentAnimation = SIMON_ANI_IDLE;
 	WHIP_STATE = 1;
@@ -118,6 +118,11 @@ void Simon::SetState(int state)
 
 void Simon::OnKeyStateChange(BYTE * states)//state
 {
+	if (isMovingDoor)
+	{
+		return;
+	}
+
 	DirectInput* directInput = DirectInput::getInstance();
 
 	switch (state)
@@ -264,6 +269,11 @@ void Simon::OnKeyDown(int KeyCode)//event
 
 	}
 
+	if (isMovingDoor)
+	{
+		return;
+	}
+
 	switch (state)
 	{
 	case SIMON_STATE_IDLE:
@@ -308,6 +318,10 @@ void Simon::OnKeyDown(int KeyCode)//event
 
 void Simon::OnKeyUp(int KeyCode)
 {
+	if (isMovingDoor)
+	{
+		return;
+	}
 	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 	switch (state)
 	{
@@ -892,7 +906,8 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					x = 0;
 					SetState(SIMON_STATE_IDLE);
 				}
-				else if (coEvents[i]->obj->getName().compare("Wall") == 0)
+				else if (coEvents[i]->obj->getName().compare("Wall") == 0 
+					|| coEvents[i]->obj->getName().compare("Door") == 0)
 				{
 					if (ny != 0) vy = 0;
 					Dy = min_ty * dy + ny * 0.1f;

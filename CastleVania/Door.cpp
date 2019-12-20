@@ -49,6 +49,7 @@ void Door::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			Direct3DManager::getInstance()->getViewport()->moveRight(dt);
 			Direct3DManager::getInstance()->getViewport()
 				->setState(Direct3DManager::getInstance()->getViewport()->STATE_LOCK);
+			Simon::getInstance()->setIsMovingDoor(true);
 		}
 	}
 	if (action2Start > 0)
@@ -97,6 +98,7 @@ void Door::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			Direct3DManager::getInstance()->getViewport()->setState(Direct3DManager::getInstance()->getViewport()->STATE_ACTION);
 			id = ID_ENTITY_WALL_ENTRANCE;
 			Simon::getInstance()->setStartViewPort(Direct3DManager::getInstance()->getViewport()->getX()); 
+			Simon::getInstance()->setIsMovingDoor(false);
 		}
 		else
 		{
