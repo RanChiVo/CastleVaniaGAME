@@ -24,12 +24,12 @@ void VampireBat::Render(Viewport * viewport)
 {
 	if (state == STATE_SHOW)
 	{
-	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	RenderBoundingBox(viewport);
-	Flip flip;
-	if (nx == -1) flip = normal;
-	else flip = flip_horiz;
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+		RenderBoundingBox(viewport);
+		Flip flip;
+		if (nx == -1) flip = normal;
+		else flip = flip_horiz;
+		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
 	Enemy::Render(viewport);
 }
@@ -41,7 +41,7 @@ void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	x += dx;
 	if (state == VAMPIRE_STATE_HIDDEN)
 	{
-		if (Simon::getInstance()->checkisInSpawn() && Simon::getInstance()->getIdEnemySpawn() == id && timeActivate == 0)
+		if (Simon::getInstance()->checkisInSpawn() && Simon::getInstance()->getIdEnemySpawn() == id && timeActivate == 0 && !Simon::getInstance()->IsMovingDoor())
 		{
 			timeActivate = GetTickCount();
 			state = STATE_SHOW;
@@ -74,7 +74,6 @@ void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		delta += 3.7f;
 		y = sin(delta * 3.14 / 180) * 12 + originalLocationY;
 	}
-
 	Enemy::Update(dt, coObjects);
 }
 

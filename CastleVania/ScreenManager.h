@@ -10,11 +10,6 @@ private:
 	std::vector<ScreenBase*> screens;
 	ScreenBase* screen;
 	EntityID currentScreenID;
-
-	ScreenBase* previousScreen;
-	ScreenBase* nextScreen;
-	ScreenBase* currentScreen;
-
 public:
 	ScreenManager();
 
@@ -24,7 +19,7 @@ public:
 	void renderObject(Viewport* viewport);
 	void addScreen(ScreenBase* scene);
 	void removeScreen();
-	void changeScreen(int level);
+	void moveScreen(EntityID nextScreen);
 	void clearScreen();
 
 	ScreenBase* getScene();

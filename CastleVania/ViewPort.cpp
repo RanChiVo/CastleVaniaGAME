@@ -1,6 +1,6 @@
 #include "Viewport.h"
 
-constexpr float VIEWPORT_SPEED_X = 0.073f;
+constexpr float VIEWPORT_SPEED_X = 0.04f;
 
 Viewport::Viewport(int x, int y, int width, int height)
 {

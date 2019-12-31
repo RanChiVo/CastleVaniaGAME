@@ -19,7 +19,10 @@
 #include "../VampireBat.h"
 #include "../FishMan.h"
 #include "../Door.h"
+#include "../ObjectGridCreation.h"
 
+constexpr DWORD TIME_ZOMBIE = 10000;
+constexpr float POSITION_ZOMBIE_Y = 344.0f;
 
 void GameplayScreen::update(DWORD dt)
 {
@@ -37,8 +40,8 @@ void GameplayScreen::updateViewport(DWORD dt)
 		D3DXVECTOR2 newPosViewport = D3DXVECTOR2{};
 		newPosViewport.x = Simon::getInstance()->getPosition().x - viewport->getWidth() / 2 + widthframeSimon / 2;
 		
-		newPosViewport.x = min(widthGameWorld - viewport->getWidth(), newPosViewport.x);
-		newPosViewport.y = min(heightGameWorld - viewport->getHeight(), newPosViewport.y);
+		newPosViewport.x = min(resourceManagement->getTiledMap(IdScreen)->getWidthWorld() - viewport->getWidth(), newPosViewport.x);
+		newPosViewport.y = min(resourceManagement->getTiledMap(IdScreen)->getWidthWorld() - viewport->getHeight(), newPosViewport.y);
 		newPosViewport.x = max( Simon::getInstance()->getStartViewPort(), newPosViewport.x);
 		newPosViewport.y = max(0, newPosViewport.y);
 		viewport->setX(float(newPosViewport.x));
@@ -73,35 +76,41 @@ void GameplayScreen::updateEnemy()
 	}
 }
 
+void GameplayScreen::loadResources()
+{
+	ScreenBase::loadResources();
+	/*ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\InsideCastle_map - Copy.tmx");
+	Addproperty->divideOnjectToGrid(&objects, 2, 22);*/
+	//grid = new Grid(2, 22);
+	//grid->loadObjects(&objects);
+}
+
 void GameplayScreen::createZombie(Viewport* viewport)
 {
 	for (int i = 0; i < 3; i++)
 	{
-		if (RandomEnemy == 1)
+		if (randomEnemy == 1)
 		{
 			Zombie* zombie = new Zombie();
 			zombie->SetState(ZOMBIE_STATE_WALKING_RIGHT);
-			zombie->SetPosition(D3DXVECTOR2(viewport->getX() + i * 60, 344));
+			zombie->SetPosition(D3DXVECTOR2(viewport->getX() + i * 60, POSITION_ZOMBIE_Y));
 			objects.push_back(zombie);
 		}
 		else
 		{
 			Zombie* zombie = new Zombie();
 			zombie->SetState(ZOMBIE_STATE_WALKING_LEFT);
-			zombie->SetPosition(D3DXVECTOR2(viewport->getX() + viewport->getWidth() - i * 60, 344));
+			zombie->SetPosition(D3DXVECTOR2(viewport->getX() + viewport->getWidth() - i * 60, POSITION_ZOMBIE_Y));
 			objects.push_back(zombie);
 		}
 	}
-	RandomEnemy = -RandomEnemy;
+	randomEnemy = -randomEnemy;
 }
 
 GameplayScreen::GameplayScreen()
 {
 	path = "ReadSprite.txt";
 	IdScreen = ID_ENTITY_MAP_PLAYGAME;
-	widthGameWorld = resourceManagement->getTiledMap(IdScreen)->getWidthWorld();
-	heightGameWorld = resourceManagement->getTiledMap(IdScreen)->getHeightWorld();
-	Simon::getInstance()->SetState(Simon::SIMON_STATE_IDLE);
 }
 
 GameplayScreen::~GameplayScreen()

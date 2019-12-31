@@ -142,10 +142,13 @@
     <ClCompile Include="BaseInfo.cpp" />
     <ClCompile Include="Boomerang.cpp" />
     <ClCompile Include="CrystalBall.cpp" />
+    <ClCompile Include="DarkBat.cpp" />
     <ClCompile Include="EntranceScreen.cpp" />
     <ClCompile Include="FishMan.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="MovingMap.cpp" />
     <ClCompile Include="ObjectGridCreation.cpp" />
+    <ClCompile Include="SpawnEnemy.cpp" />
     <ClCompile Include="UndergroundScreen.cpp" />
     <ClCompile Include="VampireBat.cpp" />
     <ClCompile Include="BrickBrokenEffect.cpp" />
@@ -202,6 +205,7 @@
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="GameObjects\Whip.cpp" />
     <ClCompile Include="GameObjects\WeaponReward.cpp" />
+    <ClCompile Include="WallChangingMap.cpp" />
     <ClCompile Include="WallEntrance.cpp" />
     <ClCompile Include="WaterEffect.cpp" />
     <ClCompile Include="WindowUtil.cpp" />
@@ -216,10 +220,13 @@
     <ClInclude Include="BaseInfo.h" />
     <ClInclude Include="Boomerang.h" />
     <ClInclude Include="CrystalBall.h" />
+    <ClInclude Include="DarkBat.h" />
     <ClInclude Include="EntranceScreen.h" />
     <ClInclude Include="FishMan.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="MovingMap.h" />
     <ClInclude Include="ObjectGridCreation.h" />
+    <ClInclude Include="SpawnEnemy.h" />
     <ClInclude Include="UndergroundScreen.h" />
     <ClInclude Include="VampireBat.h" />
     <ClInclude Include="BrickBrokenEffect.h" />
@@ -279,6 +286,7 @@
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="GameObjects\Whip.h" />
     <ClInclude Include="GameObjects\WeaponReward.h" />
+    <ClInclude Include="WallChangingMap.h" />
     <ClInclude Include="WallEntrance.h" />
     <ClInclude Include="WaterEffect.h" />
     <ClInclude Include="WindowUtil.h" />

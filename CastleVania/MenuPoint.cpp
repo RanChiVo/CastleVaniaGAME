@@ -59,7 +59,7 @@ void MenuPoint::update()
 void MenuPoint::Draw()
 {
 	timeString = std::to_string(gameTime);
-	menu->Draw(D3DXVECTOR2(0, 0), Flip::normal, 255);
+	//menu->Draw(D3DXVECTOR2(0, 0), Flip::normal, 255);
 	content = "SCORE_000000 TIME " + timeString + " STAGE 01\n";
 	content += "PLAYER			                     "+ score +"\n";
 	content += "ENEMY                    P-03\n";

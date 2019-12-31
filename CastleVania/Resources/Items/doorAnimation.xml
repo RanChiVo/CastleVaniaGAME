@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
   <animations>
-    <animation name="OPEN_ANI" default_time="200" rewind="true">
+    <animation name="OPEN_ANI" default_time="150" rewind="true">
+      <animation_frame sprite_id="door4" />
+    </animation>
+    <animation name="CLOSE_ANI" default_time="150" rewind="true">
       <animation_frame sprite_id="door1" />
     </animation>
-    <animation name="CLOSE_ANI" default_time="200" rewind="true">
+    <animation name="OPENING_ANI" default_time="150" rewind="true">
       <animation_frame sprite_id="door2" />
-    </animation>
-    <animation name="OPENING_ANI" default_time="200" rewind="true">
       <animation_frame sprite_id="door3" />
-    </animation>
-    <animation name="CLOSING_ANI" default_time="200" rewind="true">
       <animation_frame sprite_id="door4" />
+    </animation>
+    <animation name="CLOSING_ANI" default_time="150" rewind="true">
+      <animation_frame sprite_id="door4" />
+      <animation_frame sprite_id="door3" />
+      <animation_frame sprite_id="door2" />
     </animation>
   </animations>
 </loadresource>

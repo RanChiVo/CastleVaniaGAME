@@ -1,6 +1,7 @@
 #include "ResourceManagement.h"
 #include "ResourceManagement.h"
 #include "Library/pugixml.hpp"
+#include "ObjectGridCreation.h"
 #include <iostream>
 #include <fstream>
 
@@ -63,17 +64,17 @@ void ResourceManagement::loadResource(std::string path)
 
 	textures->Add(ID_ENTITY_MAP_ENTRANCE, L"TiledMap\\Entrance_bank.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 textMap_Entrance = textures->Get(ID_ENTITY_MAP_ENTRANCE);
-	TiledMap* tiled_map = new TiledMap("TiledMap\\Entrance_map.tmx", textMap_Entrance);
+	TiledMap* tiled_map = new TiledMap("TiledMap\\Entrance_map - Copy.tmx", textMap_Entrance);
 	TiledMapList[EntityID::ID_ENTITY_MAP_ENTRANCE] = tiled_map;
 
-	textures->Add(ID_ENTITY_GAMEPLAYSCREEN, L"TiledMap\\InsideCastle_bank.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_ENTITY_GAMEPLAYSCREEN);
-	tiled_map = new TiledMap("TiledMap\\InsideCastle_map.tmx", textPlayScreen);
+	textures->Add(ID_ENTITY_MAP_PLAYGAME, L"TiledMap\\InsideCastle_bank.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 textPlayScreen = textures->Get(ID_ENTITY_MAP_PLAYGAME);
+	tiled_map = new TiledMap("TiledMap\\InsideCastle_map - Copy.tmx", textPlayScreen);
 	TiledMapList[EntityID::ID_ENTITY_MAP_PLAYGAME] = tiled_map;
 
 	textures->Add(ID_ENTITY_MAP_UNDERGROUND, L"TiledMap\\BasementCaslte_bank.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 textUnderGround = textures->Get(ID_ENTITY_MAP_UNDERGROUND);
-	tiled_map = new TiledMap("TiledMap\\BasementCaslte_map.tmx", textUnderGround);
+	tiled_map = new TiledMap("TiledMap\\BasementCaslte_map - Copy.tmx", textUnderGround);
 	TiledMapList[EntityID::ID_ENTITY_MAP_UNDERGROUND] = tiled_map;
 }
 
@@ -201,6 +202,7 @@ ResourceManagement::ResourceManagement()
 	{"ID_ENTITY_CANDLE",EntityID::ID_ENTITY_CANDLE },
 	{"ID_ENTITY_PODIUM_ON_WALL",EntityID::ID_ENTITY_PODIUM_ON_WALL },
 	{"ID_ENTITY_WALL_ENTRANCE",EntityID::ID_ENTITY_WALL_ENTRANCE },
+	{"ID_ENTITY_MOVING_MAP",EntityID::ID_ENTITY_MOVING_MAP },
 	{"ID_ENTITY_DOOR",EntityID::ID_ENTITY_DOOR },
 	{"ID_ENTITY_STAIR",EntityID::ID_ENTITY_STAIR },
 	{"ID_ENTITY_ZOMBIE",EntityID::ID_ENTITY_ZOMBIE },
@@ -220,6 +222,10 @@ ResourceManagement::ResourceManagement()
 	{"ID_ENTITY_FISH_MAN", EntityID::ID_ENTITY_FISH_MAN},
 	{"ID_ENTITY_CRYSTAL_BALL", EntityID::ID_ENTITY_CRYSTAL_BALL},
 	{"ID_ENTITY_MENU", EntityID::ID_ENTITY_MENU},
+	{"ID_ENTITY_WALL_CHANGINGMAP", EntityID::ID_ENTITY_WALL_CHANGINGMAP},
+	{"ID_ENTITY_SPAWN_ENEMY", EntityID::ID_ENTITY_SPAWN_ENEMY},
+	{"ID_ENTITY_DARK_BAT", EntityID::ID_ENTITY_DARK_BAT},
+	
 	};
 
 	stringToAniID = {
@@ -269,7 +275,10 @@ ResourceManagement::ResourceManagement()
 	{"VAMPIRE_BAT_IDLE_ANI1", ANI_ID::VAMPIRE_BAT_IDLE_ANI1},
 	{"VAMPIRE_BAT_FLY_ANI1", ANI_ID::VAMPIRE_BAT_FLY_ANI1},
 	{"VAMPIRE_BAT_FLY_ANI2", ANI_ID::VAMPIRE_BAT_FLY_ANI2},
-	{"VAMPIRE_BAT_FLY_ANI3", ANI_ID::VAMPIRE_BAT_IDLE_ANI1},
+	{"VAMPIRE_BAT_FLY_ANI3", ANI_ID::VAMPIRE_BAT_FLY_ANI3},
+	{"DARK_BAT_IDLE_ANI", ANI_ID::DARK_BAT_IDLE_ANI},
+	{"DARK_BAT_FLY01_ANI", ANI_ID::DARK_BAT_FLY01_ANI},
+	{"DARK_BAT_FLY02_ANI", ANI_ID::DARK_BAT_FLY02_ANI},
 	{"SMALL_HEART_ANI", ANI_ID::SMALL_HEART_ANI},
 	{"STOP_WATCH_ANI", ANI_ID::STOP_WATCH_ANI},
 	{"CROSS_ANI", ANI_ID::CROSS_ANI},

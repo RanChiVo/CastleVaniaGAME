@@ -23,8 +23,6 @@ private:
 	bool attacking = false;
 	bool checkRewind = false;
 	bool isOnStair = false;
-	int directionStair;
-	float positition_stair;
 	bool hasMovedMap = false;
 	bool isInTunel = false;
 	bool isVisible = false;
@@ -36,7 +34,6 @@ private:
 	ObjectStair* reverseStair = nullptr;
 	Flip flip;
 
-	std::string stair_direction;
 	Whip* whip;
 	int levelWhip;
 	int WHIP_STATE;
@@ -80,11 +77,14 @@ public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
 	BaseInfo* getBaseInfo() { return baseInfo; }
+	ObjectStair*  getOriginalStair() { return originalStair; }
 	bool isMovedMap();
 	void SetStateMoveMap(bool hasMovedMap);
 	bool IsInTunel() { return isInTunel; }
 	void setInTunel(bool isInTunel) { this->isInTunel = isInTunel; }
 	bool isOnGround();
+	bool IsOnStair() { return isOnStair; }
+	void SetIsOnStair(bool isOnStair){}
 	bool IsMovingDoor() { return isMovingDoor; }
 	void setIsMovingDoor(bool isMovingDoor) {this->isMovingDoor = isMovingDoor;}
 	int GetLevel() { return level; }
@@ -97,8 +97,9 @@ public:
 	void handleState();
 	void updateCollisionStair();
 	void updateCollisionSubStair();
+	void Simon::handleOutOfStair();
 	void handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
-	void handleAfterCollision(vector<LPGAMEOBJECT> *coObjects, int id ,int i, vector<LPCOLLISIONEVENT> *coEvents);
+	void handleAfterCollision(vector<LPGAMEOBJECT> *coObjects, EntityID id ,int i, vector<LPCOLLISIONEVENT> *coEvents);
 	void handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 

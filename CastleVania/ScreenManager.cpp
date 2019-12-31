@@ -2,7 +2,7 @@
 #include "../CastleVania/Screens/GameplayScreen.h"
 #include "../CastleVania/EntranceScreen.h"
 #include "UndergroundScreen.h"
-#include "../CastleVania/GameObjects/Simon.h"
+#include "MovingMap.h"
 
 ScreenManager::~ScreenManager()
 {
@@ -31,9 +31,9 @@ void ScreenManager::update(DWORD dt)
 	if (!screens.empty())
 		screens.back()->update(dt);
 
-	if (currentScreenID!= Simon::getInstance()->GetLevel())
+	if (currentScreenID!= MovingMap::getInstance()->getIdMap())
 	{
-		changeScreen(Simon::getInstance()->GetLevel());
+		moveScreen(MovingMap::getInstance()->getIdMap());
 	}
 }
 
@@ -59,10 +59,10 @@ void ScreenManager::removeScreen()
 	}
 }
 
-void ScreenManager::changeScreen(int level)
+void ScreenManager::moveScreen(EntityID nextScreen)
 {
 	this->removeScreen();
-	switch (level)
+	switch (nextScreen)
 	{
 	case 1:
 		screen = new EntranceScreen();

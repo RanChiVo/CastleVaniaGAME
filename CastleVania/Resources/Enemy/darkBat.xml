@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_ENTITY_DARK_BAT" name="door" width="98" height="46">
+    <image source="Resources\Enemy\darkBat.png" width="294" height="46" />
+  </imagelayer>
+  <sprites>
+    <spriteframe id="idle" left="0" top="0" right="98" bottom="46" />
+    <spriteframe id="fly01" left="98" top="4" right="196" bottom="46" />
+    <spriteframe id="fly02" left="196" top="4" right="294" bottom="46" />
+  </sprites>
+</loadresource>

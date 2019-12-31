@@ -234,6 +234,18 @@
     <ClCompile Include="ObjectGridCreation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MovingMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WallChangingMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DarkBat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\GameObject.h">
@@ -459,6 +471,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ObjectGridCreation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WallChangingMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnEnemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DarkBat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

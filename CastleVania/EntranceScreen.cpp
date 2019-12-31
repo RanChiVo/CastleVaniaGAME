@@ -1,4 +1,5 @@
 #include "EntranceScreen.h"
+#include "ObjectGridCreation.h"
 
 EntranceScreen::EntranceScreen()
 {
@@ -9,7 +10,6 @@ EntranceScreen::EntranceScreen()
 void EntranceScreen::update(DWORD dt)
 {
 	ScreenBase::update(dt);
-
 	updateViewport(dt);
 }
 
@@ -29,6 +29,15 @@ void EntranceScreen::updateViewport(DWORD dt)
 		viewport->SetPosition(float(newPosViewport.x), float(newPosViewport.y));
 	}
 	else return;
+}
+
+void EntranceScreen::loadResources()
+{
+	ScreenBase::loadResources();
+	//ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\Entrance_map - Copy.tmx");
+	//Addproperty->divideOnjectToGrid(&objects, 2, 6);
+	grid = new Grid(2, 6);
+	grid->loadObjects(&objects);
 }
 
 EntranceScreen::~EntranceScreen()

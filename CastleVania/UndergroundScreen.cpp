@@ -1,5 +1,6 @@
 #include "UndergroundScreen.h"
 #include "GameObjects/Simon.h"
+#include "ObjectGridCreation.h"
 
 UndergroundScreen::UndergroundScreen()
 {
@@ -10,6 +11,10 @@ UndergroundScreen::UndergroundScreen()
 void UndergroundScreen::loadResources()
 {
 	ScreenBase::loadResources();
+	/*ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\BasementCaslte_map - Copy.tmx");
+	Addproperty->divideOnjectToGrid(&objects, 2, 4);*/
+	//grid = new Grid(2, 4);
+	//grid->loadObjects(&objects);
 }
 
 void UndergroundScreen::update(DWORD dt)

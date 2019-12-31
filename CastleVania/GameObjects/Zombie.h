@@ -1,5 +1,4 @@
 #pragma once
-#include "GameObject.h"
 #include "../Enemy.h"
 constexpr int ZOMBIE_STATE_WALKING_LEFT = 1;
 constexpr int ZOMBIE_STATE_WALKING_RIGHT = 2;

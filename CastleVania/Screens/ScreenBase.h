@@ -7,6 +7,7 @@
 #include "../Viewport.h"
 #include "../TiledMap.h"
 #include "../MenuPoint.h"
+#include "../Grid.h"
 
 class ScreenBase
 {
@@ -17,6 +18,7 @@ protected:
 	ResourceManagement* resourceManagement;
 	Viewport* viewport;
 	std::string path;
+	Grid* grid;
 public:
 	ScreenBase();
 	void virtual init();

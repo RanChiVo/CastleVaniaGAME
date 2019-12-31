@@ -1,4 +1,4 @@
-#include "TiledMap.h"
+	#include "TiledMap.h"
 #include <d3dx9.h>
 #include <sstream>
 #include "EntityID.h"
@@ -81,7 +81,7 @@ void TiledMap::readMatrixMap()
 	auto layerNode = rootNode.child("layer");
 	auto dataNote = layerNode.child("data");
 	mapIndices = dataNote.first_child().value();
-	//Take data into matrix map
+	// data into matrix map
 	eraseAllSubStr(mapIndices, "\n");
 	findAndReplaceAll(mapIndices, ",", " ");
 	std::string line;
@@ -126,6 +126,7 @@ std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 			std::string objectId = "";
 			std::string enemyName = "";
 			float startViewPort = 0;
+			std::string cellId = "";
 			int stairHeight = 0;
 			int nx = 0;
 			int ny = 0;
@@ -160,16 +161,21 @@ std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 				{
 					startViewPort = propertyNode.attribute("value").as_float();
 				}
+				else if (nameProperty.compare("Cell ID") == 0)
+				{
+					cellId = propertyNode.attribute("value").as_string();
+				}
 			}
 			ObjectInfo::builder* object_info = new ObjectInfo::builder();
 			object_info->set_id(id).set_name(name)
 				.set_height(height).set_width(width).set_position(D3DXVECTOR2(x, y))
-				.set_idHiddenItem(idHiddenItemString).set_ObjectId(objectId).set_enemyName(enemyName).set_stairHeight(stairHeight).set_startViewPort(startViewPort).set_nx(nx).set_ny(ny);
+				.set_idHiddenItem(idHiddenItemString).set_ObjectId(objectId).set_enemyName(enemyName)
+				.set_stairHeight(stairHeight).set_startViewPort(startViewPort)
+				.set_cellId(cellId).set_nx(nx).set_ny(ny);
 
 			objectInfo.push_back(object_info);
 		}
 	}
-
 	return objectInfo;
 }
 
@@ -194,7 +200,8 @@ void TiledMap::draw(Viewport* viewport, int alpha)
 	{
 		alpha = GetTickCount() % 100 > 50 ? 80 : 255;
 		if (alpha == 80)
-			Direct3DManager::getInstance()->GetDirect3DDevice()->ColorFill(Direct3DManager::getInstance()->GetBackBuffer(), NULL, D3DXCOLOR(0xBBBBBB));
+			Direct3DManager::getInstance()->
+			GetDirect3DDevice()->ColorFill(Direct3DManager::getInstance()->GetBackBuffer(), NULL, D3DXCOLOR(0xBBBBBB));
 	}
 
 	for (int row = beginRow; row < endRow; row++)

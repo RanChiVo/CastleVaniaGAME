@@ -30,4 +30,4 @@ Resources\\MenuPoint\\HP.xml		---
 Resources\\MenuPoint\\enemy_HP.xml	---
 Resources\\MenuPoint\\lost_HP.xml		---
 Resources\\MenuPoint\\place_item.xml	---
-Resources\MenuPoint			---
+Resources\\MenuPoint\\menu.xml		---

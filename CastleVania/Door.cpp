@@ -3,11 +3,11 @@
 #include "../CastleVania/Direct3DManager.h"
 #include "../CastleVania/GameObjects/Simon.h"
 
-constexpr int DOOR_ACTION_1_TIME = 980;
-constexpr int DOOR_ACTION_2_TIME = 225;
+constexpr int DOOR_ACTION_1_TIME = 1960;
+constexpr int DOOR_ACTION_2_TIME = 450;
 constexpr int DOOR_ACTION_3_TIME = 1000;
-constexpr int DOOR_ACTION_4_TIME = 230;
-constexpr int DOOR_ACTION_5_TIME = 3300;
+constexpr int DOOR_ACTION_4_TIME = 460;
+constexpr int DOOR_ACTION_5_TIME = 1960;
 
 DWORD Door::action1Start;
 DWORD Door::action2Start;

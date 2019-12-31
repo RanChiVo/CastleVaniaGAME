@@ -1,7 +1,6 @@
 #include "../ResourceManagement.h"
 #include "WeaponReward.h"
 
-
 constexpr float WEAPONREWARD_GRAVITY = 0.0006f;
 
 WeaponReward::WeaponReward(D3DXVECTOR2 position)

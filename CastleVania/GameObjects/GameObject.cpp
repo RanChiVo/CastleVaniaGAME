@@ -11,7 +11,7 @@
 unordered_map<int, LPANIMATION> GameObject::animations;
 int GameObject::level = 0;
 
-int GameObject::getID()	
+EntityID GameObject::getID()	
 {
 	return id;
 }
@@ -90,6 +90,20 @@ GameObject::GameObject()
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;
+}
+
+void GameObject::setCellId(std::string cellIdString)
+{
+	cellId.clear();
+	while (!cellIdString.empty())
+	{
+		std::string temp = cellIdString.substr(0, cellIdString.find(" "));
+		std::string x = temp.substr(0, temp.find(","));
+		std::string y = temp.substr(temp.find(",") + 1, temp.length() - 1);
+		cellId.push_back(D3DXVECTOR2(std::stoi(x), std::stoi(y)));
+		if (cellIdString.find(" ") > cellIdString.size()) break; 
+		else cellIdString.erase(0, cellIdString.find(" ") + 1);
+	}
 }
 
 void GameObject::RenderBoundingBox(Viewport* viewport)

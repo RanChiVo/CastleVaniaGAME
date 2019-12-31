@@ -29,7 +29,6 @@ WaterEffect::WaterEffect(D3DXVECTOR2 position)
 	currentAnimation = ANI_EFFECT_WATER;
 }
 
-
 WaterEffect::~WaterEffect()
 {
 }

@@ -28,7 +28,7 @@ struct CCollisionEvent
 class GameObject	
 {
 protected:
-	int id;
+	EntityID id;
 	float x;
 	float y;
 	int height;
@@ -40,13 +40,15 @@ protected:
 	int nx;
 	int ny;
 	int state;
+	int mainId;
+	vector<D3DXVECTOR2> cellId;
 	int currentAnimation;
 	static int level;
 	bool isCollision = false;
 	DWORD liveTime;
 	std::string name;
 	std::string idHiddenItem;
-	std::string objectID;
+	std::string objectID ;
 	std::string nameEnemy;
 	float startViewPort;
 	DWORD dt;
@@ -60,6 +62,10 @@ public:
 		STATE_EFFECT = 1002,
 	};
 	GameObject();
+	void setMainId(int mainId) { this->mainId = mainId; }
+	int getMainId() { return mainId; }
+	void setCellId(std::string cellIdString);
+	vector<D3DXVECTOR2> getCellId() { return cellId; }
 	static int getLevel() { return level; }
 	void setLevel(int level) { this->level = level; }
 	DWORD getLiveTime() { return liveTime; }
@@ -70,8 +76,8 @@ public:
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	void SetCurrentAni(int currentAni) { this->currentAnimation = currentAni; }
 	int GetState() { return this->state; }
-	int getID();
-	void setID(int id) { this->id = id; }
+	EntityID getID();
+	void setID(EntityID id) { this->id = id; }
 	void setName(std::string name) { this->name = name; }
 	std::string getName() { return name; }
 	int getHeight();
