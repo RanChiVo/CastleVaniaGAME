@@ -128,7 +128,13 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	if (id == ID_ENTITY_SIMON)
 	{
-		sprite->Draw(D3DXVECTOR2(pos.x + 20, pos.y), 100);
+		if (state == Simon::SIMON_STATE_SITDOWN ||
+			state == Simon::SIMON_STATE_ATTACK_SITDOWN)
+		{
+			sprite->Draw(D3DXVECTOR2(pos.x + 20, pos.y + 20), 100);
+
+		}
+		else sprite->Draw(D3DXVECTOR2(pos.x + 20, pos.y), 100);
 	}
 	else sprite->Draw(pos, 100);
 }

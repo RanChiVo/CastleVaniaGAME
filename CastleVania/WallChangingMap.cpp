@@ -79,7 +79,7 @@ void WallChangingMap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (name.compare("MoveUpInsideSecond") == 0)
 				{
-					Simon::getInstance()->getOriginalStair()->SetPosition(D3DXVECTOR2(3147.25f, 380.f));
+					Simon::getInstance()->getOriginalStair()->SetPosition(D3DXVECTOR2(3150.92f, 395));
 					Simon::getInstance()->getOriginalStair()->set_ny(-1);
 					Simon::getInstance()->getOriginalStair()->set_nx(1);
 					Simon::getInstance()->SetPosition(D3DXVECTOR2(3820, 410.0f));

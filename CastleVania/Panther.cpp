@@ -15,6 +15,8 @@ Panther::Panther(D3DXVECTOR2 position, int nx)
 	AddAnimation(PANTHER_ANI_MOVE);
 	AddAnimation(PANTHER_ANI_JUMP);
 	currentAnimation = PANTHER_ANI_IDLE;
+	bbActivateLeft.left = bbActivateLeft.right = bbActivateLeft.top = bbActivateLeft.bottom = 0;
+	bbActivateRight.left = bbActivateRight.right = bbActivateRight.top = bbActivateRight.bottom = 0;
 }
 
 void Panther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -28,13 +30,13 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (coObjects->at(i)->getEnemyName().compare(this->name) == 0)	
 			{
-				if (coObjects->at(i)->get_nx() < 0)
+				if (coObjects->at(i)->get_nx() < 0 && bbActivateLeft.left == 0)
 				{
 					float l, t, r, b;
 					coObjects->at(i)->GetBoundingBox(l, t, r, b);
 					setBBActivateLeft(RECT{ long(l), long(t),long(r),long(b) });
 				}
-				else if (coObjects->at(i)->get_nx() > 0)
+				else if (coObjects->at(i)->get_nx() > 0 && bbActivateRight.left == 0)
 				{
 					float l, t, r, b;
 					coObjects->at(i)->GetBoundingBox(l, t, r, b);
@@ -93,7 +95,6 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			state = PANTHER_STATE_ACTIVATE;
 			vx = -this->nx * PANTHER_RUN_SPEED;
 			isOnGround = false;
-			
 		}
 
 		if (isOnGround && floor && state == PANTHER_STATE_ACTIVATE)

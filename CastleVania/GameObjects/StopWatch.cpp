@@ -50,7 +50,6 @@ void StopWatch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					break;
 				}
 			}
-			x += Dx;
 			y += Dy;
 		}
 

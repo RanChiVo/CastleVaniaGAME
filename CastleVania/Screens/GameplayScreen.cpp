@@ -39,7 +39,11 @@ void GameplayScreen::updateViewport(DWORD dt)
 		int widthframeSimon = Simon::getInstance()->getWidth();
 		D3DXVECTOR2 newPosViewport = D3DXVECTOR2{};
 		newPosViewport.x = Simon::getInstance()->getPosition().x - viewport->getWidth() / 2 + widthframeSimon / 2;
-		
+		if (resourceManagement->getTiledMap(IdScreen)->getWidthWorld() - viewport->getX() == viewport->getWidth())
+		{
+			Simon::getInstance()->setStartViewPort(newPosViewport.x);
+			Simon::getInstance()->SetStateMoveEndMap(true);
+		}
 		newPosViewport.x = min(resourceManagement->getTiledMap(IdScreen)->getWidthWorld() - viewport->getWidth(), newPosViewport.x);
 		newPosViewport.y = min(resourceManagement->getTiledMap(IdScreen)->getWidthWorld() - viewport->getHeight(), newPosViewport.y);
 		newPosViewport.x = max( Simon::getInstance()->getStartViewPort(), newPosViewport.x);

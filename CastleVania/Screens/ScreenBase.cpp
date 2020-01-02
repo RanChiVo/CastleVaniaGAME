@@ -16,6 +16,7 @@
 #include "../Panther.h"
 #include "../WallChangingMap.h"
 #include "../SpawnEnemy.h"
+#include "../DarkBat.h"
 
 ScreenBase::ScreenBase()
 {
@@ -84,6 +85,7 @@ void ScreenBase::loadResources()
 			break;
 		case ID_ENTITY_WALL_ENTRANCE:
 			objectInit = new WallEntrance();
+			objectInit->set_nx(object->get_nx());
 			break;
 		case ID_ENTITY_WALL_CHANGINGMAP:
 			objectInit = new WallChangingMap();
@@ -96,6 +98,11 @@ void ScreenBase::loadResources()
 			break;
 		case ID_ENTITY_FISH_MAN:
 			objectEnemy = new FishMan(object->get_postition());
+			getInfoFromObjectInfo(object, objectEnemy);
+			objects.push_back(objectEnemy);
+			break;
+		case ID_ENTITY_DARK_BAT:
+			objectEnemy = new DarkBat(object->get_postition());
 			getInfoFromObjectInfo(object, objectEnemy);
 			objects.push_back(objectEnemy);
 			break;
@@ -129,7 +136,7 @@ void ScreenBase::renderObject(Viewport * viewport)
 {
 	ResourceManagement::GetInstance()->getTiledMap(IdScreen)->draw(viewport);
 
-		for (int i = 0; i < (int)objects.size(); i++)
+	for (int i = 0; i < (int)objects.size(); i++)
 	{
 		objects[i]->Render(viewport);
 	}

@@ -67,7 +67,6 @@ void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					break;
 				}
 			}
-			x += Dx;
 			y += Dy;
 			if (ny != 0)
 			{

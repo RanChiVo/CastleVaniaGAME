@@ -21,6 +21,7 @@
 #include "../Door.h"
 #include "../Viewport.h"
 #include "../WaterEffect.h"
+#include "../DarkBat.h"
 
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
@@ -268,14 +269,12 @@ void Simon::OnKeyDown(int KeyCode)//event
 		Direct3DManager::getInstance()->getViewport()
 			->SetPosition(Direct3DManager::getInstance()->getViewport()->getX(), 430);
 		break;
-
 	}
 
 	if (isMovingDoor)
 	{
 		return;
 	}
-
 	switch (state)
 	{
 	case SIMON_STATE_IDLE:
@@ -429,7 +428,7 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			startAtack = GetTickCount();
 		}
-		else if (startAtack > 0 && GetTickCount() - startAtack > 600)
+		else if (startAtack > 0 && GetTickCount() - startAtack > 450)
 		{
 			Reset(currentAnimation);
 			startAtack = 0;
@@ -442,7 +441,7 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			startAtackSub = GetTickCount();
 		}
-		else if (startAtackSub > 0 && GetTickCount() - startAtackSub > 600)
+		else if (startAtackSub > 0 && GetTickCount() - startAtackSub > 450)
 		{
 			SetState(SIMON_STATE_IDLE);
 			animations.find(currentAnimation)->second->SetFinish(false);
@@ -452,7 +451,7 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
 	{
-		if (GetTickCount() - startThrowWeapon > 600 && startThrowWeapon > 0 && enableSubWeapon)
+		if (GetTickCount() - startThrowWeapon > 450 && startThrowWeapon > 0 && enableSubWeapon)
 		{
 			enableSubWeapon = false;
 			startThrowWeapon = 0;
@@ -526,7 +525,7 @@ void Simon::Render(Viewport* viewport)
 			} 
 			else if (isVisible)
 			{
-				int alpha = 100;
+				int alpha = 0;
 				animation->Render(pos.x, pos.y, flip, alpha);
 			}
 		}
@@ -535,14 +534,14 @@ void Simon::Render(Viewport* viewport)
 	RenderWeapon(animation, viewport);
 }
 
-bool Simon::isMovedMap()
+bool Simon::isMovedEndMap()
 {
-	return hasMovedMap;
+	return hasMovedEndMap;
 }
 
-void Simon::SetStateMoveMap(bool hasMovedMap)
+void Simon::SetStateMoveEndMap(bool hasMovedMap)
 {
-	this->hasMovedMap = hasMovedMap;
+	this->hasMovedEndMap = hasMovedMap;
 }
 
 bool Simon::isOnGround()
@@ -785,7 +784,7 @@ void Simon::updateCollisionStair()
 {
 	if (isOnStair)
 	{
-		if(originalStair->get_ny() > 0 && (y + height <= (originalStair->getPosition().y + originalStair->getInfoStair().x - originalStair->getHeight()))
+		if(originalStair->get_ny() > 0 && (y + height <= (originalStair->getPosition().y + originalStair->getInfoStair().y - originalStair->getHeight()))
 		|| originalStair->get_ny() < 0 && (y + height >= (originalStair->getPosition().y + originalStair->getHeight())))
 		{
 			handleOutOfStair();
@@ -817,10 +816,10 @@ void Simon::updateCollisionSubStair()
 {
 	if (isOnStair)
 	{
-		if (originalStair->get_ny() > 0 && (y + height <= (originalStair->getPosition().y + originalStair->getInfoStair().x - originalStair->getHeight())
+		if (originalStair->get_ny() > 0 && (y + height <= (originalStair->getPosition().y + originalStair->getInfoStair().y - originalStair->getHeight())
 			|| y + height >= originalStair->getPosition().y)
 			|| originalStair->get_ny() < 0 && (y + height >= (originalStair->getPosition().y + originalStair->getHeight()) 
-			|| y + height <= originalStair->getPosition().y + originalStair->getInfoStair().x))
+			|| y + height <= originalStair->getPosition().y + originalStair->getInfoStair().y))
 		{
   			handleOutOfStair();
 		}
@@ -881,7 +880,16 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				comeEntranceStart = GetTickCount();
 				break;
 			case ID_ENTITY_WALL_ENTRANCE:
-			 if (coEvents[i]->obj->getName().compare("Wall") == 0 )
+				if (coEvents[i]->obj->getName()
+					.compare("ActivateWall") == 0)
+				{
+					DarkBat::ActivateState();
+					if (ny != 0) vy = 0;
+					Dy = min_ty * dy + ny * 0.1f;
+					Dx = min_tx * dx + nx * 0.11f;
+					if (nx != 0) vx = 0;
+				}
+				else if (coEvents[i]->obj->getName().compare("Wall")==0)
 				{
 					if (ny != 0) vy = 0;
 					Dy = min_ty * dy + ny * 0.1f;
@@ -903,7 +911,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					else if (coEvents[i]->obj->getName().compare("Floor") == 0)
 					{
 						if (ny != 0) vy = 0;
-						Dy = min_ty * dy + ny * 0.1f;
+						Dy = min_ty * dy + ny * 0.11f;
 					}
 					if (coEvents[i]->obj->getName().compare("Water") == 0)
 					{
@@ -934,7 +942,6 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							break;
 						}
 					}
-					
 				}
 				SetState(SIMON_STATE_IDLE);
 				Dx = min_tx * dx + nx * 0.11f;
@@ -956,6 +963,7 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 	case ID_ENTITY_FISH_MAN:
 	case ID_ENTITY_CRYSTAL_BALL:
 	case ID_ENTITY_VAMPIRE_BAT:
+	case ID_ENTITY_DARK_BAT:
 		if (!untouchable && !isVisible)
 		{
 			SetState(SIMON_STATE_HURT);

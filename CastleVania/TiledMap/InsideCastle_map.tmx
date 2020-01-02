@@ -206,28 +206,28 @@
   <object id="222" name="Candle" x="5306" y="267" width="16" height="32">
    <properties>
     <property name="Cell ID" value=""/>
-    <property name="Hidden Item ID" value="ID_ENTITY_WEAPON_REWARD"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>
   <object id="223" name="Candle" x="5175.33" y="204.334" width="16" height="32">
    <properties>
     <property name="Cell ID" value=""/>
-    <property name="Hidden Item ID" value="ID_ENTITY_HEART"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>
   <object id="224" name="Candle" x="5048.66" y="267" width="16" height="32">
    <properties>
     <property name="Cell ID" value=""/>
-    <property name="Hidden Item ID" value="ID_ENTITY_AXE"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>
   <object id="225" name="Candle" x="4920.66" y="267" width="16" height="32">
    <properties>
     <property name="Cell ID" value=""/>
-    <property name="Hidden Item ID" value="ID_ENTITY_DAGGER"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>
@@ -241,7 +241,7 @@
   <object id="227" name="Candle" x="4664.66" y="265.667" width="16" height="32">
    <properties>
     <property name="Cell ID" value=""/>
-    <property name="Hidden Item ID" value="ID_ENTITY_DAGGER"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>
@@ -283,7 +283,7 @@
   <object id="233" name="Candle" x="3898" y="12.3335" width="16" height="32">
    <properties>
     <property name="Cell ID" value=""/>
-    <property name="Hidden Item ID" value="ID_ENTITY_FIRE_BOMB"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_CROSS"/>
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>

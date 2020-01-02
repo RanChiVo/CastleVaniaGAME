@@ -78,7 +78,6 @@ void MiraculousBag::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					break;
 				}
 			}
-			x += Dx;
 			y += Dy;
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

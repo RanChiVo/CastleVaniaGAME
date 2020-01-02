@@ -14,6 +14,14 @@
     <animation name="ANI_EFFECT_WATER" default_time="100" rewind="false">
       <animation_frame sprite_id="effect7" />
     </animation>
+    <animation name="ANI_EFFECT_FIRE_DARK_BAT" default_time="200" rewind="false">
+      <animation_frame sprite_id="effectFireDarkBat1" />
+      <animation_frame sprite_id="effectFireDarkBat2" />
+      <animation_frame sprite_id="effectFireDarkBat3" />
+    </animation>
+    <animation name="ANI_EFFECT_STAR" default_time="100" rewind="false">
+      <animation_frame sprite_id="effect1" />
+    </animation>
 </animations>
   </loadresource>
   

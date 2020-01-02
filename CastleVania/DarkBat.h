@@ -1,21 +1,40 @@
 #pragma once
 #include "Enemy.h"
+#include "BaseInfo.h"
 
 class DarkBat : public Enemy
 {
+private:
+	D3DXVECTOR2 originalLocation;
+	int activatePositionMaxX;
+	DWORD startTimeIdle = 0;
+	DWORD startTimeMoveRandom = 0;
+	DWORD startTimeActackPlayer = 0;
+	DWORD startTimeEffect = 0;
+	static bool isActivate;
+	bool hasBeenActivate;
+	static DWORD startTimeHurt;
 public:
+	static BaseInfo  baseInfo;
 	enum stateDarkBat
 	{
-		DARK_BAT_SATE_ACTIVATE,
-		DARK_BAT_SATE_IDBLE,
-		DARK_BAT_SATE_FLY_01,
-		DARK_BAT_SATE_FLY_02,
+		DARK_BAT_STATE_MOVERANDOM,
+		DARK_BAT_STATE_HURT,
+		DARK_BAT_STATE_IDLE,
+		DARK_BAT_STATE_EFFECT_DESTROY,
 	};
-	DarkBat();
-	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
-	virtual void Render(Viewport* viewport);
+	DarkBat(D3DXVECTOR2 pos );
+    void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+	void Render(Viewport* viewport);
 	void handleState();
+	static void ActivateState() { isActivate = true; }
+	static void StartTimeHurt() { startTimeHurt = GetTickCount(); }
+	void handleMoveRandom();
+	void changeMoveRandomToIdle();
+	void changeActivateToMoveRandom();
+	void changeIdleRandomToAtack();
+	void changeAtackToMoveRandom();
 	~DarkBat();
 };
 

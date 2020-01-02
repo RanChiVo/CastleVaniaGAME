@@ -47,6 +47,7 @@ void Heart::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					break;
 				}
 			}
+			y += Dy;
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 		if (GetTickCount() - liveTime > 4000)

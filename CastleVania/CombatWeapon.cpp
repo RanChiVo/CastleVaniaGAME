@@ -1,5 +1,5 @@
 #include "CombatWeapon.h"
-
+#include "DarkBat.h"
 
 CombatWeapon::CombatWeapon()
 {
@@ -29,6 +29,7 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		case ID_ENTITY_BRICK:
 		case ID_ENTITY_VAMPIRE_BAT:
 		case ID_ENTITY_FISH_MAN:
+		case ID_ENTITY_DARK_BAT:
 		
 			float left1, top1, right1, bottom1;
 			coObjects->at(i)->GetBoundingBox(left1, top1, right1, bottom1);
@@ -44,11 +45,18 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (result)
 			{
-				coObjects->at(i)->SetState(STATE_EFFECT);
-				coObjects->at(i)->setLiveTime(GetTickCount());
-				DebugOut(L"liveTime:{%d}\n", coObjects->at(i)->getLiveTime());
-				if (id == ID_ENTITY_DAGGER_WEAPON)
-					SetState(STATE_DETROY);
+				if (ID == ID_ENTITY_DARK_BAT)
+				{
+					DarkBat::StartTimeHurt();
+				}
+				else
+				{
+					coObjects->at(i)->SetState(STATE_EFFECT);
+					coObjects->at(i)->setLiveTime(GetTickCount());
+					DebugOut(L"liveTime:{%d}\n", coObjects->at(i)->getLiveTime());
+					if (id == ID_ENTITY_DAGGER_WEAPON)
+						SetState(STATE_DETROY);
+				}
 			}
 			break;
 		}

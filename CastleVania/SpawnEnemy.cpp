@@ -52,6 +52,22 @@ void SpawnEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			Simon::getInstance()->setIsInSpawn(true);
 			Simon::getInstance()->setIdEnemySpawn(ID_ENTITY_ZOMBIE);
 		}
+		else if (name.compare("Spawn Dark Bat") == 0)
+		{
+			Simon::getInstance()->setIsInSpawn(true);
+			Simon::getInstance()->setIdEnemySpawn(ID_ENTITY_DARK_BAT);
+			for (int i = 0; i < int(coObjects->size()); i++)
+			{
+				switch (coObjects->at(i)->getID())
+				{
+				case ID_ENTITY_ZOMBIE:
+					coObjects->at(i)->SetState(STATE_DETROY);
+					break;
+				default:
+					break;
+				}
+			}
+		}
 		else Simon::getInstance()->setIsInSpawn(false);
 	}
 }

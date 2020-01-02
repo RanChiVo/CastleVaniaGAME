@@ -6,7 +6,7 @@ constexpr int MAX_HEALTH = 12;
 
 BaseInfo::BaseInfo()
 {
-	heart = 05;
+	heart = 25;
 	scoreNumber = 0;
 	health = 16;
 	idSubWeapon = EntityID::ID_ENTITY_NULL;

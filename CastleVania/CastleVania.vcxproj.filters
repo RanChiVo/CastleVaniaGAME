@@ -246,6 +246,9 @@
     <ClCompile Include="DarkBat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BallDarkBat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\GameObject.h">
@@ -483,6 +486,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DarkBat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BallDarkBat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

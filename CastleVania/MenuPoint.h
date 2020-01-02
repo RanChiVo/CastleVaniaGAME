@@ -18,6 +18,7 @@ private:
 	int gameTime;
 	int Score = 0;
 	int healthSimon = 0;
+	int healthDarkBat = 0;
 
 	std::string score;
 	std::string timeString;

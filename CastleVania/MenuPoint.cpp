@@ -1,6 +1,6 @@
 #include "MenuPoint.h"
 #include "../CastleVania/EntityID.h"
-
+#include "DarkBat.h"
 
 MenuPoint::MenuPoint()
 {
@@ -54,12 +54,13 @@ void MenuPoint::update()
 	}
 
 	healthSimon = Simon::getInstance()->getBaseInfo()->getHealth();
+	healthDarkBat = DarkBat::baseInfo.getHealth();
 }
 
 void MenuPoint::Draw()
 {
 	timeString = std::to_string(gameTime);
-	//menu->Draw(D3DXVECTOR2(0, 0), Flip::normal, 255);
+	menu->Draw(D3DXVECTOR2(0, 0), Flip::normal, 255);
 	content = "SCORE_000000 TIME " + timeString + " STAGE 01\n";
 	content += "PLAYER			                     "+ score +"\n";
 	content += "ENEMY                    P-03\n";
@@ -68,6 +69,11 @@ void MenuPoint::Draw()
 	for (int i = 0; i < 16; i++)
 	{
 		lost_HP->Draw(D3DXVECTOR2(125.0f + 12.0f * i, 39.0f), Flip::normal, 255);
+		lost_HP->Draw(D3DXVECTOR2(125.0f + 12.0f * i, 59.0f), Flip::normal, 255);
+	}
+
+	for (int i = 0; i < healthDarkBat; i++)
+	{
 		enemy_HP1->Draw(D3DXVECTOR2(125.0f + 12.0f * i, 59.0f), Flip::normal, 255);
 	}
 

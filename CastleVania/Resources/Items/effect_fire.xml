@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
   <imagelayer id="ID_ENTITY_CRYSTAL_BALL"  name="CrystalBall" width="40" height="44">
-    <image source="Resources\Items\effect_fire.png" width="220" height="44" />
+    <image source="Resources\Items\effect_fire.png" width="308" height="44" />
   </imagelayer>
-
   <sprites>
     <spriteframe id="effect1" left = "0" top="0" right="40" bottom="44"/>
     <spriteframe id="effect2" left = "0" top="0" right="40" bottom="44"/>
@@ -12,6 +11,8 @@
     <spriteframe id="effect5" left = "120" top="0" right="160" bottom="44"/>
     <spriteframe id="effect6" left="177" top="20" right="191" bottom="36" />
     <spriteframe id="effect7" left="200" top="6" right="216" bottom="36" />
+    <spriteframe id="effectFireDarkBat1" left="226" top="0" right="274" bottom="72" />
+    <spriteframe id="effectFireDarkBat2" left="286" top="0" right="346" bottom="72" />
+    <spriteframe id="effectFireDarkBat3" left="356" top="0" right="411" bottom="72" />
   </sprites>
-
 </loadresource>

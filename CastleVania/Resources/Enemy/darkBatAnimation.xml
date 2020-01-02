@@ -4,10 +4,8 @@
     <animation name="DARK_BAT_IDLE_ANI" default_time="100" rewind="true">
       <animation_frame sprite_id="idle" />
     </animation>
-    <animation name="DARK_BAT_FLY01_ANI" default_time="100" rewind="true">
+    <animation name="DARK_BAT_FLY_ANI" default_time="100" rewind="true">
       <animation_frame sprite_id="fly01" />
-    </animation>
-    <animation name="DARK_BAT_FLY02_ANI" default_time="100" rewind="true">
       <animation_frame sprite_id="fly02" />
     </animation>
   </animations>

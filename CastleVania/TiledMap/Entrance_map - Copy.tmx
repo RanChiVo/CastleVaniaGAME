@@ -67,7 +67,7 @@
     <property name="Object ID" value="ID_ENTITY_ENTRANCE"/>
    </properties>
   </object>
-  <object id="18" name="CastleWall" x="1342.5" y="2" width="99" height="288">
+  <object id="18" name="CastleWall" x="1342.5" y="2" width="99" height="288" visible="0">
    <properties>
     <property name="Cell ID" value="0,5 1,5"/>
     <property name="Hidden Item ID" value=""/>
@@ -78,7 +78,7 @@
    <properties>
     <property name="Cell ID" value="0,5 1,5"/>
     <property name="Hidden Item ID" value=""/>
-    <property name="Object ID" value="ID_ENTITY_MOVING_MAP"/>
+    <property name="Object ID" value="ID_ENTITY_WALL_CHANGINGMAP"/>
    </properties>
   </object>
   <object id="20" name="Wall" x="2.5" y="1" width="16" height="291">

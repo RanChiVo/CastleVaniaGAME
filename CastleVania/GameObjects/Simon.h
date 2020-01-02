@@ -17,13 +17,14 @@ private:
 	DWORD comeEntranceStart = 0;
 	DWORD invisible_Potion_Start = 0;
 	bool isInSpawn = false;
+	std::string activateNameEnemy;
 	EntityID idEnemySpawn;
 	bool enableSubWeapon = false;
 	bool isjumping = false;
 	bool attacking = false;
 	bool checkRewind = false;
 	bool isOnStair = false;
-	bool hasMovedMap = false;
+	bool hasMovedEndMap = false;
 	bool isInTunel = false;
 	bool isVisible = false;
 	bool isMovingDoor = false;
@@ -78,8 +79,10 @@ public:
 
 	BaseInfo* getBaseInfo() { return baseInfo; }
 	ObjectStair*  getOriginalStair() { return originalStair; }
-	bool isMovedMap();
-	void SetStateMoveMap(bool hasMovedMap);
+	void setActivateEnemyName(std::string nameEnemy) { this->activateNameEnemy = nameEnemy; }
+	std::string getActivateEnemyName() { return activateNameEnemy; }
+	bool isMovedEndMap();
+	void SetStateMoveEndMap(bool hasMovedMap);
 	bool IsInTunel() { return isInTunel; }
 	void setInTunel(bool isInTunel) { this->isInTunel = isInTunel; }
 	bool isOnGround();

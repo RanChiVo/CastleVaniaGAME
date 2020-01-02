@@ -41,7 +41,8 @@ void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	x += dx;
 	if (state == VAMPIRE_STATE_HIDDEN)
 	{
-		if (Simon::getInstance()->checkisInSpawn() && Simon::getInstance()->getIdEnemySpawn() == id && timeActivate == 0 && !Simon::getInstance()->IsMovingDoor())
+		if (Simon::getInstance()->checkisInSpawn() && Simon::getInstance()->getIdEnemySpawn() == id && 
+			timeActivate == 0 && !Simon::getInstance()->IsMovingDoor())
 		{
 			timeActivate = GetTickCount();
 			state = STATE_SHOW;
