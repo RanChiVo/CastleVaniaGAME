@@ -142,6 +142,7 @@
     <ClCompile Include="BallDarkBat.cpp" />
     <ClCompile Include="BaseInfo.cpp" />
     <ClCompile Include="Boomerang.cpp" />
+    <ClCompile Include="BoomerangWeapon.cpp" />
     <ClCompile Include="CrystalBall.cpp" />
     <ClCompile Include="DarkBat.cpp" />
     <ClCompile Include="EntranceScreen.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="BallDarkBat.h" />
     <ClInclude Include="BaseInfo.h" />
     <ClInclude Include="Boomerang.h" />
+    <ClInclude Include="BoomerangWeapon.h" />
     <ClInclude Include="CrystalBall.h" />
     <ClInclude Include="DarkBat.h" />
     <ClInclude Include="EntranceScreen.h" />

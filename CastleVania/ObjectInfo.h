@@ -16,8 +16,8 @@ public:
 		std::string objectId,
 		std::string ObjectType,
 		std::string enemyName,
-		int stairHeight, float startViewport, std::string cellId, int nx, int ny) :id{ id }, name{ name }, height{ height }, width{ width }, position{ position },
-		idHiddenItem{ idHiddenItem }, objectId{ objectId }, ObjectType{ ObjectType }, enemyName{ enemyName }, stairHeight{ stairHeight }, startViewport{ startViewport },
+		int stairHeight, float startViewport, float endViewport, std::string cellId, int nx, int ny) :id{ id }, name{ name }, height{ height }, width{ width }, position{ position },
+		idHiddenItem{ idHiddenItem }, objectId{ objectId }, ObjectType{ ObjectType }, enemyName{ enemyName }, stairHeight{ stairHeight }, startViewport{ startViewport }, endViewport{ endViewport },
 		cellId{ cellId }, nx{ nx }, ny{ ny }
 	{}
 
@@ -32,6 +32,7 @@ public:
 	std::string enemyName;
 	int stairHeight;
 	float startViewport;
+	float endViewport;
 	std::string cellId;
 	int nx;
 	int ny;
@@ -53,7 +54,9 @@ public:
 	builder& set_cellId(std::string value) { cellId = value; return *this; };
 	builder& set_nx(int value) { nx = value; return *this; };
 	builder& set_ny(int value) { ny = value; return *this; };
-	builder& set_startViewPort(int value) { startViewport = value; return *this; };
+	builder& set_startViewPort(float value) { startViewport = value; return *this; };
+	builder& set_endViewPort(float value) { endViewport = value; return *this; };
+
 
 	int get_id() { return id; }
 	std::string get_name() { return name; }
@@ -65,14 +68,15 @@ public:
 	std::string get_ObjectId() { return objectId; }
 	std::string get_enemyName() { return enemyName; }
 	int get_stairHeight() { return stairHeight; }
-	int get_StartViewPort() { return startViewport; }
+	float get_StartViewPort() { return startViewport; }
+	float get_EndViewPort() { return endViewport; }
 	std::string getCellId() { return cellId; }
 	int get_nx() { return nx; }
 	int get_ny() { return ny; }
 
 	ObjectInfo build() const
 	{
-		return ObjectInfo{ id, name, height, width, position, idHiddenItem, objectId , ObjectType, enemyName, stairHeight, startViewport, cellId, nx, ny };
+		return ObjectInfo{ id, name, height, width, position, idHiddenItem, objectId , ObjectType, enemyName, stairHeight, startViewport,endViewport, cellId, nx, ny };
 	}
 
 private:
@@ -87,6 +91,7 @@ private:
 	std::string enemyName = "";
 	int stairHeight = 0;
 	float startViewport = 0;
+	float endViewport = 0;
 	std::string cellId = "";
 	int nx = 0;
 	int ny = 0;

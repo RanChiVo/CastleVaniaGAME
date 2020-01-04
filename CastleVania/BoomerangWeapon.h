@@ -1,13 +1,14 @@
 #pragma once
-#include "GameObjects/GameObject.h"
+#include "CombatWeapon.h"
 
-class Boomerang : public GameObject
+class BoomerangWeapon : public CombatWeapon
 {
+	bool goBack = false;
 public:
-	Boomerang(D3DXVECTOR2 pos);
+	BoomerangWeapon();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
-	virtual void Render(Viewport* viewport);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-	~Boomerang();
+	virtual void Render(Viewport* viewport);
+	~BoomerangWeapon();
 };
 

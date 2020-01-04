@@ -7,6 +7,8 @@
 #include "../CombatWeapon.h"
 #include "../BaseInfo.h"
 #include "../ObjectStair.h"
+#include "../MovingMap.h"
+#include "../Direct3DManager.h"
 
 class Simon: public GameObject
 {
@@ -31,8 +33,11 @@ private:
 	DWORD startAtack = 0;
 	DWORD startAtackSub= 0;
 	DWORD startHurt;
+	DWORD startDie = 0;
 	ObjectStair* originalStair = nullptr;
 	ObjectStair* reverseStair = nullptr;
+	D3DXVECTOR2 resetPosition;
+	
 	Flip flip;
 
 	Whip* whip;
@@ -90,7 +95,6 @@ public:
 	void SetIsOnStair(bool isOnStair){}
 	bool IsMovingDoor() { return isMovingDoor; }
 	void setIsMovingDoor(bool isMovingDoor) {this->isMovingDoor = isMovingDoor;}
-	int GetLevel() { return level; }
 	void SetState(int state);
 	bool checkisInSpawn() { return isInSpawn; }
 	void setIsInSpawn(bool isInSpawn) { this->isInSpawn = isInSpawn; }
@@ -105,6 +109,10 @@ public:
 	void handleAfterCollision(vector<LPGAMEOBJECT> *coObjects, EntityID id ,int i, vector<LPCOLLISIONEVENT> *coEvents);
 	void handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+	void resetWhenDie();
+	void setResetPosition(D3DXVECTOR2 pos);
+	D3DXVECTOR2 getResetPosition() { return resetPosition; }
+
 
 	void RemoveWhip();
 	void SetupAtacking();

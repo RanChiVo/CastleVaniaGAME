@@ -40,10 +40,10 @@ void Grid::updateObjects(vector<LPGAMEOBJECT>* coObjects)
 {
 	Viewport* viewPort = Direct3DManager::getInstance()->getViewport();
 
-	int beginCol = viewPort->getX() / WIDTH_GRID - 1;
+	int beginCol = viewPort->getX() / WIDTH_GRID;
 	int endCol = (viewPort->getX() + viewPort->getWidth()) / WIDTH_GRID + 1;
 	int beginRow = viewPort->getY() / HIEGHT_GRID;
-	int endRow = (viewPort->getY() + viewPort->getHeight()) / HIEGHT_GRID;
+	int endRow = (viewPort->getY() + viewPort->getHeight()) / HIEGHT_GRID + 1;
 
 	beginCol = beginCol < 0 ? 0 : beginCol;
 	endCol = endCol > col ? col : endCol;
@@ -67,7 +67,7 @@ void Grid::updateObjects(vector<LPGAMEOBJECT>* coObjects)
 			}
 }
 
-void Grid::update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Grid::update(vector<LPGAMEOBJECT>* coObjects)
 {
 	dynamicObjects.clear();
 	for (int i = 0; i < (int)coObjects->size(); i++)
@@ -97,6 +97,10 @@ void Grid::update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		case ID_ENTITY_PANTHER:
 			break;
 		case ID_ENTITY_MOVING_MAP:
+			break;
+		case ID_ENTITY_SPAWN_ENEMY:
+			break;
+		case ID_ENTITY_WALL_CHANGINGMAP:
 			break;
 		default:
 			dynamicObjects.insert(coObjects->at(i));

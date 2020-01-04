@@ -16,11 +16,13 @@ private:
 	std::vector<LPGAMEOBJECT> Simon_Item;
 	int start_time;
 	int gameTime;
-	int Score = 0;
+	int score = 0;
 	int healthSimon = 0;
 	int healthDarkBat = 0;
 
-	std::string score;
+	std::string heartScore;
+	std::string scoreStringTemp;
+	std::string scoreString;
 	std::string timeString;
 	Sprite* HP;
 	Sprite* enemy_HP1;
@@ -28,6 +30,8 @@ private:
 	Sprite* lost_HP;
 	Sprite* menu;
 	Sprite* subWeapon;
+	EntityID idSubWeapon;
+	unordered_map<EntityID, Sprite*> itemList;
 	DWORD startTime;
 	ResourceManagement* resourceManagement;
 	LPD3DXSPRITE spriteHandler;

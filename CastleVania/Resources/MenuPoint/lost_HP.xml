@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_ENTITY_LOST_HP"  name="lost_HP" width="6" height="14">
-    <image source="Resources\MenuPoint\lost_HP.png" width="6" height="14" />
+  <imagelayer id="ID_ENTITY_LOST_HP"  name="lost_HP" width="9" height="14">
+    <image source="Resources\MenuPoint\lost_HP.png" width="9" height="14" />
   </imagelayer>
     <sprites>
-    <spriteframe id="lost_HP1" left = "0" top="0" right="6" bottom="14"/>
+    <spriteframe id="lost_HP1" left = "0" top="0" right="9" bottom="14"/>
       </sprites>
 </loadresource>

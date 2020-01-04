@@ -2,6 +2,7 @@
 #include "ResourceManagement.h"
 #include "GameObjects/Simon.h"
 #include "Direct3DManager.h"
+#include "BallDarkBat.h"
 
 constexpr DWORD  DARK_BAT_TIME_RANDOM_MOVE = 1200;
 constexpr DWORD  DARK_BAT_TIME_IDLE = 1500;
@@ -66,6 +67,11 @@ void DarkBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		startTimeEffect = 0;
 		SetState(STATE_DETROY);
+		Simon::getInstance()->getBaseInfo()
+			->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 3000);
+		BallDarkBat* ballDarkBat = new BallDarkBat(D3DXVECTOR2(originalLocation.x + width / 3, originalLocation.y + height /3));
+		coObjects->push_back(ballDarkBat);
+
 	}
 	Enemy::Update(dt, coObjects);
 }
@@ -147,8 +153,8 @@ void DarkBat::changeAtackToMoveRandom()
 
 void DarkBat::handleMoveRandom()
 {
-	int activateAreaX = activatePositionMaxX - Simon::getInstance()->getStartViewPort();
-	int randomPositionX = rand() % (activateAreaX) + Simon::getInstance()->getStartViewPort();
+	int activateAreaX = activatePositionMaxX - Direct3DManager::getInstance()->getViewport()->getStartViewportX();
+	int randomPositionX = rand() % (activateAreaX) + Direct3DManager::getInstance()->getViewport()->getStartViewportX();
 	int activateAreaY = DARK_BAT_MAX_DISTANCE_RANDOM - originalLocation.y;
 	int randomPositionY = rand() % (activateAreaY) + originalLocation.y;
 	vx = (randomPositionX - x) / DARK_BAT_TIME_RANDOM_MOVE;

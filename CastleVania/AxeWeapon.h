@@ -3,10 +3,6 @@
 
 class AxeWeapon : public CombatWeapon
 {
-	int untouchable;
-	DWORD untouchable_start;
-	int width;
-	int height;
 public:
 	AxeWeapon();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

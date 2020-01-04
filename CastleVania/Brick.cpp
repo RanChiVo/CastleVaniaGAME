@@ -25,11 +25,12 @@ CBrick::CBrick(std::string name)
 
 	if (name.compare("BigSitdownBrick")==0)
 	{
-		currentAnimation = BRICK_ANI1;
+		currentAnimation = BRICK_ANI2;
+		
 	}
 	else  if (name.compare("BigStandBrick")==0)
 	{
-		currentAnimation = BRICK_ANI2;
+		currentAnimation = BRICK_ANI1;
 	}
 	else  if (name.compare("TunelBrick")==0)
 	{

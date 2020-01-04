@@ -9,6 +9,7 @@
 #include "./GameObjects/StopWatch.h"
 #include "./Axe.h"
 #include "./InvisibilityPotion.h"
+#include "./Boomerang.h"
 
 constexpr int FIRE_LIVE_TIME = 200;
 
@@ -43,6 +44,9 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				break;
 			case ID_ENTITY_AXE:
 				item = new Axe(this->getPosition());
+				break;
+			case ID_ENTITY_BOOMERANG:
+				item = new Boomerang(this->getPosition());
 				break;
 			case ID_ENTITY_DAGGER:
 				item = new Dagger(this->getPosition());

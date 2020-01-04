@@ -8,6 +8,8 @@ protected:
 	float y;
 	float width;
 	float height;
+	float startViewportX;
+	float endViewportX;
 	int state;
 public:
 	enum StateViewPort
@@ -39,7 +41,15 @@ public:
 
 	void setY(float x) { this->y = y; }
 
-	void moveRight(DWORD dt);
+	void autoMove(DWORD dt);
+
+	void setStartViewPortX(float startViewport);
+
+	float getStartViewportX();
+
+	void setEndViewPortX(float endViewport);
+
+	float getEndViewportX();
 
 	void setState(StateViewPort state) { this->state = state; }
 

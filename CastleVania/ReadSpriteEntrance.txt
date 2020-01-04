@@ -32,3 +32,5 @@ Resources\\MenuPoint\\lost_HP.xml		---
 Resources\\MenuPoint\\place_item.xml	---
 Resources\\MenuPoint\\menu.xml		---
 Resources\\Enemy\\darkBat.xml		Resources\\Enemy\\darkBatAnimation.xml
+Resources\\Items\\ballDarkBall.xml		Resources\\Items\\ballDarkBatAnimation.xml
+Resources\\Items\\boomerang.xml		Resources\\Items\\boomerangAnimation.xml

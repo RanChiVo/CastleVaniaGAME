@@ -14,8 +14,8 @@ private:
 	static bool isActivate;
 	bool hasBeenActivate;
 	static DWORD startTimeHurt;
-public:
 	static BaseInfo  baseInfo;
+public:
 	enum stateDarkBat
 	{
 		DARK_BAT_STATE_MOVERANDOM,
@@ -24,6 +24,7 @@ public:
 		DARK_BAT_STATE_EFFECT_DESTROY,
 	};
 	DarkBat(D3DXVECTOR2 pos );
+	static BaseInfo getBaseInfo() { return baseInfo; }
     void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	void Render(Viewport* viewport);

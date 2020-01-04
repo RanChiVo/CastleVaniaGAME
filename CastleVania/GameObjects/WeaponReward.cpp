@@ -37,9 +37,19 @@ void WeaponReward::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else
 		{
 			float min_tx, min_ty, nx, ny;
+			float Dx = dx, Dy = dy;
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-			if (ny != 0) vy = 0;
-			y += min_ty * dy + ny * 0.1f;
+			for (int i = 0; i < coEvents.size(); i++)
+			{
+				switch (coEvents[i]->obj->getID())
+				{
+				case ID_ENTITY_FLOOR:
+					if (ny < 0) vy = 0;
+					Dy = min_ty * dy + ny * 0.11f;
+					break;
+				}
+			}
+			y += Dy;
 		}
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

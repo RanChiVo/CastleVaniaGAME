@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+  <imagelayer id="ID_ENTITY_BOOMERANG"  name="heart" width="29" height="28" >
+    <image source="Resources\Items\boomerang.png" width="120" height="28" />
+  </imagelayer>
+  <sprites>
+    <spriteframe id="bomerang1" left = "0" top="0" right="29" bottom="28"/>
+    <spriteframe id="bomerang2" left="44" top="0" right="70" bottom="28" />
+    <spriteframe id="bomerang3" left="90" top="0" right="117" bottom="28" />
+  </sprites>
+</loadresource>

@@ -21,7 +21,6 @@ void Axe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
 	CalcPotentialCollisions(coObjects, coEvents);
-
 	if (coEvents.size() == 0)
 	{
 		y += dy;

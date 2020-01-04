@@ -65,6 +65,9 @@ void BaseInfo::setIdSubWeapon(EntityID IdSubWeapon)
 		break;
 	case ID_ENTITY_STOP_WATCH:
 		break;
+	case ID_ENTITY_BOOMERANG_WEAPON:
+		setSubWeapon(new BoomerangWeapon());
+		break;
 	}
 }
 

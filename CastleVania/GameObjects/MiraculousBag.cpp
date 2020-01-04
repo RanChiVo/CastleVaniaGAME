@@ -21,14 +21,18 @@ MiraculousBag::MiraculousBag(EntityID id, D3DXVECTOR2 pos)
 	{
 	case ID_ENTITY_RED_100_MIRACULOUS_BAG:
 		currentAnimation = RED_MIRACULOUSBAG_ANI;
+		score = 100;
 		break;
 	case ID_ENTITY_BLUE_400_MIRACULOUS_BAG:
 		currentAnimation = BLUE_MIRACULOUSBAG_ANI;
+		score = 400;
 		break;
 	case ID_ENTITY_WHITE_700_MIRACULOUS_BAG:
 		currentAnimation = WHITE_MIRACULOUSBAG_ANI;
+		score = 700;
 		break;
 	case ID_ENTITY_BONUS_1000_MIRACULOUS_BAG:
+		score = 1000;
 		currentAnimation = BONUS_MIRACULOUSBAG_ANI;
 		break;
 	}
@@ -81,7 +85,12 @@ void MiraculousBag::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			y += Dy;
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-		if (GetTickCount() - liveTime > 4000)
+		if (GetTickCount() - liveTime > 7000 && score == 1000 && liveTime > 0)
+		{
+			state = STATE_DETROY;
+			liveTime = 0;
+		}
+		else if (GetTickCount() - liveTime > 4000 && score != 1000 && liveTime > 0)
 		{
 			state = STATE_DETROY;
 			liveTime = 0;
@@ -120,6 +129,11 @@ void MiraculousBag::Render(Viewport * viewport)
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip = normal;
 	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+}
+
+int MiraculousBag::getScore()
+{
+	return score;
 }
 
 MiraculousBag::~MiraculousBag()

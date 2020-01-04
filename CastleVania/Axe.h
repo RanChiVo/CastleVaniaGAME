@@ -3,8 +3,6 @@
 
 class Axe : public GameObject
 {
-	int untouchable;
-	DWORD untouchable_start;
 public:
 	Axe(D3DXVECTOR2 position);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

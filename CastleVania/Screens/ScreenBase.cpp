@@ -32,7 +32,6 @@ void ScreenBase::init()
 
 void ScreenBase::update(DWORD deltatime)
 {
-	//grid->update(deltatime, &objects);
 	menu_point->update();
 
 	ResourceManagement::GetInstance()->getTiledMap(IdScreen)->Update(deltatime, &objects);
@@ -46,6 +45,7 @@ void ScreenBase::update(DWORD deltatime)
 		}
 	}
 	Simon::getInstance()->Update(deltatime, &objects);
+	grid->update(&objects);
 }
 
 void ScreenBase::loadResources()
@@ -138,9 +138,19 @@ void ScreenBase::renderObject(Viewport * viewport)
 
 	for (int i = 0; i < (int)objects.size(); i++)
 	{
-		objects[i]->Render(viewport);
+		if (objects[i]->getID() != ID_ENTITY_CASTLEVANIA_WALL)
+		{
+			objects[i]->Render(viewport);
+		}
 	}
 	Simon::getInstance()->Render(viewport);
+	for (int i = 0; i < (int)objects.size(); i++)
+	{
+		if (objects[i]->getID() == ID_ENTITY_CASTLEVANIA_WALL)
+		{
+			objects[i]->Render(viewport);
+		}
+	}
 	menu_point->Draw();
 }
 
@@ -155,6 +165,7 @@ void ScreenBase::getInfoFromObjectInfo(ObjectInfo::builder *info, LPGAMEOBJECT o
 	object->setIdHiddenItem(info->get_idHiddenItem());
 	object->setEnemyName(info->get_enemyName());
 	object->setStartViewPort(info->get_StartViewPort());
+	object->setEndViewPort(info->get_EndViewPort());
 }
 
 ScreenBase::~ScreenBase()

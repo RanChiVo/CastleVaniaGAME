@@ -22,6 +22,9 @@
 #include "../Viewport.h"
 #include "../WaterEffect.h"
 #include "../DarkBat.h"
+#include "../BallDarkBat.h"
+#include "../Boomerang.h"
+
 
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
@@ -34,6 +37,8 @@ constexpr DWORD INVISIBLE_TIME = 4000;
 constexpr DWORD SIMON_UNTOUCHABLE_TIME = 2000;
 constexpr DWORD SIMON_PROTECT_TIME = 2000;
 constexpr DWORD SIMON_HURT_TIME = 1000;
+constexpr DWORD SIMON_DIE_TIME = 3000;
+
 
 Simon* Simon::_instance = nullptr;
 
@@ -90,6 +95,18 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		invisible_Potion_Start = 0;
 		isVisible = false;
 	}
+
+	if (baseInfo->getHealth() == 0 && startDie == 0)
+	{
+		SetState(SIMON_STATE_DIE);
+		startDie = GetTickCount();
+	}
+
+	if (startDie > 0 && GetTickCount() - startDie > SIMON_DIE_TIME)
+	{
+		startDie = 0;
+		resetWhenDie();
+	}
 }
 
 void Simon::loadResource()
@@ -109,6 +126,7 @@ void Simon::loadResource()
 	AddAnimation(SIMON_ANI_ATTACK_UP_STAIR);
 	AddAnimation(SIMON_ANI_ATTACK_DOWN_STAIR);
 	AddAnimation(SIMON_ANI_HURT);
+	AddAnimation(SIMON_ANI_DEAD);
 }
 
 void Simon::SetState(int state)
@@ -262,12 +280,6 @@ void Simon::OnKeyDown(int KeyCode)//event
 		Direct3DManager::getInstance()
 			->getViewport()->SetPosition(Direct3DManager::getInstance()->getViewport()->getX(), 0);
 		isInTunel = false;
-		break;
-	case DIK_C:
-		SetPosition(D3DXVECTOR2(5048.66f, 248.0f));
-		isInTunel = true;
-		Direct3DManager::getInstance()->getViewport()
-			->SetPosition(Direct3DManager::getInstance()->getViewport()->getX(), 430);
 		break;
 	}
 
@@ -440,6 +452,10 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (startAtackSub == 0)
 		{
 			startAtackSub = GetTickCount();
+			if (baseInfo->getIdSubWeapon()== ID_ENTITY_BOOMERANG_WEAPON)
+			{
+				baseInfo->getSubWeapon()->setLiveTime(GetTickCount());
+			}
 		}
 		else if (startAtackSub > 0 && GetTickCount() - startAtackSub > 450)
 		{
@@ -470,7 +486,7 @@ void Simon::GetBoundingBox(float & left, float & top, float & right, float & bot
 
 void Simon::Render(Viewport* viewport)
 {
-	RenderBoundingBox(viewport);
+	//RenderBoundingBox(viewport);
 
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
@@ -714,6 +730,17 @@ void Simon::handleState()
 		currentAnimation = SIMON_ANI_ATTACK_UP_STAIR;
 		break;
 
+	case SIMON_STATE_DIE:
+		vx = 0;
+		isOnStair = false;
+		attacking = false;
+		enableSubWeapon = false;
+		checkRewind = false;
+		currentAnimation = SIMON_ANI_DEAD;
+		originalStair = nullptr;
+		isjumping = false;
+		break;
+
 	case SIMON_STATE_ATTACK_DOWN_STAIR:
 		attacking = true;
 		checkRewind = true;
@@ -784,7 +811,8 @@ void Simon::updateCollisionStair()
 {
 	if (isOnStair)
 	{
-		if(originalStair->get_ny() > 0 && (y + height <= (originalStair->getPosition().y + originalStair->getInfoStair().y - originalStair->getHeight()))
+		if(originalStair->get_ny() > 0 && (y + height <= (originalStair->getPosition().y + originalStair->getInfoStair().y
+			- originalStair->getHeight()))
 		|| originalStair->get_ny() < 0 && (y + height >= (originalStair->getPosition().y + originalStair->getHeight())))
 		{
 			handleOutOfStair();
@@ -836,8 +864,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
 
-	if (state != SIMON_STATE_DIE)
-		CalcPotentialCollisions(coObjects, coEvents);
+	CalcPotentialCollisions(coObjects, coEvents);
 
 	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
 	{
@@ -872,6 +899,8 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else
 				{
+					if (ny != 0) vy = 0;
+					Dy = min_ty * dy + ny * 0.1f;
 					Dx = min_tx * dx + nx * 0.11f;
 					if (nx != 0) vx = 0;
 				}
@@ -913,10 +942,28 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						if (ny != 0) vy = 0;
 						Dy = min_ty * dy + ny * 0.11f;
 					}
+					else if (coEvents[i]->obj->getName().compare("FloorShowItem") == 0 )
+					{
+						if (ny != 0) vy = 0;
+						Dy = min_ty * dy + ny * 0.11f;
+						if (!coEvents[i]->obj->IsTouched())
+						{
+							MiraculousBag* moneyBag = new MiraculousBag(ID_ENTITY_BONUS_1000_MIRACULOUS_BAG,
+								D3DXVECTOR2(coEvents[i]->obj->getPosition().x - 195, coEvents[i]->obj->getPosition().y - 160));
+							coObjects->push_back(moneyBag);
+							coEvents[i]->obj->SetBeTouched(true);
+						}
+					}
+
 					if (coEvents[i]->obj->getName().compare("Water") == 0)
 					{
 						WaterEffect* effect = new WaterEffect(getPosition());
 						coObjects->push_back(effect);
+						SetState(SIMON_STATE_DIE);
+						if (startDie == 0)
+						{
+							startDie = GetTickCount();
+						}
 					}
 				}
 				break;
@@ -999,6 +1046,33 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		else
 		{
 			coEvents->at(i)->obj->SetState(STATE_DETROY);
+		}
+		break;
+	case ID_ENTITY_BOOMERANG:
+		baseInfo->setIdSubWeapon(ID_ENTITY_BOOMERANG_WEAPON);
+		if (coObjects)
+		{
+			coObjects->at(i)->SetState(STATE_DETROY);
+		}
+		else
+		{
+			coEvents->at(i)->obj->SetState(STATE_DETROY);
+		}
+		break;
+	case ID_ENTITY_BALL_DARK_BAT:
+		if (coObjects)
+		{
+			if (coObjects->at(i)->IsTouched())
+			{
+				coObjects->at(i)->SetState(STATE_DETROY);
+			}
+		}
+		else
+		{
+			if (coEvents->at(i)->obj->IsTouched())
+			{
+				coEvents->at(i)->obj->SetState(STATE_DETROY);
+			}
 		}
 		break;
 	case ID_ENTITY_STOP_WATCH:
@@ -1106,8 +1180,10 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 	case ID_ENTITY_MIRACULOUS_BAG:
 		if (coObjects)
 		{
-			coObjects->at(i)->SetState(STATE_EFFECT);
-			coObjects->at(i)->SetPosition(D3DXVECTOR2(x, y + 20));
+			MiraculousBag* money = dynamic_cast<MiraculousBag*>(coObjects->at(i));
+			money->SetState(STATE_EFFECT);
+			money->SetPosition(D3DXVECTOR2(x, y + 20));
+			baseInfo->setScore(money->getScore());
 		}
 		break;
 	case ID_ENTITY_STAIR:
@@ -1171,6 +1247,19 @@ void Simon::handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coO
 			handleAfterCollision(coObjects, coObjects->at(i)->getID(), i, nullptr);
 		}
 	}
+}
+
+void Simon::resetWhenDie()
+{
+	baseInfo->setHealth(16);
+	SetPosition(resetPosition);
+	SetState(SIMON_STATE_IDLE);
+	set_nx(1);
+}
+
+void Simon::setResetPosition(D3DXVECTOR2 pos)
+{
+	this->resetPosition = pos;
 }
 
 void Simon::RemoveWhip()

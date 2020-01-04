@@ -43,7 +43,6 @@ protected:
 	int mainId;
 	vector<D3DXVECTOR2> cellId;
 	int currentAnimation;
-	static int level;
 	bool isCollision = false;
 	DWORD liveTime;
 	std::string name;
@@ -51,6 +50,8 @@ protected:
 	std::string objectID ;
 	std::string nameEnemy;
 	float startViewPort;
+	float endViewPort;
+	bool isTouched = false;
 	DWORD dt;
 	static unordered_map<int, LPANIMATION> animations;
 
@@ -62,12 +63,12 @@ public:
 		STATE_EFFECT = 1002,
 	};
 	GameObject();
+	bool IsTouched(){ return isTouched; }
+	void SetBeTouched(bool isTouchded) { this->isTouched = isTouchded; }
 	void setMainId(int mainId) { this->mainId = mainId; }
 	int getMainId() { return mainId; }
 	void setCellId(std::string cellIdString);
 	vector<D3DXVECTOR2> getCellId() { return cellId; }
-	static int getLevel() { return level; }
-	void setLevel(int level) { this->level = level; }
 	DWORD getLiveTime() { return liveTime; }
 	void setLiveTime(DWORD liveTime) { this->liveTime = liveTime; }
 	void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
@@ -93,12 +94,13 @@ public:
 	std::string getEnemyName() { return nameEnemy; }
 	float getStartViewPort() { return startViewPort; }
 	void setStartViewPort(float startViewPort) { this->startViewPort = startViewPort; }
+	float getEndViewPort() { return endViewPort; }
+	void setEndViewPort(float endViewPort) { this->endViewPort = endViewPort; }
 
 	void set_nx(int nx) { this->nx = nx; }
 	int get_nx() { return nx; }
 	void set_ny(int ny) { this->ny = ny; }
 	int get_ny() { return ny; }
-	bool IsChangeLevel();
 	bool checkCollision(RECT A, RECT B);
 	bool IsCollision();
 	bool setIscollision(bool isCollision);

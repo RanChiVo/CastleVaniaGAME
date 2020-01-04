@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<loadresource>
+<animations>
+  <animation name ="BOOMERANG_ITEM_ANI" default_time="100" rewind="true">
+    <animation_frame sprite_id="bomerang1" />
+  </animation >
+  <animation name="BOOMERANG_WEAPON_ANI" default_time="100" rewind="true">
+    <animation_frame sprite_id="bomerang1" />
+    <animation_frame sprite_id="bomerang2" />
+    <animation_frame sprite_id="bomerang3" />
+  </animation>
+</animations>
+</loadresource>
+  

@@ -126,6 +126,7 @@ std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 			std::string objectId = "";
 			std::string enemyName = "";
 			float startViewPort = 0;
+			float endViewPort = 0;
 			std::string cellId = "";
 			int stairHeight = 0;
 			int nx = 0;
@@ -161,6 +162,10 @@ std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 				{
 					startViewPort = propertyNode.attribute("value").as_float();
 				}
+				else if (nameProperty.compare("EndViewPort") == 0)
+				{
+					endViewPort = propertyNode.attribute("value").as_float();
+				}
 				else if (nameProperty.compare("Cell ID") == 0)
 				{
 					cellId = propertyNode.attribute("value").as_string();
@@ -170,7 +175,7 @@ std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 			object_info->set_id(id).set_name(name)
 				.set_height(height).set_width(width).set_position(D3DXVECTOR2(x, y))
 				.set_idHiddenItem(idHiddenItemString).set_ObjectId(objectId).set_enemyName(enemyName)
-				.set_stairHeight(stairHeight).set_startViewPort(startViewPort)
+				.set_stairHeight(stairHeight).set_startViewPort(startViewPort).set_endViewPort(endViewPort)
 				.set_cellId(cellId).set_nx(nx).set_ny(ny);
 
 			objectInfo.push_back(object_info);

@@ -3,7 +3,7 @@
 
 class BallDarkBat:public GameObject
 {
-
+	DWORD startUntouched = 0;
 public:
 	BallDarkBat( D3DXVECTOR2 pos);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

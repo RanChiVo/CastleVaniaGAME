@@ -9,7 +9,6 @@
 #include "../Textures/Textures.h"
 
 unordered_map<int, LPANIMATION> GameObject::animations;
-int GameObject::level = 0;
 
 EntityID GameObject::getID()	
 {
@@ -50,11 +49,6 @@ std::string GameObject::getIdHiddenItem()
 void GameObject::setIdHiddenItem(std::string idHiddenItem)
 {
 	this->idHiddenItem = idHiddenItem;
-}
-
-bool GameObject::IsChangeLevel()
-{
-	return level;
 }
 
 void GameObject::AddAnimation(int aniId)
@@ -135,6 +129,10 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 
 		}
 		else sprite->Draw(D3DXVECTOR2(pos.x + 20, pos.y), 100);
+		if (state == Simon::SIMON_STATE_DIE)
+		{
+			sprite->Draw(D3DXVECTOR2(pos.x, pos.y), 100);
+		}
 	}
 	else sprite->Draw(pos, 100);
 }

@@ -18,7 +18,7 @@ public:
 	Grid(int row, int col);
 	void loadObjects(vector<LPGAMEOBJECT>* coObjects);
 	void updateObjects(vector<LPGAMEOBJECT>* coObjects);
-	void update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	void update( vector<LPGAMEOBJECT>* coObjects);
 	~Grid();
 };
 

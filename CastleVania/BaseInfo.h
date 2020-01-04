@@ -4,6 +4,7 @@
 #include "DaggerWeapon.h"
 #include "AxeWeapon.h"
 #include "FireBombWeapon.h"
+#include "BoomerangWeapon.h"
 
 class BaseInfo
 {

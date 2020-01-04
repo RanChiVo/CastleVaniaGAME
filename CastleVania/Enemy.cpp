@@ -8,6 +8,7 @@
 #include "./GameObjects/SmallHeart.h"
 #include "./GameObjects/MiraculousBag.h"
 #include "VampireBat.h"
+#include "GameObjects/Simon.h"
 #include "FishMan.h"
 #include <cstdlib>
 #include <ctime>
@@ -42,15 +43,30 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			DebugOut(L"liveTime:{%d}\n", liveTime);
 
 			//rand() % (b – a + 1) + a.
-			if (id == ID_ENTITY_VAMPIRE_BAT)
+			switch (id )
 			{
+			case ID_ENTITY_ZOMBIE:
+				Simon::getInstance()->getBaseInfo()
+					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 100);
+				state = STATE_DETROY;
+				break;
+			case ID_ENTITY_PANTHER:
+				Simon::getInstance()->getBaseInfo()
+					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 200);
+				state = STATE_DETROY;
+				break;
+			case ID_ENTITY_VAMPIRE_BAT:
+				Simon::getInstance()->getBaseInfo()
+					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 200);
 				state = VampireBat::VAMPIRE_STATE_HIDDEN;
-			}
-			else if (id == ID_ENTITY_FISH_MAN)
-			{
+				break;
+			case ID_ENTITY_FISH_MAN:
+				Simon::getInstance()->getBaseInfo()
+					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 200);
 				state = FishMan::FISH_MAN_STATE_HIDDEN;
+				break;
 			}
-			else state = STATE_DETROY;
+			
 			GameObject* item = nullptr;
 			int idRandom = rand() % (20 - 5 + 1) + 5;
 

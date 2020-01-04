@@ -3,11 +3,11 @@
 #include "../CastleVania/Direct3DManager.h"
 #include "../CastleVania/GameObjects/Simon.h"
 
-constexpr int DOOR_ACTION_1_TIME = 1960;
+constexpr int DOOR_ACTION_1_TIME = 2400;
 constexpr int DOOR_ACTION_2_TIME = 450;
 constexpr int DOOR_ACTION_3_TIME = 1000;
 constexpr int DOOR_ACTION_4_TIME = 460;
-constexpr int DOOR_ACTION_5_TIME = 1960;
+constexpr int DOOR_ACTION_5_TIME = 2660;
 
 DWORD Door::action1Start;
 DWORD Door::action2Start;
@@ -46,7 +46,7 @@ void Door::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			Direct3DManager::getInstance()->getViewport()->moveRight(dt);
+			Direct3DManager::getInstance()->getViewport()->autoMove(dt);
 			Direct3DManager::getInstance()->getViewport()
 				->setState(Direct3DManager::getInstance()->getViewport()->STATE_LOCK);
 			Simon::getInstance()->setIsMovingDoor(true);
@@ -96,14 +96,17 @@ void Door::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			action5Start = 0;
 			Direct3DManager::getInstance()->getViewport()->setState(Direct3DManager::getInstance()->getViewport()->STATE_ACTION);
+			name = "Wall";
 			id = ID_ENTITY_WALL_ENTRANCE;
-			Simon::getInstance()->setStartViewPort(Direct3DManager::getInstance()->getViewport()->getX()); 
+			Direct3DManager::getInstance()->getViewport()->setStartViewPortX(Direct3DManager::getInstance()->getViewport()->getX());
+			Direct3DManager::getInstance()->getViewport()->setEndViewPortX(ResourceManagement::GetInstance()->getTiledMap(ID_ENTITY_MAP_PLAYGAME)->getWidthWorld());
+			Simon::getInstance()->setResetPosition(D3DXVECTOR2(Direct3DManager::getInstance()->getViewport()->getStartViewportX()+ width, 50));
 			Simon::getInstance()->setIsMovingDoor(false);
 		}
 		else
 		{
 			state = DOOR_STATE_CLOSE;
-			Direct3DManager::getInstance()->getViewport()->moveRight(dt);
+			Direct3DManager::getInstance()->getViewport()->autoMove(dt);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 #include "Viewport.h"
 
-constexpr float VIEWPORT_SPEED_X = 0.04f;
+constexpr float VIEWPORT_SPEED_X = 0.0527f;
 
 Viewport::Viewport(int x, int y, int width, int height)
 {
@@ -8,6 +8,8 @@ Viewport::Viewport(int x, int y, int width, int height)
 	this->y = y;
 	this->width = width;
 	this->height = height;
+	startViewportX = 0;
+	endViewportX = 0;
 	state = STATE_ACTION;
 }
 
@@ -21,9 +23,29 @@ D3DXVECTOR2 Viewport::ScreenToWorld(D3DXVECTOR2 Object)
 	return D3DXVECTOR2(Object.x + x, Object.y + y);
 }
 
-void Viewport::moveRight(DWORD dt)
+void Viewport::autoMove(DWORD dt)
 {
 	x += VIEWPORT_SPEED_X * dt;
+}
+
+float Viewport::getStartViewportX()
+{
+	return startViewportX;
+}
+
+void Viewport::setEndViewPortX(float endViewport)
+{
+	this->endViewportX = endViewport;
+}
+
+float Viewport::getEndViewportX()
+{
+	return endViewportX;
+}
+
+void Viewport::setStartViewPortX(float startViewport)
+{
+	this->startViewportX = startViewport;
 }
 
 Viewport::~Viewport()

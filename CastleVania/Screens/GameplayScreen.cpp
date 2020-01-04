@@ -29,6 +29,8 @@ void GameplayScreen::update(DWORD dt)
 	ScreenBase::update(dt);
 	updateViewport(dt);
 	updateEnemy();
+	//grid->update(dt, &objects);
+
 }
 
 void GameplayScreen::updateViewport(DWORD dt)
@@ -41,12 +43,13 @@ void GameplayScreen::updateViewport(DWORD dt)
 		newPosViewport.x = Simon::getInstance()->getPosition().x - viewport->getWidth() / 2 + widthframeSimon / 2;
 		if (resourceManagement->getTiledMap(IdScreen)->getWidthWorld() - viewport->getX() == viewport->getWidth())
 		{
-			Simon::getInstance()->setStartViewPort(newPosViewport.x);
+			viewport->setStartViewPortX(newPosViewport.x);
+			
 			Simon::getInstance()->SetStateMoveEndMap(true);
 		}
-		newPosViewport.x = min(resourceManagement->getTiledMap(IdScreen)->getWidthWorld() - viewport->getWidth(), newPosViewport.x);
-		newPosViewport.y = min(resourceManagement->getTiledMap(IdScreen)->getWidthWorld() - viewport->getHeight(), newPosViewport.y);
-		newPosViewport.x = max( Simon::getInstance()->getStartViewPort(), newPosViewport.x);
+		newPosViewport.x = min(viewport->getEndViewportX() - viewport->getWidth(), newPosViewport.x);
+		newPosViewport.y = min(resourceManagement->getTiledMap(IdScreen)->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
+		newPosViewport.x = max(viewport->getStartViewportX(), newPosViewport.x);
 		newPosViewport.y = max(0, newPosViewport.y);
 		viewport->setX(float(newPosViewport.x));
 		viewport->SetPosition(float(newPosViewport.x), float(newPosViewport.y));
@@ -85,8 +88,8 @@ void GameplayScreen::loadResources()
 	ScreenBase::loadResources();
 	/*ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\InsideCastle_map - Copy.tmx");
 	Addproperty->divideOnjectToGrid(&objects, 2, 22);*/
-	//grid = new Grid(2, 22);
-	//grid->loadObjects(&objects);
+	grid = new Grid(2, 22);
+	grid->loadObjects(&objects);
 }
 
 void GameplayScreen::createZombie(Viewport* viewport)
@@ -115,6 +118,7 @@ GameplayScreen::GameplayScreen()
 {
 	path = "ReadSprite.txt";
 	IdScreen = ID_ENTITY_MAP_PLAYGAME;
+	viewport->setEndViewPortX(resourceManagement->getTiledMap(IdScreen)->getWidthWorld());
 }
 
 GameplayScreen::~GameplayScreen()

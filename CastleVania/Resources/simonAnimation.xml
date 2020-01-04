@@ -81,5 +81,9 @@
       <animation_frame sprite_id="Hurt1" />
     </animation>
 
+    <animation name="SIMON_ANI_DEAD" default_time="100" rewind="true">
+      <animation_frame sprite_id="Dead2" />
+    </animation>
+   
   </animations>
 </loadresource>
