@@ -34,8 +34,8 @@ void EntranceScreen::updateViewport(DWORD dt)
 void EntranceScreen::loadResources()
 {
 	ScreenBase::loadResources();
-	//ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\Entrance_map - Copy.tmx");
-	//Addproperty->divideOnjectToGrid(&objects, 2, 6);
+	/*ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\Entrance_map - Copy.tmx");
+	Addproperty->divideOnjectToGrid(&objects, 2, 6);*/
 	grid = new Grid(2, 6);
 	grid->loadObjects(&objects);
 }

@@ -96,6 +96,8 @@ void Grid::update(vector<LPGAMEOBJECT>* coObjects)
 			break;
 		case ID_ENTITY_PANTHER:
 			break;
+		case ID_ENTITY_DARK_BAT:
+			break;
 		case ID_ENTITY_MOVING_MAP:
 			break;
 		case ID_ENTITY_SPAWN_ENEMY:

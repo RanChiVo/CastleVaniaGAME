@@ -34,16 +34,26 @@ void WallChangingMap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	bool result = this->checkCollision(rect1, rect2);
 	if (result)
 	{
-		if (name.compare("MoveMapEntrance") == 0)
+		if (name.compare("Reset Viewport") == 0)
 		{
-			Simon::getInstance()->SetPosition(D3DXVECTOR2(0, 300.0f));
-			MovingMap::getInstance()->setIdMap(ID_ENTITY_MAP_PLAYGAME);
-		}
-		if (name.compare("MoveStartGamePlay") == 0)
-		{
+			Direct3DManager::getInstance()->getViewport()->setStartViewPortX(getStartViewPort());
 			Direct3DManager::getInstance()->getViewport()->setEndViewPortX(getEndViewPort());
-			Simon::getInstance()->setResetPosition(D3DXVECTOR2(Direct3DManager::getInstance()->getViewport()->getStartViewportX(), y + height/2));
 		}
+
+		if (name.compare("Reset Position") == 0)
+		{
+			Simon::getInstance()->setIdHiddenItem(getIdHiddenItem());
+			Simon::getInstance()->setResetPosition(D3DXVECTOR2(x, y));
+			Simon::getInstance()->setStartViewPort(getStartViewPort());
+			Simon::getInstance()->setEndViewPort(getEndViewPort());
+		}
+
+		if (name.compare("StartInsideCastle") == 0)
+		{
+			MovingMap::getInstance()->setIdMap(ID_ENTITY_MAP_PLAYGAME);
+			Simon::getInstance()->SetPosition(D3DXVECTOR2(0, 336.f));
+		}
+
 		if (Simon::getInstance()->IsOnStair())
 		{
 			if (Simon::getInstance()->GetState() == Simon::SIMON_STATE_GO_DOWN_STAIR || Simon::getInstance()->GetState() == Simon::SIMON_STATE_IDLE_DOWN_STAIR
@@ -56,9 +66,7 @@ void WallChangingMap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					Simon::getInstance()->getOriginalStair()->set_nx(-1);
 					Simon::getInstance()->getOriginalStair()->set_ny(1);
 					Simon::getInstance()->SetPosition(D3DXVECTOR2(15.f, -20.f));	
-					Direct3DManager::getInstance()->getViewport()->setStartViewPortX(getStartViewPort());
 					MovingMap::getInstance()->setIdMap(ID_ENTITY_MAP_UNDERGROUND);
-					Simon::getInstance()->setResetPosition(D3DXVECTOR2(Direct3DManager::getInstance()->getViewport()->getStartViewportX(), 100));
 				}
 				else if (name.compare("MoveDownUnderGroundSecond") == 0)
 				{
@@ -66,11 +74,13 @@ void WallChangingMap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					Simon::getInstance()->getOriginalStair()->set_nx(-1);
 					Simon::getInstance()->getOriginalStair()->set_ny(1);
 					Simon::getInstance()->SetPosition(D3DXVECTOR2(698.17f, 26));
-					Direct3DManager::getInstance()->getViewport()->setStartViewPortX(getStartViewPort());
 					MovingMap::getInstance()->setIdMap(ID_ENTITY_MAP_UNDERGROUND);
-					Simon::getInstance()->setResetPosition(D3DXVECTOR2(Direct3DManager::getInstance()->getViewport()->getStartViewportX(),100));
 				}
-				
+				else if (name.compare("ResetViewportDownStair") == 0)
+				{
+					Direct3DManager::getInstance()->getViewport()->setStartViewPortX(getStartViewPort());
+					Direct3DManager::getInstance()->getViewport()->setEndViewPortX(getEndViewPort());
+				}
 			}
 
 			if (Simon::getInstance()->GetState() == Simon::SIMON_STATE_GO_UP_STAIR || Simon::getInstance()->GetState() == Simon::SIMON_STATE_IDLE_UP_STAIR
@@ -82,7 +92,6 @@ void WallChangingMap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					Simon::getInstance()->getOriginalStair()->set_ny(-1);
 					Simon::getInstance()->getOriginalStair()->set_nx(1);
 					Simon::getInstance()->SetPosition(D3DXVECTOR2(3180.0f, 410.0f));
-					Direct3DManager::getInstance()->getViewport()->setStartViewPortX(getStartViewPort());
 					MovingMap::getInstance()->setIdMap(ID_ENTITY_MAP_PLAYGAME);
 				}
 				else if (name.compare("MoveUpInsideSecond") == 0)
@@ -91,19 +100,14 @@ void WallChangingMap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					Simon::getInstance()->getOriginalStair()->set_ny(-1);
 					Simon::getInstance()->getOriginalStair()->set_nx(1);
 					Simon::getInstance()->SetPosition(D3DXVECTOR2(3820, 410.0f));
-					Direct3DManager::getInstance()->getViewport()->setStartViewPortX(getStartViewPort());
 					MovingMap::getInstance()->setIdMap(ID_ENTITY_MAP_PLAYGAME);
 				}
-				else if (name.compare("MoveDownUnderGroundSecond") == 0)
+				else if (name.compare("ResetViewportUpStair") == 0)
 				{
+					Direct3DManager::getInstance()->getViewport()->setStartViewPortX(getStartViewPort());
 					Direct3DManager::getInstance()->getViewport()->setEndViewPortX(getEndViewPort());
-					Simon::getInstance()->setResetPosition(D3DXVECTOR2(Direct3DManager::getInstance()->getViewport()->getStartViewportX(), 100));
 				}
-				else if (name.compare("MoveDownUnderGroundSecond") == 0)
-				{
-					Direct3DManager::getInstance()->getViewport()->setEndViewPortX(getEndViewPort());
-					Simon::getInstance()->setResetPosition(D3DXVECTOR2(Direct3DManager::getInstance()->getViewport()->getStartViewportX(), 100));
-				}
+				
 			}
 		
 		}

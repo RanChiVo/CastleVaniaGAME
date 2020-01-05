@@ -38,6 +38,7 @@ constexpr DWORD SIMON_UNTOUCHABLE_TIME = 2000;
 constexpr DWORD SIMON_PROTECT_TIME = 2000;
 constexpr DWORD SIMON_HURT_TIME = 1000;
 constexpr DWORD SIMON_DIE_TIME = 3000;
+constexpr DWORD SIMON_CHANGE_cOLOR_TIME = 700;
 
 
 Simon* Simon::_instance = nullptr;
@@ -107,6 +108,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		startDie = 0;
 		resetWhenDie();
 	}
+
+	if (startChangeColor > 0 && GetTickCount() - startChangeColor > SIMON_CHANGE_cOLOR_TIME)
+	{
+		SetState(SIMON_STATE_IDLE);
+		startChangeColor = 0;
+	}
 }
 
 void Simon::loadResource()
@@ -136,11 +143,10 @@ void Simon::SetState(int state)
 
 void Simon::OnKeyStateChange(BYTE * states)//state
 {
-	if (isMovingDoor)
+	if (isMovingDoor || state == SIMON_STATE_CHANGECOLOR)
 	{
 		return;
 	}
-
 	DirectInput* directInput = DirectInput::getInstance();
 
 	switch (state)
@@ -281,9 +287,15 @@ void Simon::OnKeyDown(int KeyCode)//event
 			->getViewport()->SetPosition(Direct3DManager::getInstance()->getViewport()->getX(), 0);
 		isInTunel = false;
 		break;
+	case DIK_C:
+		SetPosition(D3DXVECTOR2(5000, 60.58f));
+		Direct3DManager::getInstance()
+			->getViewport()->SetPosition(Direct3DManager::getInstance()->getViewport()->getX(), 0);
+		isInTunel = false;
+		break;
 	}
 
-	if (isMovingDoor)
+	if (isMovingDoor || state == SIMON_STATE_CHANGECOLOR)
 	{
 		return;
 	}
@@ -331,10 +343,11 @@ void Simon::OnKeyDown(int KeyCode)//event
 
 void Simon::OnKeyUp(int KeyCode)
 {
-	if (isMovingDoor)
+	if (isMovingDoor || state == SIMON_STATE_CHANGECOLOR)
 	{
 		return;
 	}
+
 	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 	switch (state)
 	{
@@ -913,6 +926,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					.compare("ActivateWall") == 0)
 				{
 					DarkBat::ActivateState();
+					hasMovedEndMap = true;
 					if (ny != 0) vy = 0;
 					Dy = min_ty * dy + ny * 0.1f;
 					Dx = min_tx * dx + nx * 0.11f;
@@ -1020,6 +1034,10 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		break;
 	case ID_ENTITY_WEAPON_REWARD:
 		SetState(SIMON_STATE_CHANGECOLOR);
+		if (startChangeColor == 0)
+		{
+			startChangeColor = GetTickCount();
+		}
 		if (levelWhip == 1)
 		{
 			levelWhip = 2;
@@ -1251,8 +1269,11 @@ void Simon::handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coO
 
 void Simon::resetWhenDie()
 {
-	baseInfo->setHealth(16);
+	baseInfo->setHealth(4);
 	SetPosition(resetPosition);
+	MovingMap::getInstance()->setIdMap(ResourceManagement::GetInstance()->getStringToEntity()[getIdHiddenItem()]);
+	Direct3DManager::getInstance()->getViewport()->setStartViewPortX(getStartViewPort());
+	Direct3DManager::getInstance()->getViewport()->setEndViewPortX(getEndViewPort());
 	SetState(SIMON_STATE_IDLE);
 	set_nx(1);
 }

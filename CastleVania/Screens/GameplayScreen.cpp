@@ -86,8 +86,9 @@ void GameplayScreen::updateEnemy()
 void GameplayScreen::loadResources()
 {
 	ScreenBase::loadResources();
-	/*ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\InsideCastle_map - Copy.tmx");
-	Addproperty->divideOnjectToGrid(&objects, 2, 22);*/
+	ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\InsideCastle_map - Copy.tmx");
+	/*Addproperty->divideOnjectToGrid(&objects, 2, 22);
+	viewport->setEndViewPortX(resourceManagement->getTiledMap(IdScreen)->getWidthWorld());*/
 	grid = new Grid(2, 22);
 	grid->loadObjects(&objects);
 }
@@ -118,7 +119,6 @@ GameplayScreen::GameplayScreen()
 {
 	path = "ReadSprite.txt";
 	IdScreen = ID_ENTITY_MAP_PLAYGAME;
-	viewport->setEndViewPortX(resourceManagement->getTiledMap(IdScreen)->getWidthWorld());
 }
 
 GameplayScreen::~GameplayScreen()

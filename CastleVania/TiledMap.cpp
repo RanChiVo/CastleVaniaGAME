@@ -1,4 +1,4 @@
-	#include "TiledMap.h"
+#include "TiledMap.h"
 #include <d3dx9.h>
 #include <sstream>
 #include "EntityID.h"
@@ -158,11 +158,11 @@ std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 				{
 					ny = propertyNode.attribute("value").as_int();
 				}
-				else if (nameProperty.compare("StartViewPort") == 0)
+				else if (nameProperty.compare("StartViewport") == 0)
 				{
 					startViewPort = propertyNode.attribute("value").as_float();
 				}
-				else if (nameProperty.compare("EndViewPort") == 0)
+				else if (nameProperty.compare("EndViewport") == 0)
 				{
 					endViewPort = propertyNode.attribute("value").as_float();
 				}

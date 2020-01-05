@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "DebugOut/DebugOut.h"
-#include "AudioManager.h"
 
 constexpr unsigned int ScreenBase_width = 550;
 constexpr unsigned int ScreenBase_height = 540;
@@ -21,8 +20,6 @@ void Game::init(HINSTANCE hInstance, int nCmdShow)
 	direct3D->init(window);
 
 	HWND hWnd = direct3D->gethWnd();
-
-	AudioManager::getInstance()->initialize(hWnd);
 
 	directInput->initKeyboard(hWnd);	
 }
@@ -208,7 +205,6 @@ void Game::SweptAABB(
 		nx = 0.0f;
 		dy > 0 ? ny = -1.0f : ny = 1.0f;
 	}
-
 }
 
 Game::~Game()

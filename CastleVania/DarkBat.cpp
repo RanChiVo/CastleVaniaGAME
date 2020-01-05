@@ -6,9 +6,9 @@
 
 constexpr DWORD  DARK_BAT_TIME_RANDOM_MOVE = 1200;
 constexpr DWORD  DARK_BAT_TIME_IDLE = 1500;
-constexpr DWORD  DARK_BAT_TIME_FLY_ACTACK= 1200;
+constexpr DWORD  DARK_BAT_TIME_FLY_ACTACK = 1200;
 constexpr DWORD  DARK_BAT_TIME_HURT = 600;
-constexpr DWORD  DARK_BAT_TIME_EFFECT = 800;
+constexpr DWORD  DARK_BAT_TIME_EFFECT = 1600;
 constexpr int  DARK_BAT_MAX_DISTANCE_RANDOM = 216;
 
 bool DarkBat::isActivate = false;
@@ -24,7 +24,7 @@ DarkBat::DarkBat(D3DXVECTOR2 pos)
 	AddAnimation(ANI_EFFECT_FIRE_DARK_BAT);
 	AddAnimation(ANI_EFFECT_STAR);
 	state = DARK_BAT_STATE_IDLE;
-	baseInfo.setHealth(3);
+
 	originalLocation = pos;
 	activatePositionMaxX = ResourceManagement::GetInstance()
 		->getTiledMap(ID_ENTITY_MAP_PLAYGAME)->getWidthWorld() - 100;
@@ -32,7 +32,7 @@ DarkBat::DarkBat(D3DXVECTOR2 pos)
 
 void DarkBat::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	if (state!= DARK_BAT_STATE_EFFECT_DESTROY)
+	if (state != DARK_BAT_STATE_EFFECT_DESTROY)
 	{
 		left = x;
 		top = y;
@@ -52,24 +52,36 @@ void DarkBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	changeMoveRandomToIdle();
 	changeIdleRandomToAtack();
 	changeAtackToMoveRandom();
+
+	if (Simon::getInstance()->GetState() == Simon::SIMON_STATE_DIE)
+	{
+		SetState(DARK_BAT_STATE_IDLE);
+		baseInfo.setHealth(16);
+		SetPosition(originalLocation);
+		hasBeenActivate = false;
+		isActivate = false;
+	}
+
 	if (startTimeHurt > 0 && GetTickCount() - startTimeHurt > DARK_BAT_TIME_HURT)
 	{
 		startTimeHurt = 0;
 		baseInfo.setHealth(max(0, baseInfo.getHealth() - 1));
 	}
-	if (baseInfo.getHealth() <= 0 && state!= DARK_BAT_STATE_EFFECT_DESTROY)
+
+	if (baseInfo.getHealth() <= 0 && state != DARK_BAT_STATE_EFFECT_DESTROY)
 	{
 		vx = vy = 0;
 		SetState(DARK_BAT_STATE_EFFECT_DESTROY);
 		startTimeEffect = GetTickCount();
 	}
+
 	if (startTimeEffect > 0 && GetTickCount() - startTimeEffect > DARK_BAT_TIME_EFFECT)
 	{
 		startTimeEffect = 0;
 		SetState(STATE_DETROY);
 		Simon::getInstance()->getBaseInfo()
 			->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 3000);
-		BallDarkBat* ballDarkBat = new BallDarkBat(D3DXVECTOR2(originalLocation.x + width / 3, originalLocation.y + height /3));
+		BallDarkBat* ballDarkBat = new BallDarkBat(D3DXVECTOR2(originalLocation.x + width / 3, originalLocation.y + height / 3));
 		coObjects->push_back(ballDarkBat);
 
 	}
@@ -86,7 +98,7 @@ void DarkBat::Render(Viewport * viewport)
 	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
 	if (startTimeHurt > 0)
 	{
-		animations.find(ANI_EFFECT_STAR)->second->Render(position.x + width/3, position.y + height /3, flip);
+		animations.find(ANI_EFFECT_STAR)->second->Render(position.x + width / 3, position.y + height / 3, flip);
 	}
 	Enemy::Render(viewport);
 }
@@ -99,7 +111,7 @@ void DarkBat::handleState()
 		currentAnimation = DARK_BAT_FLY_ANI;
 		break;
 	case DARK_BAT_STATE_IDLE:
-		vx = 0; 
+		vx = 0;
 		vy = 0;
 		currentAnimation = DARK_BAT_IDLE_ANI;
 		break;
@@ -154,9 +166,9 @@ void DarkBat::changeAtackToMoveRandom()
 void DarkBat::handleMoveRandom()
 {
 	int activateAreaX = activatePositionMaxX - Direct3DManager::getInstance()->getViewport()->getStartViewportX();
-	int randomPositionX = rand() % (activateAreaX) + Direct3DManager::getInstance()->getViewport()->getStartViewportX();
+	int randomPositionX = rand() % (activateAreaX)+Direct3DManager::getInstance()->getViewport()->getStartViewportX();
 	int activateAreaY = DARK_BAT_MAX_DISTANCE_RANDOM - originalLocation.y;
-	int randomPositionY = rand() % (activateAreaY) + originalLocation.y;
+	int randomPositionY = rand() % (activateAreaY)+originalLocation.y;
 	vx = (randomPositionX - x) / DARK_BAT_TIME_RANDOM_MOVE;
 	vy = (randomPositionY - y) / DARK_BAT_TIME_RANDOM_MOVE;
 }

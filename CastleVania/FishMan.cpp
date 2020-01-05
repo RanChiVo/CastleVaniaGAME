@@ -10,7 +10,7 @@ constexpr DWORD  FISH_MAN_SHOOT = 3000;
 constexpr DWORD  FISH_MAN_WALK = 1200;
 constexpr DWORD  FISH_MAN_REVIVAL_TIME = 20000;
 
-FishMan::FishMan(D3DXVECTOR2 position) 
+FishMan::FishMan(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_FISH_MAN;
 	AddAnimation(FISH_MAN_ANI_IDLE);
@@ -48,7 +48,7 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	GameObject::Update(dt, coObjects);
 
 	handleState();
-	
+
 	if (state == FISH_MAN_STATE_HIDDEN)
 	{
 		if (Simon::getInstance()->checkisInSpawn() && Simon::getInstance()->getIdEnemySpawn() == id)
@@ -64,7 +64,7 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					coObjects->push_back(effect);
 				}
 			}
-			else 
+			else
 			{
 				isActivated = true;
 				SetState(FISH_MAN_STATE_IDLE);
@@ -85,71 +85,71 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state != FISH_MAN_STATE_HIDDEN)
 	{
 		vy += FISH_MAN_GRAVITY * dt;
-	
 
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx, ny;
-		float Dx = dx, Dy = dy;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-		for (int i = 0; i < (int)coEvents.size(); i++)
+
+		if (coEvents.size() == 0)
 		{
-			switch (coEvents[i]->obj->getID())
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			float min_tx, min_ty, nx, ny;
+			float Dx = dx, Dy = dy;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			for (int i = 0; i < (int)coEvents.size(); i++)
 			{
-			case ID_ENTITY_FLOOR:
-				if (coEvents[i]->obj->getName().compare("HighFloor") == 0)
+				switch (coEvents[i]->obj->getID())
 				{
-					if (ny < 0)
+				case ID_ENTITY_FLOOR:
+					if (coEvents[i]->obj->getName().compare("HighFloor") == 0)
 					{
-						vy = 0;
-						Dy = min_ty * dy + ny * 0.1f;
-						if (state == FISH_MAN_STATE_IDLE && timeWalk == 0)
+						if (ny < 0)
 						{
-							timeWalk = GetTickCount();
-							SetState(FISH_MAN_STATE_WALK);
+							vy = 0;
+							Dy = min_ty * dy + ny * 0.1f;
+							if (state == FISH_MAN_STATE_IDLE && timeWalk == 0)
+							{
+								timeWalk = GetTickCount();
+								SetState(FISH_MAN_STATE_WALK);
+							}
 						}
 					}
-				}
-				else if (coEvents[i]->obj->getName().compare("Floor") == 0)
-				{
-					SetState(FISH_MAN_STATE_HIDDEN);
-					if (ny != 0) vy = 0;
-					Dy = min_ty * dy + ny * 0.1f;
-				}
+					else if (coEvents[i]->obj->getName().compare("Floor") == 0)
+					{
+						SetState(FISH_MAN_STATE_HIDDEN);
+						if (ny != 0) vy = 0;
+						Dy = min_ty * dy + ny * 0.1f;
+					}
 
-				if (coEvents[i]->obj->getName().compare("Water") == 0)
-				{
-					WaterEffect* effect = new WaterEffect(getPosition());
-					coObjects->push_back(effect);
+					if (coEvents[i]->obj->getName().compare("Water") == 0)
+					{
+						WaterEffect* effect = new WaterEffect(getPosition());
+						coObjects->push_back(effect);
+					}
+					break;
 				}
-				break;
 			}
+			x += Dx;
+			y += Dy;
 		}
-		x += Dx;
-		y += Dy;
-	}
 
-	if (timeWalk && GetTickCount() - timeWalk > FISH_MAN_WALK)
-	{
-		timeWalk = 0;
-		timeShoot = GetTickCount();
-		SetState(FISH_MAN_STATE_SHOOT);
-		CrystalBall* crystalBall = new CrystalBall(D3DXVECTOR2(x + nx*16, y), nx);
-		coObjects->push_back(crystalBall);
-	}
+		if (timeWalk && GetTickCount() - timeWalk > FISH_MAN_WALK)
+		{
+			timeWalk = 0;
+			timeShoot = GetTickCount();
+			SetState(FISH_MAN_STATE_SHOOT);
+			CrystalBall* crystalBall = new CrystalBall(D3DXVECTOR2(x + nx * 16, y), nx);
+			coObjects->push_back(crystalBall);
+		}
 
-	if (timeShoot && GetTickCount() - timeShoot > FISH_MAN_SHOOT)
-	{
-		timeShoot = 0;
-		SetState(FISH_MAN_STATE_WALK);
-		nx = -nx;
-		timeWalk = GetTickCount();
-	}
+		if (timeShoot && GetTickCount() - timeShoot > FISH_MAN_SHOOT)
+		{
+			timeShoot = 0;
+			SetState(FISH_MAN_STATE_WALK);
+			nx = -nx;
+			timeWalk = GetTickCount();
+		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	Enemy::Update(dt, coObjects);

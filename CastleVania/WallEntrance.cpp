@@ -8,7 +8,7 @@ WallEntrance::WallEntrance()
 
 void WallEntrance::Render(Viewport * viewport)
 {
-	//RenderBoundingBox(viewport);
+	RenderBoundingBox(viewport);
 }
 
 void WallEntrance::GetBoundingBox(float & l, float & t, float & r, float & b)

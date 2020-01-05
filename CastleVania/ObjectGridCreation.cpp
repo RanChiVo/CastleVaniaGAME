@@ -24,11 +24,11 @@ void  ObjectGridCreation::divideOnjectToGrid(vector<LPGAMEOBJECT>* objects, int 
 				gr = (j + 1) * HIEGHT_GRID;
 				gt = i * WIDTH_GRID;
 				gb = (i + 1) * WIDTH_GRID;
-				
+
 				if (object->checkCollision({ (long)ol, (long)ot, (long) or , (long)ob },
 					{ (long)gl, (long)gt, (long)gr, (long)gb }))
 				{
-					addPropetiesToFile(object->getMainId(), std::to_string(i) +","+ std::to_string(j));
+					addPropetiesToFile(object->getMainId(), std::to_string(i) + "," + std::to_string(j));
 				}
 			}
 	}
@@ -72,13 +72,13 @@ void ObjectGridCreation::addPropetiesToFile(int mainId, std::string cellId)
 								.set_value(cellId.c_str());
 						}
 						else propertyNode.attribute("value")
-							.set_value((currentCellId+" "+ cellId).c_str());
+							.set_value((currentCellId + " " + cellId).c_str());
 					}
 				}
 			}
 		}
 	}
-	
+
 	bool saveSucceeded = doc.save_file(resourcepath.c_str(), PUGIXML_TEXT("  "));
 }
 

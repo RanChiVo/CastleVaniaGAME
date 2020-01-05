@@ -100,7 +100,6 @@ void Door::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			id = ID_ENTITY_WALL_ENTRANCE;
 			Direct3DManager::getInstance()->getViewport()->setStartViewPortX(Direct3DManager::getInstance()->getViewport()->getX());
 			Direct3DManager::getInstance()->getViewport()->setEndViewPortX(ResourceManagement::GetInstance()->getTiledMap(ID_ENTITY_MAP_PLAYGAME)->getWidthWorld());
-			Simon::getInstance()->setResetPosition(D3DXVECTOR2(Direct3DManager::getInstance()->getViewport()->getStartViewportX()+ width, 50));
 			Simon::getInstance()->setIsMovingDoor(false);
 		}
 		else

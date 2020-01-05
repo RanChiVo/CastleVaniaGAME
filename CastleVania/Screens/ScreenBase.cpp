@@ -38,7 +38,7 @@ void ScreenBase::update(DWORD deltatime)
 
 	for (int i = 0; i < (int)objects.size(); i++)
 	{
-		objects[i]->Update(deltatime, &objects);
+			objects[i]->Update(deltatime, &objects);
 		if (objects[i]->GetState() == objects[i]->STATE_DETROY)
 		{
 			objects.erase(objects.begin() + i);
@@ -85,7 +85,6 @@ void ScreenBase::loadResources()
 			break;
 		case ID_ENTITY_WALL_ENTRANCE:
 			objectInit = new WallEntrance();
-			objectInit->set_nx(object->get_nx());
 			break;
 		case ID_ENTITY_WALL_CHANGINGMAP:
 			objectInit = new WallChangingMap();

@@ -34,6 +34,7 @@ private:
 	DWORD startAtackSub= 0;
 	DWORD startHurt;
 	DWORD startDie = 0;
+	DWORD startChangeColor = 0;
 	ObjectStair* originalStair = nullptr;
 	ObjectStair* reverseStair = nullptr;
 	D3DXVECTOR2 resetPosition;

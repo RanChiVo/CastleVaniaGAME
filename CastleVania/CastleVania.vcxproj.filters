@@ -69,19 +69,7 @@
     <ClCompile Include="DebugOut\DebugOut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AudioManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Library\DXUtil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Library\DSUtil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ViewPort.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Screens\IntroScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Library\pugixml.cpp">
@@ -308,16 +296,7 @@
     <ClInclude Include="DebugOut\DebugOut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Library\DXUtil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Library\DSUtil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ViewPort.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Screens\IntroScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Library\pugiconfig.hpp">

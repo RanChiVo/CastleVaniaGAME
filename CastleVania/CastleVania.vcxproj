@@ -136,7 +136,6 @@
     <ClCompile Include="Animations\Animations.cpp" />
     <ClCompile Include="Animations\Animation.cpp" />
     <ClCompile Include="AreaZombie.cpp" />
-    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Axe.cpp" />
     <ClCompile Include="AxeWeapon.cpp" />
     <ClCompile Include="BallDarkBat.cpp" />
@@ -183,9 +182,6 @@
     <ClCompile Include="Panther.cpp" />
     <ClCompile Include="PodiumOnWall.cpp" />
     <ClCompile Include="Pork_Chop.cpp" />
-    <ClCompile Include="Screens\IntroScreen.cpp" />
-    <ClCompile Include="Library\DSUtil.cpp" />
-    <ClCompile Include="Library\DXUtil.cpp" />
     <ClCompile Include="Screens\GameplayScreen.cpp" />
     <ClCompile Include="DebugOut\DebugOut.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -267,9 +263,6 @@
     <ClInclude Include="Panther.h" />
     <ClInclude Include="PodiumOnWall.h" />
     <ClInclude Include="Pork_Chop.h" />
-    <ClInclude Include="Screens\IntroScreen.h" />
-    <ClInclude Include="Library\DSUtil.h" />
-    <ClInclude Include="Library\DXUtil.h" />
     <ClInclude Include="Screens\GameplayScreen.h" />
     <ClInclude Include="DebugOut\DebugOut.h" />
     <ClInclude Include="Game.h" />
