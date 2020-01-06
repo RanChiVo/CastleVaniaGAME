@@ -29,8 +29,6 @@ void GameplayScreen::update(DWORD dt)
 	ScreenBase::update(dt);
 	updateViewport(dt);
 	updateEnemy();
-	//grid->update(dt, &objects);
-
 }
 
 void GameplayScreen::updateViewport(DWORD dt)
@@ -117,7 +115,7 @@ void GameplayScreen::createZombie(Viewport* viewport)
 
 GameplayScreen::GameplayScreen()
 {
-	path = "ReadSprite.txt";
+	path = "PathReadObjectsGame\\ReadObjectsGamePlay.txt";
 	IdScreen = ID_ENTITY_MAP_PLAYGAME;
 }
 

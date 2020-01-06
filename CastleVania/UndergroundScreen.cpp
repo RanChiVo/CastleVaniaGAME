@@ -4,7 +4,7 @@
 
 UndergroundScreen::UndergroundScreen()
 {
-	path = "ReadSprite.txt";
+	path = "PathReadObjectsGame\\ReadObjectsUnderGround.txt";
 	IdScreen = ID_ENTITY_MAP_UNDERGROUND;
 }
 

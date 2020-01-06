@@ -4,7 +4,7 @@
 EntranceScreen::EntranceScreen()
 {
 	IdScreen = ID_ENTITY_MAP_ENTRANCE;
-	path = "ReadSpriteEntrance.txt";
+	path = "PathReadObjectsGame\\ReadObectsEntrance.txt";
 }
 
 void EntranceScreen::update(DWORD dt)

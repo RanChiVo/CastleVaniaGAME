@@ -8,16 +8,7 @@ Resources\\Items\\heart.xml		Resources\\Items\\heartAnimation.xml
 Resources\\Items\\weapon_reward.xml	Resources\\Items\\weapon_rewardAnimation.xml	
 Resources\\Items\\dagger.xml		Resources\\Items\\daggerAnimation.xml	
 Resources\\Items\\axe.xml			Resources\\Items\\axeAnimation.xml
-Resources\\Items\\pork_chop.xml		Resources\\Items\\pork_chopAnimation.xml
 Resources\\Items\\miraculous_bag.xml	Resources\\Items\\miraculous_bagAnimation.xml
-Resources\\Enemy\\zombie.xml		Resources\\Enemy\\zombieAnimation.xml
-Resources\\Enemy\\vampireBat.xml		Resources\\Enemy\\vampireBatAnimation.xml
-Resources\\Enemy\\panther.xml		Resources\\Enemy\\pantherAnimation.xml
-Resources\\Items\\crystal_ball.xml		Resources\\Items\\crystal_ballAnimation.xml
-Resources\\Enemy\\fishMan.xml		Resources\\Enemy\\fishManAnimation.xml
-TiledMap\\Candle.xml			TiledMap\\CandleAnimation.xml
-Resources\\Items\\door.xml			Resources\\Items\\doorAnimation.xml
-TiledMap\\brick.xml			TiledMap\\brickAnimation.xml
 TiledMap\\WallCastle.xml			TiledMap\\WallCastleAnimation.xml
 Resources\\Items\\small_heart.xml		Resources\\Items\\small_heartAnimation.xml
 Resources\\Items\\fire_bomb.xml		Resources\\Items\\firebombAnimation.xml
@@ -31,6 +22,4 @@ Resources\\MenuPoint\\enemy_HP.xml	---
 Resources\\MenuPoint\\lost_HP.xml		---
 Resources\\MenuPoint\\place_item.xml	---
 Resources\\MenuPoint\\menu.xml		---
-Resources\\Enemy\\darkBat.xml		Resources\\Enemy\\darkBatAnimation.xml
-Resources\\Items\\ballDarkBall.xml		Resources\\Items\\ballDarkBatAnimation.xml
 Resources\\Items\\boomerang.xml		Resources\\Items\\boomerangAnimation.xml
