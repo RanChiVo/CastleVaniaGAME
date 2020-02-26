@@ -5,7 +5,7 @@ MovingMap* MovingMap::_instance = nullptr;
 
 MovingMap::MovingMap()
 {
-	idMap = ID_ENTITY_MAP_ENTRANCE;
+	idMap = ID_ENTITY_MAP_PLAYGAME;
 }
 
 MovingMap * MovingMap::getInstance()

@@ -87,8 +87,8 @@ void GameplayScreen::loadResources()
 	ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\InsideCastle_map - Copy.tmx");
 	/*Addproperty->divideOnjectToGrid(&objects, 2, 22);
 	viewport->setEndViewPortX(resourceManagement->getTiledMap(IdScreen)->getWidthWorld());*/
-	grid = new Grid(2, 22);
-	grid->loadObjects(&objects);
+	//grid = new Grid(2, 22);
+	//grid->loadObjects(&objects);
 }
 
 void GameplayScreen::createZombie(Viewport* viewport)

@@ -25,21 +25,19 @@
 #include "../BallDarkBat.h"
 #include "../Boomerang.h"
 
-
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
 constexpr float SIMON_MOVE_SPEED = 0.12f;
 constexpr float SIMON_GRAVITY = 0.001f;
 constexpr float SIMON_HURT_SPEED_Y = 0.2f;
 constexpr float SIMON_STAIR_SPEED = 0.06f;
-constexpr DWORD SIMON_ENTRANCE_TIME = 1000;
+constexpr DWORD SIMON_ENTRANCE_TIME = 3000;
 constexpr DWORD INVISIBLE_TIME = 4000;
 constexpr DWORD SIMON_UNTOUCHABLE_TIME = 2000;
 constexpr DWORD SIMON_PROTECT_TIME = 2000;
 constexpr DWORD SIMON_HURT_TIME = 1000;
 constexpr DWORD SIMON_DIE_TIME = 3000;
-constexpr DWORD SIMON_CHANGE_cOLOR_TIME = 700;
-
+constexpr DWORD SIMON_CHANGE_COLOR_TIME = 700;
 
 Simon* Simon::_instance = nullptr;
 
@@ -77,10 +75,11 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	handleState();
 	
 	if (GetTickCount() - comeEntranceStart <= SIMON_ENTRANCE_TIME)
+	{
 		SetState(SIMON_STATE_WALKING_RIGHT);
-
-	else if (comeEntranceStart > 0)
-		comeEntranceStart = 0;
+		SetSpeed(0.025f, vy);
+	}
+	else if (comeEntranceStart > 0) comeEntranceStart = 0;
 
 	updateCollisionStair();
 	updateCollisionSubStair();
@@ -109,7 +108,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		resetWhenDie();
 	}
 
-	if (startChangeColor > 0 && GetTickCount() - startChangeColor > SIMON_CHANGE_cOLOR_TIME)
+	if (startChangeColor > 0 && GetTickCount() - startChangeColor > SIMON_CHANGE_COLOR_TIME)
 	{
 		SetState(SIMON_STATE_IDLE);
 		startChangeColor = 0;
@@ -377,7 +376,6 @@ void Simon::OnKeyUp(int KeyCode)
 void Simon::moveRight(DWORD dt)
 {
 	state = SIMON_STATE_WALKING_RIGHT;
-	x += 0.025 * dt;
 }
 
 void Simon::SetupAtacking()
@@ -453,7 +451,7 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			startAtack = GetTickCount();
 		}
-		else if (startAtack > 0 && GetTickCount() - startAtack > 450)
+		else if (startAtack > 0 && GetTickCount() - startAtack > 400)
 		{
 			Reset(currentAnimation);
 			startAtack = 0;
@@ -470,7 +468,7 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				baseInfo->getSubWeapon()->setLiveTime(GetTickCount());
 			}
 		}
-		else if (startAtackSub > 0 && GetTickCount() - startAtackSub > 450)
+		else if (startAtackSub > 0 && GetTickCount() - startAtackSub > 400)
 		{
 			SetState(SIMON_STATE_IDLE);
 			animations.find(currentAnimation)->second->SetFinish(false);
@@ -480,7 +478,7 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
 	{
-		if (GetTickCount() - startThrowWeapon > 450 && startThrowWeapon > 0 && enableSubWeapon)
+		if (GetTickCount() - startThrowWeapon > 400 && startThrowWeapon > 0 && enableSubWeapon)
 		{
 			enableSubWeapon = false;
 			startThrowWeapon = 0;
@@ -499,7 +497,7 @@ void Simon::GetBoundingBox(float & left, float & top, float & right, float & bot
 
 void Simon::Render(Viewport* viewport)
 {
-	//RenderBoundingBox(viewport);
+	RenderBoundingBox(viewport);
 
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
@@ -683,17 +681,18 @@ void Simon::handleState()
 		break;
 
 	case SIMON_STATE_CHANGECOLOR:
+		
 		vx = 0;
-		checkRewind = false;
-		currentAnimation = SIMON_ANI_COLOR;
-		Reset(currentAnimation);
-		break;
-
-	case SIMON_STATE_CHANGECOLOR1:
-		vx = 0;
-		checkRewind = false;
-		currentAnimation = SIMON_ANI_COLOR1;
-		Reset(currentAnimation);
+		checkRewind = true;
+		if (changeColorId)
+		{
+			changeColorId = 0;
+			currentAnimation = SIMON_ANI_COLOR;
+		}
+		else {
+			changeColorId = 1;
+			currentAnimation = SIMON_ANI_COLOR1;
+		}
 		break;
 
 	case SIMON_STATE_GO_UP_STAIR:
@@ -885,6 +884,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable = 0;
 	}
 
+	
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -901,6 +901,9 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			switch (coEvents[i]->obj->getID())
 			{
+			case ID_ENTITY_SMALL_HEART:
+				coEvents[i]->obj->SetState(STATE_DETROY);
+				break;
 			case ID_ENTITY_BRICK:
 				if (coEvents[i]->obj->getName().compare("SmallBrick") == 0)
 				{
@@ -921,6 +924,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			case ID_ENTITY_ENTRANCE:
 				comeEntranceStart = GetTickCount();
 				break;
+	
 			case ID_ENTITY_WALL_ENTRANCE:
 				if (coEvents[i]->obj->getName()
 					.compare("ActivateWall") == 0)
@@ -948,13 +952,13 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						if (ny < 0)
 						{
 							vy = 0;
-							Dy = min_ty * dy + ny * 0.1f;
+							Dy = min_ty * dy + ny * 0.008f;
 						}
 					}
 					else if (coEvents[i]->obj->getName().compare("Floor") == 0)
 					{
 						if (ny != 0) vy = 0;
-						Dy = min_ty * dy + ny * 0.11f;
+						Dy = min_ty * dy + ny * 0.008f;
 					}
 					else if (coEvents[i]->obj->getName().compare("FloorShowItem") == 0 )
 					{
@@ -1060,10 +1064,6 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		if (coObjects)
 		{
 			coObjects->at(i)->SetState(STATE_DETROY);
-		}
-		else
-		{
-			coEvents->at(i)->obj->SetState(STATE_DETROY);
 		}
 		break;
 	case ID_ENTITY_BOOMERANG:
@@ -1178,10 +1178,6 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		if (coObjects)
 		{
 			coObjects->at(i)->SetState(STATE_DETROY);
-		}
-		else
-		{
-			coEvents->at(i)->obj->SetState(STATE_DETROY);
 		}
 		break;
 	case ID_ENTITY_PORK_CHOP:

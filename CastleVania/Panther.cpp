@@ -1,6 +1,6 @@
 #include "Panther.h"
 
-constexpr float PANTHER_RUN_SPEED = 0.28f;
+constexpr float PANTHER_RUN_SPEED = 0.18f;
 constexpr float PANTHER_GRAVITY = 0.0012f;
 constexpr float PANTHER_JUMP_SPEED = 0.3f;
 

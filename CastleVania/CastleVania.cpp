@@ -12,7 +12,7 @@ CastleVania::CastleVania()
 void CastleVania::Init(HINSTANCE hInstance, int nCmdShow)
 {	
 	Game::init(hInstance, nCmdShow);
-	screenmanager->addScreen(new EntranceScreen());
+	screenmanager->addScreen(new GameplayScreen());
 }
 
 void CastleVania::renderObjects()

@@ -9,13 +9,13 @@
       <animation_frame sprite_id="Walking4" />
     </animation>
 
-    <animation name="SIMON_ANI_ATTACK_STANDING" default_time="150" rewind="true">
+    <animation name="SIMON_ANI_ATTACK_STANDING" default_time="125" rewind="true">
       <animation_frame sprite_id="AttackStand1" />
       <animation_frame sprite_id="AttackStand2" />
       <animation_frame sprite_id="AttackStand3" />
     </animation>
 
-    <animation name="SIMON_ANI_ATTACK_SITDOWN" default_time="150" rewind="true">
+    <animation name="SIMON_ANI_ATTACK_SITDOWN" default_time="125" rewind="true">
       <animation_frame sprite_id="AttackSitdown1" />
       <animation_frame sprite_id="AttackSitdown2" />
       <animation_frame sprite_id="AttackSitdown3" />
@@ -65,13 +65,13 @@
       <animation_frame sprite_id="GoDownStair1" />
     </animation>
 
-    <animation name="SIMON_ANI_ATTACK_UP_STAIR" default_time="150" rewind="true">
+    <animation name="SIMON_ANI_ATTACK_UP_STAIR" default_time="125" rewind="true">
       <animation_frame sprite_id="AttackUpStair1" />
       <animation_frame sprite_id="AttackUpStair2" />
       <animation_frame sprite_id="AttackUpStair3" />
     </animation>
 
-    <animation name="SIMON_ANI_ATTACK_DOWN_STAIR" default_time="150" rewind="true">
+    <animation name="SIMON_ANI_ATTACK_DOWN_STAIR" default_time="125" rewind="true">
       <animation_frame sprite_id="AttackDownStair1" />
       <animation_frame sprite_id="AttackDownStair2" />
       <animation_frame sprite_id="AttackDownStair3" />

@@ -44,6 +44,7 @@ private:
 	Whip* whip;
 	int levelWhip;
 	int WHIP_STATE;
+	int changeColorId = 0;
 	int startThrowWeapon = 0;
 	BaseInfo* baseInfo;
 	std::vector<LPGAMEOBJECT> objectCollision;
@@ -67,7 +68,6 @@ public:
 		SIMON_STATE_ATTACK_JUMP_SUBWEAPON,
 		SIMON_STATE_DIE,
 		SIMON_STATE_CHANGECOLOR,
-		SIMON_STATE_CHANGECOLOR1,
 		SIMON_STATE_GO_UP_STAIR,
 		SIMON_STATE_GO_DOWN_STAIR,
 		SIMON_STATE_IDLE_UP_STAIR,

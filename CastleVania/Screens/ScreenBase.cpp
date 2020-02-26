@@ -45,7 +45,7 @@ void ScreenBase::update(DWORD deltatime)
 		}
 	}
 	Simon::getInstance()->Update(deltatime, &objects);
-	grid->update(&objects);
+	//grid->update(&objects);
 }
 
 void ScreenBase::loadResources()

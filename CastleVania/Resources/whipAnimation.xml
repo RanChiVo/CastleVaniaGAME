@@ -3,25 +3,25 @@
 <loadresource>
   <animations>
     
-    <animation name ="TYPE1_WHIP" default_time="150" rewind="true">
+    <animation name ="TYPE1_WHIP" default_time="125" rewind="true">
       <animation_frame sprite_id ="type1_whip_1"/>
       <animation_frame sprite_id ="type1_whip_2"/>
       <animation_frame sprite_id ="type1_whip_3"/>
     </animation>
 
-    <animation name ="TYPE2_WHIP" default_time="150" rewind="true">
+    <animation name="TYPE2_WHIP" default_time="125" rewind="true">
       <animation_frame sprite_id ="type2_whip_1"/>
       <animation_frame sprite_id ="type2_whip_2"/>
       <animation_frame sprite_id ="type2_whip_3"/>
     </animation>
 
-    <animation name ="TYPE3_WHIP" default_time="150" rewind="true">
+    <animation name="TYPE3_WHIP" default_time="125" rewind="true">
       <animation_frame sprite_id ="type3_whip_1"/>
       <animation_frame sprite_id ="type3_whip_2"/>
       <animation_frame sprite_id ="type3_whip_3"/>
     </animation>
 
-    <animation name ="TYPE4_WHIP" default_time="150" rewind="true">
+    <animation name="TYPE4_WHIP" default_time="125" rewind="true">
       <animation_frame sprite_id ="type4_whip_1"/>
       <animation_frame sprite_id ="type4_whip_2"/>
       <animation_frame sprite_id ="type4_whip_3"/>

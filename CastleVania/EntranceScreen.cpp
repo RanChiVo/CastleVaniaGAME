@@ -36,8 +36,8 @@ void EntranceScreen::loadResources()
 	ScreenBase::loadResources();
 	/*ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\Entrance_map - Copy.tmx");
 	Addproperty->divideOnjectToGrid(&objects, 2, 6);*/
-	grid = new Grid(2, 6);
-	grid->loadObjects(&objects);
+	//grid = new Grid(2, 6);
+	//grid->loadObjects(&objects);
 }
 
 EntranceScreen::~EntranceScreen()
