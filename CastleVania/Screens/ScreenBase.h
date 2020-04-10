@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -25,7 +24,7 @@ public:
 	void virtual update(DWORD deltatime);
 	void virtual loadResources();
 	void virtual renderObject(Viewport* viewport);
-	void virtual getInfoFromObjectInfo(ObjectInfo::builder*, LPGAMEOBJECT object);
+	void virtual getInfoFromObjectInfo(ObjectInfo* objectInfo, LPGAMEOBJECT object);
 	EntityID getIDScreen() { return IdScreen; }
 	virtual~ScreenBase();
 };

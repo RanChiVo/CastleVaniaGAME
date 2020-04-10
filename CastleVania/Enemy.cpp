@@ -70,10 +70,10 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			GameObject* item = nullptr;
 			int idRandom = rand() % (20 - 5 + 1) + 5;
 
-			if (idRandom < 5)
+			/*if (idRandom < 5)
 			{
 				item = nullptr;
-			}
+			}*/
 
 			liveTime = 0;
 			switch (idRandom)

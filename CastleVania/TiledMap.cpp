@@ -3,29 +3,10 @@
 #include <sstream>
 #include "EntityID.h"
 #include "SpriteManagements/Sprite.h"
+#include "Utils.h"
 
 constexpr int EXTRA_HEIGHT_SCREEN = 90;
 constexpr int TILEMAP_CROSS_EFFECT_TIME = 1000;
-
-//handle string
-void eraseAllSubStr(std::string & mainStr, const std::string & toErase)
-{
-	size_t pos = std::string::npos;
-	while ((pos = mainStr.find(toErase)) != std::string::npos)
-	{
-		mainStr.erase(pos, toErase.length());
-	}
-}
-
-void findAndReplaceAll(std::string & data, std::string toSearch, std::string replaceStr)
-{
-	size_t pos = data.find(toSearch);
-	while (pos != std::string::npos)
-	{
-		data.replace(pos, toSearch.size(), replaceStr);
-		pos = data.find(toSearch, pos + replaceStr.size());
-	}
-}
 
 DWORD TiledMap::createEffectStart;
 
@@ -108,7 +89,7 @@ void TiledMap::readMatrixMap()
 	}
 }
 
-std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
+std::vector<ObjectInfo*> TiledMap::getObjectInfo()
 {
 	for (auto objectGroupNode : rootNode.children("objectgroup"))
 	{
@@ -171,12 +152,22 @@ std::vector<ObjectInfo::builder*> TiledMap::getObjectInfo()
 					cellId = propertyNode.attribute("value").as_string();
 				}
 			}
-			ObjectInfo::builder* object_info = new ObjectInfo::builder();
-			object_info->set_id(id).set_name(name)
-				.set_height(height).set_width(width).set_position(D3DXVECTOR2(x, y))
-				.set_idHiddenItem(idHiddenItemString).set_ObjectId(objectId).set_enemyName(enemyName)
-				.set_stairHeight(stairHeight).set_startViewPort(startViewPort).set_endViewPort(endViewPort)
-				.set_cellId(cellId).set_nx(nx).set_ny(ny);
+			ObjectInfo* object_info = new ObjectInfo();
+
+			object_info->set_id(id);
+			object_info->set_name(name);
+			object_info->set_height(height);
+			object_info->set_width(width);
+			object_info->set_position(D3DXVECTOR2(x, y));
+			object_info->set_idHiddenItem(idHiddenItemString);
+			object_info->set_ObjectId(objectId);
+			object_info->set_enemyName(enemyName);
+			object_info->set_stairHeight(stairHeight);
+			object_info->set_startViewPort(startViewPort);
+			object_info->set_endViewPort(endViewPort);
+			object_info->set_cellId(cellId);
+			object_info->set_nx(nx);
+			object_info->set_ny(ny);
 
 			objectInfo.push_back(object_info);
 		}

@@ -2,9 +2,9 @@
 #include "../ResourceManagement.h"
 #include <math.h> 
 
-constexpr float SMALL_HEART_GRAVITY = 0.001f;
-constexpr float SMALL_HEART_AMPLITUDE = 15;
-constexpr float SMALL_HEART_DELTA = 0.05f;
+constexpr float SMALL_HEART_GRAVITY = 0.0015f;
+constexpr float SMALL_HEART_AMPLITUDE = 50;
+constexpr float SMALL_HEART_DELTA = 0.055f;
 
 SmallHeart::SmallHeart(D3DXVECTOR2 position)
 {
@@ -63,10 +63,7 @@ void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 				case ID_ENTITY_FLOOR:
 					if (ny < 0) vy = 0;
-					Dy = min_ty * dy + ny * 0.008f;
-					break;
-				case ID_ENTITY_SIMON:
-					SetState(STATE_DETROY);
+					Dy = min_ty * dy;
 					break;
 				}
 			}

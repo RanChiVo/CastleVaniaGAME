@@ -85,7 +85,7 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 			case ID_ENTITY_FLOOR:
 				if (ny != 0) vy = 0;
-				Dy = min_ty * dy + ny * 0.1f;
+				Dy = min_ty * dy + ny * 0.008f;
 				break;
 			case ID_ENTITY_WALL_ENTRANCE:
 				if (coEvents[i]->obj->getName().compare("Wall") == 0)

@@ -153,18 +153,18 @@ void ScreenBase::renderObject(Viewport * viewport)
 	menu_point->Draw();
 }
 
-void ScreenBase::getInfoFromObjectInfo(ObjectInfo::builder *info, LPGAMEOBJECT object)
+void ScreenBase::getInfoFromObjectInfo(ObjectInfo* objectInfo, LPGAMEOBJECT object)
 {
-	object->setMainId(info->get_id());
-	object->setCellId(info->getCellId());
-	object->setName(info->get_name());
-	object->SetPosition(info->get_postition());
-	object->setHeight(info->get_height());
-	object->setWidth(info->get_width());
-	object->setIdHiddenItem(info->get_idHiddenItem());
-	object->setEnemyName(info->get_enemyName());
-	object->setStartViewPort(info->get_StartViewPort());
-	object->setEndViewPort(info->get_EndViewPort());
+	object->setMainId(objectInfo->get_id());
+	object->setCellId(objectInfo->getCellId());
+	object->setName(objectInfo->get_name());
+	object->SetPosition(objectInfo->get_postition());
+	object->setHeight(objectInfo->get_height());
+	object->setWidth(objectInfo->get_width());
+	object->setIdHiddenItem(objectInfo->get_idHiddenItem());
+	object->setEnemyName(objectInfo->get_enemyName());
+	object->setStartViewPort(objectInfo->get_StartViewPort());
+	object->setEndViewPort(objectInfo->get_EndViewPort());
 }
 
 ScreenBase::~ScreenBase()

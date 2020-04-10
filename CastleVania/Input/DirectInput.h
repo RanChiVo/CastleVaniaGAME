@@ -9,7 +9,6 @@ constexpr int keyboard_buffer_size = 1024;
 class DirectInput
 {
 protected:
-
 	static DirectInput* __instance;
 	LPDIRECTINPUT8       di;		// The DirectInput object         
 	LPDIRECTINPUTDEVICE8 didv;		// The keyboard device 

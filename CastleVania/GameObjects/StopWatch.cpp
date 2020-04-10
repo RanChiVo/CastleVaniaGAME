@@ -46,7 +46,7 @@ void StopWatch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 				case ID_ENTITY_FLOOR:
 					if (ny != 0) vy = 0;
-					Dy = min_ty * dy + ny * 0.08f;
+					Dy = min_ty * dy;
 					break;
 				}
 			}

@@ -1,4 +1,3 @@
-#pragma once
 #include "GameObject.h"
 class FireBomb : public GameObject
 {

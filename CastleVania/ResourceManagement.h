@@ -41,7 +41,7 @@ public:
 	void loadFont(LPTSTR path);
 	void loadTexture(int id, LPCWSTR filePath, D3DCOLOR transparentColor);
 	void loadSprites(std::string id, RECT r, int idCharater);
-	
+	 
 	void readAnimationFromFile(std::string resourcepath);
 	void readSpriteFromFile(std::string resourcepath);
 	static ResourceManagement * GetInstance();

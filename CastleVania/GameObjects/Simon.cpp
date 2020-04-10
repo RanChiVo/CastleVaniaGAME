@@ -27,8 +27,8 @@
 
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
-constexpr float SIMON_MOVE_SPEED = 0.12f;
-constexpr float SIMON_GRAVITY = 0.001f;
+constexpr float SIMON_MOVE_SPEED = 0.10f;
+constexpr float SIMON_GRAVITY = 0.00115f;
 constexpr float SIMON_HURT_SPEED_Y = 0.2f;
 constexpr float SIMON_STAIR_SPEED = 0.06f;
 constexpr DWORD SIMON_ENTRANCE_TIME = 3000;
@@ -146,6 +146,7 @@ void Simon::OnKeyStateChange(BYTE * states)//state
 	{
 		return;
 	}
+
 	DirectInput* directInput = DirectInput::getInstance();
 
 	switch (state)
@@ -910,14 +911,14 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (ny < 0)
 					{
 						vy = 0;
-						Dy = min_ty * dy + ny * 0.1f;
+						Dy = min_ty * dy;
 					}
 				}
 				else
 				{
 					if (ny != 0) vy = 0;
-					Dy = min_ty * dy + ny * 0.1f;
-					Dx = min_tx * dx + nx * 0.11f;
+					Dy = min_ty * dy;
+					Dx = min_tx * dx;
 					if (nx != 0) vx = 0;
 				}
 				break;
@@ -932,15 +933,15 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					DarkBat::ActivateState();
 					hasMovedEndMap = true;
 					if (ny != 0) vy = 0;
-					Dy = min_ty * dy + ny * 0.1f;
-					Dx = min_tx * dx + nx * 0.11f;
+					Dy = min_ty * dy ;
+					Dx = min_tx * dx;
 					if (nx != 0) vx = 0;
 				}
 				else if (coEvents[i]->obj->getName().compare("Wall")==0)
 				{
 					if (ny != 0) vy = 0;
-					Dy = min_ty * dy + ny * 0.1f;
-					Dx = min_tx * dx + nx * 0.11f;
+					Dy = min_ty * dy;
+					Dx = min_tx * dx;
 					if (nx != 0) vx = 0;
 				}
 				break;
@@ -952,18 +953,18 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						if (ny < 0)
 						{
 							vy = 0;
-							Dy = min_ty * dy + ny * 0.008f;
+							Dy = min_ty * dy;
 						}
 					}
 					else if (coEvents[i]->obj->getName().compare("Floor") == 0)
 					{
 						if (ny != 0) vy = 0;
-						Dy = min_ty * dy + ny * 0.008f;
+						Dy = min_ty * dy;
 					}
 					else if (coEvents[i]->obj->getName().compare("FloorShowItem") == 0 )
 					{
 						if (ny != 0) vy = 0;
-						Dy = min_ty * dy + ny * 0.11f;
+						Dy = min_ty * dy;
 						if (!coEvents[i]->obj->IsTouched())
 						{
 							MiraculousBag* moneyBag = new MiraculousBag(ID_ENTITY_BONUS_1000_MIRACULOUS_BAG,
@@ -1009,7 +1010,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 				}
 				SetState(SIMON_STATE_IDLE);
-				Dx = min_tx * dx + nx * 0.11f;
+				Dx = min_tx * dx;
 				Door::startAction();
 				break;
 			}

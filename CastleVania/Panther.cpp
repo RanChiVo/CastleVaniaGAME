@@ -73,7 +73,7 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float Dx = dx, Dy = dy;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-		y += min_ty * dy + ny * 0.1f;
+		y += min_ty * dy + ny * 0.008f;
 
 		if (ny < 0 )
 		{

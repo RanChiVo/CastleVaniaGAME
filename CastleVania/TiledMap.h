@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Viewport.h"
 #include "TileSet.h"
 #include "ObjectInfo.h"
@@ -36,7 +35,7 @@ private:
 	int tileSetHeight;
 
 	//Info Game Object 
-	std::vector<ObjectInfo::builder*> objectInfo;
+	std::vector<ObjectInfo*> objectInfo;
 	
 	//Create effect when collision Cross
 	static DWORD createEffectStart;
@@ -48,7 +47,7 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* object = NULL);
 	//get info of Objects in Layer 
 	void readMatrixMap();
-	std::vector <ObjectInfo::builder*> getObjectInfo();
+	std::vector <ObjectInfo*> getObjectInfo();
 	void clearObjectInfo();
 	void draw(Viewport* viewport, int alpha = 255);
 	float getHeightWorld();

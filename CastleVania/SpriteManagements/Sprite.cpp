@@ -40,13 +40,6 @@ void Sprite::Draw(D3DXVECTOR2 position, int alpha)
 	direct3D->GetSpriteHandler()->Draw(texture, &rect, nullptr, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
 
-//void Sprite::Draw(D3DXVECTOR2 position, int alpha)
-//{
-//	D3DXVECTOR3 p(position.x, position.y, 0);
-//	Direct3DManager* direct3D = Direct3DManager::getInstance();
-//	direct3D->GetSpriteHandler()->Draw(texture, &rect, nullptr, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
-//}
-
 void Sprite::Draw(D3DXVECTOR2 position, Flip flip, int alpha)
 {
 	Direct3DManager* direct3D = Direct3DManager::getInstance();

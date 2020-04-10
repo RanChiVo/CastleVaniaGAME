@@ -47,7 +47,7 @@ void BallDarkBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 				case ID_ENTITY_FLOOR:
 					if (ny < 0) vy = 0;
-					Dy = min_ty * dy + ny * 0.11f;
+					Dy = min_ty * dy + ny * 0.008f;
 					if (startUntouched > 0 && GetTickCount() - startUntouched > BALL_DARK_BAT_UNTOUCHED_TIME)
 					{
 						isTouched = true;
