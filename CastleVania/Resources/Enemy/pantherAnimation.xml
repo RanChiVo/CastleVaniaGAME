@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <loadresource>
-  <animations>
+  <animations id="ID_ENTITY_PANTHER">
     <animation name="PANTHER_ANI_IDLE" default_time="100" rewind="true">
       <animation_frame sprite_id="panther_idle1"/>
     </animation>

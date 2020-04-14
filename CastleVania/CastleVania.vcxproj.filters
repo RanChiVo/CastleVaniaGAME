@@ -27,9 +27,6 @@
     <ClCompile Include="Animations\Animations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CastleVania.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Animations\Animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -261,9 +258,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Animations\Animations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CastleVania.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Animations\Animation.h">

@@ -41,7 +41,7 @@ public:
 	MenuPoint();
 	void loadResource();
 	void update();
-	void Draw(	);
+	void Draw(ID3DXFont* font);
 	~MenuPoint();
 };
 

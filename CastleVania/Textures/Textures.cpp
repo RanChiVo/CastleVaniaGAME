@@ -62,6 +62,17 @@ LPDIRECT3DTEXTURE9 Textures::Get(unsigned int i)
 	return textures[i];
 }
 
+void Textures::Clear()
+{
+	for (auto x : textures)
+	{
+		LPDIRECT3DTEXTURE9 tex = x.second;
+		if (tex != NULL) tex->Release();
+	}
+
+	textures.clear();
+}
+
 Textures * Textures::GetInstance()
 {
 	if (__instance == nullptr) __instance = new Textures();

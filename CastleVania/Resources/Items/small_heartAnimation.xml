@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-<animations>
+  <animations id="ID_ENTITY_SMALL_HEART">
   <animation name ="SMALL_HEART_ANI" default_time="100" rewind="true">
     <animation_frame sprite_id ="small_heart1"/>
   </animation >

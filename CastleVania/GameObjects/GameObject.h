@@ -53,7 +53,8 @@ protected:
 	float endViewPort;
 	bool isTouched = false;
 	DWORD dt;
-	static unordered_map<int, LPANIMATION> animations;
+
+	LPANIMATION_SET animation_set;
 
 public:
 	enum StateLive
@@ -107,6 +108,8 @@ public:
 	void RenderBoundingBox(Viewport* viewport);
 	bool checkInsideViewPort(Viewport* viewport);
 
+	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }
+	LPANIMATION_SET GetAnimationSet() { return animation_set; }
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
 	void FilterCollision(
@@ -116,8 +119,7 @@ public:
 		float &min_ty,
 		float &nx,
 		float &ny);
-	static void AddAnimation(int aniId);
-	static void DeleteAnimation(int aniId);
+
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render(Viewport* viewport) = 0;
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom)=0;

@@ -1,11 +1,21 @@
 #include "Game.h"
 #include "DebugOut/DebugOut.h"
+#include "Utils.h"
+#include "PlayScence.h"
 
 constexpr unsigned int ScreenBase_width = 550;
 constexpr unsigned int ScreenBase_height = 540;
 constexpr int max_frame_rate = 120;
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0,0,0)
+Game* Game::__instance = nullptr;
+
+Game * Game::GetInstance()
+{
+	if (__instance == nullptr)
+		__instance = new Game();
+	return __instance;
+}
 
 Game::Game()
 {
@@ -21,23 +31,49 @@ void Game::init(HINSTANCE hInstance, int nCmdShow)
 
 	HWND hWnd = direct3D->gethWnd();
 
-	directInput->initKeyboard(hWnd);	
+	directInput->initKeyboard(hWnd);
 }
 
 void Game::update(DWORD dt)
 {
+	GetCurrentScene()->Update(dt);
 }
 
-void Game::renderObjects()
+void Game::Load(std::string gameFile)
 {
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file(gameFile.c_str());
+
+	if (!result)
+	{
+		OutputDebugString(L"[ERROR] Reading failed\n");
+		return;
+	}
+
+	auto sceneManagerNode = doc.child("sceneManager");
+	current_scene = stringToEntityID[sceneManagerNode.child("startScene").attribute("id").as_string()];
+	auto sceneListNode = sceneManagerNode.child("sceneList");
+	for (auto sceneNode : sceneListNode.children("scene"))
+	{
+		std::string pathMap = sceneNode.attribute("mapPath").as_string();
+		EntityID id = stringToEntityID[sceneNode.attribute("id").as_string()];
+		LPSCENE scene = new PlayScene(id, pathMap);
+		scenes[id] = scene;
+	}
 }
 
-void Game::loadResource()
+void Game::SwitchScene(EntityID scene_id)
 {
-}
+	current_scene = scene_id;
 
-void Game::handleInput()
-{
+	LPSCENE s = scenes[current_scene];
+	s->Unload();
+
+	Textures::GetInstance()->Clear();
+	Sprites::GetInstance()->Clear();
+	Animations::GetInstance()->Clear();
+
+	s->Load();
 }
 
 void Game::Render()
@@ -53,7 +89,7 @@ void Game::Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		renderObjects();
+		GetCurrentScene()->Render(Direct3DManager::getInstance()->getViewport());
 
 		spriteHandler->End();
 
@@ -69,7 +105,7 @@ int Game::Run()
 	int done = 0;
 	DWORD frameStart = GetTickCount();
 	DWORD tickPerFrame = 1000 / int(max_frame_rate);
-	
+
 	while (!done)
 	{
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -144,7 +180,7 @@ void Game::SweptAABB(
 	{
 		dx_entry = sl - mr;
 		dx_exit = sr - ml;
-	} 
+	}
 	else if (dx < 0)
 	{
 		dx_entry = sr - ml;
@@ -209,7 +245,7 @@ void Game::SweptAABB(
 
 Game::~Game()
 {
-	
+
 }
 
 

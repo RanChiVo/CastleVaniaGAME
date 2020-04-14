@@ -10,12 +10,12 @@ class Sprites
 {
 	static Sprites * __instance;
 
-	unordered_map<std::string, LPSPRITE> spritesList;
+	unordered_map<std::string, LPSPRITE> sprites;
 
 public:
 
 	void Add(std::string id, RECT r, LPDIRECT3DTEXTURE9 tex);
 	LPSPRITE Get(std::string id);
-
+	void Clear();
 	static Sprites * GetInstance();
 };

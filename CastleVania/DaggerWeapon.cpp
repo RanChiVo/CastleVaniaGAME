@@ -5,7 +5,7 @@ DaggerWeapon::DaggerWeapon()
 {
 	id = ID_ENTITY_DAGGER_WEAPON;
 	state = STATE_SHOW;
-	AddAnimation(DAGGER_ANI);
+//	AddAnimation(DAGGER_ANI);
 	currentAnimation = DAGGER_ANI;
 	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_DAGGER).first;
 	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_DAGGER).second;
@@ -26,7 +26,7 @@ void DaggerWeapon::Render(Viewport * viewport)
 	else flip = flip_horiz;
 	if (checkInsideViewPort(viewport))
 	{
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	}
 	else {
 		state = STATE_DETROY;

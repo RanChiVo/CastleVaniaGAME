@@ -77,10 +77,10 @@ void StaticObject::Render(Viewport * viewport)
 {
 	if (state == STATE_EFFECT)
 	{
-		AddAnimation(ANI_EFFECT);
+		//AddAnimation(ANI_EFFECT);
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		Flip flip = flip_horiz;
-		animations.find(ANI_EFFECT)->second->Render(position.x, position.y, flip);
+		animation_set->at(ANI_EFFECT)->Render(position.x, position.y, flip);
 	}
 }
 

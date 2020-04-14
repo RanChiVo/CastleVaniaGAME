@@ -7,7 +7,7 @@ Boomerang::Boomerang(D3DXVECTOR2 pos)
 {
 	id = ID_ENTITY_BOOMERANG;
 	SetPosition(pos);
-	AddAnimation(BOOMERANG_ITEM_ANI);
+	//AddAnimation(BOOMERANG_ITEM_ANI);
 	currentAnimation = BOOMERANG_ITEM_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
@@ -57,7 +57,7 @@ void Boomerang::Render(Viewport * viewport)
 	RenderBoundingBox(viewport);
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip = normal;
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 }
 
 void Boomerang::GetBoundingBox(float & left, float & top, float & right, float & bottom)

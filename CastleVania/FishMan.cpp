@@ -13,7 +13,7 @@ constexpr DWORD  FISH_MAN_REVIVAL_TIME = 20000;
 FishMan::FishMan(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_FISH_MAN;
-	AddAnimation(FISH_MAN_ANI_IDLE);
+	//AddAnimation(FISH_MAN_ANI_IDLE);
 	AddAnimation(FISH_MAN_ANI_WALK);
 	AddAnimation(FISH_MAN_ANI_SHOOT);
 	currentAnimation = FISH_MAN_ANI_IDLE;
@@ -38,8 +38,7 @@ void FishMan::Render(Viewport * viewport)
 
 	if (state != STATE_EFFECT && state != FISH_MAN_STATE_HIDDEN)
 	{
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
-	}
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	Enemy::Render(viewport);
 }
 

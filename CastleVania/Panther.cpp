@@ -11,9 +11,9 @@ Panther::Panther(D3DXVECTOR2 position, int nx)
 	set_nx(1);
 	isOnGround = true;
 	state = PANTHER_STATE_IDLE;
-	AddAnimation(PANTHER_ANI_IDLE);
-	AddAnimation(PANTHER_ANI_MOVE);
-	AddAnimation(PANTHER_ANI_JUMP);
+	//AddAnimation(PANTHER_ANI_IDLE);
+	//AddAnimation(PANTHER_ANI_MOVE);
+	//AddAnimation(PANTHER_ANI_JUMP);
 	currentAnimation = PANTHER_ANI_IDLE;
 	bbActivateLeft.left = bbActivateLeft.right = bbActivateLeft.top = bbActivateLeft.bottom = 0;
 	bbActivateRight.left = bbActivateRight.right = bbActivateRight.top = bbActivateRight.bottom = 0;
@@ -127,7 +127,7 @@ void Panther::Render(Viewport * viewport)
 
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 
 		if (!checkInsideViewPort(viewport) && state == PANTHER_STATE_ACTIVATE)
 		{

@@ -19,10 +19,10 @@ DarkBat::DarkBat(D3DXVECTOR2 pos)
 {
 	id = ID_ENTITY_DARK_BAT;
 	currentAnimation = DARK_BAT_IDLE_ANI;
-	AddAnimation(DARK_BAT_IDLE_ANI);
-	AddAnimation(DARK_BAT_FLY_ANI);
-	AddAnimation(ANI_EFFECT_FIRE_DARK_BAT);
-	AddAnimation(ANI_EFFECT_STAR);
+//	AddAnimation(DARK_BAT_IDLE_ANI);
+//	AddAnimation(DARK_BAT_FLY_ANI);
+//	AddAnimation(ANI_EFFECT_FIRE_DARK_BAT);
+//	AddAnimation(ANI_EFFECT_STAR);
 	state = DARK_BAT_STATE_IDLE;
 
 	originalLocation = pos;
@@ -95,10 +95,10 @@ void DarkBat::Render(Viewport * viewport)
 	Flip flip;
 	if (nx == -1) flip = normal;
 	else flip = flip_horiz;
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	if (startTimeHurt > 0)
 	{
-		animations.find(ANI_EFFECT_STAR)->second->Render(position.x + width / 3, position.y + height / 3, flip);
+		animation_set->at(currentAnimation)->Render(position.x + width / 3, position.y + height / 3, flip);
 	}
 	Enemy::Render(viewport);
 }

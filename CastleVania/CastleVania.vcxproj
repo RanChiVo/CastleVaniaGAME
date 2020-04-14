@@ -173,7 +173,6 @@
     <ClCompile Include="GameObjects\BurnBarrel.cpp" />
     <ClCompile Include="GameObjects\Heart.cpp" />
     <ClCompile Include="Input\DirectInput.cpp" />
-    <ClCompile Include="CastleVania.cpp" />
     <ClCompile Include="GameObjects\Dagger.cpp" />
     <ClCompile Include="InvisibilityPotion.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -255,7 +254,6 @@
     <ClInclude Include="EntityID.h" />
     <ClInclude Include="GameObjects\Heart.h" />
     <ClInclude Include="Input\DirectInput.h" />
-    <ClInclude Include="CastleVania.h" />
     <ClInclude Include="GameObjects\Dagger.h" />
     <ClInclude Include="InvisibilityPotion.h" />
     <ClInclude Include="Item.h" />

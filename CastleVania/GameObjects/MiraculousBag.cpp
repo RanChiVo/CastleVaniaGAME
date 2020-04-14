@@ -9,14 +9,14 @@ MiraculousBag::MiraculousBag(EntityID id, D3DXVECTOR2 pos)
 	SetPosition(pos);
 	this->id = ID_ENTITY_MIRACULOUS_BAG;
 	state = STATE_SHOW;
-	AddAnimation(RED_MIRACULOUSBAG_ANI);
-	AddAnimation(EFFECT_100_MONEY_ANI);
-	AddAnimation(BLUE_MIRACULOUSBAG_ANI);
-	AddAnimation(EFFECT_400_MONEY_ANI);
-	AddAnimation(WHITE_MIRACULOUSBAG_ANI);
-	AddAnimation(EFFECT_700_MONEY_ANI);
-	AddAnimation(BONUS_MIRACULOUSBAG_ANI);
-	AddAnimation(EFFECT_1000_MONEY_ANI);
+	//AddAnimation(RED_MIRACULOUSBAG_ANI);
+	//AddAnimation(EFFECT_100_MONEY_ANI);
+	//AddAnimation(BLUE_MIRACULOUSBAG_ANI);
+	//AddAnimation(EFFECT_400_MONEY_ANI);
+	//AddAnimation(WHITE_MIRACULOUSBAG_ANI);
+	//AddAnimation(EFFECT_700_MONEY_ANI);
+	//AddAnimation(BONUS_MIRACULOUSBAG_ANI);
+	//AddAnimation(EFFECT_1000_MONEY_ANI);
 	switch (id)
 	{
 	case ID_ENTITY_RED_100_MIRACULOUS_BAG:
@@ -128,7 +128,7 @@ void MiraculousBag::Render(Viewport * viewport)
 	}
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip = normal;
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 }
 
 int MiraculousBag::getScore()

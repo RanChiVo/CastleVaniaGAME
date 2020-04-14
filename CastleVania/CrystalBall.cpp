@@ -9,7 +9,7 @@ CrystalBall::CrystalBall(D3DXVECTOR2 pos, int nx)
 	state = STATE_SHOW;
 	this->SetPosition(pos);
 	this->nx = nx;
-	AddAnimation(CRYSTAL_BALL_ANI);
+	//AddAnimation(CRYSTAL_BALL_ANI);
 	currentAnimation = CRYSTAL_BALL_ANI;
 	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_CRYSTAL_BALL).first;
 	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_CRYSTAL_BALL).second;
@@ -50,7 +50,7 @@ void CrystalBall::Render(Viewport * viewport)
 	Flip flip;
 	if (nx == 1) flip = normal;
 	else flip = flip_horiz;
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 }
 
 void CrystalBall::GetBoundingBox(float & left, float & top, float & right, float & bottom)

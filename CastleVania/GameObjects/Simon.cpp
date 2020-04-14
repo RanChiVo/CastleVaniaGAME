@@ -117,22 +117,22 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void Simon::loadResource()
 {
-	AddAnimation(SIMON_ANI_IDLE);
-	AddAnimation(SIMON_ANI_WALKING);
-	AddAnimation(SIMON_ANI_JUMPING);
-	AddAnimation(SIMON_ANI_SITDOWN);
-	AddAnimation(SIMON_ANI_ATTACK_STANDING);
-	AddAnimation(SIMON_ANI_ATTACK_SITDOWN);
-	AddAnimation(SIMON_ANI_COLOR);
-	AddAnimation(SIMON_ANI_COLOR1);
-	AddAnimation(SIMON_ANI_GO_UP_STAIR);
-	AddAnimation(SIMON_ANI_GO_DOWN_STAIR);
-	AddAnimation(SIMON_ANI_IDLE_GO_UP_STAIR);
-	AddAnimation(SIMON_ANI_IDLE_GO_DOWN_STAIR);
-	AddAnimation(SIMON_ANI_ATTACK_UP_STAIR);
-	AddAnimation(SIMON_ANI_ATTACK_DOWN_STAIR);
-	AddAnimation(SIMON_ANI_HURT);
-	AddAnimation(SIMON_ANI_DEAD);
+	//AddAnimation(SIMON_ANI_IDLE);
+	//AddAnimation(SIMON_ANI_WALKING);
+	//AddAnimation(SIMON_ANI_JUMPING);
+	//AddAnimation(SIMON_ANI_SITDOWN);
+	//AddAnimation(SIMON_ANI_ATTACK_STANDING);
+	//AddAnimation(SIMON_ANI_ATTACK_SITDOWN);
+	//AddAnimation(SIMON_ANI_COLOR);
+	//AddAnimation(SIMON_ANI_COLOR1);
+	//AddAnimation(SIMON_ANI_GO_UP_STAIR);
+	//AddAnimation(SIMON_ANI_GO_DOWN_STAIR);
+	//AddAnimation(SIMON_ANI_IDLE_GO_UP_STAIR);
+	//AddAnimation(SIMON_ANI_IDLE_GO_DOWN_STAIR);
+	//AddAnimation(SIMON_ANI_ATTACK_UP_STAIR);
+	//AddAnimation(SIMON_ANI_ATTACK_DOWN_STAIR);
+	//AddAnimation(SIMON_ANI_HURT);
+	//AddAnimation(SIMON_ANI_DEAD);
 }
 
 void Simon::SetState(int state)
@@ -472,7 +472,7 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (startAtackSub > 0 && GetTickCount() - startAtackSub > 400)
 		{
 			SetState(SIMON_STATE_IDLE);
-			animations.find(currentAnimation)->second->SetFinish(false);
+			animation_set->at(currentAnimation)->SetFinish(false);
 			startAtackSub = 0;
 		}
 	}
@@ -502,7 +502,7 @@ void Simon::Render(Viewport* viewport)
 
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-	LPANIMATION animation = animations.find(currentAnimation)->second;
+	LPANIMATION animation = animation_set->at(ani);
 	DebugOut(L"state:{%d}\n", state);
 
 	DebugOut(L"animation:{%d}\n", currentAnimation);
@@ -781,10 +781,10 @@ void Simon::handleState()
 			SetState(SIMON_STATE_IDLE);
 		}
 		checkRewind = true;
-		animations.find(currentAnimation)->second->SetFinish(false);
+		animation_set->at(ani)->SetFinish(false);
 		break;
 	}
-	animations.find(currentAnimation)->second->SetLoop(checkRewind);
+	animation_set->at(currentAnimation)->SetLoop(checkRewind);
 	DebugOut(L"state:{%d}\n", state);
 }
 
@@ -815,9 +815,9 @@ void Simon::Reset(int currentAnimation)
 
 	if (!enableSubWeapon)
 	{
-		whip->animations.find(whip->getCurrentAnimation())->second->SetFinish(false);
+		whip->GetAnimationSet()->at(whip->getCurrentAnimation())->SetFinish(false);
 	}	
-	animations.find(currentAnimation)->second->SetFinish(false);
+	animation_set->at(currentAnimation)->SetFinish(false);
 }
 
 void Simon::updateCollisionStair()

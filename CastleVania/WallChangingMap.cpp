@@ -107,9 +107,7 @@ void WallChangingMap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					Direct3DManager::getInstance()->getViewport()->setStartViewPortX(getStartViewPort());
 					Direct3DManager::getInstance()->getViewport()->setEndViewPortX(getEndViewPort());
 				}
-				
 			}
-		
 		}
 	}
 }

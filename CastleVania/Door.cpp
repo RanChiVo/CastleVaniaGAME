@@ -26,10 +26,10 @@ Door::Door(D3DXVECTOR2 position)
 	id = ID_ENTITY_DOOR;
 	SetPosition(position);
 	state = DOOR_STATE_CLOSE;
-	AddAnimation(OPEN_ANI);
-	AddAnimation(CLOSE_ANI);
-	AddAnimation(OPENING_ANI);
-	AddAnimation(CLOSING_ANI);
+	//AddAnimation(OPEN_ANI);
+	//AddAnimation(CLOSE_ANI);
+	//AddAnimation(OPENING_ANI);
+	//AddAnimation(CLOSING_ANI);
 	currentAnimation = CLOSE_ANI;
 }
 
@@ -114,7 +114,7 @@ void Door::Render(Viewport * viewport)
 {
 	RenderBoundingBox(viewport);
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	animations.find(currentAnimation)->second->Render(position.x, position.y, Flip::normal);
+	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 }
 
 void Door::GetBoundingBox(float & left, float & top, float & right, float & bottom)

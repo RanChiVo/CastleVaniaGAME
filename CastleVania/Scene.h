@@ -13,10 +13,11 @@ protected:
 	int id;
 	std::string sceneFilePath;
 public:
-	Scene(int id, std::string filePath);
+	Scene(EntityID id, std::string filePath);
 	virtual void Load() = 0;
 	virtual void Unload() = 0;
 	virtual void Update(DWORD dt) = 0;
-	virtual void Render() = 0;
+	virtual void Render(Viewport* viewport) = 0;
 };
+typedef Scene * LPSCENE;
 

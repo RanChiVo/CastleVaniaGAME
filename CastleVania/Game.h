@@ -6,24 +6,26 @@
 #include "Direct3DManager.h"
 #include "WindowUtil.h"
 #include "Input/DirectInput.h"
+#include "Scene.h"
 
 class Game
 {
 protected:
+	static Game * __instance;
 	WindowUtil* window;
 	Direct3DManager* direct3D;
 	DirectInput* directInput;
 	DIDEVICEOBJECTDATA keyEvents[keyboard_buffer_size];
-	
-public:
-
+	unordered_map<EntityID, LPSCENE> scenes;
+	EntityID current_scene;
 	Game();
+public:
+	static Game * GetInstance();
 	void virtual init(HINSTANCE hInstance, int nCmdShow);
 	void virtual update(DWORD dt);
-	void virtual renderObjects();
-	void virtual loadResource();
-	void virtual handleInput();
-
+	void virtual Load(std::string gameFile);
+	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
+	void SwitchScene(EntityID scene_id);
 	void Render();
 	int Run();
 

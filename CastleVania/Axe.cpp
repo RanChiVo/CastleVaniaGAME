@@ -6,7 +6,7 @@ Axe::Axe(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_AXE;
 	SetPosition(position);
-	AddAnimation(AXE_ANI_ITEM);
+	//AddAnimation(AXE_ANI_ITEM);
 	currentAnimation = AXE_ANI_ITEM;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
@@ -64,7 +64,7 @@ void Axe::Render(Viewport * viewport)
 	RenderBoundingBox(viewport);
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip = normal;
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 }
 
 Axe::~Axe()

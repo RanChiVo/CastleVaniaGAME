@@ -10,7 +10,7 @@ Zombie::Zombie()
 	state = STATE_SHOW;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
-	AddAnimation(ZOMBIE_ANI_WALKING);
+	//AddAnimation(ZOMBIE_ANI_WALKING);
 	currentAnimation = ZOMBIE_ANI_WALKING;
 }
 
@@ -110,7 +110,7 @@ void Zombie::Render(Viewport* viewport)
 		Flip flip;
 		if (nx == -1) flip = normal;
 		else flip = flip_horiz;
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	}
 	
 	if (!GameObject::checkInsideViewPort(viewport))

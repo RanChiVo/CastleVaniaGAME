@@ -13,8 +13,8 @@ FireBombWeapon::FireBombWeapon()
 	state = STATE_SHOW;
 	vy = - FIRE_BOMP_THROW_SPEED_Y;
 	vx = FIRE_BOMP_SPEED_X;
-	AddAnimation(FIRE_BOMP_ANI1);
-	AddAnimation(FIRE_BOMP_ANI2);
+	//AddAnimation(FIRE_BOMP_ANI1);
+	//AddAnimation(FIRE_BOMP_ANI2);
 	currentAnimation = FIRE_BOMP_ANI1;
 	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_FIRE_BOMB).first;
 	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_FIRE_BOMB).second;
@@ -74,7 +74,7 @@ void FireBombWeapon::Render(Viewport * viewport)
 	RenderBoundingBox(viewport);
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip = normal;
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 }
 
 void FireBombWeapon::GetBoundingBox(float & left, float & top, float & right, float & bottom)

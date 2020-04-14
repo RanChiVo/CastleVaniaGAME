@@ -5,7 +5,7 @@ constexpr float INVISIBILITYPOTION_GRAVITY = 0.0006f;
 InvisibilityPotion::InvisibilityPotion(D3DXVECTOR2 pos)
 {
 	id = ID_ENTITY_INVISIBILITY_POTION;
-	AddAnimation(INVISIBILITY_POTION_ANI);
+	//AddAnimation(INVISIBILITY_POTION_ANI);
 	SetPosition(pos);
 	currentAnimation = INVISIBILITY_POTION_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
@@ -73,7 +73,7 @@ void InvisibilityPotion::Render(Viewport * viewport)
 
 		Flip flip = normal;
 
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 		RenderBoundingBox(viewport);
 	}
 }

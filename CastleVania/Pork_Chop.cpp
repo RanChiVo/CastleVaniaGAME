@@ -6,7 +6,7 @@ constexpr float PORKCHOP_GRAVITY = 0.0006f;
 Pork_Chop::Pork_Chop(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_PORK_CHOP;
-	AddAnimation(PORK_CHOP_ANI);
+	//AddAnimation(PORK_CHOP_ANI);
 	currentAnimation = PORK_CHOP_ANI;
 	state = STATE_SHOW;
 	SetPosition(position);
@@ -63,7 +63,7 @@ void Pork_Chop::Render(Viewport * viewport)
 	if (state == STATE_SHOW)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-		animations.find(currentAnimation)->second->Render(position.x, position.y, Flip::normal);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, Flip::normal);
 		RenderBoundingBox(viewport);
 	}
 }

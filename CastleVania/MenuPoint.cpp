@@ -19,10 +19,9 @@ void MenuPoint::loadResource()
 	enemy_HP1 = resourceManagement->getSprite(ID_ENTITY_HP_ENEMY)->Get("enemy_HP1");
 	lost_HP = resourceManagement->getSprite(ID_ENTITY_LOST_HP)->Get("lost_HP1");
 	place_item1 = resourceManagement->getSprite(ID_ENTITY_PLACE)->Get("place_item1");
-	resourceManagement->loadFont(L"Resources\\Fonts\\prstart.ttf");
+	//resourceManagement->loadFont(L"Resources\\Fonts\\prstart.ttf");
 	spriteHandler = Direct3DManager::getInstance()->GetSpriteHandler();
 	R = RECT{ 15, 20, 550, 528 };
-	font = resourceManagement->getFont();
 	itemList[ID_ENTITY_DAGGER_WEAPON] = resourceManagement->getSprite(ID_ENTITY_DAGGER)->Get("dagger");
 	itemList[ID_ENTITY_AXE_WEAPON] = resourceManagement->getSprite(ID_ENTITY_AXE)->Get("axe1");
 	itemList[ID_ENTITY_FIRE_BOMP_WEAPON] = resourceManagement->getSprite(ID_ENTITY_AXE)->Get("fire_bomb");
@@ -79,7 +78,7 @@ void MenuPoint::update()
 	healthDarkBat = DarkBat::getBaseInfo().getHealth();
 }
 
-void MenuPoint::Draw()
+void MenuPoint::Draw(ID3DXFont* font)
 {
 	timeString = std::to_string(gameTime);
 	menu->Draw(D3DXVECTOR2(0, 0), Flip::normal, 255);

@@ -7,7 +7,7 @@ Cross::Cross(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_CROSS;
 	SetPosition(position);
-	AddAnimation(CROSS_ANI);
+	//AddAnimation(CROSS_ANI);
 	currentAnimation = CROSS_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
@@ -66,7 +66,7 @@ void Cross::Render(Viewport * viewport)
 {
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip = normal;
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 }
 
 Cross::~Cross()

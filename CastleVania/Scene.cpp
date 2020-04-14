@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-Scene::Scene(int id, std::string filePath)
+Scene::Scene(EntityID id, std::string filePath)
 {
 	this->id = id;
 	this->sceneFilePath = filePath;

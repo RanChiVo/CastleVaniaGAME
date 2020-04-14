@@ -11,7 +11,7 @@ AxeWeapon::AxeWeapon()
 	state = STATE_SHOW;
 	vy = -AXE_THROW_SPEED;
 	vx = AXE_SPEED;
-	AddAnimation(AXE_ANI_THROW);
+	//AddAnimation(AXE_ANI_THROW);
 	currentAnimation = AXE_ANI_THROW;
 	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_AXE).first;
 	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_AXE).second;
@@ -39,7 +39,7 @@ void AxeWeapon::Render(Viewport * viewport)
 	
 	if (checkInsideViewPort(viewport))
 	{
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	}
 }
 

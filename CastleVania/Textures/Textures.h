@@ -16,5 +16,6 @@ public:
 	std::pair<int, int> GetSizeObject(int id);
 	void setSizeObject(int id, int widthObject, int heightObject);
 	LPDIRECT3DTEXTURE9 Get(unsigned int i);
+	void Clear();
 	static Textures * GetInstance();
 };

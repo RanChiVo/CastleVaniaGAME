@@ -8,22 +8,40 @@
 class ObjectInfo
 {
 private:
-	int id = 0;
-	std::string name = "";
-	int height = 0;
-	int width = 0;
+	int id;
+	std::string name;
+	int height;
+	int width;
 	D3DXVECTOR2 position;
-	std::string idHiddenItem = "";
-	std::string objectId = "";
-	std::string ObjectType = "";
-	std::string enemyName = "";
-	int stairHeight = 0;
-	float startViewport = 0;
-	float endViewport = 0;
-	std::string cellId = "";
-	int nx = 0;
-	int ny = 0;
+	std::string idHiddenItem;
+	std::string objectId;
+	std::string ObjectType;
+	std::string enemyName;
+	int stairHeight;
+	float startViewport;
+	float endViewport;
+	std::string cellId;
+	int nx;
+	int ny;
 public:
+	ObjectInfo() {
+		id = 0;
+		name = "";
+		height = 0;
+		width = 0;
+		position = D3DXVECTOR2{0, 0};
+		idHiddenItem = "";
+		objectId = "";
+		ObjectType = "";
+		enemyName = "";
+		stairHeight = 0;
+		startViewport = 0;
+		endViewport = 0;
+		cellId = "";
+		nx = 0;
+		ny = 0;
+	}
+
 	int get_id() { return id; }
 	std::string get_name() { return name; }
 	int get_height() { return height; }

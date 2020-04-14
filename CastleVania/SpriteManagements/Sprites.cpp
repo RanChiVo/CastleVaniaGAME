@@ -6,12 +6,23 @@ Sprites * Sprites::__instance = nullptr;
 void Sprites::Add(std::string id, RECT r,  LPDIRECT3DTEXTURE9 tex)
 {
 	LPSPRITE s = new Sprite(id, r, tex);
-	spritesList[id] = s;
+	sprites[id] = s;
 }
 
 LPSPRITE Sprites::Get(std::string id)
 {
-	return spritesList[id];
+	return sprites[id];
+}
+
+void Sprites::Clear()
+{
+	for (auto x : sprites)
+	{
+		LPSPRITE s = x.second;
+		delete s;
+	}
+
+	sprites.clear();
 }
 
 Sprites * Sprites::GetInstance()

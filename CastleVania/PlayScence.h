@@ -1,6 +1,8 @@
 #pragma once
 #include "Scene.h"
 #include "GameObjects/Simon.h"
+#include "MenuPoint.h"
+#include "EntityID.h"
 
 class PlayScene: public Scene
 {
@@ -9,24 +11,20 @@ protected:
 	vector<LPGAMEOBJECT> objects;
 	ID3DXFont* font = nullptr;
 	TiledMap* tiled_map;
+	MenuPoint* menuPoint;
+	Viewport* viewport;
 
-	std::unordered_map<std::string, EntityID> StringToEntityID;
-	std::unordered_map<std::string, ANI_ID> StringToAniID;
-	std::unordered_map<EntityID, Sprites*> SpriteMapper;
-	std::unordered_map<EntityID, TiledMap*> TiledMapList;
-
-	void ReadFile_FONTS(std::string path);
-	void ReadFile_TEXTURES(std::string path);
-	void ReadFile_SPRITES(std::string path);
-	void ReadFile_ANIMATIONS(std::string path);
-	void ReadFile_ANIMATION_SETS(std::string path);
-	void ReadFile_OBJECTS(std::string path);
+	void ReadFile_FONTS(LPTSTR path);
+	void ReadFile_TEXTURES(pugi::xml_node node, LPDIRECT3DTEXTURE9 &texID);
+	void ReadFile_SPRITES(pugi::xml_node node, LPDIRECT3DTEXTURE9 texID);
+	void ReadFile_ANIMATIONS(pugi::xml_node node);
+	void ReadFile_OBJECTS(pugi::xml_node node);
 public:
-	PlayScene(int id, std::string filePath);
+	PlayScene(EntityID id, std::string filePath);
 
 	virtual void Load();
 	virtual void Update(DWORD dt);
-	virtual void Render();
+	virtual void Render(Viewport* viewport);
 	virtual void Unload();
 
 	~PlayScene();

@@ -10,7 +10,7 @@ SmallHeart::SmallHeart(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_SMALL_HEART;
 	SetPosition(position);
-	AddAnimation(SMALL_HEART_ANI);
+	//AddAnimation(SMALL_HEART_ANI);
 	specifications = 1;
 	originalLocation = x;
 	currentAnimation = SMALL_HEART_ANI;
@@ -96,7 +96,7 @@ void SmallHeart::Render(Viewport * viewport)
 
 		Flip flip = flip_horiz;
 
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 		RenderBoundingBox(viewport);
 	}
 }

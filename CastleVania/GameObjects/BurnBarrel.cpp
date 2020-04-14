@@ -8,7 +8,7 @@
 BurnBarrel::BurnBarrel()
 {
 	id = ID_ENTITY_BURNBARREL;
-	AddAnimation(BURNBARREL_ANI);
+	//AddAnimation(BURNBARREL_ANI);
 	currentAnimation = BURNBARREL_ANI;
 	nx = 1;
 }
@@ -35,7 +35,7 @@ void BurnBarrel::Render(Viewport * viewport)
 
 		Flip flip = normal;
 
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	}
 	StaticObject::Render(viewport);
 }

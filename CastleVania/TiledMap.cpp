@@ -4,29 +4,16 @@
 #include "EntityID.h"
 #include "SpriteManagements/Sprite.h"
 #include "Utils.h"
+#include "Textures/Textures.h"
 
-constexpr int EXTRA_HEIGHT_SCREEN = 90;
 constexpr int TILEMAP_CROSS_EFFECT_TIME = 1000;
 
 DWORD TiledMap::createEffectStart;
 
-TiledMap::TiledMap(std::string resourcepath, LPDIRECT3DTEXTURE9 IDtex)
+TiledMap::TiledMap(pugi::xml_node node)
 {
-	this->resourcepath = resourcepath;
-	this->IDtex = IDtex;
-	this->readMapfromfile();
+	this->rootNode = node;
 	createEffectStart = 0;
-}
-
-void TiledMap::checkGoodFile()
-{
-	this->isGoodFile = doc.load_file(resourcepath.c_str());
-	if (!isGoodFile)
-	{
-		OutputDebugString(L"[ERROR] Reading failed\n");
-		return;
-	}
-	this->rootNode = doc.child("map");
 }
 
 void TiledMap::Update(DWORD dt, vector<LPGAMEOBJECT>* object)
@@ -37,7 +24,6 @@ void TiledMap::Update(DWORD dt, vector<LPGAMEOBJECT>* object)
 
 void TiledMap::readMapfromfile()
 {
-	this->checkGoodFile();
 	tilesInMapHeight = rootNode.attribute("height").as_int();
 	tilesInMapWidth = rootNode.attribute("width").as_int();
 	tileWidth = rootNode.attribute("tilewidth").as_int();
@@ -49,6 +35,14 @@ void TiledMap::readMapfromfile()
 	//create tileset
 	tileSetWidth = rootNode.child("tileset").child("image").attribute("width").as_float();
 	tileSetHeight = rootNode.child("tileset").child("image").attribute("height").as_float();
+	std::string pathImageMap = rootNode.child("imagelayer").child("image").attribute("source").as_string();
+	std::string idText = rootNode.child("imagelayer").child("image").attribute("id").as_string();
+	EntityID idTextfromfile = stringToEntityID[idText];
+
+	std::wstring pathImageMapfromfile(pathImageMap.begin(), pathImageMap.end());
+	LPCWSTR pathImageMapLoad = pathImageMapfromfile.c_str();
+	Textures::GetInstance()->Add(idTextfromfile, pathImageMapLoad, D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 texID = Textures::GetInstance()->Get(idTextfromfile);
 	tileset = new TileSet(IDtex, tileWidth, tileHeight);
 	int rowsTileSet = tileSetHeight / tileHeight;
 	int colsTileSet = tileSetWidth / tileWidth;
@@ -87,97 +81,6 @@ void TiledMap::readMatrixMap()
 			row++;
 		}
 	}
-}
-
-std::vector<ObjectInfo*> TiledMap::getObjectInfo()
-{
-	for (auto objectGroupNode : rootNode.children("objectgroup"))
-	{
-		for (auto objectNode : objectGroupNode.children("object"))
-		{
-			int id = objectNode.attribute("id").as_int();
-			std::string objectType = objectGroupNode.attribute("name").as_string();
-			std::string name = objectNode.attribute("name").as_string();
-			float x = objectNode.attribute("x").as_float();
-			float y = objectNode.attribute("y").as_float() + EXTRA_HEIGHT_SCREEN;
-			int width = objectNode.attribute("width").as_int();
-			int height = objectNode.attribute("height").as_int();
-			auto properties = objectNode.child("properties");
-			std::string idHiddenItemString = "";
-			std::string objectId = "";
-			std::string enemyName = "";
-			float startViewPort = 0;
-			float endViewPort = 0;
-			std::string cellId = "";
-			int stairHeight = 0;
-			int nx = 0;
-			int ny = 0;
-			for (auto propertyNode : properties)
-			{
-				std::string nameProperty = propertyNode.attribute("name").as_string();
-				if (nameProperty.compare("Hidden Item ID") == 0)
-				{
-					idHiddenItemString = propertyNode.attribute("value").as_string();
-				}
-				else if (nameProperty.compare("Object ID") == 0)
-				{
-					objectId = propertyNode.attribute("value").as_string();
-				}
-				else if (nameProperty.compare("Enemy Name") == 0)
-				{
-					enemyName = propertyNode.attribute("value").as_string();
-				}
-				else if (nameProperty.compare("Stair Height") == 0)
-				{
-					stairHeight = propertyNode.attribute("value").as_int();
-				}
-				else if (nameProperty.compare("nx") == 0)
-				{
-					nx = propertyNode.attribute("value").as_int();
-				}
-				else if (nameProperty.compare("ny") == 0)
-				{
-					ny = propertyNode.attribute("value").as_int();
-				}
-				else if (nameProperty.compare("StartViewport") == 0)
-				{
-					startViewPort = propertyNode.attribute("value").as_float();
-				}
-				else if (nameProperty.compare("EndViewport") == 0)
-				{
-					endViewPort = propertyNode.attribute("value").as_float();
-				}
-				else if (nameProperty.compare("Cell ID") == 0)
-				{
-					cellId = propertyNode.attribute("value").as_string();
-				}
-			}
-			ObjectInfo* object_info = new ObjectInfo();
-
-			object_info->set_id(id);
-			object_info->set_name(name);
-			object_info->set_height(height);
-			object_info->set_width(width);
-			object_info->set_position(D3DXVECTOR2(x, y));
-			object_info->set_idHiddenItem(idHiddenItemString);
-			object_info->set_ObjectId(objectId);
-			object_info->set_enemyName(enemyName);
-			object_info->set_stairHeight(stairHeight);
-			object_info->set_startViewPort(startViewPort);
-			object_info->set_endViewPort(endViewPort);
-			object_info->set_cellId(cellId);
-			object_info->set_nx(nx);
-			object_info->set_ny(ny);
-
-			objectInfo.push_back(object_info);
-		}
-	}
-	return objectInfo;
-}
-
-void TiledMap::clearObjectInfo()
-{
-	objectInfo.clear();
 }
 
 void TiledMap::draw(Viewport* viewport, int alpha)

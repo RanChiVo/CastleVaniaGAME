@@ -8,7 +8,7 @@ Dagger::Dagger(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_DAGGER;
 	SetPosition(position);
-	AddAnimation(DAGGER_ANI);
+//	AddAnimation(DAGGER_ANI);
 	currentAnimation = DAGGER_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
@@ -79,7 +79,7 @@ void Dagger::Render(Viewport * viewport)
 		Flip flip;
 		if (nx == 1) flip = normal;
 		else flip = flip_horiz;
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	}
 }
 

@@ -8,8 +8,6 @@
 #include "../Direct3DManager.h"
 #include "../Textures/Textures.h"
 
-unordered_map<int, LPANIMATION> GameObject::animations;
-
 EntityID GameObject::getID()	
 {
 	return id;
@@ -49,21 +47,6 @@ std::string GameObject::getIdHiddenItem()
 void GameObject::setIdHiddenItem(std::string idHiddenItem)
 {
 	this->idHiddenItem = idHiddenItem;
-}
-
-void GameObject::AddAnimation(int aniId)
-{
-	LPANIMATION ani = Animations::GetInstance()->Get(aniId);
-	if (animations.count(aniId) > 0)
-	{
-		return;
-	}
-	animations.insert(make_pair(aniId, ani));
-}
-
-void GameObject::DeleteAnimation(int aniId)
-{
-	animations.erase(aniId);
 }
 
 D3DXVECTOR2 GameObject::getPosition()

@@ -7,7 +7,7 @@ WeaponReward::WeaponReward(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_WEAPON_REWARD;
 	LPANIMATION ani;
-	AddAnimation(WEAPONREWARD_ANI);
+	///AddAnimation(WEAPONREWARD_ANI);
 	SetPosition(position);
 	currentAnimation = WEAPONREWARD_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
@@ -75,7 +75,7 @@ void WeaponReward::Render(Viewport * viewport)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		Flip flip = flip_horiz;
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 		RenderBoundingBox(viewport);
 	}
 }

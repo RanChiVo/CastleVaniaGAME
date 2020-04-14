@@ -8,9 +8,9 @@ Whip::Whip()
 	id = ID_ENTITY_WHIP;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
-	AddAnimation(TYPE1_WHIP);
+	/*AddAnimation(TYPE1_WHIP);
 	AddAnimation(TYPE2_WHIP);
-	AddAnimation(TYPE3_WHIP);
+	AddAnimation(TYPE3_WHIP);*/
 
 	state = WHIT_STATE_1;
 	currentAnimation = TYPE1_WHIP;
@@ -163,7 +163,7 @@ void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 
 int Whip::getframe()
 {
-	return animations.find(currentAnimation)->second->getCurrentFrame();
+	return animation_set->at(currentAnimation)->getCurrentFrame();
 }
 
 int Whip::getCurrentAnimation()
@@ -203,14 +203,14 @@ void Whip::draw(int direct, Viewport* viewport)
 	}
 	else flip = flip_horiz;
 
-	animations.find(currentAnimation)->second->Render(pos.x, pos.y, flip);
+	animation_set->at(currentAnimation)->Render(pos.x, pos.y, flip);
 
 	RenderBoundingBox(viewport);
 }
 
 void Whip::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	if (animations.find(currentAnimation)->second->getCurrentFrame() == 2)
+	if (animation_set->at(currentAnimation)->getCurrentFrame() == 2)
 	{
 		left = x;
 		top = y;

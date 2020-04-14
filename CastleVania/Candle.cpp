@@ -4,7 +4,7 @@
 Candle::Candle()
 {
 	id = ID_ENTITY_CANDLE;
-	AddAnimation(CANDLE_ANI);
+	//AddAnimation(CANDLE_ANI);
 	currentAnimation = CANDLE_ANI;
 }
 

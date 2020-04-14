@@ -8,7 +8,7 @@ constexpr DWORD BALL_DARK_BAT_UNTOUCHED_TIME = 1000;
 BallDarkBat::BallDarkBat(D3DXVECTOR2 pos)
 {
 	id = ID_ENTITY_BALL_DARK_BAT;
-	AddAnimation(BALL_DARK_BALL_ANI);
+	//AddAnimation(BALL_DARK_BALL_ANI);
 	SetPosition(pos);
 	state = STATE_SHOW;
 	currentAnimation = BALL_DARK_BALL_ANI;
@@ -80,7 +80,7 @@ void BallDarkBat::Render(Viewport * viewport)
 {
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip = normal;
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	RenderBoundingBox(viewport);
 }
 

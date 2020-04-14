@@ -8,7 +8,7 @@ constexpr float BOOMERANG_THROW_TIME = 1000;
 BoomerangWeapon::BoomerangWeapon()
 {
 	id = ID_ENTITY_BOOMERANG_WEAPON;
-	AddAnimation(BOOMERANG_WEAPON_ANI);
+	//AddAnimation(BOOMERANG_WEAPON_ANI);
 	currentAnimation = BOOMERANG_WEAPON_ANI;
 	state = STATE_SHOW;
 	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_BOOMERANG).first;
@@ -60,7 +60,7 @@ void BoomerangWeapon::Render(Viewport * viewport)
 	else flip = flip_horiz;
 	if (checkInsideViewPort(viewport))
 	{
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	}
 	else {
 		state = STATE_DETROY;

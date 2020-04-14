@@ -16,10 +16,10 @@ CBrick::CBrick(std::string name)
 {
 	id = ID_ENTITY_BRICK;
 	state = STATE_SHOW;
-	AddAnimation(BRICK_ANI1);
-	AddAnimation(BRICK_ANI2);
-	AddAnimation(BRICK_ANI3);
-	AddAnimation(BRICK_ANI4);
+	//AddAnimation(BRICK_ANI1);
+	//AddAnimation(BRICK_ANI2);
+	//AddAnimation(BRICK_ANI3);
+	//AddAnimation(BRICK_ANI4);
 
 	currentAnimation = BRICK_ANI4;
 
@@ -51,7 +51,7 @@ void CBrick::Render(Viewport* viewport)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		Flip flip = normal;
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	}
 }
 

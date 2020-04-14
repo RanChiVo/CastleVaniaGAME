@@ -11,7 +11,7 @@ StopWatch::StopWatch(D3DXVECTOR2 position)
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
 	SetPosition(position);
-	AddAnimation(STOP_WATCH_ANI);
+	//AddAnimation(STOP_WATCH_ANI);
 	state = STATE_SHOW;
 	currentAnimation = STOP_WATCH_ANI;
 }
@@ -71,7 +71,7 @@ void StopWatch::Render(Viewport * viewport)
 
 	Flip flip = flip_horiz;
 
-	animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	//	RenderBoundingBox(viewport);
 }
 

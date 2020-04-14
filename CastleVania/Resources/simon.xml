@@ -53,7 +53,6 @@
   <spriteframe id="Dead1" left="480" top="-9" right="540" bottom="57" />
   <spriteframe id="Dead2" left="540" top="-9" right="620" bottom="57" />
 
-
  </sprites>
   
 </loadresource>

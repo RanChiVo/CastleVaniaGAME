@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <animations>
+  <animations id="ID_ENTITY_CRYSTAL_BALL">
   <animation name ="ANI_EFFECT" default_time="100" rewind="false">
     <animation_frame sprite_id ="effect1"/>
     <animation_frame sprite_id ="effect2"/>

@@ -3,13 +3,10 @@
 #include <d3dx9.h>
 #include "DebugOut/DebugOut.h"
 #include "Game.h"
-#include "CastleVania.h"
-#include "ResourceManagement.h"
-
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	CastleVania *gameCastleVania = new CastleVania();
+	/*CastleVania *gameCastleVania = new CastleVania();
 
 	gameCastleVania->Init(hInstance, nCmdShow);
 
@@ -17,7 +14,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	gameCastleVania->Run();
 
-	delete gameCastleVania;
+	delete gameCastleVania;*/
+
+
+
+	Game* gameCastleVania = Game::GetInstance();
+
+	gameCastleVania->init(hInstance, nCmdShow);
+
+	gameCastleVania->Load("Castlevania.xml");
+
+	gameCastleVania->Run();
+
 
 	return 0;
 }

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="23" height="6" tilewidth="64" tileheight="64" infinite="0" nextlayerid="9" nextobjectid="53">
+ <properties>
+  <property name="ObjectPath" value="PathReadObjectsGame\\ReadObectsEntrance.xml"/>
+ </properties>
  <tileset firstgid="1" name="Entrance_bank.png" tilewidth="64" tileheight="64" tilecount="48" columns="8">
   <image source="Entrance_bank.png" width="512" height="384"/>
  </tileset>
  <tileset firstgid="49" source="../../../../Game/CastleVaniaGame/CastleVania/TiledMap/WallCastle.tsx"/>
- <tileset firstgid="49" source="../../../../Game/CastleVaniaGame/CastleVania/TiledMap/burn_barrel.tsx"/>
  <layer id="1" name="Entrance_Ground" width="23" height="6">
   <data encoding="csv">
 1,1,1,1,1,2,3,4,1,1,1,1,1,2,3,3,3,3,3,5,6,7,8,

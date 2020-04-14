@@ -10,8 +10,8 @@ VampireBat::VampireBat()
 	id = ID_ENTITY_VAMPIRE_BAT;
 	state = VAMPIRE_STATE_HIDDEN;
 	
-	AddAnimation(VAMPIRE_BAT_IDLE_ANI1);
-	AddAnimation(VAMPIRE_BAT_FLY_ANI1);
+	//AddAnimation(VAMPIRE_BAT_IDLE_ANI1);
+	//AddAnimation(VAMPIRE_BAT_FLY_ANI1);
 	currentAnimation = VAMPIRE_BAT_IDLE_ANI1;
 	originalLocationY = y;
 	delta = 0;
@@ -29,7 +29,7 @@ void VampireBat::Render(Viewport * viewport)
 		Flip flip;
 		if (nx == -1) flip = normal;
 		else flip = flip_horiz;
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	}
 	Enemy::Render(viewport);
 }

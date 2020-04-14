@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <loadresource>
-  <animations>
+  <animations id="ID_ENTITY_FISH_MAN">
     <animation name="FISH_MAN_ANI_IDLE" default_time="100" rewind="true">
       <animation_frame sprite_id="walk_01" />
     </animation>

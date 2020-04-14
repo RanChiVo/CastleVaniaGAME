@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <loadresource>
-  <animations>
+  <animations id="ID_ENTITY_SIMON">
     <animation name="SIMON_ANI_WALKING" default_time="100" rewind="true">
       <animation_frame sprite_id="Walking1" />
       <animation_frame sprite_id="Walking2" />

@@ -13,7 +13,7 @@ void Effect::Render(Viewport * viewport)
 	for (int i = 0; i < totalEffect; i++)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(position_X[i], position_Y[i]));
-		animations.find(currentAnimation)->second->Render(position.x, position.y, Flip::normal);
+		animation_set->at(currentAnimation)->Render(position.x, position.y, Flip::normal);
 	}
 }
 

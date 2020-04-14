@@ -7,6 +7,8 @@
 #include "Library/pugixml.hpp"
 #include "GameObjects/GameObject.h"
 
+constexpr int EXTRA_HEIGHT_SCREEN = 90;
+
 class TiledMap
 {
 private:
@@ -17,13 +19,11 @@ private:
 	float widthWorld;
 
 	//Info in map.xml
-	std::string resourcepath;
 	LPDIRECT3DTEXTURE9 IDtex;
 	int tilesInMapWidth;
 	int tilesInMapHeight;
 	int tileWidth;
 	int tileHeight;
-	pugi::xml_document doc;
 	pugi::xml_node rootNode;
 	pugi::xml_parse_result isGoodFile;
 	std::string mapIndices;
@@ -34,26 +34,21 @@ private:
 	int tileSetWidth;
 	int tileSetHeight;
 
-	//Info Game Object 
-	std::vector<ObjectInfo*> objectInfo;
-	
 	//Create effect when collision Cross
 	static DWORD createEffectStart;
 public:
-	static void CreateEffectStart() { createEffectStart = GetTickCount(); }
-	TiledMap(std::string resourcepath, LPDIRECT3DTEXTURE9 IDtex);
-	void readMapfromfile();
-	void checkGoodFile();
-	void Update(DWORD dt, vector<LPGAMEOBJECT>* object = NULL);
-	//get info of Objects in Layer 
-	void readMatrixMap();
-	std::vector <ObjectInfo*> getObjectInfo();
-	void clearObjectInfo();
-	void draw(Viewport* viewport, int alpha = 255);
+	TiledMap(pugi::xml_node node);
 	float getHeightWorld();
 	float getWidthWorld();
 	void setHeightWorld(float heightWorld);
 	void setWidthWorld(float widthWorld);
+
+	static void CreateEffectStart() { createEffectStart = GetTickCount(); }
+	void readMapfromfile();
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* object = NULL);
+	void readMatrixMap();
+	void draw(Viewport* viewport, int alpha = 255);
+
 	~TiledMap();
 };
 
