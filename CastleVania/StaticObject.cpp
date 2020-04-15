@@ -10,6 +10,7 @@
 #include "./Axe.h"
 #include "./InvisibilityPotion.h"
 #include "./Boomerang.h"
+#include "./Utils.h"
 
 constexpr int FIRE_LIVE_TIME = 200;
 
@@ -27,7 +28,7 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			state = STATE_DETROY;
 			liveTime = 0;
 			GameObject* item = nullptr;
-			idHiddenItem = ResourceManagement::GetInstance()->getStringToEntity()[getIdHiddenItem()];
+			idHiddenItem = Utils::getInstance()->getStringToEntityID()[getIdHiddenItem()];
 			switch (idHiddenItem)
 			{
 			case ID_ENTITY_STOP_WATCH:

@@ -1,5 +1,4 @@
 #include "FishMan.h"
-#include "ResourceManagement.h"
 #include "./CrystalBall.h"
 #include "./WaterEffect.h"
 
@@ -14,8 +13,8 @@ FishMan::FishMan(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_FISH_MAN;
 	//AddAnimation(FISH_MAN_ANI_IDLE);
-	AddAnimation(FISH_MAN_ANI_WALK);
-	AddAnimation(FISH_MAN_ANI_SHOOT);
+	//AddAnimation(FISH_MAN_ANI_WALK);
+	//AddAnimation(FISH_MAN_ANI_SHOOT);
 	currentAnimation = FISH_MAN_ANI_IDLE;
 	state = FISH_MAN_STATE_HIDDEN;
 	posRevival = position;
@@ -38,7 +37,9 @@ void FishMan::Render(Viewport * viewport)
 
 	if (state != STATE_EFFECT && state != FISH_MAN_STATE_HIDDEN)
 	{
-		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
+	}
+
 	Enemy::Render(viewport);
 }
 
@@ -95,7 +96,9 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			float min_tx, min_ty, nx, ny;
 			float Dx = dx, Dy = dy;
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			float rdx = 0;
+			float rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 			for (int i = 0; i < (int)coEvents.size(); i++)
 			{
 				switch (coEvents[i]->obj->getID())

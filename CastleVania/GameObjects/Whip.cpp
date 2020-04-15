@@ -1,5 +1,4 @@
 ﻿#include "Whip.h"
-#include "../ResourceManagement.h"
 #include "BurnBarrel.h"
 #include "Simon.h"
 
@@ -14,9 +13,9 @@ Whip::Whip()
 
 	state = WHIT_STATE_1;
 	currentAnimation = TYPE1_WHIP;
-	bbLevel1 = ResourceManagement::GetInstance()->getSprite(ID_ENTITY_WHIP)->Get("type1_whip_3")->getRect();
-	bbLevel2 = ResourceManagement::GetInstance()->getSprite(ID_ENTITY_WHIP)->Get("type2_whip_3")->getRect();
-	bbLevel3 = ResourceManagement::GetInstance()->getSprite(ID_ENTITY_WHIP)->Get("type3_whip_3")->getRect();
+	bbLevel1 = Sprites::GetInstance()->Get("type1_whip_3")->getRect();
+	bbLevel2 = Sprites::GetInstance()->Get("type2_whip_3")->getRect();
+	bbLevel3 = Sprites::GetInstance()->Get("type3_whip_3")->getRect();
 }
 
 void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
@@ -163,7 +162,7 @@ void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)
 
 int Whip::getframe()
 {
-	return animation_set->at(currentAnimation)->getCurrentFrame();
+	return animation_set->find(currentAnimation)->second->getCurrentFrame();
 }
 
 int Whip::getCurrentAnimation()
@@ -210,7 +209,7 @@ void Whip::draw(int direct, Viewport* viewport)
 
 void Whip::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	if (animation_set->at(currentAnimation)->getCurrentFrame() == 2)
+	if (animation_set->find(currentAnimation)->second->getCurrentFrame() == 2)
 	{
 		left = x;
 		top = y;

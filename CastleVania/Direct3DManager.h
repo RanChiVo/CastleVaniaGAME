@@ -1,9 +1,7 @@
 #pragma once
-
-#include <Windows.h>
-#include <d3d9.h>
-#include <d3dx9.h>
 #include "WindowUtil.h"
+#include "DebugOut/DebugOut.h"
+
 
 class Direct3DManager
 {

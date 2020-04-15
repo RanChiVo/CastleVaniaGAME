@@ -1,5 +1,4 @@
 #include "BoomerangWeapon.h"
-#include "ResourceManagement.h"
 #include "GameObjects/Simon.h"
 
 constexpr float BOOMERANG_THROW_SPEED = 0.24f;

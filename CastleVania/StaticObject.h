@@ -1,5 +1,4 @@
 #include "GameObjects/GameObject.h"
-#include "ResourceManagement.h"
 
 #pragma once
 class StaticObject: public GameObject

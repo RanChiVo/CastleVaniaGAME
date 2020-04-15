@@ -1,5 +1,4 @@
 #include "BallDarkBat.h"
-#include  "ResourceManagement.h"
 
 constexpr float BALL_DARK_BAT_GRAVITY = 0.0006f;
 constexpr DWORD BALL_DARK_BAT_UNTOUCHED_TIME = 1000;
@@ -40,7 +39,9 @@ void BallDarkBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			float min_tx, min_ty, nx, ny;
 			float Dx = dx, Dy = dy;
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			float rdx = 0;
+			float rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 			for (int i = 0; i < coEvents.size(); i++)
 			{
 				switch (coEvents[i]->obj->getID())

@@ -1,5 +1,4 @@
 #include "BrickBrokenEffect.h"
-#include "ResourceManagement.h"
 
 
 BrickBrokenEffect::BrickBrokenEffect(D3DXVECTOR2 position)
@@ -27,7 +26,7 @@ BrickBrokenEffect::BrickBrokenEffect(D3DXVECTOR2 position)
 	speech_Y[2] = -0.05f;
 	speech_Y[3] = -0.02f;
 
-	AddAnimation(ANI_EFFECT_BRICK);	
+	//AddAnimation(ANI_EFFECT_BRICK);	
 	currentAnimation = ANI_EFFECT_BRICK;
 }
 

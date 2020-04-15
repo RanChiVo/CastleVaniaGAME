@@ -1,5 +1,4 @@
 #include "CrystalBall.h"
-#include "ResourceManagement.h"
 
 constexpr DWORD SHOOT_TIME = 3000;
 

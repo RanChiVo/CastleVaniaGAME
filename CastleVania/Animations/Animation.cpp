@@ -1,7 +1,4 @@
 #include "Animation.h"
-#include "../SpriteManagements/Sprites.h"
-#include "../Game.h"
-#include "../DebugOut/DebugOut.h"
 
 
 bool Animation::IsFinished()
@@ -52,7 +49,7 @@ void Animation::Render(float x, float y, Flip flip, int alpha)
 	}
 	else if (!isFinished)
 	{
-		DWORD t = frames[currentFrame]->GetTime();
+		DWORD t =frames[currentFrame]->GetTime();
 		if (now - lastFrameTime > t)
 		{
 			currentFrame++;

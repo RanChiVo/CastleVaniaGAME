@@ -1,8 +1,3 @@
-#include <Windows.h>
-#include <d3d9.h>
-#include "../Direct3DManager.h"
-#include "../DebugOut/DebugOut.h"
-#include "../CastleVania.h"
 #include "Textures.h"
 
 Textures *Textures::__instance = nullptr;

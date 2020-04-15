@@ -1,5 +1,4 @@
 #include "Door.h"
-#include "../CastleVania/ResourceManagement.h"
 #include "../CastleVania/Direct3DManager.h"
 #include "../CastleVania/GameObjects/Simon.h"
 
@@ -99,7 +98,7 @@ void Door::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			name = "Wall";
 			id = ID_ENTITY_WALL_ENTRANCE;
 			Direct3DManager::getInstance()->getViewport()->setStartViewPortX(Direct3DManager::getInstance()->getViewport()->getX());
-			Direct3DManager::getInstance()->getViewport()->setEndViewPortX(ResourceManagement::GetInstance()->getTiledMap(ID_ENTITY_MAP_PLAYGAME)->getWidthWorld());
+			Direct3DManager::getInstance()->getViewport()->setEndViewPortX(512);
 			Simon::getInstance()->setIsMovingDoor(false);
 		}
 		else
@@ -114,7 +113,7 @@ void Door::Render(Viewport * viewport)
 {
 	RenderBoundingBox(viewport);
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+	animation_set->find(currentAnimation)->second->Render(position.x, position.y, Flip::normal);
 }
 
 void Door::GetBoundingBox(float & left, float & top, float & right, float & bottom)

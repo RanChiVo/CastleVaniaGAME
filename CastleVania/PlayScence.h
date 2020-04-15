@@ -2,12 +2,12 @@
 #include "Scene.h"
 #include "GameObjects/Simon.h"
 #include "MenuPoint.h"
-#include "EntityID.h"
+#include "TiledMap.h"
 
 class PlayScene: public Scene
 {
 protected:
-	Simon* Player;
+	Simon* player;
 	vector<LPGAMEOBJECT> objects;
 	ID3DXFont* font = nullptr;
 	TiledMap* tiled_map;
@@ -26,6 +26,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render(Viewport* viewport);
 	virtual void Unload();
+	void UpdateViewport(DWORD dt);
 
 	~PlayScene();
 };

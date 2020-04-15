@@ -1,5 +1,4 @@
 #include "PlayScence.h"
-#include "Utils.h"
 #include "Textures/Textures.h"	
 #include "SpriteManagements/Sprites.h"
 #include "Animations/Animation.h"
@@ -19,8 +18,7 @@
 #include "CastleWall.h"
 #include "Panther.h"
 #include "ObjectGridCreation.h"
-#include <iostream>
-#include <fstream>
+
 
 PlayScene::PlayScene(EntityID id, std::string filePath):Scene(id, filePath)
 {
@@ -33,8 +31,6 @@ void PlayScene::Load()
 {
 	ReadFile_FONTS(L"Resources\\Fonts\\prstart.ttf");
 
-	menuPoint->loadResource();
-
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
 	pugi::xml_document docMap;
@@ -44,12 +40,6 @@ void PlayScene::Load()
 		DebugOut(L"[ERROR] Read Screne file failed\n", sceneFilePath);
 		return;
 	}
-
-	tiled_map = new TiledMap(docMap.child("map"));
-
-	tiled_map->readMapfromfile();	
-	
-	ReadFile_OBJECTS(docMap.child("map"));
 
 	std::string pathObject = docMap.child("map").child("properties").child("property").attribute("value").as_string();
 
@@ -85,20 +75,34 @@ void PlayScene::Load()
 
 		ReadFile_SPRITES(docSprite.child("loadresource").child("sprites"), texID);
 
-		if (!docAni.load_file(pathAni.c_str()))
+		if (!pathAni.empty())
 		{
-			DebugOut(L"[ERROR] Read Objects file is failed\n", pathAni);
-			return;
+			if (!docAni.load_file(pathAni.c_str()))
+			{
+				DebugOut(L"[ERROR] Read Objects file is failed\n", pathAni);
+				return;
+			}
 		}
 
 		ReadFile_ANIMATIONS(docAni.child("loadresource").child("animations"));
 	}
+
+	tiled_map = new TiledMap(docMap.child("map"));
+
+	tiled_map->readMapfromfile();
+
+	ReadFile_OBJECTS(docMap.child("map"));
+
+	menuPoint->loadResource();
 }
 
 void PlayScene::Update(DWORD dt)
 {
+	
 	menuPoint->update();
+
 	tiled_map->Update(dt);
+
 	for (int i = 0; i < (int)objects.size(); i++)
 	{
 		objects[i]->Update(dt, &objects);
@@ -109,11 +113,15 @@ void PlayScene::Update(DWORD dt)
 	}
 
 	Simon::getInstance()->Update(dt, &objects);
+
+	UpdateViewport(dt);
 }
 
 void PlayScene::Render(Viewport* viewport)
 {
 	menuPoint->Draw(font);
+
+	tiled_map->draw(viewport);
 
 	for (int i = 0; i < (int)objects.size(); i++)
 	{
@@ -142,6 +150,24 @@ void PlayScene::Unload()
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
+void PlayScene::UpdateViewport(DWORD dt)
+{
+	if (viewport->getState() == viewport->STATE_ACTION)
+	{
+		D3DXVECTOR2 pos_Simon = Simon::getInstance()->getPosition();
+		int widthframeSimon = Simon::getInstance()->getWidth();
+		D3DXVECTOR2 newPosViewport = D3DXVECTOR2{};
+		newPosViewport.x = Simon::getInstance()->getPosition().x - viewport->getWidth() / 2 + widthframeSimon / 2;
+		newPosViewport.x = min(tiled_map->getWidthWorld() - viewport->getWidth(), newPosViewport.x);
+		newPosViewport.y = min(tiled_map->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
+		newPosViewport.x = max(0, newPosViewport.x);
+		newPosViewport.y = max(0, newPosViewport.y);
+		viewport->setX(float(newPosViewport.x));
+		viewport->SetPosition(float(newPosViewport.x), float(newPosViewport.y));
+	}
+	else return;
+}
+
 PlayScene::~PlayScene()
 {
 }
@@ -161,15 +187,15 @@ void PlayScene::ReadFile_FONTS(LPTSTR path)
 void PlayScene::ReadFile_TEXTURES(pugi::xml_node node, LPDIRECT3DTEXTURE9 &texID)
 {
 	std::string idText = node.attribute("id").as_string();
-	EntityID idTextfromfile = stringToEntityID[idText];
-	std::string pathImage = node.child("imagelayer").child("image").attribute("source").as_string();
+	EntityID idTextfromfile = Utils::getInstance()->getStringToEntityID()[idText];
+	std::string pathImage = node.child("image").attribute("source").as_string();
 	std::wstring pathImagefromfile(pathImage.begin(), pathImage.end());
 	LPCWSTR pathImageLoad = pathImagefromfile.c_str();
 
 	Textures::GetInstance()->Add(idTextfromfile, pathImageLoad, D3DCOLOR_XRGB(255, 0, 255));
 	texID = Textures::GetInstance()->Get(idTextfromfile);
-	Textures::GetInstance()->setSizeObject(idTextfromfile, node.child("imagelayer").attribute("width").as_int(),
-		node.child("imagelayer").attribute("height").as_int());
+	Textures::GetInstance()->setSizeObject(idTextfromfile, node.attribute("width").as_int(),
+		node.attribute("height").as_int());
 }
 
 void PlayScene::ReadFile_SPRITES(pugi::xml_node node, LPDIRECT3DTEXTURE9 texID)
@@ -189,7 +215,7 @@ void PlayScene::ReadFile_SPRITES(pugi::xml_node node, LPDIRECT3DTEXTURE9 texID)
 
 void PlayScene::ReadFile_ANIMATIONS(pugi::xml_node sourceAnimation)
 {
-	EntityID ani_set_id = stringToEntityID[sourceAnimation.attribute("id").as_string()];
+	EntityID ani_set_id = Utils::getInstance()->getStringToEntityID()[sourceAnimation.attribute("id").as_string()];
 
 	LPANIMATION_SET setAnimations = new AnimationSet();
 
@@ -203,20 +229,36 @@ void PlayScene::ReadFile_ANIMATIONS(pugi::xml_node sourceAnimation)
 		{
 			animation->Add(aniFrame.attribute("sprite_id").as_string());
 		}
-		ANI_ID aniID = stringToAniID[idAnimation];
+		ANI_ID aniID = Utils::getInstance()->getStringToAniID()[idAnimation];
 		Animations::GetInstance()->Add(aniID, animation);
-		setAnimations->push_back(Animations::GetInstance()->Get(aniID));
+		setAnimations->emplace(aniID, Animations::GetInstance()->Get(aniID));
 	}
 	AnimationSets::GetInstance()->Add(ani_set_id, setAnimations);
 }
 
 void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 {
+	CastleWall* castleWall = nullptr;
+
 	for (auto objectGroupNode : node.children("objectgroup"))
 	{
 		for (auto objectNode : objectGroupNode.children("object"))
 		{
 			ObjectInfo* objectInfo = new ObjectInfo();
+			
+			objectInfo->set_id(objectNode.attribute("id").as_int());
+			objectInfo->set_ObjectType(objectGroupNode.attribute("name").as_string());
+			objectInfo->set_name(objectNode.attribute("name").as_string());
+
+			float x = objectNode.attribute("x").as_float();
+			float y = objectNode.attribute("y").as_float() + EXTRA_HEIGHT_SCREEN;
+			objectInfo->set_position(D3DXVECTOR2(x, y));
+
+			int width = objectNode.attribute("width").as_int();
+			int height = objectNode.attribute("height").as_int();
+			objectInfo->set_width(width);
+			objectInfo->set_height(height);
+
 			auto properties = objectNode.child("properties");
 			for (auto propertyNode : properties)
 			{
@@ -258,11 +300,15 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 					objectInfo->set_cellId(propertyNode.attribute("value").as_string());
 				}
 			}
-			GameObject *objectInit = NULL;
-			int idObject = stringToEntityID[objectInfo->get_ObjectId()];
+			GameObject *objectInit = nullptr;
+			int idObject = Utils::getInstance()->getStringToEntityID()[objectInfo->get_ObjectId()];
 
 			switch (idObject)
 			{
+			case ID_ENTITY_SIMON:
+				objectInit = Simon::getInstance();
+				player = (Simon*)objectInit;
+				break;
 			case ID_ENTITY_FLOOR:
 				objectInit = new Floor();
 				break;
@@ -314,6 +360,14 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 			}
 			if (objectInit)
 			{
+				AnimationSets * animation_sets = AnimationSets::GetInstance();
+				LPANIMATION_SET ani_set = animation_sets->Get(idObject);
+
+				if (ani_set !=nullptr)
+				{
+					objectInit->SetAnimationSet(ani_set);
+				}
+
 				if (idObject != ID_ENTITY_STAIR)
 				{
 					objectInit->setMainId(objectInfo->get_id());
@@ -326,7 +380,10 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 					objectInit->setEnemyName(objectInfo->get_enemyName());
 					objectInit->setStartViewPort(objectInfo->get_StartViewPort());
 				}
-				objects.push_back(objectInit);
+				if (idObject!=ID_ENTITY_SIMON)
+				{
+					objects.push_back(objectInit);
+				}
 			}
 		}
 	}

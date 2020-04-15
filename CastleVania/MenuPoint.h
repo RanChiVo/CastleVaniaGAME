@@ -1,10 +1,9 @@
 #pragma once
-#include "d3dx9.h"
 #include <string>
 #include <vector>
 #include "GameObjects/Simon.h"
-#include "../CastleVania/ResourceManagement.h"
 #include "SpriteManagements/Sprite.h"
+#include "SpriteManagements/Sprites.h"
 #include <vector>
 
 class MenuPoint
@@ -12,7 +11,7 @@ class MenuPoint
 private:
 	ID3DXFont *font;
 	RECT rect;
-	string content;
+	std::string content;
 	std::vector<LPGAMEOBJECT> Simon_Item;
 	int start_time;
 	int gameTime;
@@ -33,7 +32,7 @@ private:
 	EntityID idSubWeapon;
 	unordered_map<EntityID, Sprite*> itemList;
 	DWORD startTime;
-	ResourceManagement* resourceManagement;
+//	ResourceManagement* resourceManagement;
 	LPD3DXSPRITE spriteHandler;
 	RECT R;
 	Sprite* heart;

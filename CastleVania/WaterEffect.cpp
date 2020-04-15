@@ -1,7 +1,5 @@
 #include "WaterEffect.h"
 
-
-
 WaterEffect::WaterEffect(D3DXVECTOR2 position)
 {
 	totalEffect = 3;
@@ -25,7 +23,7 @@ WaterEffect::WaterEffect(D3DXVECTOR2 position)
 	speech_Y[1] = -0.1f;
 	speech_Y[2] = -0.05f;
 
-	AddAnimation(ANI_EFFECT_WATER);
+	//AddAnimation(ANI_EFFECT_WATER);
 	currentAnimation = ANI_EFFECT_WATER;
 }
 

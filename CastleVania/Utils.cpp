@@ -1,5 +1,7 @@
 #include "Utils.h"
 
+Utils* Utils::_instance = nullptr;
+
 void eraseAllSubStr(std::string & mainStr, const std::string & toErase)
 {
 	size_t pos = std::string::npos;
@@ -19,3 +21,13 @@ void findAndReplaceAll(std::string & data, std::string toSearch, std::string rep
 	}
 }
 
+Utils::Utils()
+{
+}
+
+Utils * Utils::getInstance()
+{
+	if (_instance == nullptr)
+		_instance = new Utils();
+	return _instance;
+}

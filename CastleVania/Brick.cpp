@@ -1,6 +1,5 @@
 #include "Brick.h"
 #include "Animations/Animations.h"
-#include "ResourceManagement.h"
 #include "./GameObjects/WeaponReward.h"
 #include "./GameObjects/Heart.h"
 #include "./GameObjects/Dagger.h"
@@ -62,7 +61,7 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		state = STATE_DETROY;
 		GameObject* item = nullptr;
-		idHiddenItem = ResourceManagement::GetInstance()->getStringToEntity()[getIdHiddenItem()];
+		idHiddenItem = Utils::getInstance()->getStringToEntityID()[getIdHiddenItem()];
 		switch (idHiddenItem)
 		{
 		case ID_ENTITY_WEAPON_REWARD:

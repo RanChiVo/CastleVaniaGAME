@@ -1,5 +1,4 @@
 #include "InvisibilityPotion.h"
-#include "ResourceManagement.h"
 constexpr float INVISIBILITYPOTION_GRAVITY = 0.0006f;
 
 InvisibilityPotion::InvisibilityPotion(D3DXVECTOR2 pos)
@@ -35,7 +34,9 @@ void InvisibilityPotion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			float min_tx, min_ty, nx, ny;
 			float Dx = dx, Dy = dy;
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			float rdx = 0;
+			float rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 			for (int i = 0; i < coEvents.size(); i++)
 			{
 				switch (coEvents[i]->obj->getID())
@@ -73,7 +74,8 @@ void InvisibilityPotion::Render(Viewport * viewport)
 
 		Flip flip = normal;
 
-		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
+
 		RenderBoundingBox(viewport);
 	}
 }

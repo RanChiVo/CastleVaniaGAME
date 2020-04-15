@@ -1,11 +1,10 @@
 #pragma once
-#include <Windows.h>
-#include <d3d9.h>
-#include <d3dx9.h>
 #include "Viewport.h"
-#include "TiledMap.h"
-#include "MenuPoint.h"
-#include "Grid.h"
+#include <string>
+#include "EntityID.h"
+
+using namespace std;
+
 
 class Scene
 {

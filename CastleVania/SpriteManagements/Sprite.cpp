@@ -1,5 +1,4 @@
 #include "Sprite.h"
-#include "../CastleVania.h"
 
 Sprite::Sprite()
 {
@@ -43,7 +42,7 @@ void Sprite::Draw(D3DXVECTOR2 position, int alpha)
 void Sprite::Draw(D3DXVECTOR2 position, Flip flip, int alpha)
 {
 	Direct3DManager* direct3D = Direct3DManager::getInstance();
-	D3DXVECTOR3 p2(position.x, position.y, 0);
+	D3DXVECTOR3 p2(floor(position.x), floor( position.y), 0);
 	D3DXVECTOR2 scale = D3DXVECTOR2{ 1, 1 };
 	D3DXMATRIX afterScale;
 

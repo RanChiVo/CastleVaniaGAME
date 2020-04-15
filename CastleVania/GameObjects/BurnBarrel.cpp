@@ -2,8 +2,6 @@
 #include "Simon.h"
 #include "Whip.h"
 #include "../Animations/Animations.h"
-#include "../ResourceManagement.h"
-
 
 BurnBarrel::BurnBarrel()
 {
@@ -35,14 +33,14 @@ void BurnBarrel::Render(Viewport * viewport)
 
 		Flip flip = normal;
 
-		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
 	StaticObject::Render(viewport);
 }
 
 int BurnBarrel::getCurrentFrame()
 {
-	return animations.find(currentAnimation)->second->getCurrentFrame();
+	 return animation_set->find(currentAnimation)->second->getCurrentFrame();
 }
 
 BurnBarrel::~BurnBarrel()

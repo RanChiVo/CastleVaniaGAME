@@ -27,7 +27,7 @@ void Candle::Render(Viewport * viewport)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		Flip flip = normal;
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
 	StaticObject::Render(viewport);
 }

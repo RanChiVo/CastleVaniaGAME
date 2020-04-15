@@ -1,5 +1,4 @@
 #include "AxeWeapon.h"
-#include "../CastleVania/ResourceManagement.h"
 
 constexpr float AXE_SPEED = 0.18f;
 constexpr float AXE_GRAVITY = 0.0004f;

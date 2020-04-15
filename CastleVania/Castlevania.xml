@@ -2,8 +2,8 @@
 <sceneManager>
     <startScene id="ID_ENTITY_MAP_ENTRANCE" />
     <sceneList>
-        <scene id="ID_ENTITY_MAP_ENTRANCE" mapPath="TiledMap\\Entrance_map - Copy.tmx" />
-        <scene id="ID_ENTITY_MAP_PLAYGAME" mapPath="TiledMap\\InsideCastle_map - Copy.tmx" />
-        <scene id="ID_ENTITY_MAP_UNDERGROUND" mapPath="TiledMap\\BasementCaslte_map - Copy.tmx" />
+        <scene id="ID_ENTITY_MAP_ENTRANCE" mapPath="TiledMap\Entrance_map - Copy.tmx" />
+        <scene id="ID_ENTITY_MAP_PLAYGAME" mapPath="TiledMap\InsideCastle_map - Copy.tmx" />
+        <scene id="ID_ENTITY_MAP_UNDERGROUND" mapPath="TiledMap\BasementCaslte_map - Copy.tmx" />
     </sceneList>
 </sceneManager>

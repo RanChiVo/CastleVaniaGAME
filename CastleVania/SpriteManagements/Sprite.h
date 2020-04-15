@@ -1,9 +1,4 @@
 #pragma once
-#include <Windows.h>
-#include <d3dx9.h>
-#include <string.h>
-#include <unordered_map>
-#include "../DebugOut/DebugOut.h"
 #include "../Direct3DManager.h"
 #include "../Flip.h"
 

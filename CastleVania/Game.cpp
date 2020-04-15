@@ -51,15 +51,17 @@ void Game::Load(std::string gameFile)
 	}
 
 	auto sceneManagerNode = doc.child("sceneManager");
-	current_scene = stringToEntityID[sceneManagerNode.child("startScene").attribute("id").as_string()];
+	current_scene = Utils::getInstance()->getStringToEntityID()[sceneManagerNode.child("startScene").attribute("id").as_string()];
 	auto sceneListNode = sceneManagerNode.child("sceneList");
 	for (auto sceneNode : sceneListNode.children("scene"))
 	{
 		std::string pathMap = sceneNode.attribute("mapPath").as_string();
-		EntityID id = stringToEntityID[sceneNode.attribute("id").as_string()];
+		EntityID id = Utils::getInstance()->getStringToEntityID()[sceneNode.attribute("id").as_string()];
 		LPSCENE scene = new PlayScene(id, pathMap);
 		scenes[id] = scene;
 	}
+
+	SwitchScene(current_scene);
 }
 
 void Game::SwitchScene(EntityID scene_id)

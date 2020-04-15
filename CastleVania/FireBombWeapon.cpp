@@ -1,5 +1,4 @@
 #include "FireBombWeapon.h"
-#include "ResourceManagement.h"
 
 constexpr float FIRE_BOMP_SPEED_X = 0.1f;;
 constexpr float FIRE_BOMP_GRAVITY = 0.0005f;
@@ -41,7 +40,9 @@ void FireBombWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			float min_tx, min_ty, nx, ny;
 			float Dx = dx, Dy = dy;
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			float rdx = 0;
+			float rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 			for (int i = 0; i < coEvents.size(); i++)
 			{
 				switch (coEvents[i]->obj->getID())
@@ -74,7 +75,7 @@ void FireBombWeapon::Render(Viewport * viewport)
 	RenderBoundingBox(viewport);
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip = normal;
-	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+	animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
 }
 
 void FireBombWeapon::GetBoundingBox(float & left, float & top, float & right, float & bottom)

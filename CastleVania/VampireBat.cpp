@@ -29,7 +29,7 @@ void VampireBat::Render(Viewport * viewport)
 		Flip flip;
 		if (nx == -1) flip = normal;
 		else flip = flip_horiz;
-		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
 	Enemy::Render(viewport);
 }

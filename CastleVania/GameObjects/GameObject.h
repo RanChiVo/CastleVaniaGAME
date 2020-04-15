@@ -1,11 +1,10 @@
 #pragma once
-#include <Windows.h>
-#include <d3dx9.h>
 #include <vector>
-#include <unordered_map>
-#include "../Animations/Animation.h"
+#include "../Textures/Textures.h"
+#include "../SpriteManagements/Sprites.h"
+#include "../Animations/Animations.h"
 #include "../Viewport.h"
-#include "../EntityID.h"
+#include "../Direct3DManager.h"
 
 using namespace std;
 
@@ -18,7 +17,17 @@ struct CCollisionEvent
 {
 	LPGAMEOBJECT obj;
 	float t, nx, ny;
-	CCollisionEvent(float t, float nx, float ny, LPGAMEOBJECT obj = NULL) { this->t = t; this->nx = nx; this->ny = ny; this->obj = obj; }
+	float dx, dy;		// *RELATIVE* movement distance between this object and obj
+	CCollisionEvent(float t, float nx, float ny, float dx = 0, float dy = 0, LPGAMEOBJECT obj = NULL)
+	{
+		this->t = t;
+		this->nx = nx;
+		this->ny = ny;
+		this->dx = dx;
+		this->dy = dy;
+		this->obj = obj;
+	}
+
 	static bool compare(const LPCOLLISIONEVENT &a, LPCOLLISIONEVENT &b)
 	{
 		return a->t < b->t;
@@ -118,7 +127,10 @@ public:
 		float &min_tx,
 		float &min_ty,
 		float &nx,
-		float &ny);
+		float &ny,
+		float &rdx,
+		float &rdy);
+
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render(Viewport* viewport) = 0;

@@ -1,7 +1,6 @@
 #include "AreaZombie.h"
 
 
-
 AreaZombie::AreaZombie()
 {
 	id = ID_ENTITY_AREA_ZOMBIE;

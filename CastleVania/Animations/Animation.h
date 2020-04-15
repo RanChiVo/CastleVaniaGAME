@@ -1,11 +1,5 @@
 #pragma once
-#include <Windows.h>
-#include <d3dx9.h>
-#include <unordered_map>
-#include "../SpriteManagements/Sprite.h"
-#include <string>
-
-using namespace std;
+#include "../SpriteManagements/Sprites.h"
 
 class AnimationFrame
 {
@@ -19,6 +13,7 @@ public:
 };
 
 typedef AnimationFrame *LPANIMATION_FRAME;
+
 class Animation
 {
 	DWORD lastFrameTime;

@@ -1,8 +1,4 @@
 #pragma once
-#include <Windows.h>
-#include <d3dx9.h>
-#include <unordered_map>
-#include <string>
 #include "Animation.h"
 
 class Animations
@@ -11,6 +7,7 @@ class Animations
 
 	unordered_map<int, LPANIMATION> animations;
 
+	Animations();
 public:
 	void Add(int id, LPANIMATION ani);
 	void Delete(int id);
@@ -19,7 +16,7 @@ public:
 	static Animations * GetInstance();
 };
 
-typedef vector<LPANIMATION> AnimationSet;
+typedef unordered_map<int, LPANIMATION> AnimationSet;
 
 typedef AnimationSet* LPANIMATION_SET;
 
@@ -32,11 +29,13 @@ class AnimationSets
 
 	unordered_map<int, LPANIMATION_SET> animation_sets;
 
+
 public:
 	AnimationSets();
-	void Add(int id, LPANIMATION_SET ani);
-	LPANIMATION_SET Get(unsigned int id);
 
+	void Add(int id, LPANIMATION_SET ani);
+
+	LPANIMATION_SET Get(unsigned int id);
 
 	static AnimationSets * GetInstance();
 };

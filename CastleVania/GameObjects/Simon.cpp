@@ -13,10 +13,8 @@
 #include "../Candle.h"
 #include "../Brick.h"
 #include "../GameObjects/Entrance.h"
-#include "../EntityID.h"
 #include "../Flip.h"
 #include "../GameObjects/Zombie.h"
-#include "../DebugOut//DebugOut.h"
 #include "../Panther.h"
 #include "../Door.h"
 #include "../Viewport.h"
@@ -24,6 +22,7 @@
 #include "../DarkBat.h"
 #include "../BallDarkBat.h"
 #include "../Boomerang.h"
+#include "../TiledMap.h"
 
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
@@ -472,7 +471,7 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (startAtackSub > 0 && GetTickCount() - startAtackSub > 400)
 		{
 			SetState(SIMON_STATE_IDLE);
-			animation_set->at(currentAnimation)->SetFinish(false);
+			animation_set->find(currentAnimation)->second->SetFinish(false);
 			startAtackSub = 0;
 		}
 	}
@@ -502,7 +501,7 @@ void Simon::Render(Viewport* viewport)
 
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-	LPANIMATION animation = animation_set->at(ani);
+	LPANIMATION animation = animation_set->find(currentAnimation)->second;
 	DebugOut(L"state:{%d}\n", state);
 
 	DebugOut(L"animation:{%d}\n", currentAnimation);
@@ -781,10 +780,11 @@ void Simon::handleState()
 			SetState(SIMON_STATE_IDLE);
 		}
 		checkRewind = true;
-		animation_set->at(ani)->SetFinish(false);
+		animation_set->find(ani)->second->SetFinish(false);
 		break;
 	}
-	animation_set->at(currentAnimation)->SetLoop(checkRewind);
+
+	animation_set->find(currentAnimation)->second->SetLoop(checkRewind);
 	DebugOut(L"state:{%d}\n", state);
 }
 
@@ -815,9 +815,10 @@ void Simon::Reset(int currentAnimation)
 
 	if (!enableSubWeapon)
 	{
-		whip->GetAnimationSet()->at(whip->getCurrentAnimation())->SetFinish(false);
+		whip->GetAnimationSet()->find(currentAnimation)->second->SetFinish(false);
+
 	}	
-	animation_set->at(currentAnimation)->SetFinish(false);
+	animation_set->find(currentAnimation)->second->SetFinish(false);
 }
 
 void Simon::updateCollisionStair()
@@ -896,7 +897,9 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		float min_tx, min_ty, nx, ny;
 		float Dx = dx, Dy = dy;
 		handleCollisionIntersectedObject(dt, coObjects);
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		float rdx = 0;
+		float rdy = 0;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		for (int i = 0; i < (int)coEvents.size(); i++)
 		{
@@ -1268,7 +1271,7 @@ void Simon::resetWhenDie()
 {
 	baseInfo->setHealth(4);
 	SetPosition(resetPosition);
-	MovingMap::getInstance()->setIdMap(ResourceManagement::GetInstance()->getStringToEntity()[getIdHiddenItem()]);
+	MovingMap::getInstance()->setIdMap(Utils::getInstance()->getStringToEntityID()[getIdHiddenItem()]);
 	Direct3DManager::getInstance()->getViewport()->setStartViewPortX(getStartViewPort());
 	Direct3DManager::getInstance()->getViewport()->setEndViewPortX(getEndViewPort());
 	SetState(SIMON_STATE_IDLE);

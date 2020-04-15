@@ -35,15 +35,17 @@ void TiledMap::readMapfromfile()
 	//create tileset
 	tileSetWidth = rootNode.child("tileset").child("image").attribute("width").as_float();
 	tileSetHeight = rootNode.child("tileset").child("image").attribute("height").as_float();
-	std::string pathImageMap = rootNode.child("imagelayer").child("image").attribute("source").as_string();
-	std::string idText = rootNode.child("imagelayer").child("image").attribute("id").as_string();
-	EntityID idTextfromfile = stringToEntityID[idText];
+
+	std::string idText = rootNode.child("tileset").child("image").attribute("id").as_string();
+	std::string pathImageMap = rootNode.child("tileset").child("image").attribute("path").as_string();
+
+	EntityID idTextfromfile = Utils::getInstance()->getStringToEntityID()[idText];
 
 	std::wstring pathImageMapfromfile(pathImageMap.begin(), pathImageMap.end());
 	LPCWSTR pathImageMapLoad = pathImageMapfromfile.c_str();
 	Textures::GetInstance()->Add(idTextfromfile, pathImageMapLoad, D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texID = Textures::GetInstance()->Get(idTextfromfile);
-	tileset = new TileSet(IDtex, tileWidth, tileHeight);
+	tileset = new TileSet(texID, tileWidth, tileHeight);
 	int rowsTileSet = tileSetHeight / tileHeight;
 	int colsTileSet = tileSetWidth / tileWidth;
 	tileset->createTileSet(rowsTileSet, colsTileSet);

@@ -1,12 +1,6 @@
-#include <d3dx9.h>
 #include <algorithm>
-#include "../DebugOut/DebugOut.h"
-#include "../Game.h"
 #include "GameObject.h"
-#include "../Animations/Animations.h"
-#include "../Viewport.h"
-#include "../Direct3DManager.h"
-#include "../Textures/Textures.h"
+#include "../Game.h"
 
 EntityID GameObject::getID()	
 {
@@ -95,15 +89,15 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 	float l, t, r, b;
 
 	GetBoundingBox(l, t, r, b);
-	rect.left = 0;
-	rect.top = 0;
+	rect.left = l;
+	rect.top = t;
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
 	sprite = new Sprite("BoundingBox", RECT{ rect.left, rect.top, rect.right, rect.bottom }, bbox);
 
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	if (id == ID_ENTITY_SIMON)
+	/*if (id == ID_ENTITY_SIMON)
 	{
 		if (state == Simon::SIMON_STATE_SITDOWN ||
 			state == Simon::SIMON_STATE_ATTACK_SITDOWN)
@@ -117,7 +111,7 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 			sprite->Draw(D3DXVECTOR2(pos.x, pos.y), 100);
 		}
 	}
-	else sprite->Draw(pos, 100);
+	else*/ sprite->Draw(pos, 100);
 }
 
 bool GameObject::checkInsideViewPort(Viewport * viewport)
@@ -162,19 +156,20 @@ LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 	float sdx = svx * dt;
 	float sdy = svy * dt;
 
-	float dx = this->dx - sdx;
-	float dy = this->dy - sdy;
+	// (rdx, rdy) is RELATIVE movement distance/velocity 
+	float rdx = this->dx - sdx;
+	float rdy = this->dy - sdy;
 
 	GetBoundingBox(ml, mt, mr, mb);
 
 	Game::SweptAABB(
 		ml, mt, mr, mb,
-		dx, dy,
+		rdx, rdy,
 		sl, st, sr, sb,
 		t, nx, ny
 	);
 
-	CCollisionEvent * e = new CCollisionEvent(t, nx, ny, coO);
+	CCollisionEvent * e = new CCollisionEvent(t, nx, ny, rdx, rdy, coO);
 	return e;
 }
 
@@ -198,8 +193,8 @@ void GameObject::CalcPotentialCollisions(
 void GameObject::FilterCollision(
 	vector<LPCOLLISIONEVENT>& coEvents,
 	vector<LPCOLLISIONEVENT>& coEventsResult,
-	float & min_tx, float & min_ty,
-	float & nx, float & ny)
+	float &min_tx, float &min_ty,
+	float &nx, float &ny, float &rdx, float &rdy)
 {
 	min_tx = 1.0f;
 	min_ty = 1.0f;
@@ -216,11 +211,11 @@ void GameObject::FilterCollision(
 		LPCOLLISIONEVENT c = coEvents[i];
 
 		if (c->t < min_tx && c->nx != 0) {
-			min_tx = c->t; nx = c->nx; min_ix = i;
+			min_tx = c->t; nx = c->nx; min_ix = i; rdx = c->dx;
 		}
 
 		if (c->t < min_ty  && c->ny != 0) {
-			min_ty = c->t; ny = c->ny; min_iy = i;
+			min_ty = c->t; ny = c->ny; min_iy = i; rdy = c->dy;
 		}
 	}
 

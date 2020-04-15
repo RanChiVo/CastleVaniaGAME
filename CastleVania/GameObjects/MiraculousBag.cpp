@@ -1,5 +1,4 @@
 #include "MiraculousBag.h"
-#include "../ResourceManagement.h"
 
 constexpr float MIRACULOUSBAG_GRAVITY = 0.0006f;
 constexpr int TIME_EFFECT = 500;
@@ -71,7 +70,9 @@ void MiraculousBag::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			float min_tx, min_ty, nx, ny;
 			float Dx = dx, Dy = dy;
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			float rdx = 0;
+			float rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 			for (int i = 0; i < coEvents.size(); i++)
 			{
 				switch (coEvents[i]->obj->getID())
@@ -128,7 +129,7 @@ void MiraculousBag::Render(Viewport * viewport)
 	}
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip = normal;
-	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+	animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
 }
 
 int MiraculousBag::getScore()

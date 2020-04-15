@@ -1,5 +1,4 @@
 #include "Zombie.h"
-#include "../ResourceManagement.h"
 
 constexpr float ZOMBIE_WALKING_SPEED = 0.05f;
 constexpr float ZOMBIE_GRAVITY = 0.0009f;
@@ -77,7 +76,9 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float min_tx, min_ty, nx, ny;
 		float Dx = dx, Dy = dy;
 
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		float rdx = 0;
+		float rdy = 0;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		for (int i = 0; i < coEvents.size(); i++)
 		{
@@ -110,7 +111,7 @@ void Zombie::Render(Viewport* viewport)
 		Flip flip;
 		if (nx == -1) flip = normal;
 		else flip = flip_horiz;
-		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
 	
 	if (!GameObject::checkInsideViewPort(viewport))

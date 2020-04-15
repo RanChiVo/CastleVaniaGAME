@@ -72,7 +72,9 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float min_tx, min_ty, nx, ny;
 		float Dx = dx, Dy = dy;
 
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		float rdx = 0;
+		float rdy = 0;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 		y += min_ty * dy + ny * 0.008f;
 
 		if (ny < 0 )
@@ -127,7 +129,7 @@ void Panther::Render(Viewport * viewport)
 
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
 
 		if (!checkInsideViewPort(viewport) && state == PANTHER_STATE_ACTIVATE)
 		{

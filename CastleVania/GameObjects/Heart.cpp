@@ -1,12 +1,11 @@
 #include "Heart.h"
-#include "../ResourceManagement.h"
 
 constexpr float HEART_GRAVITY = 0.0006f;
 
 Heart::Heart(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_HEART;
-	AddAnimation(HEART_ANI);
+	//AddAnimation(HEART_ANI);
 	SetPosition(position);
 	currentAnimation = HEART_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
@@ -36,7 +35,9 @@ void Heart::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			float min_tx, min_ty, nx, ny;
 			float Dx = dx, Dy = dy;
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			float rdx = 0;
+			float rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 			for (int i = 0; i < coEvents.size(); i++)
 			{
 				switch (coEvents[i]->obj->getID())
@@ -74,7 +75,8 @@ void Heart::Render(Viewport * viewport)
 
 		Flip flip = normal;
 
-		animations.find(currentAnimation)->second->Render(position.x, position.y, flip);
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
+
 		RenderBoundingBox(viewport);
 	}
 }

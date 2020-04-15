@@ -1,5 +1,4 @@
 #include  "../Animations/Animations.h"
-#include "../ResourceManagement.h"
 #include "Dagger.h"
 
 constexpr float KATANA_GRAVITY = 0.0006f;
@@ -38,7 +37,9 @@ void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			float min_tx, min_ty, nx, ny;
 			float Dx = dx, Dy = dy;
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			float rdx = 0;
+			float rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 			for (int i = 0; i < coEvents.size(); i++)
 			{
 				switch (coEvents[i]->obj->getID())
@@ -79,7 +80,7 @@ void Dagger::Render(Viewport * viewport)
 		Flip flip;
 		if (nx == 1) flip = normal;
 		else flip = flip_horiz;
-		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
 }
 

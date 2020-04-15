@@ -1,5 +1,4 @@
 #include "Enemy.h"
-#include "../CastleVania/ResourceManagement.h"
 #include "./GameObjects/WeaponReward.h"
 #include "./GameObjects/Heart.h"
 #include "./GameObjects/Dagger.h"
@@ -110,10 +109,10 @@ void Enemy::Render(Viewport * viewport)
 {
 	if (state == STATE_EFFECT)
 	{
-		AddAnimation(ANI_EFFECT);
+		//AddAnimation(ANI_EFFECT);
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		Flip flip = flip_horiz;
-		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
 }
 

@@ -8,7 +8,6 @@
 #include "../BaseInfo.h"
 #include "../ObjectStair.h"
 #include "../MovingMap.h"
-#include "../Direct3DManager.h"
 
 class Simon: public GameObject
 {

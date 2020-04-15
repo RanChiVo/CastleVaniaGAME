@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <objectList>
-    <object spritePath= "Resources\\simon.xml"  animationPath="Resources\\simonAnimation.xml"/>
-    <object spritePath= "Resources\\whip.xml"  animationPath="Resources\\whipAnimation.xml"/>	
-    <object spritePath= "Resources\\Items\\effect_fire.xml"  animationPath="Resources\\Items\\effect_fireAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\effect_money.xml"  animationPath="Resources\\Items\\effect_moneyAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\star.xml"  animationPath="Resources\\Items\\starAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\heart.xml"  animationPath="Resources\\Items\\heartAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\weapon_reward.xml"  animationPath="Resources\\Items\\weapon_rewardAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\dagger.xml"  animationPath="Resources\\Items\\daggerAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\axe.xml"  animationPath="Resources\\Items\\axeAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\miraculous_bag.xml"  animationPath="Resources\\Items\\miraculous_bagAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\pork_chop.xml"  animationPath="Resources\\Items\\pork_chopAnimation.xml"/>
-   <object spritePath= "Resources\\Enemy\\zombie.xml"  animationPath="Resources\\Enemy\\zombieAnimation.xml"/>
-   <object spritePath= "Resources\\Enemy\\vampireBat.xml"  animationPath="Resources\\Enemy\\vampireBatAnimation.xml"/>
-   <object spritePath= "Resources\\Enemy\\panther.xml"  animationPath="Resources\\Enemy\\pantherAnimation.xml"/>
-   <object spritePath= "TiledMap\\Candle.xml"  animationPath="TiledMap\\CandleAnimation.xml"/>
-   <object spritePath= "Resources\\Items\\door.xml"  animationPath="Resources\\Items\\firebombAnimation.xml"/
-    <object spritePath= "Resources\\Items\\small_heart.xml"  animationPath="Resources\\Items\\small_heartAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\fire_bomb.xml"  animationPath="Resources\\Items\\firebombAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\fireBombWeapon.xml"  animationPath="Resources\\Items\\fireBombWeaponAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\cross.xml"  animationPath="Resources\\Items\\crossAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\stop_watch.xml"  animationPath="Resources\\Items\\stop_watchAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\Invisible_Potion.xml"  animationPath="Resources\\Items\\Invisible_PotionAnimation.xml"/>
-    <object spritePath= "Resources\\MenuPoint\\heartMenuPoint.xml"  animationPath=""/>
-    <object spritePath= "Resources\\MenuPoint\\HP.xml"  animationPath=""/>
-    <object spritePath= "Resources\\MenuPoint\\enemy_HP.xml"  animationPath=""/>
-    <object spritePath= "Resources\\MenuPoint\\place_item.xml"  animationPath=""/>
-    <object spritePath= "Resources\\MenuPoint\\lost_HP.xml"  animationPath=""/>  
-    <object spritePath= "Resources\\MenuPoint\\menu.xml"  animationPath=""/>
-    <object spritePath= "Resources\\Enemy\\darkBat.xml"  animationPath="Resources\\Enemy\\darkBatAnimation.xml"/>  
-    <object spritePath= "Resources\\Items\\ballDarkBall.xml"  animationPath="Resources\\Items\\ballDarkBatAnimation.xml"/>
-    <object spritePath= "Resources\\Items\\boomerang.xml"  animationPath="Resources\\Items\\boomerangAnimation.xml"/>
+    <object spritePath= "Resources\simon.xml"  animationPath="Resources\simonAnimation.xml"/>
+    <object spritePath= "Resources\whip.xml"  animationPath="Resources\whipAnimation.xml"/>	
+    <object spritePath= "Resources\Items\effect_fire.xml"  animationPath="Resources\Items\effect_fireAnimation.xml"/>
+    <object spritePath= "Resources\Items\effect_money.xml"  animationPath="Resources\Items\effect_moneyAnimation.xml"/>
+    <object spritePath= "Resources\Items\star.xml"  animationPath="Resources\Items\starAnimation.xml"/>
+    <object spritePath= "Resources\Items\heart.xml"  animationPath="Resources\Items\heartAnimation.xml"/>
+    <object spritePath= "Resources\Items\weapon_reward.xml"  animationPath="Resources\Items\weapon_rewardAnimation.xml"/>
+    <object spritePath= "Resources\Items\dagger.xml"  animationPath="Resources\Items\daggerAnimation.xml"/>
+    <object spritePath= "Resources\Items\axe.xml"  animationPath="Resources\Items\axeAnimation.xml"/>
+    <object spritePath= "Resources\Items\miraculous_bag.xml"  animationPath="Resources\Items\miraculous_bagAnimation.xml"/>
+    <object spritePath= "Resources\Items\pork_chop.xml"  animationPath="Resources\Items\pork_chopAnimation.xml"/>
+   <object spritePath= "Resources\Enemy\zombie.xml"  animationPath="Resources\Enemy\zombieAnimation.xml"/>
+   <object spritePath= "Resources\Enemy\vampireBat.xml"  animationPath="Resources\Enemy\vampireBatAnimation.xml"/>
+   <object spritePath= "Resources\Enemy\panther.xml"  animationPath="Resources\Enemy\pantherAnimation.xml"/>
+   <object spritePath= "TiledMap\Candle.xml"  animationPath="TiledMap\CandleAnimation.xml"/>
+   <object spritePath= "Resources\Items\door.xml"  animationPath="Resources\Items\firebombAnimation.xml"/
+    <object spritePath= "Resources\Items\small_heart.xml"  animationPath="Resources\Items\small_heartAnimation.xml"/>
+    <object spritePath= "Resources\Items\fire_bomb.xml"  animationPath="Resources\Items\firebombAnimation.xml"/>
+    <object spritePath= "Resources\Items\fireBombWeapon.xml"  animationPath="Resources\Items\fireBombWeaponAnimation.xml"/>
+    <object spritePath= "Resources\Items\cross.xml"  animationPath="Resources\Items\crossAnimation.xml"/>
+    <object spritePath= "Resources\Items\stop_watch.xml"  animationPath="Resources\Items\stop_watchAnimation.xml"/>
+    <object spritePath= "Resources\Items\Invisible_Potion.xml"  animationPath="Resources\Items\Invisible_PotionAnimation.xml"/>
+    <object spritePath= "Resources\MenuPoint\heartMenuPoint.xml"  animationPath=""/>
+    <object spritePath= "Resources\MenuPoint\HP.xml"  animationPath=""/>
+    <object spritePath= "Resources\MenuPoint\enemy_HP.xml"  animationPath=""/>
+    <object spritePath= "Resources\MenuPoint\place_item.xml"  animationPath=""/>
+    <object spritePath= "Resources\MenuPoint\lost_HP.xml"  animationPath=""/>  
+    <object spritePath= "Resources\MenuPoint\menu.xml"  animationPath=""/>
+    <object spritePath= "Resources\Enemy\darkBat.xml"  animationPath="Resources\Enemy\darkBatAnimation.xml"/>  
+    <object spritePath= "Resources\Items\ballDarkBall.xml"  animationPath="Resources\Items\ballDarkBatAnimation.xml"/>
+    <object spritePath= "Resources\Items\boomerang.xml"  animationPath="Resources\Items\boomerangAnimation.xml"/>
 </objectList>
 
 

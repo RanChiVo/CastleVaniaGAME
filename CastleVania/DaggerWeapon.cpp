@@ -1,5 +1,4 @@
 #include "DaggerWeapon.h"
-#include "ResourceManagement.h"
 
 DaggerWeapon::DaggerWeapon()
 {
@@ -26,7 +25,7 @@ void DaggerWeapon::Render(Viewport * viewport)
 	else flip = flip_horiz;
 	if (checkInsideViewPort(viewport))
 	{
-		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
 	}
 	else {
 		state = STATE_DETROY;

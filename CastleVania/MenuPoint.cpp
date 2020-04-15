@@ -1,11 +1,10 @@
 #include "MenuPoint.h"
-#include "../CastleVania/EntityID.h"
 #include "DarkBat.h"
 
 MenuPoint::MenuPoint()
 {
 	startTime = GetTickCount();
-	resourceManagement = ResourceManagement::GetInstance();
+	//resourceManagement = ResourceManagement::GetInstance();
 	subWeapon = nullptr;
 	idSubWeapon = EntityID::ID_ENTITY_NULL;
 }
@@ -13,20 +12,20 @@ MenuPoint::MenuPoint()
 void MenuPoint::loadResource()
 {
 	Textures::GetInstance()->Add(ID_ENTITY_BBOX, L"Resources\\menu.png", D3DCOLOR_XRGB(255, 255, 255));
-	menu = resourceManagement->getSprite(ID_ENTITY_MENU)->Get("menu");
-	heart = resourceManagement->getSprite(ID_ENTITY_HEART)->Get("heartMenuPoint");
-	HP = resourceManagement->getSprite(ID_ENTITY_HP)->Get("HP1");
-	enemy_HP1 = resourceManagement->getSprite(ID_ENTITY_HP_ENEMY)->Get("enemy_HP1");
-	lost_HP = resourceManagement->getSprite(ID_ENTITY_LOST_HP)->Get("lost_HP1");
-	place_item1 = resourceManagement->getSprite(ID_ENTITY_PLACE)->Get("place_item1");
+	menu = Sprites::GetInstance()->Get("menu");
+	heart = Sprites::GetInstance()->Get("heartMenuPoint");
+	HP = Sprites::GetInstance()->Get("HP1");
+	enemy_HP1 = Sprites::GetInstance()->Get("enemy_HP1");
+	lost_HP = Sprites::GetInstance()->Get("lost_HP1");
+	place_item1 = Sprites::GetInstance()->Get("place_item1");
 	//resourceManagement->loadFont(L"Resources\\Fonts\\prstart.ttf");
 	spriteHandler = Direct3DManager::getInstance()->GetSpriteHandler();
 	R = RECT{ 15, 20, 550, 528 };
-	itemList[ID_ENTITY_DAGGER_WEAPON] = resourceManagement->getSprite(ID_ENTITY_DAGGER)->Get("dagger");
-	itemList[ID_ENTITY_AXE_WEAPON] = resourceManagement->getSprite(ID_ENTITY_AXE)->Get("axe1");
-	itemList[ID_ENTITY_FIRE_BOMP_WEAPON] = resourceManagement->getSprite(ID_ENTITY_AXE)->Get("fire_bomb");
-	itemList[ID_ENTITY_STOP_WATCH] = resourceManagement->getSprite(ID_ENTITY_AXE)->Get("stop_watch1");
-	itemList[ID_ENTITY_BOOMERANG_WEAPON] = resourceManagement->getSprite(ID_ENTITY_AXE)->Get("bomerang1");
+	itemList[ID_ENTITY_DAGGER_WEAPON] = Sprites::GetInstance()->Get("dagger");
+	itemList[ID_ENTITY_AXE_WEAPON] = Sprites::GetInstance()->Get("axe1");
+	itemList[ID_ENTITY_FIRE_BOMP_WEAPON] = Sprites::GetInstance()->Get("fire_bomb");
+	itemList[ID_ENTITY_STOP_WATCH] = Sprites::GetInstance()->Get("stop_watch1");
+	itemList[ID_ENTITY_BOOMERANG_WEAPON] = Sprites::GetInstance()->Get("bomerang1");
 }
 
 void MenuPoint::update()

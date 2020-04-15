@@ -1,5 +1,4 @@
 #include "DarkBat.h"
-#include "ResourceManagement.h"
 #include "GameObjects/Simon.h"
 #include "Direct3DManager.h"
 #include "BallDarkBat.h"
@@ -26,8 +25,9 @@ DarkBat::DarkBat(D3DXVECTOR2 pos)
 	state = DARK_BAT_STATE_IDLE;
 
 	originalLocation = pos;
-	activatePositionMaxX = ResourceManagement::GetInstance()
-		->getTiledMap(ID_ENTITY_MAP_PLAYGAME)->getWidthWorld() - 100;
+	activatePositionMaxX = 512;
+	/* = ResourceManagement::GetInstance()
+		->getTiledMap(ID_ENTITY_MAP_PLAYGAME)->getWidthWorld() - 100;*/
 }
 
 void DarkBat::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -95,10 +95,10 @@ void DarkBat::Render(Viewport * viewport)
 	Flip flip;
 	if (nx == -1) flip = normal;
 	else flip = flip_horiz;
-	animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
+	animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
 	if (startTimeHurt > 0)
 	{
-		animation_set->at(currentAnimation)->Render(position.x + width / 3, position.y + height / 3, flip);
+		animation_set->find(currentAnimation)->second->Render(position.x + width / 3, position.y + height / 3, flip);
 	}
 	Enemy::Render(viewport);
 }
