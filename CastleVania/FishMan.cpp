@@ -9,7 +9,7 @@ constexpr DWORD  FISH_MAN_SHOOT = 3000;
 constexpr DWORD  FISH_MAN_WALK = 1200;
 constexpr DWORD  FISH_MAN_REVIVAL_TIME = 20000;
 
-FishMan::FishMan(D3DXVECTOR2 position)
+FishMan::FishMan(D3DXVECTOR2 position, int height, int width)
 {
 	id = ID_ENTITY_FISH_MAN;
 	//AddAnimation(FISH_MAN_ANI_IDLE);

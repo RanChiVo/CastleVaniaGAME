@@ -11,14 +11,16 @@
 #include "./Pork_Chop.h"
 #include "BrickBrokenEffect.h"
 
-CBrick::CBrick(std::string name)
+CBrick::CBrick(std::string name, D3DXVECTOR2 pos, int height, int width)
 {
 	id = ID_ENTITY_BRICK;
 	state = STATE_SHOW;
-	//AddAnimation(BRICK_ANI1);
-	//AddAnimation(BRICK_ANI2);
-	//AddAnimation(BRICK_ANI3);
-	//AddAnimation(BRICK_ANI4);
+
+	SetPosition(pos);
+
+	this->height = height;
+
+	this->width = width;
 
 	currentAnimation = BRICK_ANI4;
 

@@ -9,6 +9,9 @@ StopWatch::StopWatch(D3DXVECTOR2 position)
 	state = STATE_SHOW;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
 	SetPosition(position);
 	//AddAnimation(STOP_WATCH_ANI);
 	state = STATE_SHOW;

@@ -1,12 +1,12 @@
 #include "Floor.h"
 
-Floor::Floor()
+Floor::Floor(D3DXVECTOR2 position, int height, int width)
 {
 	id = ID_ENTITY_FLOOR;
-}
-
-Floor::Floor(D3DXVECTOR2 position)
-{
+	this->x = position.x;
+	this->y = position.y;
+	setHeight(height);
+	setWidth(width);
 }
 
 void Floor::Render(Viewport * viewport)

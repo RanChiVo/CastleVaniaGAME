@@ -5,13 +5,13 @@
 constexpr float VAMPIRE_BAT_SPEED = 0.13f;
 constexpr DWORD VAMPIRE_BAT_REVIVAL_TIME = 5000;
 
-VampireBat::VampireBat()
+VampireBat::VampireBat(D3DXVECTOR2 pos, int height, int width)
 {
+	SetPosition(pos);
+	this->height = height;
+	this->width = width;
 	id = ID_ENTITY_VAMPIRE_BAT;
 	state = VAMPIRE_STATE_HIDDEN;
-	
-	//AddAnimation(VAMPIRE_BAT_IDLE_ANI1);
-	//AddAnimation(VAMPIRE_BAT_FLY_ANI1);
 	currentAnimation = VAMPIRE_BAT_IDLE_ANI1;
 	originalLocationY = y;
 	delta = 0;

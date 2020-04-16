@@ -6,7 +6,9 @@ Boomerang::Boomerang(D3DXVECTOR2 pos)
 {
 	id = ID_ENTITY_BOOMERANG;
 	SetPosition(pos);
-	//AddAnimation(BOOMERANG_ITEM_ANI);
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
 	currentAnimation = BOOMERANG_ITEM_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;

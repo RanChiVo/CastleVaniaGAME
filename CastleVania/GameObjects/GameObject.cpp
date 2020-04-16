@@ -89,15 +89,15 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 	float l, t, r, b;
 
 	GetBoundingBox(l, t, r, b);
-	rect.left = l;
-	rect.top = t;
+	rect.left = 0;
+	rect.top = 0;
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
 	sprite = new Sprite("BoundingBox", RECT{ rect.left, rect.top, rect.right, rect.bottom }, bbox);
 
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	/*if (id == ID_ENTITY_SIMON)
+	if (id == ID_ENTITY_SIMON)
 	{
 		if (state == Simon::SIMON_STATE_SITDOWN ||
 			state == Simon::SIMON_STATE_ATTACK_SITDOWN)
@@ -111,7 +111,7 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 			sprite->Draw(D3DXVECTOR2(pos.x, pos.y), 100);
 		}
 	}
-	else*/ sprite->Draw(pos, 100);
+	else sprite->Draw(pos, 100);
 }
 
 bool GameObject::checkInsideViewPort(Viewport * viewport)

@@ -3,10 +3,12 @@
 #include "Whip.h"
 #include "../Animations/Animations.h"
 
-BurnBarrel::BurnBarrel()
+BurnBarrel::BurnBarrel(D3DXVECTOR2 pos, int height, int width)
 {
 	id = ID_ENTITY_BURNBARREL;
-	//AddAnimation(BURNBARREL_ANI);
+	SetPosition(pos);
+	this->height = height;
+	this->width = width;
 	currentAnimation = BURNBARREL_ANI;
 	nx = 1;
 }
@@ -26,7 +28,7 @@ void BurnBarrel::GetBoundingBox(float &l, float &t, float &r, float &b)
 
 void BurnBarrel::Render(Viewport * viewport)
 {
-	//RenderBoundingBox(viewport);
+	RenderBoundingBox(viewport);
 	if (state == STATE_SHOW)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));

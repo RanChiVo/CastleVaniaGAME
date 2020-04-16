@@ -6,7 +6,9 @@ WeaponReward::WeaponReward(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_WEAPON_REWARD;
 	LPANIMATION ani;
-	///AddAnimation(WEAPONREWARD_ANI);
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
 	SetPosition(position);
 	currentAnimation = WEAPONREWARD_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;

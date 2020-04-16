@@ -4,7 +4,6 @@
 MenuPoint::MenuPoint()
 {
 	startTime = GetTickCount();
-	//resourceManagement = ResourceManagement::GetInstance();
 	subWeapon = nullptr;
 	idSubWeapon = EntityID::ID_ENTITY_NULL;
 }
@@ -18,7 +17,6 @@ void MenuPoint::loadResource()
 	enemy_HP1 = Sprites::GetInstance()->Get("enemy_HP1");
 	lost_HP = Sprites::GetInstance()->Get("lost_HP1");
 	place_item1 = Sprites::GetInstance()->Get("place_item1");
-	//resourceManagement->loadFont(L"Resources\\Fonts\\prstart.ttf");
 	spriteHandler = Direct3DManager::getInstance()->GetSpriteHandler();
 	R = RECT{ 15, 20, 550, 528 };
 	itemList[ID_ENTITY_DAGGER_WEAPON] = Sprites::GetInstance()->Get("dagger");
@@ -28,7 +26,7 @@ void MenuPoint::loadResource()
 	itemList[ID_ENTITY_BOOMERANG_WEAPON] = Sprites::GetInstance()->Get("bomerang1");
 }
 
-void MenuPoint::update()
+void MenuPoint::update(DWORD dt)
 {
 	gameTime = 300 - (GetTickCount() - startTime) / 1000;
 	

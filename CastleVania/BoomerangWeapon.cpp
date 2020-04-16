@@ -7,7 +7,9 @@ constexpr float BOOMERANG_THROW_TIME = 1000;
 BoomerangWeapon::BoomerangWeapon()
 {
 	id = ID_ENTITY_BOOMERANG_WEAPON;
-	//AddAnimation(BOOMERANG_WEAPON_ANI);
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(ID_ENTITY_BOOMERANG);
+	SetAnimationSet(ani_set);
 	currentAnimation = BOOMERANG_WEAPON_ANI;
 	state = STATE_SHOW;
 	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_BOOMERANG).first;

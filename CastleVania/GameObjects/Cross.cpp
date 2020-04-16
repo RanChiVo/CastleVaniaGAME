@@ -6,7 +6,9 @@ Cross::Cross(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_CROSS;
 	SetPosition(position);
-	//AddAnimation(CROSS_ANI);
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
 	currentAnimation = CROSS_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;

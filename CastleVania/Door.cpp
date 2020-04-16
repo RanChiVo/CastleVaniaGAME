@@ -14,7 +14,7 @@ DWORD Door::action3Start;
 DWORD Door::action4Start;
 DWORD Door::action5Start;
 
-Door::Door(D3DXVECTOR2 position)
+Door::Door(D3DXVECTOR2 position, int height, int width)
 {
 	action1Start = 0;
 	action2Start = 0;
@@ -24,6 +24,8 @@ Door::Door(D3DXVECTOR2 position)
 
 	id = ID_ENTITY_DOOR;
 	SetPosition(position);
+	this->height = height;
+	this -> width = width;
 	state = DOOR_STATE_CLOSE;
 	//AddAnimation(OPEN_ANI);
 	//AddAnimation(CLOSE_ANI);
@@ -73,7 +75,7 @@ void Door::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else
 		{
 			state = DOOR_STATE_OPEN;
-			Simon::getInstance()->moveRight(dt);
+			//Simon::getInstance()->moveRight(dt);
 		}
 	}
 	if (action4Start > 0)

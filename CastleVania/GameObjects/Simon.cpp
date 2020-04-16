@@ -23,14 +23,17 @@
 #include "../BallDarkBat.h"
 #include "../Boomerang.h"
 #include "../TiledMap.h"
+#include "../Portal.h"
+#include "../Game.h"
 
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
 constexpr float SIMON_MOVE_SPEED = 0.10f;
+constexpr float SIMON_AUTO_SPEED_RIGHT = 0.025f;
 constexpr float SIMON_GRAVITY = 0.00115f;
 constexpr float SIMON_HURT_SPEED_Y = 0.2f;
 constexpr float SIMON_STAIR_SPEED = 0.06f;
-constexpr DWORD SIMON_ENTRANCE_TIME = 3000;
+constexpr DWORD SIMON_ENTRANCE_TIME = 4000;
 constexpr DWORD INVISIBLE_TIME = 4000;
 constexpr DWORD SIMON_UNTOUCHABLE_TIME = 2000;
 constexpr DWORD SIMON_PROTECT_TIME = 2000;
@@ -58,6 +61,7 @@ Simon::Simon()
 	height = Textures::GetInstance()->GetSizeObject(id).second;
 	SetState(SIMON_STATE_IDLE);
 	currentAnimation = SIMON_ANI_IDLE;
+	comeEntranceStart = 0;
 	WHIP_STATE = 1;
 	levelWhip = 1;
 	whip = new Whip();
@@ -68,21 +72,27 @@ Simon::Simon()
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	GameObject::Update(dt);
+
 	UpdateWeapon(dt, coObjects);
+
 	SetupAtacking();
+
 	SetupSubWeapon(coObjects);
+
 	handleState();
-	
-	if (GetTickCount() - comeEntranceStart <= SIMON_ENTRANCE_TIME)
-	{
-		SetState(SIMON_STATE_WALKING_RIGHT);
-		SetSpeed(0.025f, vy);
-	}
-	else if (comeEntranceStart > 0) comeEntranceStart = 0;
 
 	updateCollisionStair();
+
 	updateCollisionSubStair();
+
 	handleCollisionObjectGame(dt, coObjects);
+
+	if (comeEntranceStart > 0 &&  GetTickCount() - comeEntranceStart > SIMON_ENTRANCE_TIME)
+	{ 
+		comeEntranceStart = 0;
+		isMovingDoor = false;
+		SetState(SIMON_STATE_IDLE);
+	}
 
 	if (startHurt > 0 && GetTickCount() - startHurt > SIMON_HURT_TIME)
 	{
@@ -114,26 +124,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 }
 
-void Simon::loadResource()
-{
-	//AddAnimation(SIMON_ANI_IDLE);
-	//AddAnimation(SIMON_ANI_WALKING);
-	//AddAnimation(SIMON_ANI_JUMPING);
-	//AddAnimation(SIMON_ANI_SITDOWN);
-	//AddAnimation(SIMON_ANI_ATTACK_STANDING);
-	//AddAnimation(SIMON_ANI_ATTACK_SITDOWN);
-	//AddAnimation(SIMON_ANI_COLOR);
-	//AddAnimation(SIMON_ANI_COLOR1);
-	//AddAnimation(SIMON_ANI_GO_UP_STAIR);
-	//AddAnimation(SIMON_ANI_GO_DOWN_STAIR);
-	//AddAnimation(SIMON_ANI_IDLE_GO_UP_STAIR);
-	//AddAnimation(SIMON_ANI_IDLE_GO_DOWN_STAIR);
-	//AddAnimation(SIMON_ANI_ATTACK_UP_STAIR);
-	//AddAnimation(SIMON_ANI_ATTACK_DOWN_STAIR);
-	//AddAnimation(SIMON_ANI_HURT);
-	//AddAnimation(SIMON_ANI_DEAD);
-}
-
 void Simon::SetState(int state)
 {
 	this->state = state;
@@ -141,7 +131,7 @@ void Simon::SetState(int state)
 
 void Simon::OnKeyStateChange(BYTE * states)//state
 {
-	if (isMovingDoor || state == SIMON_STATE_CHANGECOLOR)
+	if (state == SIMON_STATE_AUTO_GOES_RIGHT || state == SIMON_STATE_CHANGECOLOR)
 	{
 		return;
 	}
@@ -294,10 +284,11 @@ void Simon::OnKeyDown(int KeyCode)//event
 		break;
 	}
 
-	if (isMovingDoor || state == SIMON_STATE_CHANGECOLOR)
+	if (state == SIMON_STATE_AUTO_GOES_RIGHT || state == SIMON_STATE_CHANGECOLOR)
 	{
 		return;
 	}
+
 	switch (state)
 	{
 	case SIMON_STATE_IDLE:
@@ -342,7 +333,7 @@ void Simon::OnKeyDown(int KeyCode)//event
 
 void Simon::OnKeyUp(int KeyCode)
 {
-	if (isMovingDoor || state == SIMON_STATE_CHANGECOLOR)
+	if (state == SIMON_STATE_AUTO_GOES_RIGHT || state == SIMON_STATE_CHANGECOLOR)
 	{
 		return;
 	}
@@ -371,11 +362,6 @@ void Simon::OnKeyUp(int KeyCode)
 		SetState(SIMON_STATE_IDLE_DOWN_STAIR);
 		break;
 	}
-}
-
-void Simon::moveRight(DWORD dt)
-{
-	state = SIMON_STATE_WALKING_RIGHT;
 }
 
 void Simon::SetupAtacking()
@@ -597,7 +583,13 @@ void Simon::handleState()
 		checkRewind = true;
 		currentAnimation = SIMON_ANI_WALKING;
 		break;
-
+	case SIMON_STATE_AUTO_GOES_RIGHT:
+		vx = SIMON_AUTO_SPEED_RIGHT;
+		attacking = false;
+		nx = 1;
+		checkRewind = true;
+		currentAnimation = SIMON_ANI_WALKING;
+		break;
 	case SIMON_STATE_JUMPING:
 		if (!isjumping && isOnGround())
 		{
@@ -783,7 +775,6 @@ void Simon::handleState()
 		animation_set->find(ani)->second->SetFinish(false);
 		break;
 	}
-
 	animation_set->find(currentAnimation)->second->SetLoop(checkRewind);
 	DebugOut(L"state:{%d}\n", state);
 }
@@ -815,7 +806,7 @@ void Simon::Reset(int currentAnimation)
 
 	if (!enableSubWeapon)
 	{
-		whip->GetAnimationSet()->find(currentAnimation)->second->SetFinish(false);
+		whip->GetAnimationSet()->find(whip->getCurrentAnimation())->second->SetFinish(false);
 
 	}	
 	animation_set->find(currentAnimation)->second->SetFinish(false);
@@ -899,6 +890,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		handleCollisionIntersectedObject(dt, coObjects);
 		float rdx = 0;
 		float rdy = 0;
+		Portal *p = nullptr;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		for (int i = 0; i < (int)coEvents.size(); i++)
@@ -907,6 +899,10 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 			case ID_ENTITY_SMALL_HEART:
 				coEvents[i]->obj->SetState(STATE_DETROY);
+				break;
+			case ID_ENTITY_PORTAL:
+				p = dynamic_cast<Portal *>(coEvents[i]->obj);
+				Game::GetInstance()->SwitchScene(p->GetSceneId());
 				break;
 			case ID_ENTITY_BRICK:
 				if (coEvents[i]->obj->getName().compare("SmallBrick") == 0)
@@ -927,6 +923,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				break;
 			case ID_ENTITY_ENTRANCE:
 				comeEntranceStart = GetTickCount();
+				SetState(SIMON_STATE_AUTO_GOES_RIGHT);
 				break;
 	
 			case ID_ENTITY_WALL_ENTRANCE:

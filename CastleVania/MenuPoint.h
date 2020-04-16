@@ -39,7 +39,7 @@ private:
 public:
 	MenuPoint();
 	void loadResource();
-	void update();
+	void update(DWORD dt);
 	void Draw(ID3DXFont* font);
 	~MenuPoint();
 };

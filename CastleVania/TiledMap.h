@@ -44,6 +44,7 @@ public:
 	void setWidthWorld(float widthWorld);
 
 	static void CreateEffectStart() { createEffectStart = GetTickCount(); }
+	LPDIRECT3DTEXTURE9 loadImagefromfile();
 	void readMapfromfile();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* object = NULL);
 	void readMatrixMap();

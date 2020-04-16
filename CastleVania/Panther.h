@@ -22,7 +22,7 @@ public:
 		PANTHER_STATE_JUMP,
 		PANTHER_STATE_IDLE,
 	};
-	Panther(D3DXVECTOR2 position, int nx);
+	Panther(D3DXVECTOR2 position, int nx, int height, int width);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render(Viewport* viewport);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);

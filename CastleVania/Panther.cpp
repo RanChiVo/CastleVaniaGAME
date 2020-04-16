@@ -4,16 +4,15 @@ constexpr float PANTHER_RUN_SPEED = 0.18f;
 constexpr float PANTHER_GRAVITY = 0.0012f;
 constexpr float PANTHER_JUMP_SPEED = 0.3f;
 
-Panther::Panther(D3DXVECTOR2 position, int nx)
+Panther::Panther(D3DXVECTOR2 position, int nx, int height, int width)
 {
 	id = ID_ENTITY_PANTHER;
 	SetPosition(position);
+	this->height = height;
+	this->width = width;
 	set_nx(1);
 	isOnGround = true;
 	state = PANTHER_STATE_IDLE;
-	//AddAnimation(PANTHER_ANI_IDLE);
-	//AddAnimation(PANTHER_ANI_MOVE);
-	//AddAnimation(PANTHER_ANI_JUMP);
 	currentAnimation = PANTHER_ANI_IDLE;
 	bbActivateLeft.left = bbActivateLeft.right = bbActivateLeft.top = bbActivateLeft.bottom = 0;
 	bbActivateRight.left = bbActivateRight.right = bbActivateRight.top = bbActivateRight.bottom = 0;

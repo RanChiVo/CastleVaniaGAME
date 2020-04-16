@@ -1,10 +1,12 @@
 #include "Candle.h"
 
 
-Candle::Candle()
+Candle::Candle(D3DXVECTOR2 pos, int height, int width)
 {
 	id = ID_ENTITY_CANDLE;
-	//AddAnimation(CANDLE_ANI);
+	SetPosition(pos);
+	setHeight(height);
+	setWidth(width);
 	currentAnimation = CANDLE_ANI;
 }
 

@@ -7,15 +7,14 @@ Whip::Whip()
 	id = ID_ENTITY_WHIP;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
-	/*AddAnimation(TYPE1_WHIP);
-	AddAnimation(TYPE2_WHIP);
-	AddAnimation(TYPE3_WHIP);*/
-
 	state = WHIT_STATE_1;
 	currentAnimation = TYPE1_WHIP;
 	bbLevel1 = Sprites::GetInstance()->Get("type1_whip_3")->getRect();
 	bbLevel2 = Sprites::GetInstance()->Get("type2_whip_3")->getRect();
 	bbLevel3 = Sprites::GetInstance()->Get("type3_whip_3")->getRect();
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
 }
 
 void Whip::updatePostision(int currentFrameSimon, int currentAni, int direct)

@@ -102,8 +102,6 @@ void Grid::update(vector<LPGAMEOBJECT>* coObjects)
 			break;
 		case ID_ENTITY_SPAWN_ENEMY:
 			break;
-		case ID_ENTITY_WALL_CHANGINGMAP:
-			break;
 		default:
 			dynamicObjects.insert(coObjects->at(i));
 			break;

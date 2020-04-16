@@ -14,14 +14,10 @@ bool DarkBat::isActivate = false;
 DWORD DarkBat::startTimeHurt = 0;
 BaseInfo DarkBat::baseInfo = BaseInfo();
 
-DarkBat::DarkBat(D3DXVECTOR2 pos)
+DarkBat::DarkBat(D3DXVECTOR2 pos, int height, int width)
 {
 	id = ID_ENTITY_DARK_BAT;
 	currentAnimation = DARK_BAT_IDLE_ANI;
-//	AddAnimation(DARK_BAT_IDLE_ANI);
-//	AddAnimation(DARK_BAT_FLY_ANI);
-//	AddAnimation(ANI_EFFECT_FIRE_DARK_BAT);
-//	AddAnimation(ANI_EFFECT_STAR);
 	state = DARK_BAT_STATE_IDLE;
 
 	originalLocation = pos;

@@ -19,7 +19,7 @@ public:
 		FISH_MAN_STATE_HIDDEN
 	};
 
-	FishMan(D3DXVECTOR2 position);
+	FishMan(D3DXVECTOR2 position, int height, int width);
 	virtual void Render(Viewport* viewport);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);

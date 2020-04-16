@@ -8,7 +8,6 @@ CrystalBall::CrystalBall(D3DXVECTOR2 pos, int nx)
 	state = STATE_SHOW;
 	this->SetPosition(pos);
 	this->nx = nx;
-	//AddAnimation(CRYSTAL_BALL_ANI);
 	currentAnimation = CRYSTAL_BALL_ANI;
 	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_CRYSTAL_BALL).first;
 	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_CRYSTAL_BALL).second;

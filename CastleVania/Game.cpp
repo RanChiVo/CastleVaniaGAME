@@ -75,6 +75,7 @@ void Game::SwitchScene(EntityID scene_id)
 	Sprites::GetInstance()->Clear();
 	Animations::GetInstance()->Clear();
 
+
 	s->Load();
 }
 

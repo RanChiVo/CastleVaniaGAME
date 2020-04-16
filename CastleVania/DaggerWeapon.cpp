@@ -4,7 +4,9 @@ DaggerWeapon::DaggerWeapon()
 {
 	id = ID_ENTITY_DAGGER_WEAPON;
 	state = STATE_SHOW;
-//	AddAnimation(DAGGER_ANI);
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(ID_ENTITY_DAGGER);
+	SetAnimationSet(ani_set);
 	currentAnimation = DAGGER_ANI;
 	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_DAGGER).first;
 	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_DAGGER).second;

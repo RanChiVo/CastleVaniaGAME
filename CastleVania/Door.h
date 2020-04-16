@@ -18,7 +18,7 @@ public:
 		DOOR_STATE_CLOSING,
 		DOOR_STATE_OPENING,
 	};
-	Door(D3DXVECTOR2 position);
+	Door(D3DXVECTOR2 position, int height, int width);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render(Viewport* viewport);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);

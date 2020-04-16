@@ -5,7 +5,9 @@ Axe::Axe(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_AXE;
 	SetPosition(position);
-	//AddAnimation(AXE_ANI_ITEM);
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
 	currentAnimation = AXE_ANI_ITEM;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;

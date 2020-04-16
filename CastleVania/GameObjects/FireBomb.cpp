@@ -7,7 +7,9 @@ FireBomb::FireBomb(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_FIRE_BOMB;
 	SetPosition(position);
-	//AddAnimation(FIRE_BOMB_ANI);
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
 	currentAnimation = FIRE_BOMB_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <animations>
+  <animations id="ID_ENTITY_CANDLE">
     <animation name ="CANDLE_ANI" default_time="100" rewind="true">
       <animation_frame sprite_id ="Candle1"/>
       <animation_frame sprite_id ="Candle2"/>

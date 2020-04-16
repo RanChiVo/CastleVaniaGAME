@@ -1,9 +1,12 @@
 #include "SpawnEnemy.h"
 #include "GameObjects/Simon.h"
 
-SpawnEnemy::SpawnEnemy()
+SpawnEnemy::SpawnEnemy(D3DXVECTOR2 pos, int height, int width)
 {
 	id = ID_ENTITY_SPAWN_ENEMY;
+	SetPosition(pos);
+	this->height = height;
+	this->width = width;
 }
 
 void SpawnEnemy::Render(Viewport * viewport)

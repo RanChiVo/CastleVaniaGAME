@@ -10,7 +10,9 @@ AxeWeapon::AxeWeapon()
 	state = STATE_SHOW;
 	vy = -AXE_THROW_SPEED;
 	vx = AXE_SPEED;
-	//AddAnimation(AXE_ANI_THROW);
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(ID_ENTITY_AXE);
+	SetAnimationSet(ani_set);
 	currentAnimation = AXE_ANI_THROW;
 	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_AXE).first;
 	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_AXE).second;

@@ -205,7 +205,7 @@
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="GameObjects\Whip.cpp" />
     <ClCompile Include="GameObjects\WeaponReward.cpp" />
-    <ClCompile Include="WallChangingMap.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="WallEntrance.cpp" />
     <ClCompile Include="WaterEffect.cpp" />
     <ClCompile Include="WindowUtil.cpp" />
@@ -287,7 +287,7 @@
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="GameObjects\Whip.h" />
     <ClInclude Include="GameObjects\WeaponReward.h" />
-    <ClInclude Include="WallChangingMap.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="WallEntrance.h" />
     <ClInclude Include="WaterEffect.h" />
     <ClInclude Include="WindowUtil.h" />

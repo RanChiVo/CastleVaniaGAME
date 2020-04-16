@@ -22,6 +22,38 @@ void TiledMap::Update(DWORD dt, vector<LPGAMEOBJECT>* object)
 		createEffectStart = 0;
 }
 
+LPDIRECT3DTEXTURE9 TiledMap::loadImagefromfile()
+{
+	//read image to get tileset
+	std::string imageMapPath = "";
+	std::string idText = "";
+
+	for (auto property : rootNode.child("properties").children("property"))
+	{
+		std::string name = property.attribute("name").as_string();
+		if (name.compare("ImagePath") == 0)
+		{
+			imageMapPath = property.attribute("value").as_string();
+		}
+		else if (name.compare("TexID") == 0)
+		{
+			idText = property.attribute("value").as_string();
+		}
+	}
+
+	if (imageMapPath.empty() || idText.empty())
+	{
+		DebugOut(L"[ERROR] Reading image from file is failed\n", imageMapPath);
+	}
+
+	EntityID idTextfromfile = Utils::getInstance()->getStringToEntityID()[idText];
+	std::wstring pathImageMapfromfile(imageMapPath.begin(), imageMapPath.end());
+	LPCWSTR pathImageMapLoad = pathImageMapfromfile.c_str();
+	Textures::GetInstance()->Add(idTextfromfile, pathImageMapLoad, D3DCOLOR_XRGB(255, 0, 255));
+
+	return Textures::GetInstance()->Get(idTextfromfile);
+}
+
 void TiledMap::readMapfromfile()
 {
 	tilesInMapHeight = rootNode.attribute("height").as_int();
@@ -36,15 +68,8 @@ void TiledMap::readMapfromfile()
 	tileSetWidth = rootNode.child("tileset").child("image").attribute("width").as_float();
 	tileSetHeight = rootNode.child("tileset").child("image").attribute("height").as_float();
 
-	std::string idText = rootNode.child("tileset").child("image").attribute("id").as_string();
-	std::string pathImageMap = rootNode.child("tileset").child("image").attribute("path").as_string();
+	LPDIRECT3DTEXTURE9 texID = loadImagefromfile();
 
-	EntityID idTextfromfile = Utils::getInstance()->getStringToEntityID()[idText];
-
-	std::wstring pathImageMapfromfile(pathImageMap.begin(), pathImageMap.end());
-	LPCWSTR pathImageMapLoad = pathImageMapfromfile.c_str();
-	Textures::GetInstance()->Add(idTextfromfile, pathImageMapLoad, D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 texID = Textures::GetInstance()->Get(idTextfromfile);
 	tileset = new TileSet(texID, tileWidth, tileHeight);
 	int rowsTileSet = tileSetHeight / tileHeight;
 	int colsTileSet = tileSetWidth / tileWidth;
@@ -90,7 +115,7 @@ void TiledMap::draw(Viewport* viewport, int alpha)
 	int beginCol = viewport->getX() / tileWidth;
 	int endCol = (viewport->getX() + viewport->getWidth()) / tileWidth + 1;
 	int beginRow = viewport->getY() / tileHeight;
-	int endRow = (viewport->getY() + viewport->getHeight())/ tileHeight + 1;
+	int endRow = (viewport->getY() + viewport->getHeight()) / tileHeight + 1;
 
 	beginCol = (beginCol < 0) ? 0 : ((beginCol > (tilesInMapWidth)) ? (tilesInMapWidth) : beginCol);
 	endCol = (endCol < 0) ? 0 : ((endCol > (tilesInMapWidth)) ? (tilesInMapWidth) : endCol);

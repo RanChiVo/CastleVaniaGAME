@@ -10,7 +10,6 @@
 #include "VampireBat.h"
 #include "GameObjects/Entrance.h"
 #include "WallEntrance.h"
-#include "WallChangingMap.h"
 #include "Candle.h"
 #include "SpawnEnemy.h"
 #include "FishMan.h"
@@ -18,9 +17,11 @@
 #include "CastleWall.h"
 #include "Panther.h"
 #include "ObjectGridCreation.h"
+#include "../CastleVania/GameObjects/Whip.h"
+#include "Portal.h"
 
 
-PlayScene::PlayScene(EntityID id, std::string filePath):Scene(id, filePath)
+PlayScene::PlayScene(EntityID id, std::string filePath) :Scene(id, filePath)
 {
 	Direct3DManager* direct3D = Direct3DManager::getInstance();
 	menuPoint = new MenuPoint();
@@ -30,6 +31,8 @@ PlayScene::PlayScene(EntityID id, std::string filePath):Scene(id, filePath)
 void PlayScene::Load()
 {
 	ReadFile_FONTS(L"Resources\\Fonts\\prstart.ttf");
+
+	Textures::GetInstance()->Add(ID_ENTITY_BBOX, L"Resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
@@ -41,17 +44,26 @@ void PlayScene::Load()
 		return;
 	}
 
-	std::string pathObject = docMap.child("map").child("properties").child("property").attribute("value").as_string();
+	std::string objectPath = "";
+
+	for (auto property : docMap.child("map").child("properties").children("property"))
+	{
+		std::string name = property.attribute("name").as_string();
+		if (name.compare("ObjectPath") == 0)
+		{
+			objectPath = property.attribute("value").as_string();
+		}
+	}
 
 	pugi::xml_document docObject;
 
-	if (!docObject.load_file(pathObject.c_str()))
+	if (!docObject.load_file(objectPath.c_str()))
 	{
-		DebugOut(L"[ERROR] Read Objects file failed\n", pathObject);
+		DebugOut(L"[ERROR] Read Objects file failed\n", objectPath);
 		return;
 	}
-	
-	for (auto object: docObject.child("objectList"))
+
+	for (auto object : docObject.child("objectList"))
 	{
 		std::string pathSprite = object.attribute("spritePath").as_string();
 		std::string pathAni = object.attribute("animationPath").as_string();
@@ -98,9 +110,6 @@ void PlayScene::Load()
 
 void PlayScene::Update(DWORD dt)
 {
-	
-	menuPoint->update();
-
 	tiled_map->Update(dt);
 
 	for (int i = 0; i < (int)objects.size(); i++)
@@ -115,6 +124,8 @@ void PlayScene::Update(DWORD dt)
 	Simon::getInstance()->Update(dt, &objects);
 
 	UpdateViewport(dt);
+
+	menuPoint->update(dt);
 }
 
 void PlayScene::Render(Viewport* viewport)
@@ -125,19 +136,10 @@ void PlayScene::Render(Viewport* viewport)
 
 	for (int i = 0; i < (int)objects.size(); i++)
 	{
-		if (objects[i]->getID() != ID_ENTITY_CASTLEVANIA_WALL)
-		{
-			objects[i]->Render(viewport);
-		}
+		objects[i]->Render(viewport);
 	}
 	Simon::getInstance()->Render(viewport);
-	for (int i = 0; i < (int)objects.size(); i++)
-	{
-		if (objects[i]->getID() == ID_ENTITY_CASTLEVANIA_WALL)
-		{
-			objects[i]->Render(viewport);
-		}
-	}
+	castleWall->Render(viewport);
 }
 
 void PlayScene::Unload()
@@ -238,152 +240,154 @@ void PlayScene::ReadFile_ANIMATIONS(pugi::xml_node sourceAnimation)
 
 void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 {
-	CastleWall* castleWall = nullptr;
-
 	for (auto objectGroupNode : node.children("objectgroup"))
 	{
 		for (auto objectNode : objectGroupNode.children("object"))
 		{
-			ObjectInfo* objectInfo = new ObjectInfo();
-			
-			objectInfo->set_id(objectNode.attribute("id").as_int());
-			objectInfo->set_ObjectType(objectGroupNode.attribute("name").as_string());
-			objectInfo->set_name(objectNode.attribute("name").as_string());
-
+			int id = objectNode.attribute("id").as_int();
+			std::string objectType = objectGroupNode.attribute("name").as_string();
+			std::string name = objectNode.attribute("name").as_string();
 			float x = objectNode.attribute("x").as_float();
 			float y = objectNode.attribute("y").as_float() + EXTRA_HEIGHT_SCREEN;
-			objectInfo->set_position(D3DXVECTOR2(x, y));
-
 			int width = objectNode.attribute("width").as_int();
 			int height = objectNode.attribute("height").as_int();
-			objectInfo->set_width(width);
-			objectInfo->set_height(height);
+			std::string idHiddenItemString = "";
+			std::string objectId = "";
+			std::string enemyName = "";
+			float startViewPort = 0;
+			float endViewPort = 0;
+			EntityID sceneID = ID_ENTITY_NULL;
+			std::string cellId = "";
+			int stairHeight = 0;
+			int nx = 0;
+			int ny = 0;
 
 			auto properties = objectNode.child("properties");
+
 			for (auto propertyNode : properties)
 			{
 				std::string nameProperty = propertyNode.attribute("name").as_string();
 				if (nameProperty.compare("Hidden Item ID") == 0)
 				{
-					objectInfo->set_idHiddenItem(propertyNode.attribute("value").as_string());
+					idHiddenItemString = propertyNode.attribute("value").as_string();
 				}
 				else if (nameProperty.compare("Object ID") == 0)
 				{
-					objectInfo->set_ObjectId(propertyNode.attribute("value").as_string());
+					objectId = propertyNode.attribute("value").as_string();
 				}
 				else if (nameProperty.compare("Enemy Name") == 0)
 				{
-					objectInfo->set_name(propertyNode.attribute("value").as_string());
+					enemyName = propertyNode.attribute("value").as_string();
 				}
 				else if (nameProperty.compare("Stair Height") == 0)
 				{
-					objectInfo->set_height(propertyNode.attribute("value").as_int());
+					stairHeight = propertyNode.attribute("value").as_int();
 				}
 				else if (nameProperty.compare("nx") == 0)
 				{
-					objectInfo->set_nx(propertyNode.attribute("value").as_int());
+					nx = propertyNode.attribute("value").as_int();
 				}
 				else if (nameProperty.compare("ny") == 0)
 				{
-					objectInfo->set_ny(propertyNode.attribute("value").as_int());
+					ny = propertyNode.attribute("value").as_int();
 				}
 				else if (nameProperty.compare("StartViewport") == 0)
 				{
-					objectInfo->set_startViewPort(propertyNode.attribute("value").as_float());
+					startViewPort = propertyNode.attribute("value").as_float();
 				}
 				else if (nameProperty.compare("EndViewport") == 0)
 				{
-					objectInfo->set_endViewPort(propertyNode.attribute("value").as_float());
+					endViewPort = propertyNode.attribute("value").as_float();
+				}
+				else if (nameProperty.compare("SceneID") == 0)
+				{
+					sceneID = Utils::getInstance()->getStringToEntityID()[propertyNode.attribute("value").as_string()];
 				}
 				else if (nameProperty.compare("Cell ID") == 0)
 				{
-					objectInfo->set_cellId(propertyNode.attribute("value").as_string());
+					cellId = propertyNode.attribute("value").as_string();
 				}
 			}
 			GameObject *objectInit = nullptr;
-			int idObject = Utils::getInstance()->getStringToEntityID()[objectInfo->get_ObjectId()];
+			int  idObject = Utils::getInstance()->getStringToEntityID()[objectId];
+			if (!idObject)
+			{
+				return;
+			}
+			AnimationSets * animation_sets = AnimationSets::GetInstance();
+			LPANIMATION_SET ani_set = animation_sets->Get(idObject);
 
 			switch (idObject)
 			{
 			case ID_ENTITY_SIMON:
 				objectInit = Simon::getInstance();
 				player = (Simon*)objectInit;
+				player->SetPosition(D3DXVECTOR2(x, y));
+				player->setHeight(height);
+				player->setWidth(width);
+				player->SetAnimationSet(ani_set);
 				break;
 			case ID_ENTITY_FLOOR:
-				objectInit = new Floor();
+				objectInit = new Floor(D3DXVECTOR2(x, y), height, width);
+				objectInit->setName(name);
 				break;
 			case ID_ENTITY_DOOR:
-				objectInit = new Door(objectInfo->get_postition());
+				objectInit = new Door(D3DXVECTOR2(x, y), height, width);
 				break;
 			case ID_ENTITY_BRICK:
-				objectInit = new CBrick(objectInfo->get_name());
+				objectInit = new CBrick(name, D3DXVECTOR2(x, y), height, width);
 				break;
 			case ID_ENTITY_BURNBARREL:
-				objectInit = new BurnBarrel();
+				objectInit = new BurnBarrel(D3DXVECTOR2(x, y), height, width);
 				break;
 			case ID_ENTITY_VAMPIRE_BAT:
-				objectInit = new VampireBat();
+				objectInit = new VampireBat(D3DXVECTOR2(x, y), height, width);
 				break;
 			case ID_ENTITY_ENTRANCE:
-				objectInit = new Entrance();
+				objectInit = new Entrance(D3DXVECTOR2(x, y), height, width);
 				break;
 			case ID_ENTITY_WALL_ENTRANCE:
-				objectInit = new WallEntrance();
+				objectInit = new WallEntrance(D3DXVECTOR2(x, y), height, width);
 				break;
-			case ID_ENTITY_WALL_CHANGINGMAP:
-				objectInit = new WallChangingMap();
+			case ID_ENTITY_PORTAL:
+				objectInit = new Portal(D3DXVECTOR2(x, y), sceneID, height, width);
 				break;
 			case ID_ENTITY_CANDLE:
-				objectInit = new Candle();
+				objectInit = new Candle(D3DXVECTOR2(x, y), height, width);
 				break;
 			case ID_ENTITY_SPAWN_ENEMY:
-				objectInit = new SpawnEnemy();
+				objectInit = new SpawnEnemy(D3DXVECTOR2(x, y), height, width);
 				break;
 			case ID_ENTITY_FISH_MAN:
-				objectInit = new FishMan(objectInfo->get_postition());
+				objectInit = new FishMan(D3DXVECTOR2(x, y), height, width);
 				break;
 			case ID_ENTITY_DARK_BAT:
-				objectInit = new DarkBat(objectInfo->get_postition());
+				objectInit = new DarkBat(D3DXVECTOR2(x, y), height, width);
 				break;
 			case ID_ENTITY_CASTLEVANIA_WALL:
-				objectInit = new CastleWall();
+				castleWall = new CastleWall(D3DXVECTOR2(x, y), height, width);
+				castleWall->setHeight(height);
+				castleWall->setWidth(width);
 				break;
 			case ID_ENTITY_STAIR:
-				objectInit = new ObjectStair(objectInfo->get_postition(), D3DXVECTOR4(objectInfo->get_width(),
-					objectInfo->get_height(), objectInfo->get_nx(), objectInfo->get_ny()), objectInfo->get_stairHeight());
-				objectInit->setMainId(objectInfo->get_id());
-				objectInit->setCellId(objectInfo->getCellId());
+				objectInit = new ObjectStair(D3DXVECTOR2(x, y), D3DXVECTOR4(width,
+					height, nx, ny), height);
+				objectInit->setMainId(id);
+				objectInit->setCellId(cellId);
 				break;
 			case ID_ENTITY_PANTHER:
-				objectInit = new Panther(objectInfo->get_postition(), objectInfo->get_nx());
+				objectInit = new Panther(D3DXVECTOR2(x, y), nx, height, width);
 				break;
 			}
-			if (objectInit)
+
+			if (ani_set != nullptr && objectInit)
 			{
-				AnimationSets * animation_sets = AnimationSets::GetInstance();
-				LPANIMATION_SET ani_set = animation_sets->Get(idObject);
+				objectInit->SetAnimationSet(ani_set);
+			}
 
-				if (ani_set !=nullptr)
-				{
-					objectInit->SetAnimationSet(ani_set);
-				}
-
-				if (idObject != ID_ENTITY_STAIR)
-				{
-					objectInit->setMainId(objectInfo->get_id());
-					objectInit->setCellId(objectInfo->getCellId());
-					objectInit->setName(objectInfo->get_name());
-					objectInit->SetPosition(objectInfo->get_postition());
-					objectInit->setHeight(objectInfo->get_height());
-					objectInit->setWidth(objectInfo->get_width());
-					objectInit->setIdHiddenItem(objectInfo->get_idHiddenItem());
-					objectInit->setEnemyName(objectInfo->get_enemyName());
-					objectInit->setStartViewPort(objectInfo->get_StartViewPort());
-				}
-				if (idObject!=ID_ENTITY_SIMON)
-				{
-					objects.push_back(objectInit);
-				}
+			if (objectInit && idObject != ID_ENTITY_SIMON)
+			{
+				objects.push_back(objectInit);
 			}
 		}
 	}

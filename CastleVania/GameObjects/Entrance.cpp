@@ -1,9 +1,12 @@
 #include "Entrance.h"
 
 
-Entrance::Entrance()
+Entrance::Entrance(D3DXVECTOR2 pos, int height, int width)
 {
 	id = ID_ENTITY_ENTRANCE;
+	this->height = height;
+	this->width = width;
+	SetPosition(pos);
 }
 
 void Entrance::Render(Viewport * viewport)

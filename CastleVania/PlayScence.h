@@ -3,10 +3,12 @@
 #include "GameObjects/Simon.h"
 #include "MenuPoint.h"
 #include "TiledMap.h"
+#include "CastleWall.h"
 
 class PlayScene: public Scene
 {
 protected:
+	CastleWall* castleWall;
 	Simon* player;
 	vector<LPGAMEOBJECT> objects;
 	ID3DXFont* font = nullptr;

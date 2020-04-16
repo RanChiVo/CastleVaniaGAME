@@ -23,7 +23,7 @@ public:
 		DARK_BAT_STATE_IDLE,
 		DARK_BAT_STATE_EFFECT_DESTROY,
 	};
-	DarkBat(D3DXVECTOR2 pos );
+	DarkBat(D3DXVECTOR2 pos, int height, int width);
 	static BaseInfo getBaseInfo() { return baseInfo; }
     void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

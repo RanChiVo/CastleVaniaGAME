@@ -7,6 +7,9 @@ Heart::Heart(D3DXVECTOR2 position)
 	id = ID_ENTITY_HEART;
 	//AddAnimation(HEART_ANI);
 	SetPosition(position);
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
 	currentAnimation = HEART_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;

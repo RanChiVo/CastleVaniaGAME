@@ -1,9 +1,12 @@
 #include "WallEntrance.h"
 #include "GameObjects/Simon.h"
 
-WallEntrance::WallEntrance()
+WallEntrance::WallEntrance(D3DXVECTOR2 pos, int height, int width)
 {
 	id = ID_ENTITY_WALL_ENTRANCE;
+	this->height = height;
+	this->width = width;
+	SetPosition(pos);
 }
 
 void WallEntrance::Render(Viewport * viewport)

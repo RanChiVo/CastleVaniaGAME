@@ -6,18 +6,6 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	/*CastleVania *gameCastleVania = new CastleVania();
-
-	gameCastleVania->Init(hInstance, nCmdShow);
-
-	gameCastleVania->loadResource();
-
-	gameCastleVania->Run();
-
-	delete gameCastleVania;*/
-
-
-
 	Game* gameCastleVania = Game::GetInstance();
 
 	gameCastleVania->init(hInstance, nCmdShow);
@@ -25,7 +13,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameCastleVania->Load("Castlevania.xml");
 
 	gameCastleVania->Run();
-
 
 	return 0;
 }

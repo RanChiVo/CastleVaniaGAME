@@ -4,7 +4,9 @@ constexpr float INVISIBILITYPOTION_GRAVITY = 0.0006f;
 InvisibilityPotion::InvisibilityPotion(D3DXVECTOR2 pos)
 {
 	id = ID_ENTITY_INVISIBILITY_POTION;
-	//AddAnimation(INVISIBILITY_POTION_ANI);
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
 	SetPosition(pos);
 	currentAnimation = INVISIBILITY_POTION_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;

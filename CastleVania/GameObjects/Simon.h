@@ -74,10 +74,10 @@ public:
 		SIMON_STATE_ATTACK_UP_STAIR,
 		SIMON_STATE_ATTACK_DOWN_STAIR,
 		SIMON_STATE_HURT,
+		SIMON_STATE_AUTO_GOES_RIGHT
 	};
 
 	static Simon* getInstance();
-	virtual void loadResource();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render(Viewport* viewport);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
@@ -88,8 +88,6 @@ public:
 	std::string getActivateEnemyName() { return activateNameEnemy; }
 	bool isMovedEndMap();
 	void SetStateMoveEndMap(bool hasMovedMap);
-	bool IsInTunel() { return isInTunel; }
-	void setInTunel(bool isInTunel) { this->isInTunel = isInTunel; }
 	bool isOnGround();
 	bool IsOnStair() { return isOnStair; }
 	void SetIsOnStair(bool isOnStair){}
@@ -123,7 +121,6 @@ public:
 	void OnKeyStateChange(BYTE *states);
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
-	void moveRight(DWORD dt);
 	~Simon();
 };
 

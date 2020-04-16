@@ -9,12 +9,14 @@ SmallHeart::SmallHeart(D3DXVECTOR2 position)
 {
 	id = ID_ENTITY_SMALL_HEART;
 	SetPosition(position);
-	//AddAnimation(SMALL_HEART_ANI);
 	specifications = 1;
 	originalLocation = x;
 	currentAnimation = SMALL_HEART_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
 	delta = 0;
 	liveTime = GetTickCount();
 }
