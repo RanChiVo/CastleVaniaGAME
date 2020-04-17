@@ -32,7 +32,6 @@ private:
 	EntityID idSubWeapon;
 	unordered_map<EntityID, Sprite*> itemList;
 	DWORD startTime;
-//	ResourceManagement* resourceManagement;
 	LPD3DXSPRITE spriteHandler;
 	RECT R;
 	Sprite* heart;

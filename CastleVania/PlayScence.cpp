@@ -139,7 +139,11 @@ void PlayScene::Render(Viewport* viewport)
 		objects[i]->Render(viewport);
 	}
 	Simon::getInstance()->Render(viewport);
-	castleWall->Render(viewport);
+
+	if (castleWall)
+	{
+		castleWall->Render(viewport);
+	}
 }
 
 void PlayScene::Unload()
@@ -148,6 +152,8 @@ void PlayScene::Unload()
 		delete objects[i];
 
 	objects.clear();
+
+	castleWall = nullptr;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
@@ -320,8 +326,8 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 			switch (idObject)
 			{
 			case ID_ENTITY_SIMON:
-				objectInit = Simon::getInstance();
-				player = (Simon*)objectInit;
+				player = Simon::getInstance();
+				player = (Simon*)player;
 				player->SetPosition(D3DXVECTOR2(x, y));
 				player->setHeight(height);
 				player->setWidth(width);
@@ -339,6 +345,7 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				break;
 			case ID_ENTITY_BURNBARREL:
 				objectInit = new BurnBarrel(D3DXVECTOR2(x, y), height, width);
+				objectInit->setIdHiddenItem(idHiddenItemString);
 				break;
 			case ID_ENTITY_VAMPIRE_BAT:
 				objectInit = new VampireBat(D3DXVECTOR2(x, y), height, width);

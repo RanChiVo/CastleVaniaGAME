@@ -78,7 +78,7 @@
     <property name="Object ID" value="ID_ENTITY_CASTLEVANIA_WALL"/>
    </properties>
   </object>
-  <object id="19" name="StartInsideCastle" x="1425.5" y="0" width="16" height="289">
+  <object id="19" name="StartInsideCastle" x="1414.5" y="4" width="30" height="286">
    <properties>
     <property name="Cell ID" value="0,5 1,5"/>
     <property name="Object ID" value="ID_ENTITY_PORTAL"/>

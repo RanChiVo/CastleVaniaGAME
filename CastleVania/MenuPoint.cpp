@@ -18,7 +18,7 @@ void MenuPoint::loadResource()
 	lost_HP = Sprites::GetInstance()->Get("lost_HP1");
 	place_item1 = Sprites::GetInstance()->Get("place_item1");
 	spriteHandler = Direct3DManager::getInstance()->GetSpriteHandler();
-	R = RECT{ 15, 20, 550, 528 };
+	R = RECT{ 5, 20, 550, 528 };
 	itemList[ID_ENTITY_DAGGER_WEAPON] = Sprites::GetInstance()->Get("dagger");
 	itemList[ID_ENTITY_AXE_WEAPON] = Sprites::GetInstance()->Get("axe1");
 	itemList[ID_ENTITY_FIRE_BOMP_WEAPON] = Sprites::GetInstance()->Get("fire_bomb");
@@ -82,7 +82,7 @@ void MenuPoint::Draw(ID3DXFont* font)
 	content = "SCORE-"+ scoreString + " TIME " + timeString + " STAGE 01\n";
 	content += "PLAYER			                 -"+ heartScore +"\n";
 	content += "ENEMY                 P-03\n";
-	heart->Draw(D3DXVECTOR2(385.0f, 35.0f), Flip::normal, 255);
+	heart->Draw(D3DXVECTOR2(380.0f, 35.0f), Flip::normal, 255);
 
 	for (int i = 0; i < 16; i++)
 	{

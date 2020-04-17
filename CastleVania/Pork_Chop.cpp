@@ -39,7 +39,7 @@ void Pork_Chop::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			float rdy = 0;
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 			if (ny != 0) vy = 0;
-			y += min_ty * dy;
+			y += min_ty * dy + ny*0.08f;
 		}
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
