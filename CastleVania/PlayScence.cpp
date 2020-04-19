@@ -19,6 +19,7 @@
 #include "ObjectGridCreation.h"
 #include "../CastleVania/GameObjects/Whip.h"
 #include "Portal.h"
+#include "Game.h"
 
 
 PlayScene::PlayScene(EntityID id, std::string filePath) :Scene(id, filePath)
@@ -26,6 +27,7 @@ PlayScene::PlayScene(EntityID id, std::string filePath) :Scene(id, filePath)
 	Direct3DManager* direct3D = Direct3DManager::getInstance();
 	menuPoint = new MenuPoint();
 	viewport = Direct3DManager::getInstance()->getViewport();
+	key_handler = new PlayScenceKeyHandler(this);
 }
 
 void PlayScene::Load()
@@ -139,7 +141,6 @@ void PlayScene::Render(Viewport* viewport)
 		objects[i]->Render(viewport);
 	}
 	Simon::getInstance()->Render(viewport);
-
 	if (castleWall)
 	{
 		castleWall->Render(viewport);
@@ -398,4 +399,42 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 			}
 		}
 	}
+}
+
+void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
+{
+	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	Simon *simon = Simon::getInstance();
+	switch (KeyCode)
+	{
+		
+	case DIK_X:
+		if (simon->GetState()!= simon->SIMON_STATE_JUMPING)
+		{
+			simon->SetUpJump();
+		}
+		break;
+	}
+
+	DebugOut(L"[INFO] state: %d\n", simon->GetState());
+}
+
+void PlayScenceKeyHandler::KeyState(BYTE *states)
+{
+	Game *game = Game::GetInstance();
+	Simon *simon = Simon::getInstance();
+
+	if (game->IsKeyDown(DIK_K))
+	{
+		simon->SetState(Simon::State::SIMON_STATE_WALKING_RIGHT);
+	}
+	else if (game->IsKeyDown(DIK_H))
+	{
+		simon->SetState(Simon::State::SIMON_STATE_WALKING_LEFT);
+	}
+	else if (game->IsKeyDown(DIK_J))
+	{
+		simon->SetState(Simon::State::SIMON_STATE_SITDOWN);
+	}
+	else simon->SetState(Simon::State::SIMON_STATE_IDLE);
 }

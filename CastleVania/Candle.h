@@ -1,7 +1,6 @@
 #pragma once
 #include "Candle.h"
 #include "GameObjects/GameObject.h"
-#include "ResourceManagement.h"
 #include "./StaticObject.h"
 
 class Candle : public StaticObject

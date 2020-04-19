@@ -191,7 +191,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameObjects\Simon.cpp" />
     <ClCompile Include="Screens\MenuScreen.cpp" />
-    <ClCompile Include="ResourceManagement.cpp" />
     <ClCompile Include="Screens\ScreenBase.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="GameObjects\SmallHeart.cpp" />
@@ -226,6 +225,7 @@
     <ClInclude Include="EntranceScreen.h" />
     <ClInclude Include="FishMan.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="MovingMap.h" />
     <ClInclude Include="ObjectGridCreation.h" />
     <ClInclude Include="PlayScence.h" />
@@ -273,7 +273,6 @@
     <ClInclude Include="GameObjects\GameObject.h" />
     <ClInclude Include="GameObjects\Simon.h" />
     <ClInclude Include="Screens\MenuScreen.h" />
-    <ClInclude Include="ResourceManagement.h" />
     <ClInclude Include="Screens\ScreenBase.h" />
     <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="GameObjects\SmallHeart.h" />
