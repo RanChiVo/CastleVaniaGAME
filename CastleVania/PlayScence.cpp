@@ -8,9 +8,9 @@
 #include "Brick.h"
 #include "GameObjects/BurnBarrel.h"
 #include "VampireBat.h"
-#include "GameObjects/Entrance.h"
-#include "WallEntrance.h"
+#include "Wall.h"
 #include "Candle.h"
+#include "GameObjects/Entrance.h"
 #include "SpawnEnemy.h"
 #include "FishMan.h"
 #include "DarkBat.h"
@@ -19,7 +19,10 @@
 #include "ObjectGridCreation.h"
 #include "../CastleVania/GameObjects/Whip.h"
 #include "Portal.h"
-
+#include "PortalPosMap.h"
+#include "ActivationBox.h"
+#include "Crown.h"
+#include "SpearKnight.h"
 
 PlayScene::PlayScene(EntityID id, std::string filePath) :Scene(id, filePath)
 {
@@ -52,6 +55,18 @@ void PlayScene::Load()
 		if (name.compare("ObjectPath") == 0)
 		{
 			objectPath = property.attribute("value").as_string();
+		}
+		else if (name.compare("StartViewportX") == 0)
+		{
+			viewport->setStartViewPortX(property.attribute("value").as_float());
+		}
+		else if (name.compare("EndViewportX") == 0)
+		{
+			viewport->setEndViewPortX(property.attribute("value").as_float());
+		}
+		else if (name.compare("StartViewportY") == 0)
+		{
+			viewport->setStartViewPortY(property.attribute("value").as_float());
 		}
 	}
 
@@ -121,7 +136,7 @@ void PlayScene::Update(DWORD dt)
 		}
 	}
 
-	Simon::getInstance()->Update(dt, &objects);
+	player->Update(dt, &objects);
 
 	UpdateViewport(dt);
 
@@ -138,7 +153,7 @@ void PlayScene::Render(Viewport* viewport)
 	{
 		objects[i]->Render(viewport);
 	}
-	Simon::getInstance()->Render(viewport);
+	player->Render(viewport);
 
 	if (castleWall)
 	{
@@ -162,15 +177,15 @@ void PlayScene::UpdateViewport(DWORD dt)
 {
 	if (viewport->getState() == viewport->STATE_ACTION)
 	{
-		D3DXVECTOR2 pos_Simon = Simon::getInstance()->getPosition();
-		int widthframeSimon = Simon::getInstance()->getWidth();
+		int widthframeSimon = player->getWidth();
 		D3DXVECTOR2 newPosViewport = D3DXVECTOR2{};
-		newPosViewport.x = Simon::getInstance()->getPosition().x - viewport->getWidth() / 2 + widthframeSimon / 2;
-		newPosViewport.x = min(tiled_map->getWidthWorld() - viewport->getWidth(), newPosViewport.x);
-		newPosViewport.y = min(tiled_map->getHeightWorld() - viewport->getHeight(), newPosViewport.y);
-		newPosViewport.x = max(0, newPosViewport.x);
-		newPosViewport.y = max(0, newPosViewport.y);
-		viewport->setX(float(newPosViewport.x));
+
+		newPosViewport.x = player->getPosition().x - viewport->getWidth() / 2 + widthframeSimon / 2;
+		newPosViewport.y = int((player->getPosition().y - EXTRA_HEIGHT_SCREEN) / 384) *384;
+
+		newPosViewport.x = min(viewport->getEndViewportX() + 24 - viewport->getWidth(), newPosViewport.x);
+		newPosViewport.y = min(384 * 2, newPosViewport.y);
+		newPosViewport.x = max(viewport->getStartViewportX(), newPosViewport.x);
 		viewport->SetPosition(float(newPosViewport.x), float(newPosViewport.y));
 	}
 	else return;
@@ -258,15 +273,19 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 			int width = objectNode.attribute("width").as_int();
 			int height = objectNode.attribute("height").as_int();
 			std::string idHiddenItemString = "";
+			EntityID activationObjectID = ID_ENTITY_NULL;
 			std::string objectId = "";
 			std::string enemyName = "";
-			float startViewPort = 0;
-			float endViewPort = 0;
+			float startViewPortX = 0;
+			float endViewPortX = 0;
+			float startViewPortY = 0;
 			EntityID sceneID = ID_ENTITY_NULL;
+
 			std::string cellId = "";
 			int stairHeight = 0;
 			int nx = 0;
 			int ny = 0;
+			float maxDistance = 0;
 
 			auto properties = objectNode.child("properties");
 
@@ -277,9 +296,17 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				{
 					idHiddenItemString = propertyNode.attribute("value").as_string();
 				}
+				else if (nameProperty.compare("Activation Object ID") == 0)
+				{
+					activationObjectID = Utils::getInstance()->getStringToEntityID()[propertyNode.attribute("value").as_string()];
+				}
 				else if (nameProperty.compare("Object ID") == 0)
 				{
 					objectId = propertyNode.attribute("value").as_string();
+				}
+				else if (name.compare("MaxDistance") == 0)
+				{
+					maxDistance = propertyNode.attribute("value").as_int();
 				}
 				else if (nameProperty.compare("Enemy Name") == 0)
 				{
@@ -297,14 +324,19 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				{
 					ny = propertyNode.attribute("value").as_int();
 				}
-				else if (nameProperty.compare("StartViewport") == 0)
+				else if (nameProperty.compare("StartViewportX") == 0)
 				{
-					startViewPort = propertyNode.attribute("value").as_float();
+					startViewPortX = propertyNode.attribute("value").as_float();
 				}
-				else if (nameProperty.compare("EndViewport") == 0)
+				else if (nameProperty.compare("EndViewportX") == 0)
 				{
-					endViewPort = propertyNode.attribute("value").as_float();
+					endViewPortX = propertyNode.attribute("value").as_float();
 				}
+				else if (name.compare("StartViewportY") == 0)
+				{
+					startViewPortX = propertyNode.attribute("value").as_float();
+				}
+				
 				else if (nameProperty.compare("SceneID") == 0)
 				{
 					sceneID = Utils::getInstance()->getStringToEntityID()[propertyNode.attribute("value").as_string()];
@@ -318,6 +350,7 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 			int  idObject = Utils::getInstance()->getStringToEntityID()[objectId];
 			if (!idObject)
 			{
+				DebugOut(L"[ERROR] Read Screne file failed\n", objectId);
 				return;
 			}
 			AnimationSets * animation_sets = AnimationSets::GetInstance();
@@ -349,18 +382,23 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				break;
 			case ID_ENTITY_VAMPIRE_BAT:
 				objectInit = new VampireBat(D3DXVECTOR2(x, y), height, width);
+				objectInit->setName(name);
+				break;
+			case ID_ENTITY_WALL:
+				objectInit = new Wall(D3DXVECTOR2(x, y), height, width);
 				break;
 			case ID_ENTITY_ENTRANCE:
 				objectInit = new Entrance(D3DXVECTOR2(x, y), height, width);
 				break;
-			case ID_ENTITY_WALL_ENTRANCE:
-				objectInit = new WallEntrance(D3DXVECTOR2(x, y), height, width);
-				break;
 			case ID_ENTITY_PORTAL:
 				objectInit = new Portal(D3DXVECTOR2(x, y), sceneID, height, width);
 				break;
+			case ID_ENTITY_PORTAL_POS_MAP:
+				objectInit = new PortalPosMap(D3DXVECTOR2(x, y),height, width, startViewPortX, endViewPortX, startViewPortY);
+				break;
 			case ID_ENTITY_CANDLE:
 				objectInit = new Candle(D3DXVECTOR2(x, y), height, width);
+				objectInit->setIdHiddenItem(idHiddenItemString);
 				break;
 			case ID_ENTITY_SPAWN_ENEMY:
 				objectInit = new SpawnEnemy(D3DXVECTOR2(x, y), height, width);
@@ -377,13 +415,23 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				castleWall->setWidth(width);
 				break;
 			case ID_ENTITY_STAIR:
-				objectInit = new ObjectStair(D3DXVECTOR2(x, y), D3DXVECTOR4(width,
-					height, nx, ny), height);
+				objectInit = new ObjectStair(D3DXVECTOR2(x, y), width,
+					height, nx, ny, stairHeight);
 				objectInit->setMainId(id);
 				objectInit->setCellId(cellId);
 				break;
 			case ID_ENTITY_PANTHER:
 				objectInit = new Panther(D3DXVECTOR2(x, y), nx, height, width);
+				break;
+			case ID_ENTITY_ACTIVATEBOX:
+				objectInit = new ActivationBox(D3DXVECTOR2(x, y), activationObjectID, height, width);
+				objectInit->setName(name);
+				break;
+			case ID_ENTITY_CROWN:
+				objectInit = new Crown(D3DXVECTOR2(x, y), height, width);
+				break;
+			case ID_ENTITY_SPEAR_KNIGHT:
+				objectInit = new SpearKnight(D3DXVECTOR2(x, y),nx, height, width);
 				break;
 			}
 

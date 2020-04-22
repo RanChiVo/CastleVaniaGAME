@@ -79,7 +79,7 @@ void StaticObject::Render(Viewport * viewport)
 	if (state == STATE_EFFECT)
 	{
 		AnimationSets * animation_sets = AnimationSets::GetInstance();
-		LPANIMATION_SET ani_set = animation_sets->Get(ID_ENTITY_CRYSTAL_BALL);
+		LPANIMATION_SET ani_set = animation_sets->Get(ID_ENTITY_EFFECT);
 		SetAnimationSet(ani_set);
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		Flip flip = flip_horiz;

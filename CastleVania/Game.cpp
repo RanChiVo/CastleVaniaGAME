@@ -4,7 +4,7 @@
 #include "PlayScence.h"
 
 constexpr unsigned int ScreenBase_width = 530;
-constexpr unsigned int ScreenBase_height = 530;
+constexpr unsigned int ScreenBase_height = 512;
 constexpr int max_frame_rate = 120;
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0,0,0)
@@ -71,9 +71,9 @@ void Game::SwitchScene(EntityID scene_id)
 	LPSCENE s = scenes[current_scene];
 	s->Unload();
 
-	Textures::GetInstance()->Clear();
-	Sprites::GetInstance()->Clear();
-	Animations::GetInstance()->Clear();
+	//Textures::GetInstance()->Clear();
+	//Sprites::GetInstance()->Clear();
+	//Animations::GetInstance()->Clear();
 
 
 	s->Load();

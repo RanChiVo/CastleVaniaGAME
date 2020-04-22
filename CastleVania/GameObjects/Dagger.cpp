@@ -67,7 +67,7 @@ void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void Dagger::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	left = x + width;
+	left = x;
 	top = y;
 	right = left + width;
 	bottom = y + height;

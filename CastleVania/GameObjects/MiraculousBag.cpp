@@ -81,12 +81,8 @@ void MiraculousBag::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			y += Dy;
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-		if (GetTickCount() - liveTime > 7000 && score == 1000 && liveTime > 0)
-		{
-			state = STATE_DETROY;
-			liveTime = 0;
-		}
-		else if (GetTickCount() - liveTime > 4000 && score != 1000 && liveTime > 0)
+		if (GetTickCount() - liveTime > 7000 && score == 1000 && liveTime > 0 || 
+			(GetTickCount() - liveTime > 4000 && score != 1000 && liveTime > 0))
 		{
 			state = STATE_DETROY;
 			liveTime = 0;
@@ -106,6 +102,9 @@ void MiraculousBag::Render(Viewport * viewport)
 {
 	if (state == STATE_EFFECT)
 	{
+		AnimationSets * animation_sets = AnimationSets::GetInstance();
+		LPANIMATION_SET ani_set = animation_sets->Get(ID_ENTITY_EFFECT_MONEY);
+		SetAnimationSet(ani_set);
 		switch (currentAnimation)
 		{
 		case RED_MIRACULOUSBAG_ANI:

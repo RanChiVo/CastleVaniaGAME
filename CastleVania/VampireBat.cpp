@@ -7,22 +7,17 @@ constexpr DWORD VAMPIRE_BAT_REVIVAL_TIME = 5000;
 
 VampireBat::VampireBat(D3DXVECTOR2 pos, int height, int width)
 {
+	id = ID_ENTITY_VAMPIRE_BAT;
 	SetPosition(pos);
 	this->height = height;
 	this->width = width;
-	id = ID_ENTITY_VAMPIRE_BAT;
-	state = VAMPIRE_STATE_HIDDEN;
-	currentAnimation = VAMPIRE_BAT_IDLE_ANI1;
-	originalLocationY = y;
-	delta = 0;
-	nx = 1;
-	vx = nx * VAMPIRE_BAT_SPEED;
-	timeActivate = 0;
+	SetState(VAMPIRE_STATE_SLEEP);
+	originalLocationX = pos.x - 64;
 }
 
 void VampireBat::Render(Viewport * viewport)
 {
-	if (state == STATE_SHOW)
+	if (state!=STATE_EFFECT)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		RenderBoundingBox(viewport);
@@ -30,74 +25,86 @@ void VampireBat::Render(Viewport * viewport)
 		if (nx == -1) flip = normal;
 		else flip = flip_horiz;
 		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
+		Enemy::Render(viewport);
 	}
-	Enemy::Render(viewport);
+
+	if (state == VAMPIRE_STATE_HIDDEN)
+	{
+		if (!checkInsideViewPort(viewport))
+		{
+			SetState(STATE_DETROY);
+		}
+	}
 }
 
 void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
-	handleState();
 	x += dx;
-	if (state == VAMPIRE_STATE_HIDDEN)
-	{
-		if (Simon::getInstance()->checkisInSpawn() && Simon::getInstance()->getIdEnemySpawn() == id && 
-			timeActivate == 0 && !Simon::getInstance()->IsMovingDoor())
-		{
-			timeActivate = GetTickCount();
-			state = STATE_SHOW;
-			nx = -Simon::getInstance()->get_nx();
-			vx = nx * VAMPIRE_BAT_SPEED;
-			if (Simon::getInstance()->get_nx() > 0)
-			{
-				SetPosition(D3DXVECTOR2(Direct3DManager::getInstance()->getViewport()->getX() +
-					Direct3DManager::getInstance()->getViewport()->getWidth(), Simon::getInstance()->getPosition().y));
-			}
-			else if (Simon::getInstance()->get_nx() < 0)
-			{
-				SetPosition(D3DXVECTOR2(Direct3DManager::getInstance()->getViewport()->getX(), Simon::getInstance()->getPosition().y));
-			}
-			originalLocationY = y;
-		}
-	}
-	
-	if (state == STATE_SHOW)
-	{
-		if (GetTickCount()- timeActivate > VAMPIRE_BAT_REVIVAL_TIME)
-		{
-			SetState(VAMPIRE_STATE_HIDDEN);
-			timeActivate = 0;
-		}
-	}
-	
-	if (state != STATE_EFFECT)
+	y += dy;
+
+	if (state == VAMPIRE_STATE_ATTACK)
 	{
 		delta += 3.7f;
 		y = sin(delta * 3.14 / 180) * 12 + originalLocationY;
 	}
+
+	if (timeActivate > 0 && GetTickCount() - timeActivate > VAMPIRE_BAT_REVIVAL_TIME)
+	{
+		SetState(VAMPIRE_STATE_ATTACK);
+	}
+
 	Enemy::Update(dt, coObjects);
 }
 
 void VampireBat::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	if (state == STATE_SHOW)
-	{
-		left = x;
-		top = y;
-		right = x + width;
-		bottom = y + height;
-	}
+	left = x;
+	top = y;
+	right = x + width;
+	bottom = y + height;
 }
 
-void VampireBat::handleState()
+void VampireBat::SetState(int state)
 {
+	GameObject::SetState(state);
 	switch (state)
 	{
-	case STATE_SHOW:
+	case VAMPIRE_STATE_ATTACK:
 		currentAnimation = VAMPIRE_BAT_FLY_ANI1;
+		nx = -Simon::getInstance()->get_nx();
+		vx = nx * VAMPIRE_BAT_SPEED;
+		if (Simon::getInstance()->get_nx() > 0)
+		{
+			SetPosition(D3DXVECTOR2(Direct3DManager::getInstance()->getViewport()->getEndViewportX(), Simon::getInstance()->getPosition().y));
+		}
+		else if (Simon::getInstance()->get_nx() < 0)
+		{
+			SetPosition(D3DXVECTOR2(originalLocationX, Simon::getInstance()->getPosition().y));
+		}
+		originalLocationY = y;
+		timeActivate = GetTickCount();
+		break;
+	case VAMPIRE_STATE_SLEEP:
+		currentAnimation = VAMPIRE_BAT_IDLE_ANI1; 
+		timeActivate = 0;
+		nx = 1;
+		vx = 0;
+		vy = 0;
 		break;
 	case VAMPIRE_STATE_HIDDEN:
-		timeActivate = 0;
+		currentAnimation = VAMPIRE_BAT_FLY_ANI1;
+		nx = -Simon::getInstance()->get_nx();
+		vx = nx * VAMPIRE_BAT_SPEED;
+		if (Simon::getInstance()->get_nx() > 0)
+		{
+			SetPosition(D3DXVECTOR2(Direct3DManager::getInstance()->getViewport()->getEndViewportX(), Simon::getInstance()->getPosition().y));
+		}
+		else if (Simon::getInstance()->get_nx() < 0)
+		{
+			SetPosition(D3DXVECTOR2(originalLocationX, Simon::getInstance()->getPosition().y));
+		}
+		originalLocationY = y;
 		break;
 	}
 }

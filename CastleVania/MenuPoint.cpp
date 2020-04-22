@@ -10,7 +10,7 @@ MenuPoint::MenuPoint()
 
 void MenuPoint::loadResource()
 {
-	Textures::GetInstance()->Add(ID_ENTITY_BBOX, L"Resources\\menu.png", D3DCOLOR_XRGB(255, 255, 255));
+	Textures::GetInstance()->Add(ID_ENTITY_BBOX, L"Resources\\MenuPoint\\menu.png", D3DCOLOR_XRGB(255, 255, 255));
 	menu = Sprites::GetInstance()->Get("menu");
 	heart = Sprites::GetInstance()->Get("heartMenuPoint");
 	HP = Sprites::GetInstance()->Get("HP1");

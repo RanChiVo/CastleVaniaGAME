@@ -70,7 +70,8 @@ public:
 	{
 		STATE_DETROY = 1000,
 		STATE_SHOW = 1001,
-		STATE_EFFECT = 1002,
+		STATE_HIDDEN = 1002,
+		STATE_EFFECT = 1003,
 	};
 	GameObject();
 	bool IsTouched(){ return isTouched; }

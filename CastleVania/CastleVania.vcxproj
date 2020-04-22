@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActivationBox.cpp" />
     <ClCompile Include="Animations\Animations.cpp" />
     <ClCompile Include="Animations\Animation.cpp" />
     <ClCompile Include="AreaZombie.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="BaseInfo.cpp" />
     <ClCompile Include="Boomerang.cpp" />
     <ClCompile Include="BoomerangWeapon.cpp" />
+    <ClCompile Include="Crown.cpp" />
     <ClCompile Include="CrystalBall.cpp" />
     <ClCompile Include="DarkBat.cpp" />
     <ClCompile Include="EntranceScreen.cpp" />
@@ -150,8 +152,10 @@
     <ClCompile Include="MovingMap.cpp" />
     <ClCompile Include="ObjectGridCreation.cpp" />
     <ClCompile Include="PlayScence.cpp" />
+    <ClCompile Include="PortalPosMap.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SpawnEnemy.cpp" />
+    <ClCompile Include="SpearKnight.cpp" />
     <ClCompile Include="UndergroundScreen.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="VampireBat.cpp" />
@@ -206,12 +210,13 @@
     <ClCompile Include="GameObjects\Whip.cpp" />
     <ClCompile Include="GameObjects\WeaponReward.cpp" />
     <ClCompile Include="Portal.cpp" />
-    <ClCompile Include="WallEntrance.cpp" />
+    <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WaterEffect.cpp" />
     <ClCompile Include="WindowUtil.cpp" />
     <ClCompile Include="GameObjects\Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActivationBox.h" />
     <ClInclude Include="Animations\Animations.h" />
     <ClInclude Include="Animations\Animation.h" />
     <ClInclude Include="AreaZombie.h" />
@@ -221,6 +226,7 @@
     <ClInclude Include="BaseInfo.h" />
     <ClInclude Include="Boomerang.h" />
     <ClInclude Include="BoomerangWeapon.h" />
+    <ClInclude Include="Crown.h" />
     <ClInclude Include="CrystalBall.h" />
     <ClInclude Include="DarkBat.h" />
     <ClInclude Include="EntranceScreen.h" />
@@ -229,8 +235,10 @@
     <ClInclude Include="MovingMap.h" />
     <ClInclude Include="ObjectGridCreation.h" />
     <ClInclude Include="PlayScence.h" />
+    <ClInclude Include="PortalPosMap.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SpawnEnemy.h" />
+    <ClInclude Include="SpearKnight.h" />
     <ClInclude Include="UndergroundScreen.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="VampireBat.h" />
@@ -288,7 +296,7 @@
     <ClInclude Include="GameObjects\Whip.h" />
     <ClInclude Include="GameObjects\WeaponReward.h" />
     <ClInclude Include="Portal.h" />
-    <ClInclude Include="WallEntrance.h" />
+    <ClInclude Include="Wall.h" />
     <ClInclude Include="WaterEffect.h" />
     <ClInclude Include="WindowUtil.h" />
     <ClInclude Include="GameObjects\Zombie.h" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
   <animations id="ID_ENTITY_STAR">
-  <animation name ="STAR_EFFECT" default_time="100" rewind="true">
+  <animation name ="ANI_EFFECT_STAR" default_time="100" rewind="true">
     <animation_frame sprite_id ="star_effect"/>
   </animation >
 </animations>

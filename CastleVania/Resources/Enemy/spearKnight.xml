@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<loadresource>
+ <imagelayer id="ID_ENTITY_SPEAR_KNIGHT" name="SpearKnight" width="32" height="64">
+  <image source="Resources\Enemy\spearKnight.png" width="100" height="66" />
+ </imagelayer>
+ <sprites>
+  <spriteframe id="spear_knight_walking1" left="0" top="0" right="32" bottom="64" />
+  <spriteframe id="spear_knight_walking2" left="34" top="0" right="66" bottom="64" />
+  <spriteframe id="spear_knight_walking3" left="68" top="0" right="100" bottom="64" />
+ </sprites>
+</loadresource>

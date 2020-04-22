@@ -15,6 +15,9 @@
     <animation_frame sprite_id ="effect2_money1000"/>
     <animation_frame sprite_id ="effect3_money1000"/>
   </animation >
+    <animation name="EFFECT_2000_MONEY_ANI" default_time="100" rewind="true">
+      <animation_frame sprite_id="effect_money2000" />
+    </animation>
 </animations>
   </loadresource>
   

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_ENTITY_CRYSTAL_BALL"  name="CrystalBall" width="40" height="44">
+  <imagelayer id="ID_ENTITY_EFFECT"  name="Effect" width="40" height="44">
     <image source="Resources\Items\effect_fire.png" width="308" height="44" />
   </imagelayer>
   <sprites>

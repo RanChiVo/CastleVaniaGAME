@@ -10,6 +10,7 @@ Viewport::Viewport(int x, int y, int width, int height)
 	this->height = height;
 	startViewportX = 0;
 	endViewportX = 0;
+	startViewportY = 0;
 	state = STATE_ACTION;
 }
 
@@ -41,6 +42,16 @@ void Viewport::setEndViewPortX(float endViewport)
 float Viewport::getEndViewportX()
 {
 	return endViewportX;
+}
+
+void Viewport::setStartViewPortY(float startViewportY)
+{
+	this->startViewportY = startViewportY;
+}
+
+float Viewport::getStartViewportY()
+{
+	return startViewportY;
 }
 
 void Viewport::setStartViewPortX(float startViewport)

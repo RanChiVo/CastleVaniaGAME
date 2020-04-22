@@ -1,13 +1,17 @@
 #pragma once
-#include "../GameObjects/GameObject.h"
+#include "Enemy.h"
 
-class Cross : public GameObject
+class SpearKnight:public Enemy
 {
+	int maxDistance;
+	float positionXStart;
+	DWORD timeMoving;
+	DWORD timeMoving1;
 public:
-	Cross(D3DXVECTOR2 position);
+	SpearKnight(D3DXVECTOR2 pos, int maxDistance, int width, int height);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Render(Viewport* viewport);
-	~Cross();
+	~SpearKnight();
 };
 

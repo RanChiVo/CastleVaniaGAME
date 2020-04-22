@@ -5,6 +5,10 @@ constexpr int EFFECT_ALIVE_TIME = 2000;
 
 Effect::Effect()
 {
+	id = ID_ENTITY_EFFECT;
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
 	liveTime = GetTickCount();
 }
 

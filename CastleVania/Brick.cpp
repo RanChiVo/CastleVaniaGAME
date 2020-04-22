@@ -27,7 +27,6 @@ CBrick::CBrick(std::string name, D3DXVECTOR2 pos, int height, int width)
 	if (name.compare("BigSitdownBrick")==0)
 	{
 		currentAnimation = BRICK_ANI2;
-		
 	}
 	else  if (name.compare("BigStandBrick")==0)
 	{
@@ -46,7 +45,7 @@ CBrick::CBrick(std::string name, D3DXVECTOR2 pos, int height, int width)
 
 void CBrick::Render(Viewport* viewport)
 {
-	RenderBoundingBox(viewport);
+	//RenderBoundingBox(viewport);
 
 	if (state == STATE_SHOW)
 	{

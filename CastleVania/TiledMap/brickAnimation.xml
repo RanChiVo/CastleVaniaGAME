@@ -10,7 +10,7 @@
     <animation name="BRICK_ANI3" default_time="100" rewind="true">
       <animation_frame sprite_id="brick03" />
     </animation>
-    <animation name="BRICK_ANI4" default_time="100" rewind="true">
+    <animation name="BRICK_ANI4" default_time="50" rewind="true">
       <animation_frame sprite_id="brick04" />
     </animation>
   </animations>

@@ -105,7 +105,7 @@ public:
 	void Simon::handleOutOfStair();
 	void handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	void handleAfterCollision(vector<LPGAMEOBJECT> *coObjects, EntityID id ,int i, vector<LPCOLLISIONEVENT> *coEvents);
-	void handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+	void handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> *coEvents);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void resetWhenDie();
 	void setResetPosition(D3DXVECTOR2 pos);

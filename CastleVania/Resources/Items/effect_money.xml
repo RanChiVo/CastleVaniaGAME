@@ -10,5 +10,6 @@
     <spriteframe id="effect1_money1000" left = "110" top="0" right="142" bottom="16"/>
     <spriteframe id="effect2_money1000" left = "110" top="17" right="142" bottom="33"/>
     <spriteframe id="effect3_money1000" left = "110" top="34" right="142" bottom="49"/>
+    <spriteframe id="effect_money2000" left="0" top="17" right="32" bottom="32" />
   </sprites>
 </loadresource>

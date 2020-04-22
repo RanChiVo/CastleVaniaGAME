@@ -29,7 +29,6 @@ void Portal::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	GameObject::Update(dt, coObjects);
 }
 
-
 Portal::~Portal()
 {
 }

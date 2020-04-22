@@ -97,19 +97,27 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 	sprite = new Sprite("BoundingBox", RECT{ rect.left, rect.top, rect.right, rect.bottom }, bbox);
 
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+
 	if (id == ID_ENTITY_SIMON)
 	{
+		rect.left = 0;
+		rect.top = 0;
+		rect.right = 30;
+		rect.bottom = ((int)b - (int)t);
+
+		sprite = new Sprite("BoundingBox", RECT{ rect.left, rect.top, rect.right, rect.bottom }, bbox);
+		D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(l + 10, t));
+
 		if (state == Simon::SIMON_STATE_SITDOWN ||
 			state == Simon::SIMON_STATE_ATTACK_SITDOWN)
 		{
-			sprite->Draw(D3DXVECTOR2(pos.x + 20, pos.y + 20), 100);
+			sprite = new Sprite("BoundingBox", RECT{ rect.left, rect.top/2, rect.right, rect.bottom/2 }, bbox);
+			D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(l + 10, t));
+			pos.y = pos.y + 20;
+			sprite->Draw(pos, 200);
 
 		}
-		else sprite->Draw(D3DXVECTOR2(pos.x + 20, pos.y), 100);
-		if (state == Simon::SIMON_STATE_DIE)
-		{
-			sprite->Draw(D3DXVECTOR2(pos.x, pos.y), 100);
-		}
+		else sprite->Draw(pos, 200);
 	}
 	else sprite->Draw(pos, 100);
 }

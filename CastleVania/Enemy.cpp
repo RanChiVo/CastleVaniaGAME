@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <ctime>
 
-constexpr DWORD LIVE_TIME = 100;
+constexpr DWORD LIVE_TIME = 300;
 constexpr DWORD STOP_WATCH_TIME = 4000;
 
 DWORD Enemy::stopWatchStart = 0;
@@ -49,6 +49,11 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 100);
 				state = STATE_DETROY;
 				break;
+			case ID_ENTITY_SPEAR_KNIGHT:
+				Simon::getInstance()->getBaseInfo()
+					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 100);
+				state = STATE_DETROY;
+				break;
 			case ID_ENTITY_PANTHER:
 				Simon::getInstance()->getBaseInfo()
 					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 200);
@@ -57,7 +62,7 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			case ID_ENTITY_VAMPIRE_BAT:
 				Simon::getInstance()->getBaseInfo()
 					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 200);
-				state = VampireBat::VAMPIRE_STATE_HIDDEN;
+				state = VampireBat::STATE_DETROY;
 				break;
 			case ID_ENTITY_FISH_MAN:
 				Simon::getInstance()->getBaseInfo()
@@ -109,7 +114,10 @@ void Enemy::Render(Viewport * viewport)
 {
 	if (state == STATE_EFFECT)
 	{
-		//AddAnimation(ANI_EFFECT);
+		AnimationSets * animation_sets = AnimationSets::GetInstance();
+		LPANIMATION_SET ani_set = animation_sets->Get(ID_ENTITY_EFFECT);
+		SetAnimationSet(ani_set);
+		currentAnimation = ANI_EFFECT;
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		Flip flip = flip_horiz;
 		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);

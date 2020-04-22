@@ -84,7 +84,7 @@ void Grid::update(vector<LPGAMEOBJECT>* coObjects)
 			break;
 		case ID_ENTITY_ENTRANCE:
 			break;
-		case ID_ENTITY_WALL_ENTRANCE:
+		case ID_ENTITY_WALL:
 			break;
 		case ID_ENTITY_CANDLE:
 			break;

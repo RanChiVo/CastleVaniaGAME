@@ -10,6 +10,7 @@ protected:
 	float height;
 	float startViewportX;
 	float endViewportX;
+	float startViewportY;
 	int state;
 public:
 	enum StateViewPort
@@ -28,14 +29,14 @@ public:
 	D3DXVECTOR2	 GetPosition() { return D3DXVECTOR2(x, y); }
 
 	void SetPosition(float x, float y) { this->x = x; this->y = y; }
-	
+
 	float getWidth() { return width; }
 
 	float getHeight() { return height; }
 
 	float getX() { return x; }
 
-	float getY(){ return y; }
+	float getY() { return y; }
 
 	void setX(float x) { this->x = x; }
 
@@ -50,6 +51,10 @@ public:
 	void setEndViewPortX(float endViewport);
 
 	float getEndViewportX();
+
+	void setStartViewPortY(float startViewportY);
+
+	float getStartViewportY();
 
 	void setState(StateViewPort state) { this->state = state; }
 

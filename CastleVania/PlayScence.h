@@ -4,8 +4,9 @@
 #include "MenuPoint.h"
 #include "TiledMap.h"
 #include "CastleWall.h"
+#include "GameObjects/Entrance.h"
 
-class PlayScene: public Scene
+class PlayScene : public Scene
 {
 protected:
 	CastleWall* castleWall;

@@ -8,7 +8,7 @@
     <spriteframe id="brick01" left = "0" top="0" right="32" bottom="32"/>
     <spriteframe id="brick02" left = "32" top="0" right="64" bottom="32"/>
     <spriteframe id="brick03" left="64" top="0" right="96" bottom="32" />
-    <spriteframe id="brick04" left="96" top="0" right="127" bottom="32" />
+    <spriteframe id="brick04" left="98" top="0" right="127" bottom="32" />
   </sprites>
   
 </loadresource>
