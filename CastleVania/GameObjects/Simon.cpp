@@ -28,12 +28,13 @@
 #include "../PortalPosMap.h"
 #include "../ActivationBox.h"
 #include "../Crown.h"
+#include "../MovingBrick.h"
 
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
 constexpr float SIMON_MOVE_SPEED = 0.10f;
 constexpr float SIMON_AUTO_SPEED_RIGHT = 0.025f;
-constexpr float SIMON_GRAVITY = 0.00115f;
+constexpr float SIMON_GRAVITY = 0.001f;
 constexpr float SIMON_HURT_SPEED_Y = 0.2f;
 constexpr float SIMON_STAIR_SPEED = 0.06f;
 constexpr DWORD SIMON_ENTRANCE_TIME = 5000;
@@ -60,8 +61,6 @@ Simon::Simon()
 	__hook(&DirectInput::OnKeyDown, directInput, &Simon::OnKeyDown);
 	__hook(&DirectInput::OnKeyUp, directInput, &Simon::OnKeyUp);
 	id = ID_ENTITY_SIMON;
-	width = Textures::GetInstance()->GetSizeObject(id).first;
-	height = Textures::GetInstance()->GetSizeObject(id).second;
 	SetState(SIMON_STATE_IDLE);
 	currentAnimation = SIMON_ANI_IDLE;
 	comeEntranceStart = 0;
@@ -231,6 +230,7 @@ void Simon::OnKeyStateChange(BYTE * states)//state
 				else if (directInput->IsKeyDown(DIK_Z))
 				{
 					SetState(SIMON_STATE_ATTACK_UP_STAIR);
+					startAtack = GetTickCount();
 				}
 			}
 		}
@@ -252,6 +252,7 @@ void Simon::OnKeyStateChange(BYTE * states)//state
 				else if (directInput->IsKeyDown(DIK_Z))
 				{
 					SetState(SIMON_STATE_ATTACK_DOWN_STAIR);
+					startAtack = GetTickCount();
 				}
 			}
 		}
@@ -405,7 +406,7 @@ void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 
 void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
 {
-	if (startAtack)
+	if (startAtack && state!=SIMON_STATE_HURT)
 	{
 		whip->updatePostision(animation->getCurrentFrame(), currentAnimation, flip);
 		whip->draw(flip, viewport);
@@ -452,7 +453,14 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 
 void Simon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
-{
+{ 
+	if (state == SIMON_STATE_JUMPING)
+	{
+		left = x + 8;
+		top = y + 7;
+		right = left + width - 18;
+		bottom = top + height - 20;
+	}
 	left = x + 8;
 	top = y;
 	right = left + width - 18 ;
@@ -831,7 +839,9 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	for (int i = 0; i < coObjects->size(); i++)
 	{
 		if (coObjects->at(i)->getID() == ID_ENTITY_WALL
-			|| coObjects->at(i)->getID() == ID_ENTITY_FLOOR || coObjects->at(i)->getID() == ID_ENTITY_BRICK)
+			|| coObjects->at(i)->getID() == ID_ENTITY_FLOOR ||
+			coObjects->at(i)->getID() == ID_ENTITY_BRICK 
+			||coObjects->at(i)->getID() == ID_ENTITY_MOVING_BRICK)
 			staticObject.push_back(coObjects->at(i));
 	}
 
@@ -855,13 +865,13 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		if (!isOnStair)
 		{
-			x += min_tx * dx + nx * 0.008f;
+			x += min_tx * dx + nx * 0.1f;
 		}
 		else x += dx;
 
 		if (nx != 0) vx = 0;
 
-		y += min_ty * dy + ny * 0.008f;
+		y += min_ty * dy + ny * 0.1f;
 
 		if (ny < 0 && !isOnStair)
 		{
@@ -906,7 +916,14 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			SetState(SIMON_STATE_AUTO_GOES_RIGHT);
 		}
 		break;
-
+		case ID_ENTITY_MOVING_BRICK:
+		{
+			MovingBrick *movingBrick = dynamic_cast<MovingBrick *>(coEvents[i]->obj);
+			float vxBr, vyBr;
+			movingBrick->GetSpeed(vxBr, vyBr);
+			SetSpeed(vxBr*2, vy);
+		}
+		break;
 		}
 	}
 }

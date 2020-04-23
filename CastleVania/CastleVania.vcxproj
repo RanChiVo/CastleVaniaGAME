@@ -148,7 +148,9 @@
     <ClCompile Include="DarkBat.cpp" />
     <ClCompile Include="EntranceScreen.cpp" />
     <ClCompile Include="FishMan.cpp" />
+    <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="MovingBrick.cpp" />
     <ClCompile Include="MovingMap.cpp" />
     <ClCompile Include="ObjectGridCreation.cpp" />
     <ClCompile Include="PlayScence.cpp" />
@@ -231,7 +233,9 @@
     <ClInclude Include="DarkBat.h" />
     <ClInclude Include="EntranceScreen.h" />
     <ClInclude Include="FishMan.h" />
+    <ClInclude Include="Ghost.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="MovingBrick.h" />
     <ClInclude Include="MovingMap.h" />
     <ClInclude Include="ObjectGridCreation.h" />
     <ClInclude Include="PlayScence.h" />

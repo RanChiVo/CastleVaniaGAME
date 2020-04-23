@@ -23,6 +23,7 @@
 #include "ActivationBox.h"
 #include "Crown.h"
 #include "SpearKnight.h"
+#include "MovingBrick.h"
 
 PlayScene::PlayScene(EntityID id, std::string filePath) :Scene(id, filePath)
 {
@@ -153,7 +154,9 @@ void PlayScene::Render(Viewport* viewport)
 	{
 		objects[i]->Render(viewport);
 	}
+
 	player->Render(viewport);
+
 
 	if (castleWall)
 	{
@@ -285,7 +288,7 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 			int stairHeight = 0;
 			int nx = 0;
 			int ny = 0;
-			float maxDistance = 0;
+			int maxPosition = 0;
 
 			auto properties = objectNode.child("properties");
 
@@ -304,9 +307,9 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				{
 					objectId = propertyNode.attribute("value").as_string();
 				}
-				else if (name.compare("MaxDistance") == 0)
+				else if (nameProperty.compare("MaxPosition") == 0)
 				{
-					maxDistance = propertyNode.attribute("value").as_int();
+					maxPosition = propertyNode.attribute("value").as_int();
 				}
 				else if (nameProperty.compare("Enemy Name") == 0)
 				{
@@ -332,11 +335,10 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				{
 					endViewPortX = propertyNode.attribute("value").as_float();
 				}
-				else if (name.compare("StartViewportY") == 0)
+				else if (nameProperty.compare("StartViewportY") == 0)
 				{
 					startViewPortX = propertyNode.attribute("value").as_float();
 				}
-				
 				else if (nameProperty.compare("SceneID") == 0)
 				{
 					sceneID = Utils::getInstance()->getStringToEntityID()[propertyNode.attribute("value").as_string()];
@@ -350,7 +352,7 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 			int  idObject = Utils::getInstance()->getStringToEntityID()[objectId];
 			if (!idObject)
 			{
-				DebugOut(L"[ERROR] Read Screne file failed\n", objectId);
+				DebugOut(L"[ERROR] Read object from map failed\n", objectId);
 				return;
 			}
 			AnimationSets * animation_sets = AnimationSets::GetInstance();
@@ -360,8 +362,8 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 			{
 			case ID_ENTITY_SIMON:
 				player = Simon::getInstance();
+				Simon::getInstance()->SetPosition(D3DXVECTOR2(x, y - EXTRA_HEIGHT_SCREEN));
 				player = (Simon*)player;
-				player->SetPosition(D3DXVECTOR2(x, y));
 				player->setHeight(height);
 				player->setWidth(width);
 				player->SetAnimationSet(ani_set);
@@ -431,7 +433,10 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				objectInit = new Crown(D3DXVECTOR2(x, y), height, width);
 				break;
 			case ID_ENTITY_SPEAR_KNIGHT:
-				objectInit = new SpearKnight(D3DXVECTOR2(x, y),nx, height, width);
+				objectInit = new SpearKnight(D3DXVECTOR2(x, y), maxPosition, height, width);
+				break;
+			case ID_ENTITY_MOVING_BRICK:
+				objectInit = new MovingBrick(D3DXVECTOR2(x, y), maxPosition, height, width);
 				break;
 			}
 

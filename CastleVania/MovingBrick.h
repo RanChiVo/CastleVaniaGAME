@@ -1,16 +1,16 @@
 #pragma once
-#include "Enemy.h"
+#include "StaticObject.h"
 
-class SpearKnight:public Enemy
+class MovingBrick : public StaticObject
 {
 	int maxDistance;
 	float positionXStart;
 	DWORD timeMoving;
 public:
-	SpearKnight(D3DXVECTOR2 pos, int maxDistance, int width, int height);
+	MovingBrick(D3DXVECTOR2 pos, int maxDistance, int width, int height);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Render(Viewport* viewport);
-	~SpearKnight();
+	~MovingBrick();
 };
 

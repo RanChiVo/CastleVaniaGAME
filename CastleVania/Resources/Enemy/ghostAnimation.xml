@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<loadresource>
+  <animations id="ID_ENTITY_GHOST">
+    <animation name="GHOST_ANI" default_time="100" rewind="true">
+      <animation_frame sprite_id="ghost1" />
+      <animation_frame sprite_id="ghost2" />
+    </animation>
+  </animations>
+</loadresource>

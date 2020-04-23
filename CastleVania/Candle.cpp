@@ -19,12 +19,13 @@ void Candle::GetBoundingBox(float & left, float & top, float & right, float & bo
 {
 	left = x;
 	top = y;
-	right = x + height;
-	bottom = y + width;
+	right = x + width;
+	bottom = y + height;
 }
 
 void Candle::Render(Viewport * viewport)
 {
+	RenderBoundingBox(viewport);
 	if (state == STATE_SHOW)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));

@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="25" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="62">
+ <properties>
+  <property name="Cell ID" value="0,0 1,0"/>
+  <property name="EndViewportX" value="1600"/>
+  <property name="ImagePath" value="TiledMap\CrumblingTowerGround_bank.png"/>
+  <property name="ObjectPath" value="PathReadObjectsGame\ReadObjectsCrumblingTower.xml"/>
+  <property name="StartViewportX" value="64"/>
+  <property name="StartViewportY" value="0"/>
+  <property name="TexID" value="ID_ENTITY_MAP_CRUMBLING_TOWER"/>
+ </properties>
+ <tileset firstgid="1" name="CrumblingTowerGround_bank.png" tilewidth="64" tileheight="64" tilecount="168" columns="14">
+  <image source="CrumblingTowerGround_bank.png" width="896" height="768"/>
+ </tileset>
+ <layer id="1" name="CrumblingTowerGround" width="25" height="12">
+  <data encoding="csv">
+1,2,3,4,2,5,5,5,6,6,5,5,5,5,7,5,5,5,5,5,5,6,6,1,8,
+1,3,3,9,3,5,5,7,10,11,7,5,5,5,12,6,6,6,6,13,14,4,3,1,8,
+1,3,4,15,16,5,17,18,19,20,21,7,7,6,22,3,3,16,23,24,25,26,3,27,8,
+1,3,28,29,30,13,31,4,32,33,3,21,12,16,34,35,3,36,37,38,26,3,39,40,8,
+1,16,41,4,4,42,42,43,44,44,45,16,29,46,44,21,3,19,47,48,16,30,2,1,8,
+49,49,50,51,51,52,53,53,53,52,54,53,52,55,53,49,49,55,54,53,53,52,52,49,8,
+8,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,64,72,73,74,69,75,76,77,
+8,78,79,80,58,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,86,97,98,77,
+8,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,
+8,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,61,145,
+8,146,147,148,149,150,151,152,153,154,155,156,150,157,155,153,158,150,156,156,156,159,160,161,162,
+8,163,164,165,166,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,168
+</data>
+ </layer>
+ <objectgroup color="#0000ff" id="2" name="Simon">
+  <object id="58" name="Start_Map" x="1483" y="670.667" width="60" height="66" rotation="180">
+   <properties>
+    <property name="Cell ID" value="0,0 1,0"/>
+    <property name="Object ID" value="ID_ENTITY_SIMON"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ff0000" id="3" name="Static_Object">
+  <object id="35" name="Candle" x="1528" y="606" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="36" name="Candle" x="1400" y="639" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="37" name="Candle" x="1144" y="639" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="38" name="Candle" x="1271.67" y="639.333" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="39" name="Candle" x="1016.33" y="640" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="40" name="Candle" x="887" y="640.333" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="41" name="Candle" x="760" y="638" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="43" name="Candle" x="631.333" y="639" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="44" name="Candle" x="248" y="608" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="45" name="Candle" x="505" y="636.667" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="46" name="Candle" x="384" y="479.333" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="47" name="Candle" x="314" y="95.3333" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="48" name="Candle" x="439.333" y="225.333" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="49" name="Candle" x="568" y="224" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="50" name="Candle" x="696" y="224" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="51" name="Candle" x="838" y="161" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="52" name="Candle" x="952" y="253" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="53" name="Candle" x="1080" y="254" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="54" name="Candle" x="1209" y="225" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="55" name="Candle" x="1336" y="223" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+  <object id="56" name="Candle" x="1464" y="129" width="16" height="32">
+   <properties>
+    <property name="Cell ID" value="1,12"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_CANDLE"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#00ff00" id="4" name="Static_Castle">
+  <object id="1" name="Floor" x="321.151" y="705.186" width="1277.33" height="32">
+   <properties>
+    <property name="Cell ID" value="1,0 1,1 1,2 1,3 1,4 1,5"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="2" name="HighFloor" x="191.318" y="673.186" width="128" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="3" name="HighFloor" x="128.985" y="608.519" width="64" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="4" name="HighFloor" x="638.651" y="605.186" width="64" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="5" name="Wall" x="63.1513" y="384.352" width="64" height="345.333">
+   <properties>
+    <property name="Cell ID" value="0,0 1,0"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL"/>
+   </properties>
+  </object>
+  <object id="6" name="HighFloor" x="255.151" y="546.019" width="192" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="7" name="HighFloor" x="894.151" y="605.019" width="64" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="8" name="HighFloor" x="1343.77" y="256.019" width="64" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="9" name="HighFloor" x="1407.15" y="673.019" width="192" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="10" name="Wall" x="1.43673" y="2.01901" width="64" height="350">
+   <properties>
+    <property name="Cell ID" value="0,0 1,0"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL"/>
+   </properties>
+  </object>
+  <object id="11" name="HighFloor" x="65.6642" y="289.292" width="61.9997" height="62.5">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="12" name="HighFloor" x="162" y="290" width="32" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="13" name="Wall" x="1471.11" y="2.35234" width="64" height="127.333">
+   <properties>
+    <property name="Cell ID" value="0,0 1,0"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL"/>
+   </properties>
+  </object>
+  <object id="14" name="Wall" x="1472.44" y="227.019" width="64" height="127.333">
+   <properties>
+    <property name="Cell ID" value="0,0 1,0"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL"/>
+   </properties>
+  </object>
+  <object id="15" name="HighFloor" x="1535.15" y="545.019" width="64" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="16" name="HighFloor" x="1409.11" y="192.019" width="64" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="17" name="HighFloor" x="322.437" y="287.519" width="318.5" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="18" name="HighFloor" x="257.77" y="160.352" width="63" height="62.6667">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="19" name="HighFloor" x="1215.44" y="287.019" width="128" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="20" name="HighFloor" x="962.437" y="317.019" width="128" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="21" name="HighFloor" x="898.437" y="288.019" width="64" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="22" name="HighFloor" x="962.437" y="191.019" width="64" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="23" name="HighFloor" x="1089.44" y="160.019" width="64" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="24" name="HighFloor" x="704.103" y="287.686" width="64" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="25" name="HighFloor" x="832.437" y="224.019" width="64" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="26" name="HighFloor" x="450.437" y="161.019" width="64" height="32">
+   <properties>
+    <property name="Cell ID" value="1,21"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_FLOOR"/>
+   </properties>
+  </object>
+  <object id="27" name="Stair" x="380.984" y="531.852" width="16" height="12">
+   <properties>
+    <property name="Cell ID" value="0,10"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="256"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="1"/>
+   </properties>
+  </object>
+  <object id="28" name="Stair" x="131.955" y="281.045" width="16" height="12">
+   <properties>
+    <property name="Cell ID" value="0,10"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="256"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="-1"/>
+   </properties>
+  </object>
+  <object id="29" name="Stair" x="116.557" y="256.33" width="16" height="12">
+   <properties>
+    <property name="Cell ID" value="0,10"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="256"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="-1"/>
+   </properties>
+  </object>
+  <object id="30" name="Stair" x="258" y="148" width="16" height="12">
+   <properties>
+    <property name="Cell ID" value="0,10"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="128"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="-1"/>
+   </properties>
+  </object>
+  <object id="31" name="Stair" x="751.182" y="275.727" width="16" height="12">
+   <properties>
+    <property name="Cell ID" value="0,10"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="64"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="1"/>
+   </properties>
+  </object>
+  <object id="32" name="Stair" x="832.5" y="210" width="16" height="12">
+   <properties>
+    <property name="Cell ID" value="0,10"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="64"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="-1"/>
+   </properties>
+  </object>
+  <object id="33" name="Stair" x="1137.5" y="146.5" width="16" height="12">
+   <properties>
+    <property name="Cell ID" value="0,10"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="64"/>
+    <property name="nx" value="1"/>
+    <property name="ny" value="-1"/>
+   </properties>
+  </object>
+  <object id="34" name="Stair" x="1280.86" y="274.091" width="16" height="12">
+   <properties>
+    <property name="Cell ID" value="0,10"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_STAIR"/>
+    <property name="Stair Height" value="64"/>
+    <property name="nx" value="-1"/>
+    <property name="ny" value="1"/>
+   </properties>
+  </object>
+  <object id="59" name="Wall" x="1565.33" y="579.667" width="34" height="90.6663">
+   <properties>
+    <property name="Cell ID" value="0,0 1,0"/>
+    <property name="Hidden Item ID" value=""/>
+    <property name="Object ID" value="ID_ENTITY_WALL"/>
+   </properties>
+  </object>
+  <object id="60" name="Portal" x="163.084" y="339.916" width="30" height="18">
+   <properties>
+    <property name="Cell ID" value="0,5 1,5"/>
+    <property name="EndViewportX" value="1536"/>
+    <property name="Object ID" value="ID_ENTITY_PORTAL_POS_MAP"/>
+    <property name="StartViewportX" value="0"/>
+   </properties>
+  </object>
+  <object id="61" name="Portal" x="225.917" y="377.083" width="30" height="18">
+   <properties>
+    <property name="Cell ID" value="0,5 1,5"/>
+    <property name="EndViewportX" value="1600"/>
+    <property name="Object ID" value="ID_ENTITY_PORTAL_POS_MAP"/>
+    <property name="StartViewportX" value="64"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

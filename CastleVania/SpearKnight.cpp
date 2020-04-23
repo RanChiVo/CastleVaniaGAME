@@ -29,7 +29,8 @@ void SpearKnight::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPGAMEOBJECT> staticObject;
 	for (int i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->getID() == ID_ENTITY_FLOOR)
+		if (coObjects->at(i)->getID() == ID_ENTITY_FLOOR ||
+			coObjects->at(i)->getID() == ID_ENTITY_WALL)
 			staticObject.push_back(coObjects->at(i));
 	}
 
@@ -47,7 +48,7 @@ void SpearKnight::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float rdx = 0;
 		float rdy = 0;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		y += min_ty * dy + ny * 0.008f;
+		y += min_ty * dy;
 		if (ny != 0) vy = 0;
 	}
 

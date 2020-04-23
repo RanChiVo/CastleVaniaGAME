@@ -117,6 +117,13 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 			sprite->Draw(pos, 200);
 
 		}
+		else if (state == Simon::SIMON_STATE_JUMPING)
+		{
+			sprite = new Sprite("BoundingBox", RECT{ rect.left, rect.top / 2, rect.right, long(rect.bottom) - 20 }, bbox);
+			D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(l + 10, t));
+			pos.y = pos.y + 7;
+			sprite->Draw(pos, 200);
+		}
 		else sprite->Draw(pos, 200);
 	}
 	else sprite->Draw(pos, 100);

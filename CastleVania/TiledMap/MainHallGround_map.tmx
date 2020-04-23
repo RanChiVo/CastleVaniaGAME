@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="2" nextobjectid="75">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="2" nextobjectid="86">
  <properties>
   <property name="Cell ID" value="0,0 1,0"/>
   <property name="EndViewportX" value="960"/>
@@ -56,7 +56,7 @@
     <property name="Object ID" value="ID_ENTITY_CROWN"/>
    </properties>
   </object>
-  <object id="42" name="SmallBrick" x="894" y="544" width="32" height="30">
+  <object id="42" name="SmallBrick" x="704.667" y="165" width="32" height="30">
    <properties>
     <property name="Cell ID" value="1,7"/>
     <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
@@ -145,6 +145,34 @@
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>
+  <object id="77" name="SpearKnight" x="580" y="469.5" width="32" height="64">
+   <properties>
+    <property name="Cell ID" value="1,7"/>
+    <property name="MaxPosition" value="725"/>
+    <property name="Object ID" value="ID_ENTITY_SPEAR_KNIGHT"/>
+   </properties>
+  </object>
+  <object id="78" name="SpearKnight" x="642" y="224.5" width="32" height="64">
+   <properties>
+    <property name="Cell ID" value="1,7"/>
+    <property name="MaxPosition" value="674"/>
+    <property name="Object ID" value="ID_ENTITY_SPEAR_KNIGHT"/>
+   </properties>
+  </object>
+  <object id="79" name="SpearKnight" x="208.333" y="90.3333" width="32" height="64">
+   <properties>
+    <property name="Cell ID" value="1,7"/>
+    <property name="MaxPosition" value="286"/>
+    <property name="Object ID" value="ID_ENTITY_SPEAR_KNIGHT"/>
+   </properties>
+  </object>
+  <object id="82" name="SmallBrick" x="894" y="542.333" width="32" height="30">
+   <properties>
+    <property name="Cell ID" value="1,7"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Object ID" value="ID_ENTITY_BRICK"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup color="#0000ff" id="4" name="Simon">
   <object id="1" name="Start_Map" x="650.737" y="660.74" width="60" height="66" rotation="180">
@@ -220,7 +248,7 @@
     <property name="ny" value="1"/>
    </properties>
   </object>
-  <object id="8" name="HighFloor" x="192" y="162" width="128" height="72">
+  <object id="8" name="HighFloor" x="192" y="162" width="127.5" height="31.6667">
    <properties>
     <property name="Cell ID" value="1,21"/>
     <property name="Hidden Item ID" value=""/>
@@ -241,7 +269,7 @@
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
   </object>
-  <object id="13" name="HighFloor" x="704.167" y="165" width="185" height="6">
+  <object id="13" name="HighFloor" x="737.5" y="165" width="151.667" height="6">
    <properties>
     <property name="Cell ID" value="1,21"/>
     <property name="Hidden Item ID" value=""/>
@@ -300,14 +328,14 @@
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
   </object>
-  <object id="28" name="HighFloor" x="577.334" y="229.417" width="60.9997" height="5">
+  <object id="28" name="HighFloor" x="577.334" y="231.417" width="60.9997" height="5">
    <properties>
     <property name="Cell ID" value="1,21"/>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
   </object>
-  <object id="30" name="HighFloor" x="876.833" y="228.833" width="80" height="28" visible="0">
+  <object id="30" name="HighFloor" x="876.833" y="228.833" width="80" height="28">
    <properties>
     <property name="Cell ID" value="1,21"/>
     <property name="Hidden Item ID" value=""/>
@@ -321,7 +349,7 @@
     <property name="Object ID" value="ID_ENTITY_ACTIVATEBOX"/>
    </properties>
   </object>
-  <object id="35" name="HighFloor" x="641.5" y="293.5" width="60.9997" height="5">
+  <object id="35" name="HighFloor" x="641.5" y="294.5" width="60.9997" height="5">
    <properties>
     <property name="Cell ID" value="1,21"/>
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
@@ -343,7 +371,7 @@
     <property name="StartViewportX" value="448"/>
    </properties>
   </object>
-  <object id="40" name="Wall" x="704" y="192" width="64" height="99">
+  <object id="40" name="Wall" x="704" y="197.667" width="64" height="93.3333">
    <properties>
     <property name="Cell ID" value="0,0 1,0"/>
     <property name="Hidden Item ID" value=""/>
@@ -355,24 +383,6 @@
     <property name="Cell ID" value="0,0 1,0"/>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_WALL"/>
-   </properties>
-  </object>
-  <object id="61" name="SpearKnight" x="590.5" y="467.5" width="32" height="64">
-   <properties>
-    <property name="Cell ID" value="1,7"/>
-    <property name="MaxDistance" value="735"/>
-    <property name="Object ID" value="ID_ENTITY_SPEAR_KNIGHT"/>
-    <property name="nx" value="735"/>
-    <property name="ny" value="1"/>
-   </properties>
-  </object>
-  <object id="62" name="SpearKnight" x="638.5" y="224.5" width="32" height="64">
-   <properties>
-    <property name="Cell ID" value="1,7"/>
-    <property name="MaxDistance" value="700"/>
-    <property name="Object ID" value="ID_ENTITY_SPEAR_KNIGHT"/>
-    <property name="nx" value="670"/>
-    <property name="ny" value="1"/>
    </properties>
   </object>
   <object id="64" name="Vampire _Bat1" x="456" y="388" width="303" height="157">
@@ -389,13 +399,10 @@
     <property name="Object ID" value="ID_ENTITY_ACTIVATEBOX"/>
    </properties>
   </object>
-  <object id="74" name="SpearKnight" x="183" y="80" width="32" height="64">
+  <object id="81" name="MovingMap" x="66" y="162" width="64" height="16">
    <properties>
-    <property name="Cell ID" value="1,7"/>
-    <property name="MaxDistance" value="700"/>
-    <property name="Object ID" value="ID_ENTITY_SPEAR_KNIGHT"/>
-    <property name="nx" value="670"/>
-    <property name="ny" value="1"/>
+    <property name="MaxPosition" value="128"/>
+    <property name="Object ID" value="ID_ENTITY_MOVING_BRICK"/>
    </properties>
   </object>
  </objectgroup>
