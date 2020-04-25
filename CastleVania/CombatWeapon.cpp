@@ -31,7 +31,8 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		case ID_ENTITY_FISH_MAN:
 		case ID_ENTITY_DARK_BAT:
 		case ID_ENTITY_SPEAR_KNIGHT:
-		
+		case ID_ENTITY_GHOST:
+
 			float left1, top1, right1, bottom1;
 			coObjects->at(i)->GetBoundingBox(left1, top1, right1, bottom1);
 			RECT rect1 = RECT{ long(left1), long(top1), long(right1), long(bottom1) };

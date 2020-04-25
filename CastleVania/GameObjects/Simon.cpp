@@ -32,7 +32,7 @@
 
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
-constexpr float SIMON_MOVE_SPEED = 0.10f;
+constexpr float SIMON_MOVE_SPEED = 0.12f;
 constexpr float SIMON_AUTO_SPEED_RIGHT = 0.025f;
 constexpr float SIMON_GRAVITY = 0.001f;
 constexpr float SIMON_HURT_SPEED_Y = 0.2f;
@@ -938,6 +938,7 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 	case ID_ENTITY_VAMPIRE_BAT:
 	case ID_ENTITY_DARK_BAT:
 	case ID_ENTITY_SPEAR_KNIGHT:
+	case ID_ENTITY_GHOST:
 
 		if (!untouchable && !isVisible)
 		{

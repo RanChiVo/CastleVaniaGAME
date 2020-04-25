@@ -85,6 +85,8 @@ public:
 	void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
 	D3DXVECTOR2 getPosition();
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
+	float GetVx() { return vx; }
+	float GetVy() { return vy; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	void SetCurrentAni(int currentAni) { this->currentAnimation = currentAni; }
 	int GetState() { return this->state; }

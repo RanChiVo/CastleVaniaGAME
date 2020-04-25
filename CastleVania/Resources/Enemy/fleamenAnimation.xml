@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<loadresource>
+  <animations id="ID_ENTITY_FLEAMEN">
+    <animation name="FLEAMEN_ANI_PREPAIR_ATTACK" default_time="100" rewind="true">
+      <animation_frame sprite_id="walk_01" />
+      <animation_frame sprite_id="walk_02" />
+    </animation>
+    <animation name="FLEAMEN_ANI_JUMP_ATTACK" default_time="100" rewind="true">
+      <animation_frame sprite_id="walk_02" />
+    </animation>
+    <animation name="FLEAMEN_ANI_IDLE" default_time="100" rewind="true">
+      <animation_frame sprite_id="walk_01" />
+    </animation>
+  </animations>
+</loadresource>

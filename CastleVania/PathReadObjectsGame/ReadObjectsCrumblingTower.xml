@@ -28,6 +28,8 @@
     <!--Enemies-->
     <object spritePath="Resources\Enemy\spearKnight.xml" animationPath="Resources\Enemy\spearKnightAnimation.xml" />
     <object spritePath="Resources\Enemy\vampireBat.xml" animationPath="Resources\Enemy\vampireBatAnimation.xml" />
+    <object spritePath="Resources\Enemy\ghost.xml" animationPath="Resources\Enemy\ghostAnimation.xml" />
+    <object spritePath="Resources\Enemy\fleamen.xml" animationPath="Resources\Enemy\fleamenAnimation.xml" />
     <!--MenuPointHUD-->
     <object spritePath= "Resources\MenuPoint\heartMenuPoint.xml"  animationPath=""/>
     <object spritePath= "Resources\MenuPoint\HP.xml"  animationPath=""/>

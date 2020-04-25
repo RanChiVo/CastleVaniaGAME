@@ -2,6 +2,8 @@
 #include "VampireBat.h"
 #include "Crown.h"
 #include "GameObjects/Simon.h"
+#include "Ghost.h"
+#include "Fleamen.h"
 
 ActivationBox::ActivationBox(D3DXVECTOR2 pos, EntityID activatedObjecId, int height, int width)
 {
@@ -27,6 +29,37 @@ void ActivationBox::ActionObject(vector<LPGAMEOBJECT> *coObjects)
 			{
 				Crown *crown = dynamic_cast<Crown *>(coObjects->at(i));
 				crown->startAction();
+			}
+			break;
+			}
+		}
+		break;
+	case ID_ENTITY_FLEAMEN:
+		for (int i = 0; i < (int)coObjects->size(); i++)
+		{
+			switch (coObjects->at(i)->getID())
+			{
+			case ID_ENTITY_FLEAMEN:
+			{
+				Fleamen *fleamen = dynamic_cast<Fleamen *>(coObjects->at(i));
+				if (fleamen->getName().compare(name) == 0)
+				{
+					fleamen->StartActivate();
+				}
+			}
+			break;
+			}
+		}
+		break;
+	case ID_ENTITY_GHOST:
+		for (int i = 0; i < (int)coObjects->size(); i++)
+		{
+			switch (coObjects->at(i)->getID())
+			{
+			case ID_ENTITY_GHOST:
+			{
+				Ghost *ghost = dynamic_cast<Ghost *>(coObjects->at(i));
+				ghost->SetState(STATE_SHOW);
 			}
 			break;
 			}

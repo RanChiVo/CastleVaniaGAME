@@ -1,16 +1,18 @@
 #include "Ghost.h"
-constexpr float GHOST_SPEED = 0.13f;
 #include "GameObjects/Simon.h"
 
+constexpr float GHOST_SPEED_X = 0.15f;
+constexpr float GHOST_SPEED_Y = 0.065f;
+constexpr int GHOST_DISTANCE_NEAR_SIMON = 30;
 
-Ghost::Ghost(D3DXVECTOR2 pos, int maxDistance, int width, int height)
+Ghost::Ghost(D3DXVECTOR2 pos, int width, int height)
 {
 	id = ID_ENTITY_GHOST;
 	SetPosition(pos);
 	this->height = height;
 	this->width = width;
 	currentAnimation = GHOST_ANI;
-	SetState(STATE_SHOW);
+	SetState(STATE_HIDDEN);
 }
 
 void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -18,6 +20,39 @@ void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	GameObject::Update(dt, coObjects);
 	x += dx;
 	y += dy;
+	if (state==STATE_SHOW)
+	{
+		Simon* simon = Simon::getInstance();
+		
+		if (!isAcTive && x < simon->getPosition().x - GHOST_DISTANCE_NEAR_SIMON)
+		{
+			nx = 1;
+			isAcTive = true;
+		}
+
+		if (isAcTive)
+		{
+			if (x > simon->getPosition().x + simon->getWidth()/2 + GHOST_DISTANCE_NEAR_SIMON)
+			{
+				nx = -1;
+				vx = -GHOST_SPEED_X;
+			}
+			else if (x < simon->getPosition().x - GHOST_DISTANCE_NEAR_SIMON)
+			{
+				nx = 1;
+				vx = GHOST_SPEED_X;
+			}
+		}
+
+		if (y < simon->getPosition().y)
+		{
+			vy = GHOST_SPEED_Y;
+		}
+		else if (y > simon->getPosition().y)
+		{
+			vy = -GHOST_SPEED_Y;
+		}
+	}
 }
 
 void Ghost::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -40,6 +75,10 @@ void Ghost::Render(Viewport * viewport)
 		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
 		Enemy::Render(viewport);
 	}
+	if (isAcTive && !checkInsideViewPort(viewport))
+	{
+		SetState(STATE_DETROY);
+	}
 }
 
 void Ghost::SetState(int state)
@@ -47,17 +86,22 @@ void Ghost::SetState(int state)
 	GameObject::SetState(state);
 	switch (state)
 	{
-	case STATE_SHOW:
-		currentAnimation = GHOST_ANI;
-		Simon* simon = Simon::getInstance();
-		set_nx(simon->get_nx());
-		vx = nx * GHOST_SPEED;
-	
-		liveTime = GetTickCount();
+		case STATE_SHOW:
+		{
+			currentAnimation = GHOST_ANI;
+			Viewport * viewport = Direct3DManager::getInstance()->getViewport();
+			float xNew = viewport->getX() + viewport->getWidth();
+			SetPosition(D3DXVECTOR2(xNew, viewport->getY() + viewport->getHeight()));
+			vy = GHOST_SPEED_Y;
+			vx =-GHOST_SPEED_X;
+			nx = -1;
+		}
 		break;
-	case STATE_HIDDEN:
-		vx = 0; 
-		vy = 0;
+		case STATE_HIDDEN:
+		{
+			vx = 0;
+			vy = 0;
+		}
 		break;
 	}
 }

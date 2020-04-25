@@ -24,6 +24,8 @@
 #include "Crown.h"
 #include "SpearKnight.h"
 #include "MovingBrick.h"
+#include "Ghost.h"
+#include "Fleamen.h"
 
 PlayScene::PlayScene(EntityID id, std::string filePath) :Scene(id, filePath)
 {
@@ -437,6 +439,13 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				break;
 			case ID_ENTITY_MOVING_BRICK:
 				objectInit = new MovingBrick(D3DXVECTOR2(x, y), maxPosition, height, width);
+				break;
+			case ID_ENTITY_GHOST:
+				objectInit = new Ghost(D3DXVECTOR2(x, y), height, width);
+				break;
+			case ID_ENTITY_FLEAMEN:
+				objectInit = new Fleamen(D3DXVECTOR2(x, y), height, width);
+				objectInit->setName(name);
 				break;
 			}
 

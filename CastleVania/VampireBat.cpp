@@ -12,7 +12,7 @@ VampireBat::VampireBat(D3DXVECTOR2 pos, int height, int width)
 	this->height = height;
 	this->width = width;
 	SetState(VAMPIRE_STATE_SLEEP);
-	originalLocationX = pos.x - 64;
+	originalLocationX = pos.x - width*2;
 }
 
 void VampireBat::Render(Viewport * viewport)
