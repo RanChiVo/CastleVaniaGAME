@@ -2,9 +2,10 @@
 #include "GameObjects/Floor.h"
 #include  "GameObjects/Simon.h"
 
-constexpr float FLEAMEN_SPEED_X = 0.15f;
-constexpr float FLEAMEN_SPEED_Y = 0.05f;
-constexpr float FLEAMEN_GRAVITY = 0.0009f;
+constexpr float FLEAMEN_SPEED_X = 0.3f;
+constexpr float FLEAMEN_SPEED_HIGHT_Y = 0.4f;
+constexpr float FLEAMEN_SPEED_LOW_Y = 0.1f;
+constexpr float FLEAMEN_GRAVITY = 0.0015f;
 
 Fleamen::Fleamen(D3DXVECTOR2 pos, int width, int height)
 {
@@ -45,8 +46,7 @@ void Fleamen::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float rdx = 0;
 		float rdy = 0;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		y += min_ty * dy + ny * 0.008f;
-
+		y += min_ty * dy + ny * 0.1f;
 		if (ny < 0)
 		{
 			if (!isOnGround)
@@ -55,7 +55,7 @@ void Fleamen::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			Floor* floor = dynamic_cast<Floor*>(coEventsResult.back()->obj);
 			vy = 0;
-			if (floor && isActivate)
+			if (floor && isActive)
 			{
 				SetState(FLEAMEN_STATE_IDLE);
 			}
@@ -64,29 +64,15 @@ void Fleamen::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
-	if (state == FLEAMEN_STATE_IDLE)
+	if (timeFirstJump > 0 && GetTickCount() - timeFirstJump >= 600)
 	{
-		if ( timeJumpToPlayer == 0 && x > Simon::getInstance()->getPosition().x )
-		{
-			timeJumpToPlayer = GetTickCount();
-			nx = 1;
-			vx = 0.18f;
-			SetState(FLEAMEN_STATE_JUMP_ATTACK);
-		}
-		else if (timeJumpToPlayer==0 && timeJumpToPlayer == 0 && x < Simon::getInstance()->getPosition().x)
-		{
-			nx = -1;
-			SetState(FLEAMEN_STATE_JUMP_ON_FLOOR);
-			vx =- 0.18f;
-			timeJumpToPlayer = GetTickCount();
-		}
+		timeFirstJump = 0;
+		timeLowJump = GetTickCount();
+		nx = Simon::getInstance()->get_nx();
 	}
-
-	if (timeJumpToPlayer > 0 && GetTickCount() - timeJumpToPlayer == 3000)
-	{
-		timeJumpToPlayer = 0;
-		SetState(FLEAMEN_STATE_JUMP_ATTACK);
-	}
+	HandleActivateTolLowJump();
+	HandleLowTolHeightJump();
+	HandleHeightToLowJump();
 }
 
 void Fleamen::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -106,10 +92,23 @@ void Fleamen::Render(Viewport * viewport)
 			currentAnimation == FLEAMEN_ANI_IDLE;
 		}
 	}
+
+	if (state == FLEAMEN_STATE_JUMP_ON_FLOOR)
+	{
+		if (vy >= 0)
+		{
+			currentAnimation == FLEAMEN_ANI_IDLE;
+		}
+	}
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	RenderBoundingBox(viewport);
-	animation_set->find(currentAnimation)->second->Render(position.x, position.y, Flip::normal);
-	Enemy::Render(viewport);
+	Flip flip;
+	if (nx == 1) flip = normal;
+	else flip = flip_horiz;
+	animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
+	if (isActive && !checkInsideViewPort(viewport))
+	{
+		SetState(STATE_DETROY);
+	}
 }
 
 void Fleamen::SetState(int state)
@@ -124,9 +123,9 @@ void Fleamen::SetState(int state)
 	break;
 	case FLEAMEN_STATE_JUMP_ATTACK:
 	{
-		vy = -0.21f;
-		y -= 20;
-		vx = nx * 0.18f;
+		vy = -FLEAMEN_SPEED_HIGHT_Y;
+		y-= 20;
+		vx = FLEAMEN_SPEED_X;
 		isOnGround = false;
 		isJumping = true;
 		currentAnimation = FLEAMEN_ANI_JUMP_ATTACK;
@@ -134,8 +133,7 @@ void Fleamen::SetState(int state)
 	break;
 	case FLEAMEN_STATE_JUMP_ON_FLOOR:
 	{
-		vy = -0.21f;
-		y -= 5;
+		vy = -FLEAMEN_SPEED_LOW_Y;
 		isOnGround = false;
 		isJumping = true;
 		currentAnimation = FLEAMEN_ANI_JUMP_ATTACK;
@@ -153,8 +151,57 @@ void Fleamen::SetState(int state)
 
 void Fleamen::StartActivate()
 {
-	isActivate = true;
 	SetState(FLEAMEN_STATE_JUMP_ATTACK);
+	vy = -FLEAMEN_SPEED_LOW_Y;
+	y -= 10;
+	isActive = true;
+	timeFirstJump = GetTickCount();
+}
+
+void Fleamen::HandleActivateTolLowJump()
+{
+	if (timeLowJump && timeOnGround == 0)
+	{
+		SetState(FLEAMEN_STATE_JUMP_ON_FLOOR);
+		if (x < Simon::getInstance()->getPosition().x )
+		{
+			nx = 1;
+			vx = FLEAMEN_SPEED_X;
+		}
+		else if (x >= Simon::getInstance()->getPosition().x)
+		{
+			nx = -1;
+			vx = -FLEAMEN_SPEED_X;
+		}
+		timeOnGround = GetTickCount();
+	}
+
+	if (timeLowJump && timeOnGround > 0 && GetTickCount() - timeOnGround >= 400)
+	{
+		timeOnGround = 0;
+		hasLowJumpedDone = true;
+	}
+}
+
+void Fleamen::HandleLowTolHeightJump()
+{
+	if ( timeLowJump && GetTickCount() - timeLowJump > 1800)
+	{
+		timeLowJump = 0;
+		timeJumpToPlayer = GetTickCount();
+		SetState(FLEAMEN_STATE_JUMP_ATTACK);
+		vx = nx * FLEAMEN_SPEED_X;
+	}
+}
+
+void Fleamen::HandleHeightToLowJump()
+{
+	if (timeJumpToPlayer > 0 && GetTickCount() - timeJumpToPlayer >= 600)
+	{
+		timeJumpToPlayer = 0;
+		timeLowJump = GetTickCount();
+		hasLowJumpedDone = false;
+	}
 }
 
 Fleamen::~Fleamen()

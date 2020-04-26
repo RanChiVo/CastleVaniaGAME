@@ -54,6 +54,11 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 100);
 				state = STATE_DETROY;
 				break;
+			case ID_ENTITY_FLEAMEN:
+				Simon::getInstance()->getBaseInfo()
+					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 100);
+				state = STATE_DETROY;
+				break;
 			case ID_ENTITY_PANTHER:
 				Simon::getInstance()->getBaseInfo()
 					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 200);

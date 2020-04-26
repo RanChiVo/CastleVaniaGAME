@@ -4,9 +4,13 @@
 class Fleamen : public Enemy
 {
 	bool isOnGround = false;
-	bool isActivate = false;
+	bool isActive = false;
+	bool hasLowJumpedDone = false;
 	bool isJumping = false;
+	DWORD timeFirstJump = 0;
+	DWORD timeLowJump = 0;
 	DWORD timeJumpToPlayer = 0;
+	DWORD timeOnGround = 0;
 public:
 	enum StateFleamen
 	{
@@ -22,6 +26,10 @@ public:
 	virtual void Render(Viewport* viewport);
 	void SetState(int state);
 	void StartActivate();
+	void HandleActivateTolLowJump();
+	void HandleLowTolHeightJump();
+	void HandleHeightToLowJump();
+
 	~Fleamen();
 };
 

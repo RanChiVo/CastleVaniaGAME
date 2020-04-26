@@ -939,6 +939,7 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 	case ID_ENTITY_DARK_BAT:
 	case ID_ENTITY_SPEAR_KNIGHT:
 	case ID_ENTITY_GHOST:
+	case ID_ENTITY_FLEAMEN:
 
 		if (!untouchable && !isVisible)
 		{
