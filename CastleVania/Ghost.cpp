@@ -36,15 +36,18 @@ void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				nx = -1;
 				vx = -GHOST_SPEED_X;
+				vy = -GHOST_SPEED_Y;
+
 			}
 			else if (x < simon->getPosition().x - GHOST_DISTANCE_NEAR_SIMON)
 			{
 				nx = 1;
 				vx = GHOST_SPEED_X;
+				vy = -GHOST_SPEED_Y;
 			}
 		}
 
-		if (y < simon->getPosition().y)
+		if (y < simon->getPosition().y + 15)
 		{
 			vy = GHOST_SPEED_Y;
 		}
@@ -53,6 +56,7 @@ void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vy = -GHOST_SPEED_Y;
 		}
 	}
+
 }
 
 void Ghost::GetBoundingBox(float & left, float & top, float & right, float & bottom)

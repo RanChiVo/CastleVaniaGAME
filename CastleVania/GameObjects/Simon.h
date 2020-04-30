@@ -1,6 +1,5 @@
 #pragma once
 #include "../GameObjects/GameObject.h"
-#include "../Input/DirectInput.h"
 #include "../Animations/Animation.h"
 #include "../GameObjects/Whip.h"
 #include "../DaggerWeapon.h"
@@ -34,6 +33,7 @@ private:
 	DWORD startHurt;
 	DWORD startDie = 0;
 	DWORD startChangeColor = 0;
+	bool OnGround = false;
 	ObjectStair* originalStair = nullptr;
 	ObjectStair* reverseStair = nullptr;
 	D3DXVECTOR2 resetPosition;
@@ -43,7 +43,7 @@ private:
 	Whip* whip;
 	int levelWhip;
 	int WHIP_STATE;
-	int changeColorId = 0;
+	int changeColorId = 1;
 	int startThrowWeapon = 0;
 	BaseInfo* baseInfo;
 	std::vector<LPGAMEOBJECT> objectCollision;
@@ -56,15 +56,11 @@ public:
 		SIMON_STATE_WALKING_RIGHT,
 		SIMON_STATE_WALKING_LEFT,
 		SIMON_STATE_JUMPING,
-		SIMON_STATE_JUMPED,
-		SIMON_STATE_JUMPTOUCHGROUND,
 		SIMON_STATE_SITDOWN,
 		SIMON_STATE_ATTACK_STAND,
 		SIMON_STATE_ATTACK_STAND_SUBWEAPON,
 		SIMON_STATE_ATTACK_SITDOWN,
 		SIMON_STATE_ATTACK_SITDOWN_SUBWEAPON,
-		SIMON_STATE_ATTACK_JUMP,
-		SIMON_STATE_ATTACK_JUMP_SUBWEAPON,
 		SIMON_STATE_DIE,
 		SIMON_STATE_CHANGECOLOR,
 		SIMON_STATE_GO_UP_STAIR,
@@ -99,8 +95,6 @@ public:
 	EntityID getIdEnemySpawn() { return idEnemySpawn; }
 	void setIdEnemySpawn(EntityID idEnemySpawn) { this->idEnemySpawn = idEnemySpawn; }
 	void Reset(int currentAnimation);
-	void handleState();
-	void updateCollisionStair();
 	void updateCollisionSubStair();
 	void Simon::handleOutOfStair();
 	void handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
@@ -111,16 +105,15 @@ public:
 	void setResetPosition(D3DXVECTOR2 pos);
 	D3DXVECTOR2 getResetPosition() { return resetPosition; }
 
-
+	void SetUpJump();
 	void RemoveWhip();
 	void SetupAtacking();
 	void SetupSubWeapon(vector<LPGAMEOBJECT> *coObjects);
 	void RenderWeapon(LPANIMATION animation, Viewport* viewport);
 	void UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+	void StartAttack();
+	void StartAtackSub();
 
-	void OnKeyStateChange(BYTE *states);
-	void OnKeyDown(int KeyCode);
-	void OnKeyUp(int KeyCode);
 	~Simon();
 };
 

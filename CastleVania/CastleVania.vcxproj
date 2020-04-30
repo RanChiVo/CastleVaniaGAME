@@ -157,6 +157,7 @@
     <ClCompile Include="PlayScence.cpp" />
     <ClCompile Include="PortalPosMap.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="SpawnEnemy.cpp" />
     <ClCompile Include="SpearKnight.cpp" />
     <ClCompile Include="UndergroundScreen.cpp" />
@@ -179,7 +180,6 @@
     <ClCompile Include="GameObjects\Floor.cpp" />
     <ClCompile Include="GameObjects\BurnBarrel.cpp" />
     <ClCompile Include="GameObjects\Heart.cpp" />
-    <ClCompile Include="Input\DirectInput.cpp" />
     <ClCompile Include="GameObjects\Dagger.cpp" />
     <ClCompile Include="InvisibilityPotion.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -198,9 +198,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameObjects\Simon.cpp" />
     <ClCompile Include="Screens\MenuScreen.cpp" />
-    <ClCompile Include="ResourceManagement.cpp" />
-    <ClCompile Include="Screens\ScreenBase.cpp" />
-    <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="GameObjects\SmallHeart.cpp" />
     <ClCompile Include="SpriteManagements\Sprite.cpp" />
     <ClCompile Include="SpriteManagements\Sprites.cpp" />
@@ -237,12 +234,13 @@
     <ClInclude Include="Fleamen.h" />
     <ClInclude Include="Ghost.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="MovingBrick.h" />
     <ClInclude Include="MovingMap.h" />
     <ClInclude Include="ObjectGridCreation.h" />
     <ClInclude Include="PlayScence.h" />
     <ClInclude Include="PortalPosMap.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Skeleton.h" />
     <ClInclude Include="SpawnEnemy.h" />
     <ClInclude Include="SpearKnight.h" />
     <ClInclude Include="UndergroundScreen.h" />
@@ -267,7 +265,6 @@
     <ClInclude Include="Direct3DManager.h" />
     <ClInclude Include="EntityID.h" />
     <ClInclude Include="GameObjects\Heart.h" />
-    <ClInclude Include="Input\DirectInput.h" />
     <ClInclude Include="GameObjects\Dagger.h" />
     <ClInclude Include="InvisibilityPotion.h" />
     <ClInclude Include="Item.h" />
@@ -287,9 +284,6 @@
     <ClInclude Include="GameObjects\GameObject.h" />
     <ClInclude Include="GameObjects\Simon.h" />
     <ClInclude Include="Screens\MenuScreen.h" />
-    <ClInclude Include="ResourceManagement.h" />
-    <ClInclude Include="Screens\ScreenBase.h" />
-    <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="GameObjects\SmallHeart.h" />
     <ClInclude Include="SpriteManagements\Sprite.h" />
     <ClInclude Include="SpriteManagements\Sprites.h" />

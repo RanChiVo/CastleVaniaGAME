@@ -10,6 +10,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	gameCastleVania->init(hInstance, nCmdShow);
 
+	gameCastleVania->InitKeyboard();
+
 	gameCastleVania->Load("Castlevania.xml");
 
 	gameCastleVania->Run();

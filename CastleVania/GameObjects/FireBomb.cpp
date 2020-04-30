@@ -1,5 +1,4 @@
 #include "FireBomb.h"
-#include "../ResourceManagement.h"
 
 constexpr float FIRE_BOMB_GRAVITY = 0.0006f;
 

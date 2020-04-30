@@ -1,3 +1,4 @@
+
 #include "PlayScence.h"
 #include "Textures/Textures.h"	
 #include "SpriteManagements/Sprites.h"
@@ -26,12 +27,14 @@
 #include "MovingBrick.h"
 #include "Ghost.h"
 #include "Fleamen.h"
+#include "Game.h"
 
 PlayScene::PlayScene(EntityID id, std::string filePath) :Scene(id, filePath)
 {
 	Direct3DManager* direct3D = Direct3DManager::getInstance();
 	menuPoint = new MenuPoint();
 	viewport = Direct3DManager::getInstance()->getViewport();
+	key_handler = new PlayScenceKeyHandler(this);
 }
 
 void PlayScene::Load()
@@ -460,4 +463,131 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 			}
 		}
 	}
+}
+
+void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
+{
+	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	Simon *simon = Simon::getInstance();
+	Game *game = Game::GetInstance();
+
+	if (simon->GetState() == Simon::State::SIMON_STATE_AUTO_GOES_RIGHT ||
+		simon->GetState() == Simon::State::SIMON_STATE_CHANGECOLOR||
+		simon->GetState() == Simon::State::SIMON_STATE_HURT )
+	{
+		return;
+	}
+
+	switch (KeyCode)
+	{
+
+	case DIK_X:
+		if (simon->GetState() != Simon::State::SIMON_STATE_JUMPING && simon->isOnGround() &&
+			simon->GetState() != Simon::State::SIMON_STATE_ATTACK_STAND &&
+			simon->GetState() != Simon::State::SIMON_STATE_ATTACK_STAND_SUBWEAPON)
+		{
+			simon->SetUpJump();
+		}
+		break;
+	case DIK_Z:
+		if (game->IsKeyDown(DIK_UP)) simon->StartAtackSub();
+		else
+		{
+			simon->StartAttack();
+		}
+		break;
+	case DIK_UP:
+		break;
+	}
+
+	DebugOut(L"[INFO] state: %d\n", simon->GetState());
+}
+
+void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
+{
+	Game *game = Game::GetInstance();
+	Simon *simon = Simon::getInstance();
+	if (simon->GetState() == Simon::State::SIMON_STATE_AUTO_GOES_RIGHT ||
+		simon->GetState() == Simon::State::SIMON_STATE_CHANGECOLOR ||
+		simon->GetState() == Simon::State::SIMON_STATE_HURT)
+	{
+		return;
+	}
+
+	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+	switch (simon->GetState())
+	{
+	case Simon::State::SIMON_STATE_GO_UP_STAIR:
+		simon->SetState(Simon::State::SIMON_STATE_IDLE_UP_STAIR);
+		break;
+	case Simon::State::SIMON_STATE_GO_DOWN_STAIR:
+		simon->SetState(Simon::State::SIMON_STATE_IDLE_DOWN_STAIR);
+		break;
+	}
+}
+
+void PlayScenceKeyHandler::KeyState(BYTE *states)
+{
+
+	Game *game = Game::GetInstance();
+	Simon *simon = Simon::getInstance();
+
+	if ((simon->GetState() == Simon::State::SIMON_STATE_JUMPING && !simon->isOnGround()) ||
+		simon->GetState() == Simon::State::SIMON_STATE_ATTACK_STAND ||
+		simon->GetState() == Simon::State::SIMON_STATE_ATTACK_STAND_SUBWEAPON ||
+		simon->GetState() == Simon::State::SIMON_STATE_CHANGECOLOR ||
+		simon->GetState() == Simon::State::SIMON_STATE_ATTACK_SITDOWN )
+	{
+
+		return;
+	}
+	else if (simon->GetState() == Simon::State::SIMON_STATE_WALKING_RIGHT ||
+		simon->GetState() == Simon::State::SIMON_STATE_WALKING_LEFT ||
+		simon->GetState() == Simon::State::SIMON_STATE_SITDOWN ||
+		simon->GetState() == Simon::State::SIMON_STATE_JUMPING && simon->isOnGround())
+	{
+
+		simon->SetState(Simon::State::SIMON_STATE_IDLE);
+	}
+
+	if (!simon->IsOnStair())
+	{
+		if (game->IsKeyDown(DIK_RIGHT))
+		{
+			simon->SetState(Simon::State::SIMON_STATE_WALKING_RIGHT);
+		}
+		else if (game->IsKeyDown(DIK_LEFT))
+		{
+			simon->SetState(Simon::State::SIMON_STATE_WALKING_LEFT);
+		}
+		else if (game->IsKeyDown(DIK_J))
+		{
+			simon->SetState(Simon::State::SIMON_STATE_SITDOWN);
+		}
+	}
+	
+
+	if (simon->getOriginalStair())
+	{
+		if (game->IsKeyDown(DIK_UP))
+		{
+
+			if (!simon->IsOnStair())
+			{
+				simon->SetPosition(D3DXVECTOR2(simon->getOriginalStair()->getPosition().x - 30, simon->getPosition().y));
+			}
+			simon->SetState(Simon::State::SIMON_STATE_GO_UP_STAIR);
+
+		}
+		else if (game->IsKeyDown(DIK_DOWN))
+		{
+
+			if (!simon->IsOnStair())
+			{
+				simon->SetPosition(D3DXVECTOR2(simon->getOriginalStair()->getPosition().x - 15, simon->getPosition().y));
+			}
+			simon->SetState(Simon::State::SIMON_STATE_GO_DOWN_STAIR);
+		}
+	}
+
 }

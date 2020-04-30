@@ -2,12 +2,12 @@
 #include "GameObjects/Floor.h"
 #include  "GameObjects/Simon.h"
 
-constexpr float FLEAMEN_SPEED_X = 0.3f;
-constexpr float FLEAMEN_SPEED_HIGHT_Y = 0.4f;
+constexpr float FLEAMEN_SPEED_X = 0.2f;
+constexpr float FLEAMEN_SPEED_HIGHT_Y = 0.25f;
 constexpr float FLEAMEN_SPEED_LOW_Y = 0.1f;
 constexpr float FLEAMEN_GRAVITY = 0.0015f;
 
-Fleamen::Fleamen(D3DXVECTOR2 pos, int width, int height)
+Fleamen::Fleamen(D3DXVECTOR2 pos, int height, int width)
 {
 	id = ID_ENTITY_FLEAMEN;
 	SetPosition(pos);
@@ -46,7 +46,7 @@ void Fleamen::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float rdx = 0;
 		float rdy = 0;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		y += min_ty * dy + ny * 0.1f;
+		y += min_ty * dy + ny * 0.11f;
 		if (ny < 0)
 		{
 			if (!isOnGround)
@@ -85,6 +85,7 @@ void Fleamen::GetBoundingBox(float & left, float & top, float & right, float & b
 
 void Fleamen::Render(Viewport * viewport)
 {
+	RenderBoundingBox(viewport);
 	if (state == FLEAMEN_STATE_JUMP_ATTACK)
 	{
 		if (vy >= 0)
@@ -124,7 +125,7 @@ void Fleamen::SetState(int state)
 	case FLEAMEN_STATE_JUMP_ATTACK:
 	{
 		vy = -FLEAMEN_SPEED_HIGHT_Y;
-		y-= 20;
+		y-= 5;
 		vx = FLEAMEN_SPEED_X;
 		isOnGround = false;
 		isJumping = true;
@@ -160,6 +161,7 @@ void Fleamen::StartActivate()
 
 void Fleamen::HandleActivateTolLowJump()
 {
+	
 	if (timeLowJump && timeOnGround == 0)
 	{
 		SetState(FLEAMEN_STATE_JUMP_ON_FLOOR);
@@ -185,12 +187,21 @@ void Fleamen::HandleActivateTolLowJump()
 
 void Fleamen::HandleLowTolHeightJump()
 {
-	if ( timeLowJump && GetTickCount() - timeLowJump > 1800)
+	if (hasLowJumpedDone)
 	{
-		timeLowJump = 0;
-		timeJumpToPlayer = GetTickCount();
-		SetState(FLEAMEN_STATE_JUMP_ATTACK);
-		vx = nx * FLEAMEN_SPEED_X;
+		float l, t, r, b;
+		GetBoundingBox(l, t, r, b);
+
+		float ls, ts, rs, bs;
+		Simon::getInstance()->GetBoundingBox(ls, ts, rs, bs);
+
+		if (checkCollision(RECT{ long(l), long(t), long(r), long(b) }, RECT{ long(ls), long(ts), long(rs), long(bs) }))
+		{
+			timeLowJump = 0;
+			timeJumpToPlayer = GetTickCount();
+			SetState(FLEAMEN_STATE_JUMP_ATTACK);
+			vx = nx * FLEAMEN_SPEED_X;
+		}
 	}
 }
 
