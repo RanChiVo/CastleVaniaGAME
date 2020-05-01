@@ -29,11 +29,8 @@
     <object spritePath="Resources\Enemy\spearKnight.xml" animationPath="Resources\Enemy\spearKnightAnimation.xml" />
     <object spritePath="Resources\Enemy\vampireBat.xml" animationPath="Resources\Enemy\vampireBatAnimation.xml" />
     <!--MenuPointHUD-->
-    <object spritePath= "Resources\MenuPoint\heartMenuPoint.xml"  animationPath=""/>
     <object spritePath= "Resources\MenuPoint\HP.xml"  animationPath=""/>
     <object spritePath= "Resources\MenuPoint\enemy_HP.xml"  animationPath=""/>
-    <object spritePath= "Resources\MenuPoint\place_item.xml"  animationPath=""/>
-    <object spritePath= "Resources\MenuPoint\lost_HP.xml"  animationPath=""/>  
     <object spritePath= "Resources\MenuPoint\menu.xml"  animationPath=""/>
     <object spritePath= "Resources\Items\boomerang.xml"  animationPath="Resources\Items\boomerangAnimation.xml"/>
 </objectList>

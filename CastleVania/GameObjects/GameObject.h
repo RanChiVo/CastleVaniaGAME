@@ -84,7 +84,10 @@ public:
 	void setLiveTime(DWORD liveTime) { this->liveTime = liveTime; }
 	void SetPosition(D3DXVECTOR2 POS) { x = POS.x; y = POS.y; }
 	D3DXVECTOR2 getPosition();
-	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
+	void SetSpeed(float vx, float vy) { this->vx = vx; this->vy = vy; }
+	void SetVx(float vx) { this->vx = vx; }
+	void SetVy(float vy) { this->vy = vy; }
+
 	float GetVx() { return vx; }
 	float GetVy() { return vy; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }

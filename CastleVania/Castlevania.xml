@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <sceneManager>
-    <startScene id="ID_ENTITY_MAP_CRUMBLING_TOWER" />
+    <startScene id="ID_ENTITY_MAP_ENTRANCE" />
     <sceneList>
         <scene id="ID_ENTITY_MAP_ENTRANCE" mapPath="TiledMap\EntranceGround_map.tmx" />
         <scene id="ID_ENTITY_MAP_MAIN_HALL" mapPath="TiledMap\MainHallGround_map.tmx" />

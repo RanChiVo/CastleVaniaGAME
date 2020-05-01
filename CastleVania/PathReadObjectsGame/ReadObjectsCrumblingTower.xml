@@ -31,11 +31,8 @@
     <object spritePath="Resources\Enemy\ghost.xml" animationPath="Resources\Enemy\ghostAnimation.xml" />
     <object spritePath="Resources\Enemy\fleamen.xml" animationPath="Resources\Enemy\fleamenAnimation.xml" />
     <!--MenuPointHUD-->
-    <object spritePath= "Resources\MenuPoint\heartMenuPoint.xml"  animationPath=""/>
     <object spritePath= "Resources\MenuPoint\HP.xml"  animationPath=""/>
     <object spritePath= "Resources\MenuPoint\enemy_HP.xml"  animationPath=""/>
-    <object spritePath= "Resources\MenuPoint\place_item.xml"  animationPath=""/>
-    <object spritePath= "Resources\MenuPoint\lost_HP.xml"  animationPath=""/>  
     <object spritePath= "Resources\MenuPoint\menu.xml"  animationPath=""/>
     <object spritePath= "Resources\Items\boomerang.xml"  animationPath="Resources\Items\boomerangAnimation.xml"/>
 </objectList>

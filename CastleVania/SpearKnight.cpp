@@ -2,6 +2,8 @@
 
 constexpr float SPEAR_KNIGHT_MIN_DISTANCE = 32;
 constexpr float SPEAR_KNIGHT_GRAVITY = 0.0009f;
+constexpr float SPEAR_KNIGHT_SPEED_X = 0.13f;
+
 
 SpearKnight::SpearKnight(D3DXVECTOR2 pos, int maxDistance, int height, int width )
 {
@@ -12,9 +14,8 @@ SpearKnight::SpearKnight(D3DXVECTOR2 pos, int maxDistance, int height, int width
 	this->maxDistance = maxDistance;
 	currentAnimation = SPEAR_KNIGHT_ANI_WALKING;
 	nx = 1;
+	vx = SPEAR_KNIGHT_SPEED_X;
 	positionXStart = pos.x;
-	vx = 0.1f;
-	timeMoving = GetTickCount();
 }
 
 void SpearKnight::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -48,19 +49,20 @@ void SpearKnight::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float rdx = 0;
 		float rdy = 0;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		y += min_ty * dy;
+		y += min_ty * dy + ny*0.11f;
 		if (ny != 0) vy = 0;
 	}
 
-	if (timeMoving > 0 && GetTickCount() - timeMoving > 1000)
+	if (x > maxDistance )
 	{
-		timeMoving = GetTickCount();
-		nx = -nx;
+		nx = -1;
+		vx = -SPEAR_KNIGHT_SPEED_X;
 	}
-
-	int activateAreaX = (maxDistance - positionXStart)*2;
-	int randomPositionX = rand() % activateAreaX + positionXStart;
-	vx = nx * (randomPositionX - x)/ 1000;
+	else if (x < positionXStart)
+	{
+		nx = 1;
+		vx = SPEAR_KNIGHT_SPEED_X;
+	}
 }
 
 void SpearKnight::GetBoundingBox(float & left, float & top, float & right, float & bottom)

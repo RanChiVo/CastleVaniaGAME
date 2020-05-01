@@ -57,10 +57,8 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		case ID_ENTITY_FLEAMEN:
 		case ID_ENTITY_CANDLE:
 		case ID_ENTITY_ZOMBIE:
-		case ID_ENTITY_PANTHER:
 		case ID_ENTITY_BRICK:
 		case ID_ENTITY_VAMPIRE_BAT:
-		case ID_ENTITY_FISH_MAN:
 		case ID_ENTITY_DARK_BAT:
 		case ID_ENTITY_SPEAR_KNIGHT:
 		case ID_ENTITY_GHOST:

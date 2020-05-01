@@ -40,12 +40,7 @@ void SpawnEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (result)
 	{
-		if (name.compare("Spawn Fish Man") == 0)
-		{
-			Simon::getInstance()->setIsInSpawn(true);
-			Simon::getInstance()->setIdEnemySpawn(ID_ENTITY_FISH_MAN);
-		}
-		else if (name.compare("Spawn Bat") == 0)
+		 if (name.compare("Spawn Bat") == 0)
 		{
 			Simon::getInstance()->setIsInSpawn(true);
 			Simon::getInstance()->setIdEnemySpawn(ID_ENTITY_VAMPIRE_BAT);

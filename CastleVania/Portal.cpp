@@ -1,6 +1,5 @@
 #include "Portal.h"
 #include "GameObjects/Simon.h"
-#include "MovingMap.h"
 
 Portal::Portal(D3DXVECTOR2 pos, EntityID scene_id, int height, int width)
 {

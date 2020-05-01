@@ -25,8 +25,6 @@ private:
 	std::string timeString;
 	Sprite* HP;
 	Sprite* enemy_HP1;
-	Sprite* place_item1;
-	Sprite* lost_HP;
 	Sprite* menu;
 	Sprite* subWeapon;
 	EntityID idSubWeapon;
@@ -34,7 +32,6 @@ private:
 	DWORD startTime;
 	LPD3DXSPRITE spriteHandler;
 	RECT R;
-	Sprite* heart;
 public:
 	MenuPoint();
 	void loadResource();

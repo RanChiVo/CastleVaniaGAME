@@ -8,6 +8,8 @@
 #include "GameObjects/GameObject.h"
 
 constexpr int EXTRA_HEIGHT_SCREEN = 90;
+constexpr int STANDARD_HEIGHT_SCREEN = 384;
+
 
 class TiledMap
 {
@@ -28,6 +30,12 @@ private:
 	pugi::xml_parse_result isGoodFile;
 	std::string mapIndices;
 	std::string **matrixMap;
+
+	int beginCol;
+	int endCol;
+	int beginRow;
+	int endRow;
+
 
 	//Info tileset
 	TileSet* tileset;

@@ -6,7 +6,6 @@
 #include "../CombatWeapon.h"
 #include "../BaseInfo.h"
 #include "../ObjectStair.h"
-#include "../MovingMap.h"
 
 class Simon: public GameObject
 {
@@ -24,18 +23,19 @@ private:
 	bool attacking = false;
 	bool checkRewind = false;
 	bool isOnStair = false;
-	bool hasMovedEndMap = false;
-	bool isInTunel = false;
 	bool isVisible = false;
-	bool isMovingDoor = false;
-	DWORD startAtack = 0;
-	DWORD startAtackSub= 0;
-	DWORD startHurt;
-	DWORD startDie = 0;
-	DWORD startChangeColor = 0;
 	bool OnGround = false;
+	bool isGoingAutoStair = false;
+
+	DWORD timeAtack = 0;
+	DWORD timeAtackSub= 0;
+	DWORD timeHurt;
+	DWORD timeDie = 0;
+	DWORD timeChangeColor = 0;
+	DWORD timeJumpHeightFloor = 0;
+	DWORD timeThrowWeapon = 0;
+	DWORD timeAutoGoStair = 0;
 	ObjectStair* originalStair = nullptr;
-	ObjectStair* reverseStair = nullptr;
 	D3DXVECTOR2 resetPosition;
 	
 	Flip flip;
@@ -44,7 +44,6 @@ private:
 	int levelWhip;
 	int WHIP_STATE;
 	int changeColorId = 1;
-	int startThrowWeapon = 0;
 	BaseInfo* baseInfo;
 	std::vector<LPGAMEOBJECT> objectCollision;
 	static Simon* _instance;
@@ -82,13 +81,9 @@ public:
 	ObjectStair*  getOriginalStair() { return originalStair; }
 	void setActivateEnemyName(std::string nameEnemy) { this->activateNameEnemy = nameEnemy; }
 	std::string getActivateEnemyName() { return activateNameEnemy; }
-	bool isMovedEndMap();
-	void SetStateMoveEndMap(bool hasMovedMap);
 	bool isOnGround();
 	bool IsOnStair() { return isOnStair; }
 	void SetIsOnStair(bool isOnStair){}
-	bool IsMovingDoor() { return isMovingDoor; }
-	void setIsMovingDoor(bool isMovingDoor) {this->isMovingDoor = isMovingDoor;}
 	void SetState(int state);
 	bool checkisInSpawn() { return isInSpawn; }
 	void setIsInSpawn(bool isInSpawn) { this->isInSpawn = isInSpawn; }
@@ -105,15 +100,20 @@ public:
 	void setResetPosition(D3DXVECTOR2 pos);
 	D3DXVECTOR2 getResetPosition() { return resetPosition; }
 
-	void SetUpJump();
-	void RemoveWhip();
 	void SetupAtacking();
 	void SetupSubWeapon(vector<LPGAMEOBJECT> *coObjects);
 	void RenderWeapon(LPANIMATION animation, Viewport* viewport);
 	void UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
-	void StartAttack();
-	void StartAtackSub();
+	void SetTimeAttack(DWORD time) { this->timeAtack = time; }
+	void SetTimeAttackSub(DWORD time) { this->timeAtackSub = time; }
+	DWORD GetTimeAttack() { return timeAtack; }
+	DWORD GetTimeAttackSub() { return timeAtackSub; }
 
+	void AutoGoUpStair(State state );
+	void UpdateGotoStair();
+	bool IsGoingAutoStair() { return isGoingAutoStair; }
+	void LoadWhip();
+	void UnloadWhip();
 	~Simon();
 };
 

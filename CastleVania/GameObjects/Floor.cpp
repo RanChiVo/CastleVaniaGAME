@@ -11,7 +11,7 @@ Floor::Floor(D3DXVECTOR2 position, int height, int width)
 
 void Floor::Render(Viewport * viewport)
 {
-	RenderBoundingBox(viewport);
+	//RenderBoundingBox(viewport);
 }
 
 void Floor::GetBoundingBox(float & l, float & t, float & r, float & b)
@@ -21,7 +21,6 @@ void Floor::GetBoundingBox(float & l, float & t, float & r, float & b)
 	r = x + width;
 	b = y + height;
 }
-
 
 Floor::~Floor()
 {

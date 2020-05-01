@@ -10,13 +10,10 @@ MenuPoint::MenuPoint()
 
 void MenuPoint::loadResource()
 {
-	Textures::GetInstance()->Add(ID_ENTITY_BBOX, L"Resources\\MenuPoint\\menu.png", D3DCOLOR_XRGB(255, 255, 255));
+	Textures::GetInstance()->Add(ID_ENTITY_MENU, L"Resources\\MenuPoint\\menu.png", D3DCOLOR_XRGB(255, 255, 255));
 	menu = Sprites::GetInstance()->Get("menu");
-	heart = Sprites::GetInstance()->Get("heartMenuPoint");
 	HP = Sprites::GetInstance()->Get("HP1");
 	enemy_HP1 = Sprites::GetInstance()->Get("enemy_HP1");
-	lost_HP = Sprites::GetInstance()->Get("lost_HP1");
-	place_item1 = Sprites::GetInstance()->Get("place_item1");
 	spriteHandler = Direct3DManager::getInstance()->GetSpriteHandler();
 	R = RECT{ 5, 20, 550, 528 };
 	itemList[ID_ENTITY_DAGGER_WEAPON] = Sprites::GetInstance()->Get("dagger");
@@ -79,17 +76,8 @@ void MenuPoint::Draw(ID3DXFont* font)
 {
 	timeString = std::to_string(gameTime);
 	menu->Draw(D3DXVECTOR2(0, 0), Flip::normal, 255);
-	content = "SCORE-"+ scoreString + " TIME " + timeString + " STAGE 01\n";
-	content += "PLAYER			                 -"+ heartScore +"\n";
-	content += "ENEMY                 P-03\n";
-	heart->Draw(D3DXVECTOR2(380.0f, 35.0f), Flip::normal, 255);
-
-	for (int i = 0; i < 16; i++)
-	{
-		lost_HP->Draw(D3DXVECTOR2(125.0f + 10.0f * i, 37.0f), Flip::normal, 255);
-		lost_HP->Draw(D3DXVECTOR2(125.0f + 10.0f * i, 55.0f), Flip::normal, 255);
-	}
-
+	content = "      " + scoreString + "      " + timeString + "\n";
+	content += "                        " + heartScore;
 	for (int i = 0; i < healthDarkBat; i++)
 	{
 		enemy_HP1->Draw(D3DXVECTOR2(125.0f + 10.0f * i, 55.0f), Flip::normal, 255);
@@ -99,8 +87,6 @@ void MenuPoint::Draw(ID3DXFont* font)
 	{
 		HP->Draw(D3DXVECTOR2(125.0f + 10.0f * i, 37.0f), Flip::normal, 255);
 	}
-
-	place_item1->Draw(D3DXVECTOR2(300.0f, 38.0f), Flip::normal, 255);
 
 	if (subWeapon)
 	{

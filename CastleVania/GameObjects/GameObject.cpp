@@ -126,7 +126,7 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 		}
 		else sprite->Draw(pos, 200);
 	}
-	else sprite->Draw(pos, 100);
+	else sprite->Draw(pos, 200);
 }
 
 bool GameObject::checkInsideViewPort(Viewport * viewport)

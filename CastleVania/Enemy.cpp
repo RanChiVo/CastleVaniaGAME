@@ -8,7 +8,6 @@
 #include "./GameObjects/MiraculousBag.h"
 #include "VampireBat.h"
 #include "GameObjects/Simon.h"
-#include "FishMan.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -59,20 +58,10 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 100);
 				state = STATE_DETROY;
 				break;
-			case ID_ENTITY_PANTHER:
-				Simon::getInstance()->getBaseInfo()
-					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 200);
-				state = STATE_DETROY;
-				break;
 			case ID_ENTITY_VAMPIRE_BAT:
 				Simon::getInstance()->getBaseInfo()
 					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 200);
 				state = VampireBat::STATE_DETROY;
-				break;
-			case ID_ENTITY_FISH_MAN:
-				Simon::getInstance()->getBaseInfo()
-					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 200);
-				state = FishMan::FISH_MAN_STATE_HIDDEN;
 				break;
 			}
 			

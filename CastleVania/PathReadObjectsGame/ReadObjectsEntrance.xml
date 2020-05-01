@@ -18,11 +18,8 @@
     <object spritePath= "Resources\Items\cross.xml"  animationPath="Resources\Items\crossAnimation.xml"/>
     <object spritePath= "Resources\Items\stop_watch.xml"  animationPath="Resources\Items\stop_watchAnimation.xml"/>
     <object spritePath= "Resources\Items\Invisible_Potion.xml"  animationPath="Resources\Items\Invisible_PotionAnimation.xml"/>
-    <object spritePath= "Resources\MenuPoint\heartMenuPoint.xml"  animationPath=""/>
     <object spritePath= "Resources\MenuPoint\HP.xml"  animationPath=""/>
     <object spritePath= "Resources\MenuPoint\enemy_HP.xml"  animationPath=""/>
-    <object spritePath= "Resources\MenuPoint\place_item.xml"  animationPath=""/>
-    <object spritePath= "Resources\MenuPoint\lost_HP.xml"  animationPath=""/>  
     <object spritePath= "Resources\MenuPoint\menu.xml"  animationPath=""/>
     <object spritePath= "Resources\Items\boomerang.xml"  animationPath="Resources\Items\boomerangAnimation.xml"/>
 </objectList>

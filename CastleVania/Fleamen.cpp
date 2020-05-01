@@ -90,7 +90,7 @@ void Fleamen::Render(Viewport * viewport)
 	{
 		if (vy >= 0)
 		{
-			currentAnimation == FLEAMEN_ANI_IDLE;
+			currentAnimation = FLEAMEN_ANI_IDLE;
 		}
 	}
 
@@ -98,7 +98,7 @@ void Fleamen::Render(Viewport * viewport)
 	{
 		if (vy >= 0)
 		{
-			currentAnimation == FLEAMEN_ANI_IDLE;
+			currentAnimation = FLEAMEN_ANI_IDLE;
 		}
 	}
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));

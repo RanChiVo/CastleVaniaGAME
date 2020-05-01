@@ -22,7 +22,7 @@
 </data>
  </layer>
  <objectgroup color="#0000ff" id="2" name="Simon">
-  <object id="6" name="Start_Map" x="66" y="255" width="60" height="66">
+  <object id="6" name="Start_Map" x="1186" y="247" width="60" height="66">
    <properties>
     <property name="Cell ID" value="0,0 1,0"/>
     <property name="Object ID" value="ID_ENTITY_SIMON"/>

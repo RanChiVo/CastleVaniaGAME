@@ -99,9 +99,6 @@
     <ClCompile Include="Candle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PodiumOnWall.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionStair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -147,9 +144,6 @@
     <ClCompile Include="Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Panther.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -165,9 +159,6 @@
     <ClCompile Include="FireBombWeapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BrickBrokenEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -180,9 +171,6 @@
     <ClCompile Include="VampireBat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FishMan.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WaterEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -192,9 +180,6 @@
     <ClCompile Include="Grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UndergroundScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EntranceScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -202,9 +187,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ObjectGridCreation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MovingMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SpawnEnemy.cpp">
@@ -256,6 +238,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Skeleton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bone.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -350,9 +335,6 @@
     <ClInclude Include="Candle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PodiumOnWall.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionStair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -401,9 +383,6 @@
     <ClInclude Include="Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Panther.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -419,9 +398,6 @@
     <ClInclude Include="FireBombWeapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Door.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BrickBrokenEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -434,9 +410,6 @@
     <ClInclude Include="VampireBat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FishMan.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WaterEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -446,9 +419,6 @@
     <ClInclude Include="Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UndergroundScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EntranceScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -456,9 +426,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ObjectGridCreation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MovingMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpawnEnemy.h">
@@ -510,6 +477,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Skeleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bone.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

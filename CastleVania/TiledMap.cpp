@@ -20,6 +20,16 @@ void TiledMap::Update(DWORD dt, vector<LPGAMEOBJECT>* object)
 {
 	if (createEffectStart > 0 && GetTickCount() - createEffectStart > TILEMAP_CROSS_EFFECT_TIME)
 		createEffectStart = 0;
+
+	beginCol = (int)Direct3DManager::getInstance()->getViewport()->getX() / tileWidth;
+	endCol = (int)((int)Direct3DManager::getInstance()->getViewport()->getX() + (int)Direct3DManager::getInstance()->getViewport()->getWidth()) / tileWidth + 1;
+	beginRow = (int)(int)Direct3DManager::getInstance()->getViewport()->getY() / tileHeight;
+	endRow = (int)((int)Direct3DManager::getInstance()->getViewport()->getY() + (int)Direct3DManager::getInstance()->getViewport()->getHeight()) / tileHeight + 1;
+
+	beginCol = (beginCol < 0) ? 0 : ((beginCol > (tilesInMapWidth)) ? (tilesInMapWidth) : beginCol);
+	endCol = (endCol < 0) ? 0 : ((endCol > (tilesInMapWidth)) ? (tilesInMapWidth) : endCol);
+	beginRow = (beginRow < 0) ? 0 : ((beginRow > (tilesInMapHeight)) ? (tilesInMapHeight) : beginRow);
+	endRow = (endRow < 0) ? 0 : ((endRow > (tilesInMapHeight)) ? (tilesInMapHeight) : endRow);
 }
 
 LPDIRECT3DTEXTURE9 TiledMap::loadImagefromfile()
@@ -112,16 +122,6 @@ void TiledMap::readMatrixMap()
 
 void TiledMap::draw(Viewport* viewport, int alpha)
 {
-	int beginCol = viewport->getX() / tileWidth;
-	int endCol = (viewport->getX() + viewport->getWidth()) / tileWidth + 1;
-	int beginRow = viewport->getY() / tileHeight;
-	int endRow = (viewport->getY() + viewport->getHeight()) / tileHeight + 1;
-
-	beginCol = (beginCol < 0) ? 0 : ((beginCol > (tilesInMapWidth)) ? (tilesInMapWidth) : beginCol);
-	endCol = (endCol < 0) ? 0 : ((endCol > (tilesInMapWidth)) ? (tilesInMapWidth) : endCol);
-	beginRow = (beginRow < 0) ? 0 : ((beginRow > (tilesInMapHeight)) ? (tilesInMapHeight) : beginRow);
-	endRow = (endRow < 0) ? 0 : ((endRow > (tilesInMapHeight)) ? (tilesInMapHeight) : endRow);
-
 	if (createEffectStart > 0)
 	{
 		alpha = GetTickCount() % 100 > 50 ? 80 : 255;

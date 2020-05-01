@@ -15,8 +15,6 @@
 #include "../GameObjects/Entrance.h"
 #include "../Flip.h"
 #include "../GameObjects/Zombie.h"
-#include "../Panther.h"
-#include "../Door.h"
 #include "../Viewport.h"
 #include "../WaterEffect.h"
 #include "../DarkBat.h"
@@ -31,7 +29,7 @@
 #include "../MovingBrick.h"
 
 constexpr int SIMON_JUMP_VEL = 350;
-constexpr float SIMON_JUMP_SPEED_Y = 0.42f;
+constexpr float SIMON_JUMP_SPEED_Y = 0.38f;
 constexpr float SIMON_MOVE_SPEED = 0.12f;
 constexpr float SIMON_AUTO_SPEED_RIGHT = 0.025f;
 constexpr float SIMON_GRAVITY = 0.001f;
@@ -39,9 +37,9 @@ constexpr float SIMON_HURT_SPEED_Y = 0.2f;
 constexpr float SIMON_STAIR_SPEED = 0.06f;
 constexpr DWORD SIMON_ENTRANCE_TIME = 5000;
 constexpr DWORD INVISIBLE_TIME = 4000;
-constexpr DWORD SIMON_UNTOUCHABLE_TIME = 2000;
-constexpr DWORD SIMON_PROTECT_TIME = 2000;
-constexpr DWORD SIMON_HURT_TIME = 1000;
+constexpr DWORD SIMON_UNTOUCHABLE_TIME = 1500;
+constexpr DWORD SIMON_PROTECT_TIME = 500;
+constexpr DWORD SIMON_HURT_TIME = 1500;
 constexpr DWORD SIMON_DIE_TIME = 3000;
 constexpr DWORD SIMON_CHANGE_COLOR_TIME = 1500;
 
@@ -62,8 +60,7 @@ Simon::Simon()
 	comeEntranceStart = 0;
 	WHIP_STATE = 1;
 	levelWhip = 1;
-	whip = new Whip();
-	whip->SetPosition(getPosition());
+
 	baseInfo = new BaseInfo();
 }
 
@@ -77,6 +74,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	SetupSubWeapon(coObjects);
 
+	UpdateGotoStair();
+
 	updateCollisionSubStair();
 
 	handleCollisionObjectGame(dt, coObjects);
@@ -84,13 +83,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (comeEntranceStart > 0 && GetTickCount() - comeEntranceStart > SIMON_ENTRANCE_TIME)
 	{
 		comeEntranceStart = 0;
-		isMovingDoor = false;
 		SetState(SIMON_STATE_IDLE);
 	}
 
-	if (startHurt > 0 && GetTickCount() - startHurt > SIMON_HURT_TIME)
+	if (timeHurt > 0 && GetTickCount() - timeHurt > SIMON_HURT_TIME)
 	{
-		startHurt = 0;
+		timeHurt = 0;
 	}
 
 	if (invisible_Potion_Start > 0 && GetTickCount() - invisible_Potion_Start > INVISIBLE_TIME)
@@ -99,22 +97,29 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isVisible = false;
 	}
 
-	if (baseInfo->getHealth() == 0 && startDie == 0)
+	if (baseInfo->getHealth() == 0 && timeDie == 0)
 	{
 		SetState(SIMON_STATE_DIE);
-		startDie = GetTickCount();
+		timeDie = GetTickCount();
 	}
 
-	if (startDie > 0 && GetTickCount() - startDie > SIMON_DIE_TIME)
+	if (timeDie > 0 && GetTickCount() - timeDie > SIMON_DIE_TIME)
 	{
-		startDie = 0;
+		timeDie = 0;
 		resetWhenDie();
 	}
 
-	if (startChangeColor > 0 && GetTickCount() - startChangeColor > SIMON_CHANGE_COLOR_TIME)
+	if (timeChangeColor > 0 && GetTickCount() - timeChangeColor > SIMON_CHANGE_COLOR_TIME)
 	{
 		SetState(SIMON_STATE_IDLE);
-		startChangeColor = 0;
+		timeChangeColor = 0;
+	}
+
+	if (timeAutoGoStair> 0 && (GetTickCount() - timeAutoGoStair) >= 50)
+	{
+		isGoingAutoStair = false;
+		timeAutoGoStair = 0;
+		SetState(Simon::State::SIMON_STATE_IDLE_UP_STAIR);
 	}
 }
 
@@ -127,7 +132,10 @@ void Simon::SetState(int state)
 		vx = SIMON_MOVE_SPEED;
 		nx = 1;
 		break;
-
+	case SIMON_STATE_AUTO_GOES_RIGHT:
+		vx = SIMON_AUTO_SPEED_RIGHT;
+		nx = 1;
+		break;
 	case SIMON_STATE_WALKING_LEFT:
 		vx = -SIMON_MOVE_SPEED;
 		nx = -1;
@@ -136,6 +144,8 @@ void Simon::SetState(int state)
 		vx = 0;
 		break;
 	case SIMON_STATE_JUMPING:
+		OnGround = false;
+		isjumping = true;
 		vy = -SIMON_JUMP_SPEED_Y;
 		y -= 5;
 		break;
@@ -181,9 +191,7 @@ void Simon::SetState(int state)
 		{
 			SetSpeed(-nx * SIMON_STAIR_SPEED, SIMON_STAIR_SPEED);
 		}
-
 		break;
-
 	case SIMON_STATE_IDLE_UP_STAIR:
 		SetSpeed(0, 0);
 		isOnStair = true;
@@ -241,7 +249,7 @@ void Simon::SetState(int state)
 
 void Simon::SetupAtacking()
 {
-	if (startAtack)
+	if (timeAtack)
 	{
 		whip->SetPosition(D3DXVECTOR2(x, y));
 		if (levelWhip == 1)
@@ -261,7 +269,7 @@ void Simon::SetupAtacking()
 
 void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 {
-	if (enableSubWeapon && startThrowWeapon == 0 && baseInfo->getHeart() > 0)
+	if (enableSubWeapon && timeThrowWeapon == 0 && baseInfo->getHeart() > 0)
 	{
 		if (baseInfo->getIdSubWeapon() != NULL)
 		{
@@ -282,7 +290,7 @@ void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 				}
 				baseInfo->getSubWeapon()->set_nx(nx);
 				coObjects->push_back(baseInfo->getSubWeapon());
-				startThrowWeapon = GetTickCount();
+				timeThrowWeapon = GetTickCount();
 			}
 			baseInfo->setHeart(max(0, baseInfo->getHeart() - 1));
 		}
@@ -291,7 +299,7 @@ void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 
 void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
 {
-	if (startAtack && state!=SIMON_STATE_HURT)
+	if (timeAtack)
 	{
 		whip->updatePostision(animation->getCurrentFrame(), currentAnimation, flip);
 		whip->draw(flip, viewport);
@@ -300,105 +308,45 @@ void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
 
 void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (startAtack)
+	if (timeAtack)
 	{
 		whip->Update(dt, coObjects);
 
-		if (startAtack > 0 && GetTickCount() - startAtack > 400)
+		if (timeAtack > 0 && GetTickCount() - timeAtack > 400)
 		{
 			Reset(currentAnimation);
-			startAtack = 0;
+			timeAtack = 0;
 		}
 	}
 
-	if (startAtackSub)
+	if (timeAtackSub)
 	{
 
 		if (baseInfo->getIdSubWeapon() == ID_ENTITY_BOOMERANG_WEAPON)
 		{
 			baseInfo->getSubWeapon()->setLiveTime(GetTickCount());
 		}
-		if (startAtackSub > 0 && GetTickCount() - startAtackSub > 400)
+		if (timeAtackSub > 0 && GetTickCount() - timeAtackSub > 400)
 		{
 			SetState(SIMON_STATE_IDLE);
 			animation_set->find(currentAnimation)->second->SetFinish(false);
-			startAtackSub = 0;
+			timeAtackSub = 0;
 		}
 	}
 
 	if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
 	{
-		if (GetTickCount() - startThrowWeapon > 400 && startThrowWeapon > 0 && enableSubWeapon)
+		if (GetTickCount() - timeThrowWeapon > 400 && timeThrowWeapon > 0 && enableSubWeapon)
 		{
 			enableSubWeapon = false;
-			startThrowWeapon = 0;
+			timeThrowWeapon = 0;
 			baseInfo->setIdSubWeapon(baseInfo->getIdSubWeapon());
 		}
 	}
 }
 
-void Simon::StartAttack()
-{
-	if (state == SIMON_STATE_ATTACK_STAND || state == SIMON_STATE_ATTACK_STAND_SUBWEAPON)
-	{
-		return;
-	}
-
-	if (state != SIMON_STATE_JUMPING)
-		vx = 0;
-
-	if (state == SIMON_STATE_SITDOWN)
-		SetState(SIMON_STATE_ATTACK_SITDOWN);
-	else if (isOnStair)
-	{
-		if (state == SIMON_STATE_IDLE_UP_STAIR)
-			SetState(SIMON_STATE_ATTACK_UP_STAIR);
-
-		if (state == SIMON_STATE_IDLE_DOWN_STAIR)
-			SetState(SIMON_STATE_ATTACK_DOWN_STAIR);
-	}
-	else
-		SetState(SIMON_STATE_ATTACK_STAND);
-	startAtack = GetTickCount();
-}
-
-void Simon::StartAtackSub()
-{
-	if (startAtack > 0 || startAtackSub > 0)
-	{
-		return;
-	}
-	if (state != SIMON_STATE_JUMPING)
-		vx = 0;
-	if (state == SIMON_STATE_SITDOWN)
-		SetState(SIMON_STATE_ATTACK_SITDOWN_SUBWEAPON);
-	else if (isOnStair)
-	{
-
-		//case SIMON_STATE_IDLE_UP_STAIR:
-		//	if (originalStair)
-		//	{
-
-
-		//		SetState(SIMON_STATE_ATTACK_UP_STAIR);
-		//	}
-		//case SIMON_STATE_IDLE_DOWN_STAIR:
-		//	if (originalStair)
-		//	{
-		//		if (isOnStair)
-		//		{
-		//			SetState(SIMON_STATE_ATTACK_DOWN_STAIR);
-		//		}
-		//	}
-
-	}
-	else
-		SetState(SIMON_STATE_ATTACK_STAND_SUBWEAPON);
-	startAtackSub = GetTickCount();
-}
-
 void Simon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
-{ 
+{
 	if (state == SIMON_STATE_JUMPING)
 	{
 		left = x + 8;
@@ -408,108 +356,111 @@ void Simon::GetBoundingBox(float & left, float & top, float & right, float & bot
 	}
 	left = x + 8;
 	top = y;
-	right = left + width - 18 ;
+	right = left + width - 18;
 	bottom = top + height;
 }
 
 void Simon::Render(Viewport* viewport)
 {
-
 	RenderBoundingBox(viewport);
 
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 
-	switch (state)
-	{
-	case SIMON_STATE_WALKING_RIGHT:
-		currentAnimation = SIMON_ANI_WALKING;
-		checkRewind = true;
-		break;
-	case SIMON_STATE_WALKING_LEFT:
-		currentAnimation = SIMON_ANI_WALKING;
-		checkRewind = true;
-		break;
+		switch (state)
+		{
+		case SIMON_STATE_WALKING_RIGHT:
+			currentAnimation = SIMON_ANI_WALKING;
+			checkRewind = true;
+			break;
+		case SIMON_STATE_AUTO_GOES_RIGHT:
+			currentAnimation = SIMON_ANI_WALKING;
+			checkRewind = true;
+			break;
+		case SIMON_STATE_WALKING_LEFT:
+			currentAnimation = SIMON_ANI_WALKING;
+			checkRewind = true;
+			break;
 
-	case SIMON_STATE_SITDOWN:
-		currentAnimation = SIMON_ANI_SITDOWN;
-		checkRewind = false;
-		break;
-	case SIMON_STATE_JUMPING:
-		if (vy < 0)
-		{
+		case SIMON_STATE_SITDOWN:
 			currentAnimation = SIMON_ANI_SITDOWN;
+			checkRewind = false;
+			break;
+		case SIMON_STATE_JUMPING:
+			if (vy < 0)
+			{
+				currentAnimation = SIMON_ANI_SITDOWN;
+			}
+			else if (vy == 0) currentAnimation = SIMON_ANI_IDLE;
+			checkRewind = true;
+			break;
+		case SIMON_STATE_IDLE:
+			currentAnimation = SIMON_ANI_IDLE;
+			checkRewind = false;
+			break;
+		case SIMON_STATE_ATTACK_STAND:
+			checkRewind = true;
+			currentAnimation = SIMON_ANI_ATTACK_STANDING;
+			break;
+		case SIMON_STATE_ATTACK_SITDOWN:
+			checkRewind = true;
+			currentAnimation = SIMON_ANI_ATTACK_SITDOWN;
+			break;
+		case SIMON_STATE_ATTACK_STAND_SUBWEAPON:
+			checkRewind = true;
+			currentAnimation = SIMON_ANI_ATTACK_STANDING;
+			break;
+		case SIMON_STATE_CHANGECOLOR:
+			checkRewind = true;
+			if (changeColorId == -1)
+			{
+				currentAnimation = SIMON_ANI_COLOR;
+			}
+			else if (changeColorId == 1)
+			{
+				currentAnimation = SIMON_ANI_COLOR1;
+			}
+			break;
+			case SIMON_STATE_GO_UP_STAIR:
+				checkRewind = true;
+				currentAnimation = SIMON_ANI_GO_UP_STAIR;
+				break;
+		case SIMON_STATE_GO_DOWN_STAIR:
+			checkRewind = true;
+			currentAnimation = SIMON_ANI_GO_DOWN_STAIR;
+			break;
+		case SIMON_STATE_IDLE_DOWN_STAIR:
+			checkRewind = true;
+			currentAnimation = SIMON_ANI_IDLE_GO_DOWN_STAIR;
+			break;
+		case SIMON_STATE_IDLE_UP_STAIR:
+			checkRewind = true;
+			currentAnimation = SIMON_ANI_IDLE_GO_UP_STAIR;
+			break;
+		case SIMON_STATE_ATTACK_UP_STAIR:
+			checkRewind = true;
+			currentAnimation = SIMON_ANI_ATTACK_UP_STAIR;
+			break;
+		case SIMON_STATE_ATTACK_DOWN_STAIR:
+			checkRewind = true;
+			currentAnimation = SIMON_ANI_ATTACK_DOWN_STAIR;
+			break;
+		case SIMON_STATE_DIE:
+			vx = 0;
+			checkRewind = false;
+			break;
+		case SIMON_STATE_HURT:
+			if (vy < 0)
+			{
+				currentAnimation = SIMON_ANI_HURT;
+			}
+			else if (isOnGround() && isjumping)
+			{
+				SetState(SIMON_STATE_IDLE);
+			}
+			checkRewind = true;
+			animation_set->find(ani)->second->SetFinish(false);
+			break;
 		}
-		else if (vy == 0) currentAnimation = SIMON_ANI_IDLE;
-		checkRewind = true;
-		break;
-	case SIMON_STATE_IDLE:
-		currentAnimation = SIMON_ANI_IDLE;
-		checkRewind = false;
-		break;
-	case SIMON_STATE_ATTACK_STAND:
-		checkRewind = true;
-		currentAnimation = SIMON_ANI_ATTACK_STANDING;
-		break;
-	case SIMON_STATE_ATTACK_SITDOWN:
-		checkRewind = true;
-		currentAnimation = SIMON_ANI_ATTACK_SITDOWN;
-		break;
-	case SIMON_STATE_ATTACK_STAND_SUBWEAPON:
-		checkRewind = true;
-		currentAnimation = SIMON_ANI_ATTACK_STANDING;
-		break;
-	case SIMON_STATE_CHANGECOLOR:
-		checkRewind = true;
-		if (changeColorId == -1)
-		{
-			currentAnimation = SIMON_ANI_COLOR;
-		}
-		else if (changeColorId == 1)
-		{
-			currentAnimation = SIMON_ANI_COLOR1;
-		}
-		break;
-	case SIMON_STATE_GO_UP_STAIR:
-		checkRewind = true;
-		currentAnimation = SIMON_ANI_GO_UP_STAIR;
-		break;
-	case SIMON_STATE_GO_DOWN_STAIR:
-		checkRewind = true;
-		currentAnimation = SIMON_ANI_GO_DOWN_STAIR;
-		break;
-	case SIMON_STATE_IDLE_DOWN_STAIR:
-		checkRewind = true;
-		currentAnimation = SIMON_ANI_IDLE_GO_DOWN_STAIR;
-		break;
-	case SIMON_STATE_IDLE_UP_STAIR:
-		checkRewind = true;
-		currentAnimation = SIMON_ANI_IDLE_GO_UP_STAIR;
-		break;
-	case SIMON_STATE_ATTACK_UP_STAIR:
-		checkRewind = true;
-		currentAnimation = SIMON_ANI_ATTACK_UP_STAIR;
-		break;
-	case SIMON_STATE_ATTACK_DOWN_STAIR:
-		checkRewind = true;
-		currentAnimation = SIMON_ANI_ATTACK_DOWN_STAIR;
-		break;
-	case SIMON_STATE_DIE:
-		vx = 0;
-		checkRewind = false;
-		break;
-	case SIMON_STATE_HURT:
-		if (vy < 0)
-		{
-			currentAnimation = SIMON_ANI_HURT;
-		}
-		else if (isOnGround() && isjumping)
-		{
-			SetState(SIMON_STATE_IDLE);
-		}
-		checkRewind = true;
-		animation_set->find(ani)->second->SetFinish(false);
-		break;
-	}
 
 	animation_set->find(currentAnimation)->second->SetLoop(checkRewind);
 
@@ -568,15 +519,6 @@ void Simon::Render(Viewport* viewport)
 	RenderWeapon(animation, viewport);
 }
 
-bool Simon::isMovedEndMap()
-{
-	return hasMovedEndMap;
-}
-
-void Simon::SetStateMoveEndMap(bool hasMovedMap)
-{
-	this->hasMovedEndMap = hasMovedMap;
-}
 
 bool Simon::isOnGround()
 {
@@ -604,7 +546,7 @@ void Simon::Reset(int currentAnimation)
 		break;
 	}
 
-	if (!startAtackSub)
+	if (!timeAtackSub)
 	{
 		whip->GetAnimationSet()->find(whip->getCurrentAnimation())->second->SetFinish(false);
 
@@ -612,7 +554,7 @@ void Simon::Reset(int currentAnimation)
 	animation_set->find(currentAnimation)->second->SetFinish(false);
 }
 
-void Simon::handleOutOfStair() 
+void Simon::handleOutOfStair()
 {
 	if (state == SIMON_STATE_GO_DOWN_STAIR || state == SIMON_STATE_IDLE_DOWN_STAIR
 		|| state == SIMON_STATE_ATTACK_DOWN_STAIR)
@@ -635,6 +577,10 @@ void Simon::handleOutOfStair()
 
 void Simon::updateCollisionSubStair()
 {
+	if (isGoingAutoStair)
+	{
+		return;
+	}
 	if (isOnStair)
 	{
 		if (originalStair->Get_nyStair() > 0 && (y + height <= (originalStair->getPosition().y + originalStair->getHeight() - originalStair->GetHeightStair())
@@ -663,8 +609,8 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		if (coObjects->at(i)->getID() == ID_ENTITY_WALL
 			|| coObjects->at(i)->getID() == ID_ENTITY_FLOOR ||
-			coObjects->at(i)->getID() == ID_ENTITY_BRICK 
-			||coObjects->at(i)->getID() == ID_ENTITY_MOVING_BRICK)
+			coObjects->at(i)->getID() == ID_ENTITY_BRICK
+			|| coObjects->at(i)->getID() == ID_ENTITY_MOVING_BRICK)
 			staticObject.push_back(coObjects->at(i));
 	}
 
@@ -758,7 +704,6 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 	switch (id)
 	{
 	case ID_ENTITY_ZOMBIE:
-	case ID_ENTITY_FISH_MAN:
 	case ID_ENTITY_CRYSTAL_BALL:
 	case ID_ENTITY_VAMPIRE_BAT:
 	case ID_ENTITY_DARK_BAT:
@@ -775,9 +720,9 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		break;
 	case ID_ENTITY_WEAPON_REWARD:
 		SetState(SIMON_STATE_CHANGECOLOR);
-		if (startChangeColor == 0)
+		if (timeChangeColor == 0)
 		{
-			startChangeColor = GetTickCount();
+			timeChangeColor = GetTickCount();
 		}
 		if (levelWhip == 1)
 		{
@@ -859,7 +804,6 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 			switch (coObjects->at(j)->getID())
 			{
 			case ID_ENTITY_ZOMBIE:
-			case ID_ENTITY_PANTHER:
 				coObjects->at(j)->SetState(STATE_DETROY);
 				break;
 			}
@@ -928,7 +872,7 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 			coEvents->at(i)->obj->SetState(STATE_DETROY);
 		}
 		break;
-	
+
 	case ID_ENTITY_MIRACULOUS_BAG:
 		if (coObjects)
 		{
@@ -952,21 +896,6 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 			originalStair = new ObjectStair(dynamic_cast<ObjectStair*>(coObjects->at(i)));
 		}
 		break;
-	case ID_ENTITY_PANTHER:
-	{
-		Panther* panther = dynamic_cast<Panther*>(coObjects->at(i));
-		if (!panther->IsActivate())
-		{
-			panther->setActivate(true);
-		}
-		else if (!untouchable && !isVisible)
-		{
-			SetState(SIMON_STATE_HURT);
-			baseInfo->setHealth(max(0, baseInfo->getHealth() - 1));
-			StartUntouchable();
-		}
-	}
-	break;
 	case ID_ENTITY_ACTIVATEBOX:
 	{
 		ActivationBox *actionBox = dynamic_cast<ActivationBox *>(coObjects->at(i));
@@ -989,28 +918,8 @@ void Simon::handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coO
 	RECT rect2;
 	for (int i = 0; i < (int)coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->getID() == ID_ENTITY_PANTHER
-			&& coObjects->at(i)->GetState() != Panther::PANTHER_STATE_ACTIVATE)
-		{
-			Panther* panther = nullptr;
-			panther = dynamic_cast<Panther*>(coObjects->at(i));
-			if (!panther->IsActivate())
-			{
-				if (nx > 0)
-				{
-					rect1 = panther->getBBActivateRight();
-				}
-				else if (nx < 0)
-				{
-					rect1 = panther->getBBActivateLeft();
-				}
-			}
-		}
-		else
-		{
-			coObjects->at(i)->GetBoundingBox(l, t, r, b);
-			rect1 = RECT{ long(l), long(t), long(r), long(b) };
-		}
+		coObjects->at(i)->GetBoundingBox(l, t, r, b);
+		rect1 = RECT{ long(l), long(t), long(r), long(b) };
 		GetBoundingBox(l2, t2, r2, b2);
 		rect2 = RECT{ long(l2), long(t2), long(r2), long(b2) };
 		bool result = this->checkCollision(rect1, rect2);
@@ -1026,7 +935,6 @@ void Simon::resetWhenDie()
 {
 	baseInfo->setHealth(4);
 	SetPosition(resetPosition);
-	MovingMap::getInstance()->setIdMap(Utils::getInstance()->getStringToEntityID()[getIdHiddenItem()]);
 	Direct3DManager::getInstance()->getViewport()->setStartViewPortX(getStartViewPort());
 	Direct3DManager::getInstance()->getViewport()->setEndViewPortX(getEndViewPort());
 	SetState(SIMON_STATE_IDLE);
@@ -1038,14 +946,43 @@ void Simon::setResetPosition(D3DXVECTOR2 pos)
 	this->resetPosition = pos;
 }
 
-void Simon::SetUpJump()
+void Simon::AutoGoUpStair(State state)
 {
-	SetState(SIMON_STATE_JUMPING);
-	OnGround = false;
-	isjumping = true;
+	float sl, st, sr, sb;
+	GetBoundingBox(sl, st, sr, sb);
+
+	if (!isOnStair && state == SIMON_STATE_GO_UP_STAIR && sl > (originalStair->getPosition().x) && nx == 1)
+	{
+		isGoingAutoStair = true;
+		vx = -0.05;
+		nx = -1;
+		this->state = SIMON_STATE_AUTO_GOES_RIGHT;
+	}
+	else
+	{
+		SetState(Simon::State::SIMON_STATE_GO_UP_STAIR);
+	}
 }
 
-void Simon::RemoveWhip()
+void Simon::UpdateGotoStair()
+{
+	float sl, st, sr, sb;
+	GetBoundingBox(sl, st, sr, sb);
+	if (timeAutoGoStair == 0 && isGoingAutoStair && (int)sl == (originalStair->getPosition().x - 15))
+	{
+		nx = 1;
+		SetState(Simon::State::SIMON_STATE_GO_UP_STAIR);
+		timeAutoGoStair = GetTickCount();
+	}
+}
+
+void Simon::LoadWhip()
+{
+	whip = new Whip();
+	whip->SetPosition(getPosition());
+}
+
+void Simon::UnloadWhip()
 {
 	if (whip != nullptr)
 		delete whip;
@@ -1053,6 +990,5 @@ void Simon::RemoveWhip()
 
 Simon::~Simon()
 {
-	RemoveWhip();
 }
 
