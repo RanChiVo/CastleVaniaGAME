@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
 <animations id="ID_ENTITY_CROWN">
-   <animation name ="CROWN_ANI" default_time="100" rewind="true">
+   <animation name ="CROWN_ANI" default_time="20" rewind="true">
     <animation_frame sprite_id ="crown1"/>
     <animation_frame sprite_id ="crown2"/>
     <animation_frame sprite_id="crown3" />

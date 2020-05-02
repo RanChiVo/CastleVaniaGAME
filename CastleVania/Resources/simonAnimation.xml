@@ -9,6 +9,13 @@
       <animation_frame sprite_id="Walking4" />
     </animation>
 
+     <animation name="SIMON_ANI_WALKING_LOW" default_time="150" rewind="true">
+      <animation_frame sprite_id="Walking1" />
+      <animation_frame sprite_id="Walking2" />
+      <animation_frame sprite_id="Walking3" />
+      <animation_frame sprite_id="Walking4" />
+    </animation>
+
     <animation name="SIMON_ANI_ATTACK_STANDING" default_time="125" rewind="true">
       <animation_frame sprite_id="AttackStand1" />
       <animation_frame sprite_id="AttackStand2" />
