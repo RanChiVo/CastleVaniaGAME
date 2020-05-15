@@ -11,6 +11,7 @@ class PlayScene : public Scene
 protected:
 	CastleWall* castleWall;
 	Simon* player;
+	Whip* whip;
 	vector<LPGAMEOBJECT> objects;
 	ID3DXFont* font = nullptr;
 	TiledMap* tiled_map;

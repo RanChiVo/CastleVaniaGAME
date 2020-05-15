@@ -1,6 +1,6 @@
 #include "MovingBrick.h"
 
-MovingBrick::MovingBrick(D3DXVECTOR2 pos, int maxDistance, int width, int height)
+MovingBrick::MovingBrick(D3DXVECTOR2 pos, int maxDistance, int height, int  width)
 {
 	id = ID_ENTITY_MOVING_BRICK;
 	SetPosition(pos);
@@ -37,6 +37,7 @@ void MovingBrick::GetBoundingBox(float & left, float & top, float & right, float
 
 void MovingBrick::Render(Viewport * viewport)
 {
+	RenderBoundingBox(viewport);
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	animation_set->find(currentAnimation)->second->Render(position.x, position.y, Flip::normal);
 }

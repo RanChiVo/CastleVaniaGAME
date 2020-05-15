@@ -4,6 +4,7 @@
 #include "GameObjects/Simon.h"
 #include "Ghost.h"
 #include "Fleamen.h"
+#include "Skeleton.h"
 
 ActivationBox::ActivationBox(D3DXVECTOR2 pos, EntityID activatedObjecId, int height, int width)
 {
@@ -65,6 +66,24 @@ void ActivationBox::ActionObject(vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 		break;
+	case ID_ENTITY_WHITE_SKELETON:
+		for (int i = 0; i < (int)coObjects->size(); i++)
+		{
+			switch (coObjects->at(i)->getID())
+			{
+			case ID_ENTITY_WHITE_SKELETON:
+			{
+				if (!isActivate)
+				{
+					isActivate = true;
+					Skeleton*skeleton = dynamic_cast<Skeleton *>(coObjects->at(i));
+					skeleton->SetActivate(true);
+				}
+			}
+			break;
+			}
+		}
+		break;
 	case ID_ENTITY_VAMPIRE_BAT:
 		for (int i = 0; i < (int)coObjects->size(); i++)
 		{
@@ -107,14 +126,10 @@ void ActivationBox::GetBoundingBox(float & l, float & t, float & r, float & b)
 void ActivationBox::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
-	if (isActivate)
+	if (activatedObjecId == ID_ENTITY_VAMPIRE_BAT && isActivate)
 	{
 		setWidth(512);
 		setHeight(512);
-	}
-
-	if (activatedObjecId == ID_ENTITY_VAMPIRE_BAT && isActivate)
-	{
 		float l, t, r, b;
 		GetBoundingBox(l, t, r, b);
 		float sl, st, sr, sb;

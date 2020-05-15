@@ -33,7 +33,7 @@
    <spriteframe id="2ChangeColor3" left = "120" top="198" right="180" bottom="264"/>
    
    <spriteframe id="GoUpStair1" left = "120" top="66" right="180" bottom="132"/>
-   <spriteframe id="GoUpStair2" left = "0" top="0" right="60" bottom="66"/>
+   <spriteframe id="GoUpStair2" left = "60" top="66" right="120" bottom="132"/>
    <spriteframe id="GoUpStair3" left = "120" top="66" right="180" bottom="132"/>
 
    <spriteframe id="GoDownStair1" left = "240" top="66" right="300" bottom="132"/>

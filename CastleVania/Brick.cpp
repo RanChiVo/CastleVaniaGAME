@@ -22,7 +22,7 @@ CBrick::CBrick(std::string name, D3DXVECTOR2 pos, int height, int width)
 
 	this->width = width;
 
-	currentAnimation = BRICK_ANI4;
+	this->name = name;
 
 	if (name.compare("BigSitdownBrick")==0)
 	{
@@ -45,9 +45,13 @@ CBrick::CBrick(std::string name, D3DXVECTOR2 pos, int height, int width)
 
 void CBrick::Render(Viewport* viewport)
 {
-	//RenderBoundingBox(viewport);
+	RenderBoundingBox(viewport);
 
-	if (state == STATE_SHOW)
+	if (name.compare("EdgeBrick")==0)
+	{
+		return;
+	}
+	if (state == STATE_SHOW )
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 		Flip flip = normal;
@@ -109,6 +113,13 @@ void CBrick::GetBoundingBox(float & l, float & t, float & r, float & b)
 	t = y;
 	r = x + width;
 	b = y + height;
+	if (currentAnimation == BRICK_ANI4)
+	{
+		l = x;
+		t = y + 8;
+		r = x + width;
+		b = t + height- 10;
+	}
 }
 
 CBrick::~CBrick()

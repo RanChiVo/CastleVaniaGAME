@@ -26,6 +26,7 @@ private:
 	bool isVisible = false;
 	bool OnGround = false;
 	bool isGoingAutoStair = false;
+	int temporaryState;
 
 	DWORD timeAtack = 0;
 	DWORD timeAtackSub= 0;
@@ -33,6 +34,7 @@ private:
 	DWORD timeDie = 0;
 	DWORD timeChangeColor = 0;
 	DWORD timeJumpHeightFloor = 0;
+	DWORD timeSitAfterJump = 0;
 	DWORD timeThrowWeapon = 0;
 	DWORD timeAutoGoStair = 0;
 	ObjectStair* originalStair = nullptr;
@@ -45,7 +47,6 @@ private:
 	int WHIP_STATE;
 	int changeColorId = 1;
 	BaseInfo* baseInfo;
-	std::vector<LPGAMEOBJECT> objectCollision;
 	static Simon* _instance;
 	Simon();
 public:
@@ -67,9 +68,10 @@ public:
 		SIMON_STATE_IDLE_UP_STAIR,
 		SIMON_STATE_IDLE_DOWN_STAIR,
 		SIMON_STATE_ATTACK_UP_STAIR,
+		SIMON_STATE_ATTACK_UP_STAIR_SUPWEAPON,
 		SIMON_STATE_ATTACK_DOWN_STAIR,
 		SIMON_STATE_HURT,
-		SIMON_STATE_AUTO_GOES_RIGHT
+		SIMON_STATE_AUTO_GOES
 	};
 
 	static Simon* getInstance();
@@ -100,6 +102,7 @@ public:
 	void setResetPosition(D3DXVECTOR2 pos);
 	D3DXVECTOR2 getResetPosition() { return resetPosition; }
 
+	void SetWhip(Whip* whip) { this->whip = whip; }
 	void SetupAtacking();
 	void SetupSubWeapon(vector<LPGAMEOBJECT> *coObjects);
 	void RenderWeapon(LPANIMATION animation, Viewport* viewport);

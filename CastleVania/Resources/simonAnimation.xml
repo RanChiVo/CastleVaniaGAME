@@ -52,13 +52,13 @@
       <animation_frame sprite_id="2ChangeColor3" />
     </animation>
 
-    <animation name="SIMON_ANI_GO_UP_STAIR" default_time="100" rewind="true">
+    <animation name="SIMON_ANI_GO_UP_STAIR" default_time="125" rewind="true">
       <animation_frame sprite_id="GoUpStair1" />
       <animation_frame sprite_id="GoUpStair2" />
       <animation_frame sprite_id="GoUpStair3" />
     </animation>
 
-    <animation name="SIMON_ANI_GO_DOWN_STAIR" default_time="100" rewind="true">
+    <animation name="SIMON_ANI_GO_DOWN_STAIR" default_time="125" rewind="true">
       <animation_frame sprite_id="GoDownStair1" />
       <animation_frame sprite_id="GoDownStair2" />
       <animation_frame sprite_id="GoDownStair3" />

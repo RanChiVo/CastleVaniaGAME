@@ -7,7 +7,7 @@ class MovingBrick : public StaticObject
 	float positionXStart;
 	DWORD timeMoving;
 public:
-	MovingBrick(D3DXVECTOR2 pos, int maxDistance, int width, int height);
+	MovingBrick(D3DXVECTOR2 pos, int maxDistance, int height, int  width);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Render(Viewport* viewport);

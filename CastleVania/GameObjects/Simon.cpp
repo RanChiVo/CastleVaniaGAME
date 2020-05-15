@@ -33,13 +33,13 @@ constexpr float SIMON_JUMP_SPEED_Y = 0.38f;
 constexpr float SIMON_MOVE_SPEED = 0.12f;
 constexpr float SIMON_AUTO_SPEED_RIGHT = 0.025f;
 constexpr float SIMON_GRAVITY = 0.001f;
-constexpr float SIMON_HURT_SPEED_Y = 0.2f;
+constexpr float SIMON_HURT_SPEED_Y = 0.28f;
 constexpr float SIMON_STAIR_SPEED = 0.06f;
 constexpr DWORD SIMON_ENTRANCE_TIME = 5000;
 constexpr DWORD INVISIBLE_TIME = 4000;
 constexpr DWORD SIMON_UNTOUCHABLE_TIME = 1500;
-constexpr DWORD SIMON_PROTECT_TIME = 500;
-constexpr DWORD SIMON_HURT_TIME = 1500;
+constexpr DWORD SIMON_PROTECT_TIME = 1000;
+constexpr DWORD SIMON_HURT_TIME = 2000;
 constexpr DWORD SIMON_DIE_TIME = 3000;
 constexpr DWORD SIMON_CHANGE_COLOR_TIME = 1500;
 
@@ -60,7 +60,6 @@ Simon::Simon()
 	comeEntranceStart = 0;
 	WHIP_STATE = 1;
 	levelWhip = 1;
-
 	baseInfo = new BaseInfo();
 }
 
@@ -115,11 +114,15 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		timeChangeColor = 0;
 	}
 
-	if (timeAutoGoStair> 0 && (GetTickCount() - timeAutoGoStair) >= 50)
+	if (timeAutoGoStair> 0 && (GetTickCount() - timeAutoGoStair) >= 200)
 	{
 		isGoingAutoStair = false;
 		timeAutoGoStair = 0;
-		SetState(Simon::State::SIMON_STATE_IDLE_UP_STAIR);
+		if (temporaryState == SIMON_STATE_GO_DOWN_STAIR)
+		{
+			SetState(Simon::State::SIMON_STATE_IDLE_DOWN_STAIR);
+		}
+		else SetState(Simon::State::SIMON_STATE_IDLE_UP_STAIR);
 	}
 }
 
@@ -132,7 +135,7 @@ void Simon::SetState(int state)
 		vx = SIMON_MOVE_SPEED;
 		nx = 1;
 		break;
-	case SIMON_STATE_AUTO_GOES_RIGHT:
+	case SIMON_STATE_AUTO_GOES:
 		vx = SIMON_AUTO_SPEED_RIGHT;
 		nx = 1;
 		break;
@@ -152,22 +155,20 @@ void Simon::SetState(int state)
 	case SIMON_STATE_IDLE:
 		vx = 0;
 		isOnStair = false;
-		enableSubWeapon = false;
 		checkRewind = false;
 		originalStair = nullptr;
 		isjumping = false;
 		break;
 	case SIMON_STATE_ATTACK_STAND:
-		enableSubWeapon = false;
 		break;
 	case SIMON_STATE_ATTACK_SITDOWN:
-		enableSubWeapon = false;
 		vx = 0;
 		break;
 	case SIMON_STATE_ATTACK_STAND_SUBWEAPON:
+	case SIMON_STATE_ATTACK_UP_STAIR_SUPWEAPON:
 		vx = 0;
-		enableSubWeapon = true;
 		break;
+
 	case SIMON_STATE_CHANGECOLOR:
 		changeColorId = -changeColorId;
 		vx = 0;
@@ -183,7 +184,6 @@ void Simon::SetState(int state)
 		}
 		break;
 	case SIMON_STATE_GO_DOWN_STAIR:
-
 		isOnStair = true;
 		set_nx(originalStair->Get_nxStair());
 		SetSpeed(originalStair->Get_nxStair()*(SIMON_STAIR_SPEED), SIMON_STAIR_SPEED);
@@ -203,23 +203,22 @@ void Simon::SetState(int state)
 		break;
 
 	case SIMON_STATE_ATTACK_UP_STAIR:
-		enableSubWeapon = false;
 		isOnStair = true;
+		SetSpeed(0, 0);
 		set_nx(originalStair->Get_nxStair());
 		checkRewind = true;
 		currentAnimation = SIMON_ANI_ATTACK_UP_STAIR;
 		break;
 	case SIMON_STATE_ATTACK_DOWN_STAIR:
 		checkRewind = true;
-		enableSubWeapon = false;
 		isOnStair = true;
+		SetSpeed(0, 0);
 		set_nx(originalStair->Get_nxStair());
 		currentAnimation = SIMON_ANI_ATTACK_DOWN_STAIR;
 		break;
 	case SIMON_STATE_DIE:
 		vx = 0;
 		isOnStair = false;
-		enableSubWeapon = false;
 		checkRewind = false;
 		currentAnimation = SIMON_ANI_DEAD;
 		originalStair = nullptr;
@@ -229,8 +228,9 @@ void Simon::SetState(int state)
 		if (!isjumping && isOnGround() && !isOnStair)
 		{
 			isjumping = true;
-			vy = -SIMON_HURT_SPEED_Y;
-			vx = -nx * SIMON_MOVE_SPEED;
+			vy = -SIMON_HURT_SPEED_Y*1.15;
+			vx = -nx * SIMON_MOVE_SPEED* 1.25;
+			y += 5;
 			break;
 		}
 		if (vy < 0)
@@ -269,7 +269,7 @@ void Simon::SetupAtacking()
 
 void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 {
-	if (enableSubWeapon && timeThrowWeapon == 0 && baseInfo->getHeart() > 0)
+	if (timeAtackSub && timeThrowWeapon == 0 && baseInfo->getHeart() > 0)
 	{
 		if (baseInfo->getIdSubWeapon() != NULL)
 		{
@@ -299,7 +299,7 @@ void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 
 void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
 {
-	if (timeAtack)
+	if (timeAtack > 0 && timeHurt ==0)
 	{
 		whip->updatePostision(animation->getCurrentFrame(), currentAnimation, flip);
 		whip->draw(flip, viewport);
@@ -321,14 +321,13 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (timeAtackSub)
 	{
-
 		if (baseInfo->getIdSubWeapon() == ID_ENTITY_BOOMERANG_WEAPON)
 		{
 			baseInfo->getSubWeapon()->setLiveTime(GetTickCount());
 		}
 		if (timeAtackSub > 0 && GetTickCount() - timeAtackSub > 400)
 		{
-			SetState(SIMON_STATE_IDLE);
+			Reset(currentAnimation);
 			animation_set->find(currentAnimation)->second->SetFinish(false);
 			timeAtackSub = 0;
 		}
@@ -336,7 +335,7 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
 	{
-		if (GetTickCount() - timeThrowWeapon > 400 && timeThrowWeapon > 0 && enableSubWeapon)
+		if (GetTickCount() - timeThrowWeapon > 400 && timeThrowWeapon > 0 )
 		{
 			enableSubWeapon = false;
 			timeThrowWeapon = 0;
@@ -347,17 +346,26 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Simon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	if (state == SIMON_STATE_JUMPING)
+	left = x + 15;
+	top = y + 3;
+	right = x + width - 10;
+	bottom = top + height - 3;
+
+	if (state == Simon::SIMON_STATE_SITDOWN ||
+		state == Simon::SIMON_STATE_ATTACK_SITDOWN)
 	{
-		left = x + 8;
-		top = y + 7;
-		right = left + width - 18;
-		bottom = top + height - 20;
+		left = x + 15;
+		top = y + 15;
+		right = x + width - 10;
+		bottom = y + height;
 	}
-	left = x + 8;
-	top = y;
-	right = left + width - 18;
-	bottom = top + height;
+	else if (state == SIMON_STATE_JUMPING)
+	{
+		left = x + 15;
+		top = y + 15;
+		right = x + width - 10;
+		bottom = y + height;
+	}
 }
 
 void Simon::Render(Viewport* viewport)
@@ -372,8 +380,8 @@ void Simon::Render(Viewport* viewport)
 			currentAnimation = SIMON_ANI_WALKING;
 			checkRewind = true;
 			break;
-		case SIMON_STATE_AUTO_GOES_RIGHT:
-			currentAnimation = SIMON_ANI_WALKING;
+		case SIMON_STATE_AUTO_GOES:
+			currentAnimation = SIMON_ANI_WALKING_LOW;
 			checkRewind = true;
 			break;
 		case SIMON_STATE_WALKING_LEFT:
@@ -437,7 +445,7 @@ void Simon::Render(Viewport* viewport)
 			currentAnimation = SIMON_ANI_IDLE_GO_UP_STAIR;
 			break;
 		case SIMON_STATE_ATTACK_UP_STAIR:
-			checkRewind = true;
+		case SIMON_STATE_ATTACK_UP_STAIR_SUPWEAPON:
 			currentAnimation = SIMON_ANI_ATTACK_UP_STAIR;
 			break;
 		case SIMON_STATE_ATTACK_DOWN_STAIR:
@@ -459,6 +467,7 @@ void Simon::Render(Viewport* viewport)
 			}
 			checkRewind = true;
 			animation_set->find(ani)->second->SetFinish(false);
+			timeAtack = 0;
 			break;
 		}
 
@@ -533,6 +542,9 @@ void Simon::Reset(int currentAnimation)
 	case SIMON_ANI_ATTACK_UP_STAIR:
 		SetState(SIMON_STATE_IDLE_UP_STAIR);
 		break;
+	case SIMON_ANI_IDLE_GO_UP_STAIR:
+	case SIMON_ANI_IDLE_GO_DOWN_STAIR:
+		break;
 	case SIMON_ANI_GO_DOWN_STAIR:
 	case SIMON_ANI_ATTACK_DOWN_STAIR:
 		SetState(SIMON_STATE_IDLE_DOWN_STAIR);
@@ -586,7 +598,7 @@ void Simon::updateCollisionSubStair()
 		if (originalStair->Get_nyStair() > 0 && (y + height <= (originalStair->getPosition().y + originalStair->getHeight() - originalStair->GetHeightStair())
 			|| y + height >= originalStair->getPosition().y + originalStair->getHeight())
 			|| originalStair->Get_nyStair() < 0 && (y + height >= (originalStair->getPosition().y + originalStair->GetHeightStair())
-				|| y + height <= originalStair->getPosition().y + originalStair->getHeight()))
+			|| y + height <= originalStair->getPosition().y + originalStair->getHeight()))
 		{
 			handleOutOfStair();
 		}
@@ -609,7 +621,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		if (coObjects->at(i)->getID() == ID_ENTITY_WALL
 			|| coObjects->at(i)->getID() == ID_ENTITY_FLOOR ||
-			coObjects->at(i)->getID() == ID_ENTITY_BRICK
+			(coObjects->at(i)->getID() == ID_ENTITY_BRICK && coObjects->at(i)->getName().compare("EdgeBrick")!=0)
 			|| coObjects->at(i)->getID() == ID_ENTITY_MOVING_BRICK)
 			staticObject.push_back(coObjects->at(i));
 	}
@@ -636,7 +648,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			x += min_tx * dx + nx * 0.1f;
 		}
-		else x += dx;
+		else x += Dx;
 
 		if (nx != 0) vx = 0;
 
@@ -648,7 +660,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			isjumping = false;
 			if (!OnGround) OnGround = true;
 		}
-		else y += dy;
+		else y += Dy;
 	}
 	coEvents.clear();
 
@@ -684,15 +696,13 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		case ID_ENTITY_ENTRANCE:
 		{
 			comeEntranceStart = GetTickCount();
-			SetState(SIMON_STATE_AUTO_GOES_RIGHT);
+			SetState(SIMON_STATE_AUTO_GOES);
 		}
 		break;
 		case ID_ENTITY_MOVING_BRICK:
 		{
 			MovingBrick *movingBrick = dynamic_cast<MovingBrick *>(coEvents[i]->obj);
-			float vxBr, vyBr;
-			movingBrick->GetSpeed(vxBr, vyBr);
-			SetSpeed(vxBr, vy);
+			SetSpeed(movingBrick->GetVx(), vy);
 		}
 		break;
 		}
@@ -900,7 +910,8 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 	{
 		ActivationBox *actionBox = dynamic_cast<ActivationBox *>(coObjects->at(i));
 		actionBox->ActionObject(coObjects);
-		if (actionBox->GetActivatedObjecId() != ID_ENTITY_VAMPIRE_BAT)
+		if (actionBox->GetActivatedObjecId() != ID_ENTITY_VAMPIRE_BAT
+			&& actionBox->GetActivatedObjecId() != ID_ENTITY_WHITE_SKELETON)
 		{
 			actionBox->SetState(STATE_DETROY);
 		}
@@ -950,17 +961,24 @@ void Simon::AutoGoUpStair(State state)
 {
 	float sl, st, sr, sb;
 	GetBoundingBox(sl, st, sr, sb);
-
-	if (!isOnStair && state == SIMON_STATE_GO_UP_STAIR && sl > (originalStair->getPosition().x) && nx == 1)
+	this->temporaryState = state;
+	if ((int)sl > ((int)originalStair->getPosition().x - 10))
 	{
 		isGoingAutoStair = true;
-		vx = -0.05;
 		nx = -1;
-		this->state = SIMON_STATE_AUTO_GOES_RIGHT;
+		vx = nx * 0.04f;
+		this->state = SIMON_STATE_AUTO_GOES;
 	}
-	else
+	else if ((int)sl < ((int)originalStair->getPosition().x + 10))
 	{
-		SetState(Simon::State::SIMON_STATE_GO_UP_STAIR);
+		nx = 1;
+		vx = nx * 0.04f;
+		isGoingAutoStair = true;
+		this->state = SIMON_STATE_AUTO_GOES;
+	}
+	else 
+	{
+		SetState(temporaryState);
 	}
 }
 
@@ -968,10 +986,10 @@ void Simon::UpdateGotoStair()
 {
 	float sl, st, sr, sb;
 	GetBoundingBox(sl, st, sr, sb);
-	if (timeAutoGoStair == 0 && isGoingAutoStair && (int)sl == (originalStair->getPosition().x - 15))
-	{
-		nx = 1;
-		SetState(Simon::State::SIMON_STATE_GO_UP_STAIR);
+	if (originalStair && timeAutoGoStair == 0 && isGoingAutoStair && (int)sl == 
+		((int)originalStair->getPosition().x - 10))
+	{ 
+		SetState(temporaryState);
 		timeAutoGoStair = GetTickCount();
 	}
 }

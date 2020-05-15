@@ -12,8 +12,6 @@ FireBombWeapon::FireBombWeapon()
 	state = STATE_SHOW;
 	vy = - FIRE_BOMP_THROW_SPEED_Y;
 	vx = FIRE_BOMP_SPEED_X;
-	//AddAnimation(FIRE_BOMP_ANI1);
-	//AddAnimation(FIRE_BOMP_ANI2);
 	currentAnimation = FIRE_BOMP_ANI1;
 	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_FIRE_BOMB).first;
 	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_FIRE_BOMB).second;

@@ -33,13 +33,13 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float rdx = 0;
 		float rdy = 0;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		for (int i = 0; i < coEvents.size(); i++)
+
+		for (int i = 0; i < coEventsResult.size(); i++)
 		{
-			switch (coEvents[i]->obj->getID())
+			switch (coEventsResult[i]->obj->getID())
 			{
 			case ID_ENTITY_FLEAMEN:
-				coEvents[i]->obj->SetState(STATE_EFFECT);
-				coEvents[i]->obj->setLiveTime(GetTickCount());
+				coEventsResult[i]->obj->SetState(STATE_DETROY);
 				break;
 			}
 		}
@@ -86,7 +86,7 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					coObjects->at(i)->setLiveTime(GetTickCount());
 					DebugOut(L"liveTime:{%d}\n", coObjects->at(i)->getLiveTime());
 					if (id == ID_ENTITY_DAGGER_WEAPON)
-						SetState(STATE_DETROY);
+						coObjects->at(i)->SetState(STATE_DETROY);
 				}
 			}
 			break;

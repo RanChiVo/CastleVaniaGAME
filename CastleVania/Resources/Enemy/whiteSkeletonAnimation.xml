@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
   <animations id="ID_ENTITY_WHITE_SKELETON">
-    <animation name="WHITE_SKELETON_WALK_ANI" default_time="100" rewind="true">
-      <animation_frame sprite_id="walk_01" />
+    <animation name="WHITE_SKELETON_WALK_ANI" default_time="100" rewind="false">
       <animation_frame sprite_id="walk_01" />
     </animation>
-   
+    <animation name="WHITE_SKELETON_ATTACK" default_time="300" rewind="true">
+      <animation_frame sprite_id="walk_01" />
+      <animation_frame sprite_id="walk_02" />
+    </animation>
     <animation name="WHITE_SKELETON_THROW_BONE" default_time="100" rewind="true">
       <animation_frame sprite_id="bone_1" />
       <animation_frame sprite_id="bone_2" />

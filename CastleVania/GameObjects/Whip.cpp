@@ -5,8 +5,6 @@
 Whip::Whip()
 {
 	id = ID_ENTITY_WHIP;
-	width = Textures::GetInstance()->GetSizeObject(id).first;
-	height = Textures::GetInstance()->GetSizeObject(id).second;
 	state = WHIT_STATE_1;
 	currentAnimation = TYPE1_WHIP;
 	bbLevel1 = Sprites::GetInstance()->Get("type1_whip_3")->getRect();
