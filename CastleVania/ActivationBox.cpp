@@ -10,7 +10,6 @@ ActivationBox::ActivationBox(D3DXVECTOR2 pos, EntityID activatedObjecId, int hei
 {
 	id = ID_ENTITY_ACTIVATEBOX;
 	SetPosition(pos);
-
 	this->height = height;
 	this->width = width;
 	this->activatedObjecId = activatedObjecId;
@@ -73,11 +72,15 @@ void ActivationBox::ActionObject(vector<LPGAMEOBJECT> *coObjects)
 			{
 			case ID_ENTITY_WHITE_SKELETON:
 			{
-				if (!isActivate)
+				Skeleton*skeleton = dynamic_cast<Skeleton *>(coObjects->at(i));
+				if (skeleton->getName().compare(name) == 0)
 				{
-					isActivate = true;
-					Skeleton*skeleton = dynamic_cast<Skeleton *>(coObjects->at(i));
-					skeleton->SetActivate(true);
+					if (!isActivate)
+					{
+						isActivate = true;
+						skeleton->SetActivate(true);
+						skeleton->SetDistanceGoOutActivateArea(x + width);
+					}
 				}
 			}
 			break;
@@ -103,11 +106,9 @@ void ActivationBox::ActionObject(vector<LPGAMEOBJECT> *coObjects)
 				break;
 			}
 			}
-
 		}
 		break;
 	}
-
 }
 
 void ActivationBox::Render(Viewport * viewport)
@@ -126,34 +127,6 @@ void ActivationBox::GetBoundingBox(float & l, float & t, float & r, float & b)
 void ActivationBox::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
-	if (activatedObjecId == ID_ENTITY_VAMPIRE_BAT && isActivate)
-	{
-		setWidth(512);
-		setHeight(512);
-		float l, t, r, b;
-		GetBoundingBox(l, t, r, b);
-		float sl, st, sr, sb;
-		Simon::getInstance()->GetBoundingBox(sl, st, sr, sb);
-
-		if (!(checkCollision(RECT{ long(sl), long(st), long(sr), long(sb) }, RECT{ long(l), long(t), long(r), long(b) })))
-		{
-			for (int i = 0; i < (int)coObjects->size(); i++)
-			{
-				switch (coObjects->at(i)->getID())
-				{
-				case ID_ENTITY_VAMPIRE_BAT:
-				{
-					VampireBat *vampireBat = dynamic_cast<VampireBat *>(coObjects->at(i));
-					if (vampireBat->getName().compare(name) == 0)
-					{
-						vampireBat->SetState(VampireBat::VAMPIRE_STATE_HIDDEN);
-					}
-				}
-				break;
-				}
-			}
-		}
-	}
 }
 
 ActivationBox::~ActivationBox()

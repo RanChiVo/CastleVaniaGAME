@@ -382,7 +382,6 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				{
 					player->SetWhip(whip);
 				}
-				//player->LoadWhip();
 				break;
 			case ID_ENTITY_FLOOR:
 				objectInit = new Floor(D3DXVECTOR2(x, y), height, width);
@@ -455,6 +454,7 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				break;
 			case ID_ENTITY_WHITE_SKELETON:
 				objectInit = new Skeleton(D3DXVECTOR2(x, y),nx, height, width);
+				objectInit->setName(name);
 				break;
 			}
 
@@ -522,7 +522,6 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			if (simon->GetState() != Simon::State::SIMON_STATE_JUMPING)
 				simon->SetVx(0);
 			simon->SetTimeAttackSub(GetTickCount());
-
 		}
 		else
 		{
@@ -549,8 +548,6 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				simon->SetState(Simon::State::SIMON_STATE_ATTACK_STAND);
 			if (simon->GetState() != Simon::State::SIMON_STATE_JUMPING)
 				simon->SetVx(0);
-
-			
 			simon->SetTimeAttack(GetTickCount());
 		}
 		break;

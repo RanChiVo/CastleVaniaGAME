@@ -53,6 +53,7 @@ protected:
 	vector<D3DXVECTOR2> cellId;
 	int currentAnimation;
 	bool isCollision = false;
+	bool isInSideActiveArea = false;
 	DWORD liveTime;
 	std::string name;
 	std::string idHiddenItem;
@@ -75,6 +76,8 @@ public:
 	};
 	GameObject();
 	bool IsTouched(){ return isTouched; }
+	bool IsInSideActiveArea() { return isInSideActiveArea; }
+	void SetInSideActiveArea(bool isInside) { this->isInSideActiveArea = isInside; }
 	void SetBeTouched(bool isTouchded) { this->isTouched = isTouchded; }
 	void setMainId(int mainId) { this->mainId = mainId; }
 	int getMainId() { return mainId; }
@@ -136,7 +139,6 @@ public:
 		float &ny,
 		float &rdx,
 		float &rdy);
-
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render(Viewport* viewport) = 0;

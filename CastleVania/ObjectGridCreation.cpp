@@ -61,7 +61,8 @@ void ObjectGridCreation::addPropetiesToFile(int mainId, std::string cellId)
 			{
 				for (auto propertyNode : properties)
 				{
-					std::string nameProperty = propertyNode.attribute("name").as_string();
+					std::string nameProperty = propertyNode.attribute("name").as_string();\
+
 					if (nameProperty.compare("Cell ID") == 0)
 					{
 						std::string currentCellId = propertyNode.attribute("value").as_string();

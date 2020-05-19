@@ -28,12 +28,9 @@ void VampireBat::Render(Viewport * viewport)
 		Enemy::Render(viewport);
 	}
 
-	if (state == VAMPIRE_STATE_HIDDEN)
+	if (!checkInsideViewPort(viewport))
 	{
-		if (!checkInsideViewPort(viewport))
-		{
-			SetState(STATE_DETROY);
-		}
+		SetState(STATE_DETROY);
 	}
 }
 
