@@ -24,9 +24,71 @@ Skeleton::Skeleton(D3DXVECTOR2 pos, int nx, int height, int width)
 
 void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	vy += SKELETON_GRAVITY * dt;
+
 	float sx = Simon::getInstance()->getPosition().x;
 
-	vy += SKELETON_GRAVITY * dt;
+	if (!isAttack && (startAttack == 0|| GetTickCount() - startAttack < 1000))
+	{
+		int numberOfWeapon = RandomTime(1, 3);
+		startAttack = GetTickCount();
+		for (int i = 0; i < numberOfWeapon; i++)
+		{	
+			if (isJumping)
+			{
+				break;
+			}
+			weaponWhiteSkeleton.push_back(new Bone);
+			weaponWhiteSkeleton[i]->SetPosition(D3DXVECTOR2(x, y));
+			weaponWhiteSkeleton[i]->set_nx(nx_Render);
+			isAttack = 1;
+		}
+	}
+
+	if (weaponWhiteSkeleton.size() == 0)
+	{
+		startAttack = 0;
+		isAttack = 0;
+	}
+	else
+	{
+		for (int i = 0; i < weaponWhiteSkeleton.size(); i++)
+		{
+			if (!weaponWhiteSkeleton[i]->IsStart())
+			{
+				if (startConsecutiveAttack == 0 || GetTickCount() - startConsecutiveAttack >= 200)
+				{
+					weaponWhiteSkeleton[i]->SetPosition(D3DXVECTOR2(x, y));
+					weaponWhiteSkeleton[i]->SetIsStart(true);
+					weaponWhiteSkeleton[i]->set_nx(nx_Render);
+					if (i == weaponWhiteSkeleton.size() - 1)
+					{
+						startConsecutiveAttack = 0;
+					}
+					else
+					{
+						startConsecutiveAttack = GetTickCount();
+					}
+				}
+				break;
+			}
+			weaponWhiteSkeleton[i]->Update(dt, coObjects);
+			if (weaponWhiteSkeleton[i]->IsFinishNext())
+				weaponWhiteSkeleton.erase(weaponWhiteSkeleton.begin() + i);
+		}
+	}
+
+	//for (int i = 0; i < weaponWhiteSkeleton.size(); i++)
+	//{
+	//	if (weaponWhiteSkeleton[i]->GetStartAttack() > 0)
+	//	{
+	//		weaponWhiteSkeleton[i]->Update(dt, coObjects);
+	//	}
+	//	if (weaponWhiteSkeleton[i]->GetState() == STATE_DETROY)
+	//	{
+	//		//weaponWhiteSkeleton.erase(weaponWhiteSkeleton.begin() + i);
+	//	}
+	//}
 	
 	if (isActive && !isActiveFirst)
 	{
@@ -34,60 +96,70 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isActiveFirst = true;
 	}
 
-	if (isActiveFirst)
+	if (!isActiveFirst)
 	{
-		bool go_out_distane = false;
-		if (abs(sx - x) < 85)
-		{
-			if ((nx == 1 && sx > x) ||
-				(nx == -1 && sx < x))
-			{
-				if (!isJumping)
-				{
-					XOrginal = x;
-					nx = -nx;
-				}
-				go_out_distane = true;
-				if (sx > x)
-				{
-					XorginalSimon = sx - 85;
-				}
-				else {
-					XorginalSimon = sx + 85;
-				}
-			}
-		}
+		return;
+	}
 
-		if (!isJumping&& go_out_distane)
-		{
-			if (XorginalSimon < sx)
-			{
-				XorginalSimon = sx;
-				nx = (sx > x) ? 1 : -1;
-			}
-			else if (XorginalSimon > sx)
-			{
-				XorginalSimon = sx;
-				nx = (sx > x) ? -1 : 1;
-			}
-		}
+	if (x < Simon::getInstance()->getPosition().x)
+	{
+		nx_Render = 1;
+	}
+	else nx_Render = -1;
 
-		if (abs(XOrginal - x) > distanceMoving)
+
+	bool go_out_distane = false;
+	if (abs(sx - x) < 85)
+	{
+		if ((nx == 1 && sx > x) ||
+			(nx == -1 && sx < x))
 		{
-			if ((nx == 1 && sx > x) || (nx == -1 && sx < x))
+			if (!isJumping)
 			{
-				distanceMoving = 40 + abs(abs(sx - x) - 85);
+				XOrginal = x;
+				nx = -nx;
 			}
-			else
+			go_out_distane = true;
+			if (sx > x)
 			{
-				if (!isJumping)
-				{
-					XOrginal = x;
-					nx = -nx;
-				}
+				XorginalSimon = sx - 85;
+			}
+			else {
+				XorginalSimon = sx + 85;
 			}
 		}
 	}
+
+	if (!isJumping&& go_out_distane)
+	{
+		if (XorginalSimon < sx)
+		{
+			XorginalSimon = sx;
+			nx = (sx > x) ? 1 : -1;
+		}
+		else if (XorginalSimon > sx)
+		{
+			XorginalSimon = sx;
+			nx = (sx > x) ? -1 : 1;
+		}
+	}
+
+	if (abs(XOrginal - x) > distanceMoving)
+	{
+		if ((nx == 1 && sx > x) || (nx == -1 && sx < x))
+		{
+			distanceMoving = 40 + abs(abs(sx - x) - 85);
+		}
+		else
+		{
+			if (!isJumping)
+			{
+				XOrginal = x;
+				nx = -nx;
+			}
+		}
+	}
+
 	Enemy::Update(dt, coObjects);
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -129,7 +201,7 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<Floor*>(e->obj))
 			{
 				Floor* floor = dynamic_cast<Floor*>(e->obj);
-				if (e->ny < 0)
+				if (e->ny < 0 && floor)
 				{
 					vy = 0;
 					Dy = min_ty * dy + ny * 0.11f;
@@ -137,7 +209,6 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						isOnGround = true;
 					}
-					SetState(SKELETON_STATE_IDLE);
 					isJumping = false;
 					vx = 0;
 				}
@@ -188,7 +259,7 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					else
 					{
-						if (e->nx != 0 || e->ny != 0)
+						if (e->nx != 0 || e->ny != 0 && edge->get_nx() != 0)
 						{
 							if (edge && isActiveFirst )
 							{
@@ -201,29 +272,10 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		y += Dy;
 	}
-	coEvents.clear();
 	if (!isJumping)
 	{
-		vx = nx * 0.1f;
+		vx = nx * SKELETON_SPEED_X;
 	}
-
-	/*if (isActiveFirst ==true && startmoving == 0 && timeActivate > 0
-		&& (GetTickCount() - timeActivate > 2000))
-	{
-		SetState(SKELETON_STATE_WALKING);
-		Reset();
-	}
-
-	if (state==SKELETON_STATE_WALKING && startmoving > 0)
-	{
-		timemoving += RandomTime(-5, 10);
-	}
-
-	if (state== SKELETON_STATE_WALKING && startmoving  > 0
-		&& GetTickCount()- startmoving > timemoving)
-	{
-		Reset();
-	}*/
 }
 
 void Skeleton::Reset()
@@ -254,20 +306,21 @@ void Skeleton::GetBoundingBox(float & left, float & top, float & right, float & 
 
 void Skeleton::Render(Viewport * viewport)
 {
-	if (!isActive)
+	if (!isActiveFirst)
 	{
 		return;
 	}
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip;
-	if (x < Simon::getInstance()->getPosition().x)
-	{
-		nx_Render = 1;
-	}
-	else nx_Render = -1;
+	
 	if (nx_Render == -1) flip = normal;
 	else flip = flip_horiz;
 	animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
+
+	for (int i = 0; i < weaponWhiteSkeleton.size(); i++)
+	{
+		weaponWhiteSkeleton[i]->Render(viewport);
+	}
 }
 
 void Skeleton::SetActivate(bool isActive)
@@ -287,17 +340,6 @@ void Skeleton::SetState(int state)
 		currentAnimation = WHITE_SKELETON_ATTACK;
 		Simon::getInstance()->get_nx();
 		vx = 0;
-		//vx = 0.05f;
-		//vy = -SKELETON_SPEED_Y * 2;
-		//y -= 5;
-		break;
-	case SKELETON_STATE_IDLE:
-		vx = 0;
-		break;
-	case SKELETON_STATE_WALKING:
-		currentAnimation = WHITE_SKELETON_ATTACK;
-		Simon::getInstance()->get_nx();
-		vx = 0.05f;
 		vy = 0;
 		break;
 	case SKELETON_STATE_JUMP_LEFT:

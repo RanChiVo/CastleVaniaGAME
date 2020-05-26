@@ -134,7 +134,7 @@ void PlayScene::Update(DWORD dt)
 	for (int i = 0; i < (int)objects.size(); i++)
 	{
 		objects[i]->Update(dt, &objects);
-		if (objects[i]->GetState() == objects[i]->STATE_DETROY)
+		if (objects[i]->GetState() == GameObject::STATE_DETROY)
 		{
 			objects.erase(objects.begin() + i);
 		}
@@ -361,8 +361,24 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 			{
 				DebugOut(L"[ERROR] Read object from map failed\n", objectId);
 			}
+
 			AnimationSets * animation_sets = AnimationSets::GetInstance();
-			LPANIMATION_SET ani_set = animation_sets->Get(idObject);
+			LPANIMATION_SET ani_set = nullptr;
+
+			switch (idObject)
+			{
+			case ID_ENTITY_FLOOR:
+			case ID_ENTITY_WALL:
+			case ID_ENTITY_PORTAL:
+			case ID_ENTITY_ENTRANCE:
+			case ID_ENTITY_STAIR:
+			case ID_ENTITY_ACTIVATEBOX:
+			case ID_ENTITY_PORTAL_POS_MAP:
+				break;
+			default:
+				ani_set = animation_sets->Get(idObject);
+				break;
+			}
 
 			switch (idObject)
 			{
@@ -415,9 +431,6 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				objectInit = new Candle(D3DXVECTOR2(x, y), height, width);
 				objectInit->setIdHiddenItem(idHiddenItemString);
 				break;
-			case ID_ENTITY_SPAWN_ENEMY:
-				objectInit = new SpawnEnemy(D3DXVECTOR2(x, y), height, width);
-				break;
 			case ID_ENTITY_DARK_BAT:
 				objectInit = new DarkBat(D3DXVECTOR2(x, y), height, width);
 				break;
@@ -458,6 +471,7 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				break;
 			}
 
+		
 			if (ani_set != nullptr && objectInit)
 			{
 				objectInit->SetAnimationSet(ani_set);

@@ -55,6 +55,7 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 		case ID_ENTITY_BURNBARREL:
 		case ID_ENTITY_FLEAMEN:
+		case ID_ENTITY_WHITE_SKELETON:
 		case ID_ENTITY_CANDLE:
 		case ID_ENTITY_ZOMBIE:
 		case ID_ENTITY_BRICK:
@@ -80,7 +81,14 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					DarkBat::StartTimeHurt();
 				}
-				else
+				else if (ID == ID_ENTITY_BRICK)
+				{
+					if (coObjects->at(i)->getName().compare("EdgeBrick")==0)
+					{
+						break;
+					}
+				}
+
 				{
 					coObjects->at(i)->SetState(STATE_EFFECT);
 					coObjects->at(i)->setLiveTime(GetTickCount());

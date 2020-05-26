@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "Bone.h"
 
 class Skeleton : public Enemy
 {
@@ -14,16 +15,17 @@ class Skeleton : public Enemy
 	float nx_Render = 0;
 	int distanceMoving;
 	int XGoOutActivateArea;
+	bool isAttack;	
 	DWORD timemoving = 0;
 	DWORD timeActivate = 0;
 	DWORD startmoving = 0;
+	DWORD startAttack = 0;
+	DWORD startConsecutiveAttack = 0;
 	int direct = 1;
+	vector<Bone*> weaponWhiteSkeleton;
 public:
 	enum StateSkeleton {
 		SKELETON_STATE_ACTIVE,
-		SKELETON_STATE_IDLE,
-		SKELETON_STATE_HIDEN,
-		SKELETON_STATE_WALKING,
 		SKELETON_STATE_JUMP_LEFT,
 		SKELETON_STATE_JUMP_RIGHT,
 	};

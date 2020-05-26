@@ -37,8 +37,8 @@ constexpr float SIMON_HURT_SPEED_Y = 0.28f;
 constexpr float SIMON_STAIR_SPEED = 0.06f;
 constexpr DWORD SIMON_ENTRANCE_TIME = 5000;
 constexpr DWORD INVISIBLE_TIME = 4000;
-constexpr DWORD SIMON_UNTOUCHABLE_TIME = 1500;
-constexpr DWORD SIMON_PROTECT_TIME = 1000;
+constexpr DWORD SIMON_UNTOUCHABLE_TIME = 4000;
+constexpr DWORD SIMON_PROTECT_TIME = 2000;
 constexpr DWORD SIMON_HURT_TIME = 2000;
 constexpr DWORD SIMON_DIE_TIME = 3000;
 constexpr DWORD SIMON_CHANGE_COLOR_TIME = 1500;
@@ -720,7 +720,7 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 	case ID_ENTITY_SPEAR_KNIGHT:
 	case ID_ENTITY_GHOST:
 	case ID_ENTITY_FLEAMEN:
-
+	case ID_ENTITY_WHITE_SKELETON:
 		if (!untouchable && !isVisible)
 		{
 			SetState(SIMON_STATE_HURT);

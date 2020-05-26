@@ -1,6 +1,6 @@
 #include "AxeWeapon.h"
 
-constexpr float AXE_SPEED = 0.18f;
+constexpr float AXE_SPEED = 0.1f;
 constexpr float AXE_GRAVITY = 0.0004f;
 constexpr float AXE_THROW_SPEED = 0.2f;
 

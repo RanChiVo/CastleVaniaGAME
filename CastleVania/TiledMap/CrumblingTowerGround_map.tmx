@@ -35,7 +35,7 @@
     <property name="Object ID" value="ID_ENTITY_WHIP"/>
    </properties>
   </object>
-  <object id="58" name="Start_Map" x="384.5" y="699.167" width="60" height="66" rotation="180">
+  <object id="58" name="Start_Map" x="521.833" y="697.834" width="60" height="66" rotation="180">
    <properties>
     <property name="Cell ID" value="0,0 1,0"/>
     <property name="Object ID" value="ID_ENTITY_SIMON"/>
@@ -242,7 +242,7 @@
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
   </object>
-  <object id="3" name="Floor" x="112.409" y="608.519" width="77.7125" height="30">
+  <object id="3" name="Floor" x="66.409" y="608.519" width="123.712" height="30">
    <properties>
     <property name="Cell ID" value="1,21"/>
     <property name="Hidden Item ID" value=""/>
@@ -545,10 +545,10 @@
    <properties>
     <property name="Cell ID" value="1,12"/>
     <property name="Object ID" value="ID_ENTITY_BRICK"/>
-    <property name="nx" value="-1"/>
+    <property name="nx" value="0"/>
    </properties>
   </object>
-  <object id="88" name="EdgeBrick" x="115.666" y="576.803" width="4.66667" height="30">
+  <object id="88" name="EdgeBrick" x="109.666" y="578.803" width="4.66667" height="30">
    <properties>
     <property name="Cell ID" value="1,21"/>
     <property name="Hidden Item ID" value=""/>
@@ -579,7 +579,7 @@
     <property name="nx" value="1"/>
    </properties>
   </object>
-  <object id="97" name="Skeleton" x="128.166" y="467.5" width="255.667" height="233" visible="0">
+  <object id="97" name="Skeleton" x="128.166" y="467.5" width="320" height="233">
    <properties>
     <property name="Activation Object ID" value="ID_ENTITY_WHITE_SKELETON"/>
     <property name="Cell ID" value="1,12"/>
