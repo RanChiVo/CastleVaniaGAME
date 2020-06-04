@@ -1,7 +1,7 @@
 #include "Bone.h"
 #include "GameObjects/Simon.h"
 
-constexpr float BONE_SPEED = 0.07f;
+constexpr float BONE_SPEED = 0.1f;
 constexpr float BONE_GRAVITY = 0.0004f;
 constexpr float BONE_THROW_SPEED = 0.3f;
 constexpr int BONE_WIDTH = 32;
@@ -26,7 +26,7 @@ void Bone::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
-	if (startThrowNext > 0 && GetTickCount()- startThrowNext > 400)
+	if (startThrowNext > 0 && GetTickCount() - startThrowNext > 400)
 	{
 		isFinishNext = true;
 		startThrowNext = 0;
@@ -40,7 +40,7 @@ void Bone::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	vx = nx * BONE_SPEED;
 	vy += BONE_GRAVITY * dt;
-	
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
@@ -60,22 +60,21 @@ void Bone::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float rdx = 0;
 		float rdy = 0;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		// block 
-	/*	x += min_tx * dx + nx * 0.4f;		
-		y += min_ty * dy + ny * 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;*/
 
 		for (size_t i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult.at(i);
-			static_cast<Simon*>(e->obj)->SetState(Simon::SIMON_STATE_HURT);
-			isFinishNext = true;
+			if (dynamic_cast<Simon*>(e->obj) && (nx != 0 || ny != 0))
+			{
+				if (Simon::getInstance()->GetState()!= Simon::SIMON_STATE_HURT && Simon::getInstance()->isOnGround())
+				{
+					Simon::getInstance()->SetState(Simon::SIMON_STATE_HURT);
+					isFinishNext = true;
+				}
+			}
 		}
 	}
 	coEvents.clear();
-
 }
 
 void Bone::Render(Viewport * viewport)
@@ -86,10 +85,6 @@ void Bone::Render(Viewport * viewport)
 	}
 	if (!isStart) return;
 	if (isFinishNext) return;
-	/*if (state == STATE_DETROY)
-	{
-		return;
-	}*/
 	RenderBoundingBox(viewport);
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip;
@@ -108,7 +103,7 @@ void Bone::GetBoundingBox(float & left, float & top, float & right, float & bott
 
 void Bone::StartThrow()
 {
-	if (startThrowNext==0)
+	if (startThrowNext == 0)
 	{
 		startThrowNext = GetTickCount();
 	}
@@ -116,7 +111,7 @@ void Bone::StartThrow()
 
 void Bone::StartAttack()
 {
-	if (startAttack==0)
+	if (startAttack == 0)
 	{
 		startAttack = GetTickCount();
 	}

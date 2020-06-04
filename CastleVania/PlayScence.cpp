@@ -1,4 +1,3 @@
-
 #include "PlayScence.h"
 #include "Textures/Textures.h"	
 #include "SpriteManagements/Sprites.h"
@@ -25,7 +24,10 @@
 #include "Ghost.h"
 #include "Fleamen.h"
 #include "Skeleton.h"
+#include "Raven.h"
 #include "Game.h"
+#include "GameObjects/Zombie.h"
+#include "EnemyGeneration.h"
 
 PlayScene::PlayScene(EntityID id, std::string filePath) :Scene(id, filePath)
 {
@@ -145,6 +147,8 @@ void PlayScene::Update(DWORD dt)
 	UpdateViewport(dt);
 
 	menuPoint->update(dt);
+
+	EnemyGeneration::getInstance()->GenerateEnemy(&objects, dt);
 }
 
 void PlayScene::Render(Viewport* viewport)
@@ -296,6 +300,7 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 			int nx = 0;
 			int ny = 0;
 			int maxPosition = 0;
+			bool isTwoDirection = false;
 
 			auto properties = objectNode.child("properties");
 
@@ -325,6 +330,10 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				else if (nameProperty.compare("Stair Height") == 0)
 				{
 					stairHeight = propertyNode.attribute("value").as_int();
+				}
+				else if (nameProperty.compare("isTwoDirection") == 0)
+				{
+					isTwoDirection = propertyNode.attribute("value");
 				}
 				else if (nameProperty.compare("nx") == 0)
 				{
@@ -426,6 +435,7 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				break;
 			case ID_ENTITY_PORTAL_POS_MAP:
 				objectInit = new PortalPosMap(D3DXVECTOR2(x, y), height, width, startViewPortX, endViewPortX, startViewPortY);
+				objectInit->setName(name);
 				break;
 			case ID_ENTITY_CANDLE:
 				objectInit = new Candle(D3DXVECTOR2(x, y), height, width);
@@ -441,7 +451,7 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				break;
 			case ID_ENTITY_STAIR:
 				objectInit = new ObjectStair(D3DXVECTOR2(x, y), width,
-					height, nx, ny, stairHeight);
+					height, nx, ny, stairHeight, isTwoDirection);
 				objectInit->setMainId(id);
 				objectInit->setCellId(cellId);
 				break;
@@ -469,8 +479,11 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				objectInit = new Skeleton(D3DXVECTOR2(x, y),nx, height, width);
 				objectInit->setName(name);
 				break;
+			case ID_ENTITY_RAVEN:
+				objectInit = new Raven(D3DXVECTOR2(x, y), height, width);
+				objectInit->setName(name);
+				break;
 			}
-
 		
 			if (ani_set != nullptr && objectInit)
 			{
@@ -566,6 +579,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		break;
 	}
+
 	DebugOut(L"[INFO] state: %d\n", simon->GetState());
 }
 
@@ -584,7 +598,6 @@ void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		}
 		break;
 	case Simon::State::SIMON_STATE_GO_DOWN_STAIR:
-
 		if (!simon->IsGoingAutoStair())
 		{
 			simon->SetState(Simon::State::SIMON_STATE_IDLE_DOWN_STAIR);
@@ -604,7 +617,9 @@ void PlayScenceKeyHandler::KeyState(BYTE *states)
 		simon->GetState() == Simon::State::SIMON_STATE_CHANGECOLOR ||
 		simon->GetState() == Simon::State::SIMON_STATE_HURT ||
 		simon->GetState() == Simon::State::SIMON_STATE_ATTACK_SITDOWN ||
-		simon->GetState() == Simon::State::SIMON_STATE_AUTO_GOES || simon->IsGoingAutoStair())
+		simon->GetState() == Simon::State::SIMON_STATE_WIN ||
+		simon->GetState() == Simon::State::SIMON_STATE_AUTO_GOES || simon->IsGoingAutoStair() ||
+		simon->GetTimeJumpingSitFloor() > 0 || simon->GetTimestartJumpingFloor() > 0)
 	{
 		return;
 	}
@@ -636,19 +651,30 @@ void PlayScenceKeyHandler::KeyState(BYTE *states)
 	{
 		if (game->IsKeyDown(DIK_UP) && simon->GetState() != Simon::State::SIMON_STATE_ATTACK_UP_STAIR)
 		{
-			if (!simon->IsOnStair() && simon->getOriginalStair()->Get_nyStair() >= 1)
+
+			if (!simon->IsOnStair() && simon->getOriginalStair()->Get_nyStair() > 0)
 			{
+				simon->AutoGoUpStair(Simon::State::SIMON_STATE_GO_UP_STAIR);
+			}
+			else if (!simon->IsOnStair() && simon->getOriginalStair()->Get_nyStair() == 0 && simon->getOriginalStair()->IsTwoDirection())
+			{
+				simon->getOriginalStair()->Set_nyStair(1);
 				simon->AutoGoUpStair(Simon::State::SIMON_STATE_GO_UP_STAIR);
 			}
 			else if (simon->IsOnStair())
 			{
-					simon->SetState(Simon::State::SIMON_STATE_GO_UP_STAIR);
+				simon->SetState(Simon::State::SIMON_STATE_GO_UP_STAIR);
 			}
 		}
 		else if (game->IsKeyDown(DIK_DOWN) && simon->GetState() != Simon::State::SIMON_STATE_ATTACK_DOWN_STAIR)
 		{
 			if (!simon->IsOnStair() && simon->getOriginalStair()->Get_nyStair() < 0)
 			{
+				simon->AutoGoUpStair(Simon::State::SIMON_STATE_GO_DOWN_STAIR);
+			}
+			else if (!simon->IsOnStair() && simon->getOriginalStair()->Get_nyStair() == 0 && simon->getOriginalStair()->IsTwoDirection())
+			{
+				simon->getOriginalStair()->Set_nyStair(-1);
 				simon->AutoGoUpStair(Simon::State::SIMON_STATE_GO_DOWN_STAIR);
 			}
 			else if (simon->IsOnStair())

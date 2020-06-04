@@ -1,6 +1,6 @@
 #include "ObjectStair.h"
 
-ObjectStair::ObjectStair(D3DXVECTOR2 pos, int width, int height, int nxStair, int nyStair, int heightStair)
+ObjectStair::ObjectStair(D3DXVECTOR2 pos, int width, int height, int nxStair, int nyStair, int heightStair,bool isTwoDirection)
 {
 	this->id = ID_ENTITY_STAIR;
 	SetPosition(pos);
@@ -9,18 +9,20 @@ ObjectStair::ObjectStair(D3DXVECTOR2 pos, int width, int height, int nxStair, in
 	this->heightStair = heightStair;
 	this->nxStair = nxStair;
 	this->nyStair = nyStair;
+	this->isTwoDirection = isTwoDirection;
 }
 
-ObjectStair::ObjectStair(ObjectStair * o)
-{
-	this->id = ID_ENTITY_STAIR;
-	SetPosition(o->getPosition());
-	this->width = o->width;
-	this->height = o->height;
-	this->heightStair = o->heightStair;
-	this->nxStair = o->nxStair;
-	this->nyStair = o->nyStair;
-}
+//ObjectStair::ObjectStair(ObjectStair * o)
+//{
+//	this->id = ID_ENTITY_STAIR;
+//	SetPosition(o->getPosition());
+//	this->width = o->width;
+//	this->height = o->height;
+//	this->heightStair = o->heightStair;
+//	this->nxStair = o->nxStair;
+//	this->nyStair = o->nyStair;
+//	this->isTwoDirection = o->isTwoDirection;
+//}
 
 void ObjectStair::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {

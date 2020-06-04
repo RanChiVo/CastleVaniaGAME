@@ -37,7 +37,7 @@ public:
 	void SetState(int state);
 	void SetDistanceGoOutActivateArea(int distance) { this->XGoOutActivateArea = distance; }
 	void Reset();
-	DWORD RandomTime(DWORD time1, DWORD time2);
+	DWORD RandomNumber(DWORD time1, DWORD time2);
 	~Skeleton();
 };
 

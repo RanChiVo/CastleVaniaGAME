@@ -29,7 +29,6 @@ class AnimationSets
 
 	unordered_map<int, LPANIMATION_SET> animation_sets;
 
-
 public:
 	AnimationSets();
 

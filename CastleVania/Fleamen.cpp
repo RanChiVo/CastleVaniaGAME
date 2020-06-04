@@ -18,78 +18,63 @@ Fleamen::Fleamen(D3DXVECTOR2 pos, int height, int width)
 
 void Fleamen::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (state != STATE_EFFECT)
+	{
+		vy += FLEAMEN_GRAVITY * dt;
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+		coEvents.clear();
+
+		vector<LPGAMEOBJECT> staticObject;
+		for (int i = 0; i < coObjects->size(); i++)
+		{
+			if (coObjects->at(i)->getID() == ID_ENTITY_FLOOR ||
+				coObjects->at(i)->getID() == ID_ENTITY_WALL)
+				staticObject.push_back(coObjects->at(i));
+		}
+
+		CalcPotentialCollisions(&staticObject, coEvents);
+
+		if (coEvents.size() == 0)
+		{
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			float min_tx, min_ty, nx, ny;
+			float Dx = dx, Dy = dy;
+			float rdx = 0;
+			float rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+			x += dx;
+			if (ny < 0)
+			{
+				if (!isOnGround)
+				{
+					isOnGround = true;
+				}
+				Floor* floor = dynamic_cast<Floor*>(coEventsResult.back()->obj);
+				y += min_ty * dy + ny * 0.11f;
+				vy = 0;
+				if (floor && isActive)
+				{
+					SetState(FLEAMEN_STATE_IDLE);
+				}
+			}
+			else y += dy;
+		}
+		if (timeFirstJump > 0 && GetTickCount() - timeFirstJump >= 800)
+		{
+			timeFirstJump = 0;
+			timeLowJump = GetTickCount();
+			nx = Simon::getInstance()->get_nx();
+		}
+		HandleActivateTolLowJump();
+		HandleLowTolHeightJump();
+		HandleHeightToLowJump();
+	}
 	Enemy::Update(dt, coObjects);
-	vy += FLEAMEN_GRAVITY * dt;
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();
-
-	vector<LPGAMEOBJECT> staticObject;
-	for (int i = 0; i < coObjects->size(); i++)
-	{
-		if (coObjects->at(i)->getID() == ID_ENTITY_FLOOR ||
-			coObjects->at(i)->getID() == ID_ENTITY_WALL)
-			staticObject.push_back(coObjects->at(i));
-	}
-
-	CalcPotentialCollisions(&staticObject, coEvents);
-
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx, ny;
-		float Dx = dx, Dy = dy;
-		float rdx = 0;
-		float rdy = 0;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		x += dx;
-		if (ny < 0)
-		{
-			if (!isOnGround)
-			{
-				isOnGround = true;
-			}
-			Floor* floor = dynamic_cast<Floor*>(coEventsResult.back()->obj);
-			y += min_ty * dy + ny * 0.11f;
-			vy = 0;
-			if (floor && isActive)
-			{
-				SetState(FLEAMEN_STATE_IDLE);
-			}
-		}
-		else y += dy;
-	}
-	coEvents.clear();
-
-	if (state != STATE_DETROY)
-		CalcPotentialCollisions(coObjects, coEvents);
-	float min_tx, min_ty, nx, ny;
-	float Dx = dx, Dy = dy;
-	float rdx = 0;
-	float rdy = 0;
-	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-	for (int i = 0; i < (int)coEventsResult.size(); i++)
-	{
-		switch (coEventsResult[i]->obj->getID())
-		{
-		case ID_ENTITY_WHIP:
-				SetState(STATE_DETROY);
-			break;
-		}
-	}
-	if (timeFirstJump > 0 && GetTickCount() - timeFirstJump >= 800)
-	{
-		timeFirstJump = 0;
-		timeLowJump = GetTickCount();
-		nx = Simon::getInstance()->get_nx();
-	}
-	HandleActivateTolLowJump();
-	HandleLowTolHeightJump();
-	HandleHeightToLowJump();
 }
 
 void Fleamen::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -127,6 +112,7 @@ void Fleamen::Render(Viewport * viewport)
 	{
 		SetState(STATE_DETROY);
 	}
+	Enemy::Render(viewport);
 }
 
 void Fleamen::SetState(int state)
@@ -137,12 +123,12 @@ void Fleamen::SetState(int state)
 	case FLEAMEN_STATE_PREPAIR_ATTACK:
 	{
 		currentAnimation = FLEAMEN_ANI_PREPAIR_ATTACK;
-	} 
+	}
 	break;
 	case FLEAMEN_STATE_JUMP_ATTACK:
 	{
 		vy = -FLEAMEN_SPEED_HIGHT_Y;
-		y-= 5;
+		y -= 5;
 		vx = FLEAMEN_SPEED_X;
 		isOnGround = false;
 		isJumping = true;
@@ -178,11 +164,10 @@ void Fleamen::StartActivate()
 
 void Fleamen::HandleActivateTolLowJump()
 {
-	
 	if (isOnGround && timeLowJump && timeOnGround == 0)
 	{
 		SetState(FLEAMEN_STATE_JUMP_ON_FLOOR);
-		if (x < Simon::getInstance()->getPosition().x )
+		if (x < Simon::getInstance()->getPosition().x)
 		{
 			nx = 1;
 			vx = FLEAMEN_SPEED_X;

@@ -24,264 +24,255 @@ Skeleton::Skeleton(D3DXVECTOR2 pos, int nx, int height, int width)
 
 void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vy += SKELETON_GRAVITY * dt;
-
-	float sx = Simon::getInstance()->getPosition().x;
-
-	if (!isAttack && (startAttack == 0|| GetTickCount() - startAttack < 1000))
+	if (state != STATE_EFFECT)
 	{
-		int numberOfWeapon = RandomTime(1, 3);
-		startAttack = GetTickCount();
-		for (int i = 0; i < numberOfWeapon; i++)
-		{	
-			if (isJumping)
-			{
-				break;
-			}
-			weaponWhiteSkeleton.push_back(new Bone);
-			weaponWhiteSkeleton[i]->SetPosition(D3DXVECTOR2(x, y));
-			weaponWhiteSkeleton[i]->set_nx(nx_Render);
-			isAttack = 1;
-		}
-	}
+		vy += SKELETON_GRAVITY * dt;
 
-	if (weaponWhiteSkeleton.size() == 0)
-	{
-		startAttack = 0;
-		isAttack = 0;
-	}
-	else
-	{
-		for (int i = 0; i < weaponWhiteSkeleton.size(); i++)
+		float sx = Simon::getInstance()->getPosition().x;
+
+		if (!isAttack && (startAttack == 0 || GetTickCount() - startAttack < 1000))
 		{
-			if (!weaponWhiteSkeleton[i]->IsStart())
+			int numberOfWeapon = RandomNumber(1, 3);
+			startAttack = GetTickCount();
+			for (int i = 0; i < numberOfWeapon; i++)
 			{
-				if (startConsecutiveAttack == 0 || GetTickCount() - startConsecutiveAttack >= 200)
+				if (isJumping)
 				{
-					weaponWhiteSkeleton[i]->SetPosition(D3DXVECTOR2(x, y));
-					weaponWhiteSkeleton[i]->SetIsStart(true);
-					weaponWhiteSkeleton[i]->set_nx(nx_Render);
-					if (i == weaponWhiteSkeleton.size() - 1)
-					{
-						startConsecutiveAttack = 0;
-					}
-					else
-					{
-						startConsecutiveAttack = GetTickCount();
-					}
+					break;
 				}
-				break;
-			}
-			weaponWhiteSkeleton[i]->Update(dt, coObjects);
-			if (weaponWhiteSkeleton[i]->IsFinishNext())
-				weaponWhiteSkeleton.erase(weaponWhiteSkeleton.begin() + i);
-		}
-	}
-
-	//for (int i = 0; i < weaponWhiteSkeleton.size(); i++)
-	//{
-	//	if (weaponWhiteSkeleton[i]->GetStartAttack() > 0)
-	//	{
-	//		weaponWhiteSkeleton[i]->Update(dt, coObjects);
-	//	}
-	//	if (weaponWhiteSkeleton[i]->GetState() == STATE_DETROY)
-	//	{
-	//		//weaponWhiteSkeleton.erase(weaponWhiteSkeleton.begin() + i);
-	//	}
-	//}
-	
-	if (isActive && !isActiveFirst)
-	{
-		SetState(SKELETON_STATE_ACTIVE);
-		isActiveFirst = true;
-	}
-
-	if (!isActiveFirst)
-	{
-		return;
-	}
-
-	if (x < Simon::getInstance()->getPosition().x)
-	{
-		nx_Render = 1;
-	}
-	else nx_Render = -1;
-
-
-	bool go_out_distane = false;
-	if (abs(sx - x) < 85)
-	{
-		if ((nx == 1 && sx > x) ||
-			(nx == -1 && sx < x))
-		{
-			if (!isJumping)
-			{
-				XOrginal = x;
-				nx = -nx;
-			}
-			go_out_distane = true;
-			if (sx > x)
-			{
-				XorginalSimon = sx - 85;
-			}
-			else {
-				XorginalSimon = sx + 85;
+				weaponWhiteSkeleton.push_back(new Bone);
+				weaponWhiteSkeleton[i]->SetPosition(D3DXVECTOR2(x, y));
+				weaponWhiteSkeleton[i]->set_nx(nx_Render);
+				isAttack = 1;
 			}
 		}
-	}
 
-	if (!isJumping&& go_out_distane)
-	{
-		if (XorginalSimon < sx)
+		if (weaponWhiteSkeleton.size() == 0)
 		{
-			XorginalSimon = sx;
-			nx = (sx > x) ? 1 : -1;
-		}
-		else if (XorginalSimon > sx)
-		{
-			XorginalSimon = sx;
-			nx = (sx > x) ? -1 : 1;
-		}
-	}
-
-	if (abs(XOrginal - x) > distanceMoving)
-	{
-		if ((nx == 1 && sx > x) || (nx == -1 && sx < x))
-		{
-			distanceMoving = 40 + abs(abs(sx - x) - 85);
+			startAttack = 0;
+			isAttack = 0;
 		}
 		else
 		{
-			if (!isJumping)
+			for (int i = 0; i < weaponWhiteSkeleton.size(); i++)
 			{
-				XOrginal = x;
-				nx = -nx;
+				if (!weaponWhiteSkeleton[i]->IsStart())
+				{
+					if (startConsecutiveAttack == 0 || GetTickCount() - startConsecutiveAttack >= 200)
+					{
+						weaponWhiteSkeleton[i]->SetPosition(D3DXVECTOR2(x, y));
+						weaponWhiteSkeleton[i]->SetIsStart(true);
+						weaponWhiteSkeleton[i]->set_nx(nx_Render);
+						if (i == weaponWhiteSkeleton.size() - 1)
+						{
+							startConsecutiveAttack = 0;
+						}
+						else
+						{
+							startConsecutiveAttack = GetTickCount();
+						}
+					}
+					break;
+				}
+				weaponWhiteSkeleton[i]->Update(dt, coObjects);
+				if (weaponWhiteSkeleton[i]->IsFinishNext())
+					weaponWhiteSkeleton.erase(weaponWhiteSkeleton.begin() + i);
 			}
 		}
-	}
 
-	Enemy::Update(dt, coObjects);
+		if (isActive && !isActiveFirst)
+		{
+			SetState(SKELETON_STATE_ACTIVE);
+			isActiveFirst = true;
+		}
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();
+		if (!isActiveFirst)
+		{
+			return;
+		}
 
-	vector<LPGAMEOBJECT> staticObject;
-	for (int i = 0; i < coObjects->size(); i++)
-	{
-		if (coObjects->at(i)->getID() == ID_ENTITY_FLOOR ||
-			coObjects->at(i)->getID() == ID_ENTITY_BRICK
-			&& coObjects->at(i)->getName().compare("EdgeBrick") == 0)
-			staticObject.push_back(coObjects->at(i));
-	}
-	CalcPotentialCollisions(&staticObject, coEvents);
+		if (x < Simon::getInstance()->getPosition().x)
+		{
+			nx_Render = 1;
+		}
+		else nx_Render = -1;
 
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx, ny;
-		float Dx = dx, Dy = dy;
-		float rdx = 0;
-		float rdy = 0;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
-		if (nx == 0)
+		bool go_out_distane = false;
+		if (abs(sx - x) < 85)
+		{
+			if ((nx == 1 && sx > x) ||
+				(nx == -1 && sx < x))
+			{
+				if (!isJumping)
+				{
+					XOrginal = x;
+					nx = -nx;
+				}
+				go_out_distane = true;
+				if (sx > x)
+				{
+					XorginalSimon = sx - 85;
+				}
+				else {
+					XorginalSimon = sx + 85;
+				}
+			}
+		}
+
+		if (!isJumping&& go_out_distane)
+		{
+			if (XorginalSimon < sx)
+			{
+				XorginalSimon = sx;
+				nx = (sx > x) ? 1 : -1;
+			}
+			else if (XorginalSimon > sx)
+			{
+				XorginalSimon = sx;
+				nx = (sx > x) ? -1 : 1;
+			}
+		}
+
+		if (abs(XOrginal - x) > distanceMoving)
+		{
+			if ((nx == 1 && sx > x) || (nx == -1 && sx < x))
+			{
+				distanceMoving = 40 + abs(abs(sx - x) - 85);
+			}
+			else
+			{
+				if (!isJumping)
+				{
+					XOrginal = x;
+					nx = -nx;
+				}
+			}
+		}
+
+
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+		coEvents.clear();
+
+		vector<LPGAMEOBJECT> staticObject;
+		for (int i = 0; i < coObjects->size(); i++)
+		{
+			if (coObjects->at(i)->getID() == ID_ENTITY_FLOOR ||
+				coObjects->at(i)->getID() == ID_ENTITY_BRICK
+				&& coObjects->at(i)->getName().compare("EdgeBrick") == 0)
+				staticObject.push_back(coObjects->at(i));
+		}
+		CalcPotentialCollisions(&staticObject, coEvents);
+
+		if (coEvents.size() == 0)
 		{
 			x += dx;
+			y += dy;
 		}
-
-		for (UINT i = 0; i < coEventsResult.size(); i++)
+		else
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
+			float min_tx, min_ty, nx, ny;
+			float Dx = dx, Dy = dy;
+			float rdx = 0;
+			float rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
-			if (dynamic_cast<Floor*>(e->obj))
+			if (nx == 0)
 			{
-				Floor* floor = dynamic_cast<Floor*>(e->obj);
-				if (e->ny < 0 && floor)
-				{
-					vy = 0;
-					Dy = min_ty * dy + ny * 0.11f;
-					if (!isOnGround)
-					{
-						isOnGround = true;
-					}
-					isJumping = false;
-					vx = 0;
-				}
+				x += dx;
 			}
-			else if (dynamic_cast<CBrick*>(e->obj)) // if e->obj is Goomba 
+
+			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
-				CBrick* edge = dynamic_cast<CBrick*>(e->obj);
-				if (isActiveFirst)
+				LPCOLLISIONEVENT e = coEventsResult[i];
+
+				if (dynamic_cast<Floor*>(e->obj))
 				{
-					if (sx < XGoOutActivateArea)
+					Floor* floor = dynamic_cast<Floor*>(e->obj);
+					if (e->ny < 0 && floor)
 					{
-						if ((abs(sx - x) < 85 ) && y <= (YOrginal+5))
+						vy = 0;
+						Dy = min_ty * dy + ny * 0.11f;
+						if (!isOnGround)
 						{
-							if (e->nx != 0)
+							isOnGround = true;
+						}
+						isJumping = false;
+						vx = 0;
+					}
+				}
+				else if (dynamic_cast<CBrick*>(e->obj)) // if e->obj is Goomba 
+				{
+					CBrick* edge = dynamic_cast<CBrick*>(e->obj);
+					if (isActiveFirst)
+					{
+						if (sx < XGoOutActivateArea)
+						{
+							if ((abs(sx - x) < 85) && y <= (YOrginal + 5))
 							{
-								if (!isJumping)
+								if (e->nx != 0)
 								{
-									this->nx = -this->nx;
+									if (!isJumping)
+									{
+										this->nx = -this->nx;
+									}
+								}
+							}
+
+							if (e->nx != 0 || e->ny != 0)
+							{
+								if ((abs(sx - x) <= 50))
+								{
+									if (edge && isActiveFirst && edge->get_nx() >= 0)
+									{
+										SetState(SKELETON_STATE_JUMP_RIGHT);
+									}
+									if (edge &&isActiveFirst&& edge->get_nx() < 0)
+									{
+										SetState(SKELETON_STATE_JUMP_LEFT);
+									}
+								}
+								else
+								{
+									if (edge && isActiveFirst && edge->get_nx() > 0)
+									{
+										SetState(SKELETON_STATE_JUMP_RIGHT);
+									}
+									if (edge &&isActiveFirst&& edge->get_nx() < 0)
+									{
+										SetState(SKELETON_STATE_JUMP_LEFT);
+									}
 								}
 							}
 						}
-						
-						if (e->nx != 0 || e->ny != 0)
+						else
 						{
-							if ((abs(sx - x) <= 50))
+							if (e->nx != 0 || e->ny != 0 && edge->get_nx() != 0)
 							{
-								if (edge && isActiveFirst && edge->get_nx() >= 0)
+								if (edge && isActiveFirst)
 								{
 									SetState(SKELETON_STATE_JUMP_RIGHT);
 								}
-								if (edge &&isActiveFirst&& edge->get_nx() < 0)
-								{
-									SetState(SKELETON_STATE_JUMP_LEFT);
-								}
-							}
-							else
-							{
-								if (edge && isActiveFirst && edge->get_nx() > 0)
-								{
-									SetState(SKELETON_STATE_JUMP_RIGHT);
-								}
-								if (edge &&isActiveFirst&& edge->get_nx() < 0)
-								{
-									SetState(SKELETON_STATE_JUMP_LEFT);
-								}
-							}
-						}
-					}
-					else
-					{
-						if (e->nx != 0 || e->ny != 0 && edge->get_nx() != 0)
-						{
-							if (edge && isActiveFirst )
-							{
-								SetState(SKELETON_STATE_JUMP_RIGHT);
 							}
 						}
 					}
 				}
 			}
+			y += Dy;
 		}
-		y += Dy;
+		if (!isJumping)
+		{
+			vx = nx * SKELETON_SPEED_X;
+		}
 	}
-	if (!isJumping)
-	{
-		vx = nx * SKELETON_SPEED_X;
-	}
+	Enemy::Update(dt, coObjects);
 }
 
 void Skeleton::Reset()
 {
 	startmoving = GetTickCount();
-	timemoving = RandomTime(500, 700);
+	timemoving = RandomNumber(500, 700);
 	if (vx > 0)
 	{
 		vx = -0.05f;
@@ -289,7 +280,7 @@ void Skeleton::Reset()
 	else vx = 0.05f;
 }
 
-DWORD Skeleton::RandomTime(DWORD time1, DWORD time2)
+DWORD Skeleton::RandomNumber(DWORD time1, DWORD time2)
 {
 	DWORD time[2] = { time1, time2 };
 	int t = rand() % 2;

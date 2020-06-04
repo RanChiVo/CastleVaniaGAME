@@ -147,6 +147,7 @@
     <ClCompile Include="Crown.cpp" />
     <ClCompile Include="CrystalBall.cpp" />
     <ClCompile Include="DarkBat.cpp" />
+    <ClCompile Include="EnemyGeneration.cpp" />
     <ClCompile Include="EntranceScreen.cpp" />
     <ClCompile Include="Fleamen.cpp" />
     <ClCompile Include="Ghost.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="ObjectGridCreation.cpp" />
     <ClCompile Include="PlayScence.cpp" />
     <ClCompile Include="PortalPosMap.cpp" />
+    <ClCompile Include="Raven.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="SpawnEnemy.cpp" />
@@ -225,6 +227,7 @@
     <ClInclude Include="Crown.h" />
     <ClInclude Include="CrystalBall.h" />
     <ClInclude Include="DarkBat.h" />
+    <ClInclude Include="EnemyGeneration.h" />
     <ClInclude Include="EntranceScreen.h" />
     <ClInclude Include="Fleamen.h" />
     <ClInclude Include="Ghost.h" />
@@ -234,6 +237,7 @@
     <ClInclude Include="ObjectGridCreation.h" />
     <ClInclude Include="PlayScence.h" />
     <ClInclude Include="PortalPosMap.h" />
+    <ClInclude Include="Raven.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="SpawnEnemy.h" />
     <ClInclude Include="SpearKnight.h" />

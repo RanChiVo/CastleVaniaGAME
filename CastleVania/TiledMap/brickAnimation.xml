@@ -13,5 +13,8 @@
     <animation name="BRICK_ANI4" default_time="50" rewind="true">
       <animation_frame sprite_id="brick04" />
     </animation>
+    <animation name="BRICK_ANI5" default_time="50" rewind="true">
+      <animation_frame sprite_id="brick05" />
+    </animation>
   </animations>
 </loadresource>

@@ -28,7 +28,7 @@ public:
     void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	void Render(Viewport* viewport);
-	void handleState();
+	void SetState(int state);
 	static void ActivateState() { isActivate = true; }
 	static void StartTimeHurt() { startTimeHurt = GetTickCount(); }
 	void handleMoveRandom();

@@ -1,7 +1,6 @@
 #pragma once
 #include "../Enemy.h"
-constexpr int ZOMBIE_STATE_WALKING_LEFT = 1;
-constexpr int ZOMBIE_STATE_WALKING_RIGHT = 2;
+constexpr int ZOMBIE_STATE_WALKING = 1;
 
 class Zombie : public Enemy
 {
@@ -12,7 +11,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render(Viewport* viewport);
 	void setActivate(bool isActivate) { this->activate = isActivate; }
-	void  handleState();
+	void  SetState(int state);
 	bool checkInsideViewPort(Viewport* viewport, D3DXVECTOR2 position);
 	~Zombie();
 };

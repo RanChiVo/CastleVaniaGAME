@@ -5,6 +5,8 @@
 #include "Ghost.h"
 #include "Fleamen.h"
 #include "Skeleton.h"
+#include "Raven.h"
+#include "DarkBat.h"
 
 ActivationBox::ActivationBox(D3DXVECTOR2 pos, EntityID activatedObjecId, int height, int width)
 {
@@ -51,6 +53,20 @@ void ActivationBox::ActionObject(vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 		break;
+	case ID_ENTITY_DARK_BAT:
+		for (int i = 0; i < (int)coObjects->size(); i++)
+		{
+			switch (coObjects->at(i)->getID())
+			{
+			case ID_ENTITY_DARK_BAT:
+			{
+				DarkBat *darkBat = dynamic_cast<DarkBat *>(coObjects->at(i));
+				darkBat->ActivateState();
+			}
+			break;
+			}
+		}
+		break;
 	case ID_ENTITY_GHOST:
 		for (int i = 0; i < (int)coObjects->size(); i++)
 		{
@@ -92,19 +108,40 @@ void ActivationBox::ActionObject(vector<LPGAMEOBJECT> *coObjects)
 		{
 			switch (coObjects->at(i)->getID())
 			{
-			case ID_ENTITY_VAMPIRE_BAT:
-			{
-				VampireBat *vampireBat = dynamic_cast<VampireBat *>(coObjects->at(i));
-				if (vampireBat->getName().compare(name) == 0)
+				case ID_ENTITY_VAMPIRE_BAT:
 				{
-					if (!isActivate)
+					VampireBat *vampireBat = dynamic_cast<VampireBat *>(coObjects->at(i));
+					if (vampireBat->getName().compare(name) == 0)
 					{
-						isActivate = true;
-						vampireBat->SetState(VampireBat::VAMPIRE_STATE_ATTACK);
+						if (!isActivate)
+						{
+							isActivate = true;
+							vampireBat->SetState(VampireBat::VAMPIRE_STATE_ATTACK);
+						}
+					}
+					break;
+				}
+			}
+		}
+		break;
+	case ID_ENTITY_RAVEN:
+		for (int i = 0; i < (int)coObjects->size(); i++)
+		{
+			switch (coObjects->at(i)->getID())
+			{
+				case ID_ENTITY_RAVEN:
+				{
+					Raven *raven = dynamic_cast<Raven *>(coObjects->at(i));
+					if (raven->getName().compare(name) == 0)
+					{
+						if (!isActivate)
+						{
+							isActivate = true;
+							raven->Activate();
+						}
 					}
 				}
 				break;
-			}
 			}
 		}
 		break;

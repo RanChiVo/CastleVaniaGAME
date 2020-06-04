@@ -22,6 +22,7 @@ private:
 	std::string heartScore;
 	std::string scoreStringTemp;
 	std::string scoreString;
+	std::string timeStringTemp;
 	std::string timeString;
 	Sprite* HP;
 	Sprite* enemy_HP1;

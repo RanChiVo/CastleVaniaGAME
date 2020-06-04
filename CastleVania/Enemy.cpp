@@ -68,6 +68,9 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					->setScore(Simon::getInstance()->getBaseInfo()->getScore() + 200);
 				state = VampireBat::STATE_DETROY;
 				break;
+			case ID_ENTITY_RAVEN:
+				state = STATE_DETROY;
+				break;
 			}
 			
 			GameObject* item = nullptr;

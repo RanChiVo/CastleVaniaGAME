@@ -25,8 +25,28 @@ void MenuPoint::loadResource()
 
 void MenuPoint::update(DWORD dt)
 {
-	gameTime = 300 - (GetTickCount() - startTime) / 1000;
+	scoreStringTemp = std::to_string(min(Simon::getInstance()->getBaseInfo()->getScore(), 999999));
+
+	if (Simon::getInstance()->GetState()==Simon::SIMON_STATE_WIN)
+	{
+		gameTime = 600 - (GetTickCount() - startTime) / 100;
+	}
+	else gameTime = 600 - (GetTickCount() - startTime) / 1000;
+
+	if (gameTime < 0)
+	{
+		gameTime = 0;
+	}
 	
+	timeStringTemp = std::to_string(gameTime);
+
+	timeString = timeStringTemp;
+
+	for (int i = 0; i < (3 - timeStringTemp.length()); i++)
+	{
+		timeString = "0" + timeString;
+	}
+
 	if (Simon::getInstance()->getBaseInfo()->getIdSubWeapon()!= idSubWeapon)
 	{
 		switch (Simon::getInstance()->getBaseInfo()->getIdSubWeapon())
@@ -51,12 +71,10 @@ void MenuPoint::update(DWORD dt)
 			break;
 		}
 	}
-
-	scoreStringTemp = std::to_string(min(Simon::getInstance()->getBaseInfo()->getScore(), 999999));
-
+	
 	scoreString = scoreStringTemp;
 
-	for (int i = 0; i < (6 - scoreStringTemp.length()); i++)
+	for (int i = 0; i < (5 - scoreStringTemp.length()); i++)
 	{
 		scoreString = "0" + scoreString;
 	}
@@ -74,9 +92,8 @@ void MenuPoint::update(DWORD dt)
 
 void MenuPoint::Draw(ID3DXFont* font)
 {
-	timeString = std::to_string(gameTime);
 	menu->Draw(D3DXVECTOR2(0, 0), Flip::normal, 255);
-	content = "      " + scoreString + "      " + timeString + "\n";
+	content = "      " + scoreString + "       " + timeString + "\n";
 	content += "                        " + heartScore;
 	for (int i = 0; i < healthDarkBat; i++)
 	{

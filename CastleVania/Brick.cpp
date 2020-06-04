@@ -40,6 +40,10 @@ CBrick::CBrick(std::string name, D3DXVECTOR2 pos, int height, int width)
 	{
 		currentAnimation = BRICK_ANI4;
 	}
+	else  if (name.compare("SmallBrickDarkBat") == 0)
+	{
+		currentAnimation = BRICK_ANI5;
+	}
 	isBroken = false;
 }
 

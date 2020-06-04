@@ -3,12 +3,10 @@
 
 CombatWeapon::CombatWeapon()
 {
-
 }
 
 CombatWeapon::~CombatWeapon()
 {
-
 }
 
 void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -39,7 +37,16 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			switch (coEventsResult[i]->obj->getID())
 			{
 			case ID_ENTITY_FLEAMEN:
-				coEventsResult[i]->obj->SetState(STATE_DETROY);
+			case ID_ENTITY_WHITE_SKELETON:
+			case ID_ENTITY_ZOMBIE:
+			case ID_ENTITY_VAMPIRE_BAT:
+			case ID_ENTITY_GHOST:
+			case ID_ENTITY_SPEAR_KNIGHT:
+				coEventsResult[i]->obj->SetState(STATE_EFFECT);
+				coEventsResult[i]->obj->setLiveTime(GetTickCount());
+				break;
+			case ID_ENTITY_DARK_BAT:
+				DarkBat::StartTimeHurt();
 				break;
 			}
 		}
@@ -47,22 +54,21 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += Dy;
 	}
 
-
 	for (int i = 0; i < coObjects->size(); i++)
 	{
 		int ID = coObjects->at(i)->getID();
 		switch (ID)
 		{
 		case ID_ENTITY_BURNBARREL:
+		case ID_ENTITY_CANDLE:
+		case ID_ENTITY_BRICK:
 		case ID_ENTITY_FLEAMEN:
 		case ID_ENTITY_WHITE_SKELETON:
-		case ID_ENTITY_CANDLE:
 		case ID_ENTITY_ZOMBIE:
-		case ID_ENTITY_BRICK:
 		case ID_ENTITY_VAMPIRE_BAT:
-		case ID_ENTITY_DARK_BAT:
-		case ID_ENTITY_SPEAR_KNIGHT:
 		case ID_ENTITY_GHOST:
+		case ID_ENTITY_SPEAR_KNIGHT:
+		case ID_ENTITY_DARK_BAT:
 			float left1, top1, right1, bottom1;
 			coObjects->at(i)->GetBoundingBox(left1, top1, right1, bottom1);
 			RECT rect1 = RECT{ long(left1), long(top1), long(right1), long(bottom1) };
@@ -81,20 +87,20 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					DarkBat::StartTimeHurt();
 				}
-				else if (ID == ID_ENTITY_BRICK)
+				else 
 				{
-					if (coObjects->at(i)->getName().compare("EdgeBrick")==0)
+					if (ID == ID_ENTITY_BRICK && coObjects->at(i)->getName().compare("EdgeBrick") == 0)
 					{
 						break;
 					}
-				}
-
-				{
-					coObjects->at(i)->SetState(STATE_EFFECT);
-					coObjects->at(i)->setLiveTime(GetTickCount());
-					DebugOut(L"liveTime:{%d}\n", coObjects->at(i)->getLiveTime());
-					if (id == ID_ENTITY_DAGGER_WEAPON)
-						coObjects->at(i)->SetState(STATE_DETROY);
+					else
+					{
+						coObjects->at(i)->SetState(STATE_EFFECT);
+						coObjects->at(i)->setLiveTime(GetTickCount());
+						DebugOut(L"liveTime:{%d}\n", coObjects->at(i)->getLiveTime());
+						if (id == ID_ENTITY_DAGGER_WEAPON)
+							coObjects->at(i)->SetState(STATE_DETROY);
+					}
 				}
 			}
 			break;

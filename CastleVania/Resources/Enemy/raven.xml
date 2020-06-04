@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<loadresource>
+ <imagelayer id="ID_ENTITY_RAVEN" name="Raven" width="32" height="32">
+  <image source="Resources\Enemy\raven.png" width="134" height="64" />
+ </imagelayer>
+ <sprites>
+    <spriteframe id="raven_ani_idle" left="0" top="0" right="32" bottom="32" />
+    <spriteframe id="raven_ani_fly1" left="34" top="0" right="66" bottom="32" />
+    <spriteframe id="raven_ani_fly2" left="68" top="0" right="100" bottom="32" />
+    <spriteframe id="raven_ani_fly3" left="102" top="0" right="134" bottom="32" />
+ </sprites>
+</loadresource>

@@ -6,6 +6,7 @@
 #include "../CombatWeapon.h"
 #include "../BaseInfo.h"
 #include "../ObjectStair.h"
+#include "Floor.h"
 
 class Simon: public GameObject
 {
@@ -27,6 +28,7 @@ private:
 	bool OnGround = false;
 	bool isGoingAutoStair = false;
 	int temporaryState;
+	bool isJumpingFloor = false;
 
 	DWORD timeAtack = 0;
 	DWORD timeAtackSub= 0;
@@ -37,11 +39,13 @@ private:
 	DWORD timeSitAfterJump = 0;
 	DWORD timeThrowWeapon = 0;
 	DWORD timeAutoGoStair = 0;
+	DWORD startJumpingSitFloor;
+	DWORD startJumpingFloor;
 	ObjectStair* originalStair = nullptr;
 	D3DXVECTOR2 resetPosition;
+	GameObject* highFloor = nullptr; 
 	
 	Flip flip;
-
 	Whip* whip;
 	int levelWhip;
 	int WHIP_STATE;
@@ -71,7 +75,8 @@ public:
 		SIMON_STATE_ATTACK_UP_STAIR_SUPWEAPON,
 		SIMON_STATE_ATTACK_DOWN_STAIR,
 		SIMON_STATE_HURT,
-		SIMON_STATE_AUTO_GOES
+		SIMON_STATE_AUTO_GOES,
+		SIMON_STATE_WIN,
 	};
 
 	static Simon* getInstance();
@@ -111,6 +116,10 @@ public:
 	void SetTimeAttackSub(DWORD time) { this->timeAtackSub = time; }
 	DWORD GetTimeAttack() { return timeAtack; }
 	DWORD GetTimeAttackSub() { return timeAtackSub; }
+	DWORD GetTimeJumpingSitFloor() { return startJumpingSitFloor; }
+	DWORD GetTimestartJumpingFloor() { return startJumpingFloor; }
+	DWORD GetTimeUntouchable() { return untouchable_start; }
+
 
 	void AutoGoUpStair(State state );
 	void UpdateGotoStair();

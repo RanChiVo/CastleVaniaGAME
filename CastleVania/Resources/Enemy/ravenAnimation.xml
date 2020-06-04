@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<loadresource>
+  <animations id="ID_ENTITY_RAVEN">
+    <animation name ="RAVEN_ANI_IDLE" default_time="100" rewind="true">
+      <animation_frame sprite_id="raven_ani_idle" />
+    </animation>
+    <animation name="RAVEN_ANI_FLY" default_time="100" rewind="true">
+      <animation_frame sprite_id="raven_ani_fly1" />
+      <animation_frame sprite_id="raven_ani_fly2" />
+      <animation_frame sprite_id="raven_ani_fly3" />
+    </animation>
+  </animations>
+</loadresource>

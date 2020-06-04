@@ -9,7 +9,7 @@ MiraculousBag::MiraculousBag(EntityID id, D3DXVECTOR2 pos)
 	this->id = ID_ENTITY_MIRACULOUS_BAG;
 	state = STATE_SHOW;
 	AnimationSets * animation_sets = AnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	LPANIMATION_SET ani_set = animation_sets->Get(ID_ENTITY_MIRACULOUS_BAG);
 	SetAnimationSet(ani_set);
 	switch (id)
 	{

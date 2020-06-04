@@ -1,7 +1,7 @@
 #include "BoomerangWeapon.h"
 #include "GameObjects/Simon.h"
 
-constexpr float BOOMERANG_THROW_SPEED = 0.1f;
+constexpr float BOOMERANG_THROW_SPEED = 0.14f;
 constexpr float BOOMERANG_THROW_TIME = 400;
 
 BoomerangWeapon::BoomerangWeapon()

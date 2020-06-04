@@ -3,17 +3,18 @@
 constexpr float BALL_DARK_BAT_GRAVITY = 0.0006f;
 constexpr DWORD BALL_DARK_BAT_UNTOUCHED_TIME = 1000;
 
-
 BallDarkBat::BallDarkBat(D3DXVECTOR2 pos)
 {
 	id = ID_ENTITY_BALL_DARK_BAT;
 	//AddAnimation(BALL_DARK_BALL_ANI);
 	SetPosition(pos);
 	state = STATE_SHOW;
-	currentAnimation = BALL_DARK_BALL_ANI;
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
-	liveTime = GetTickCount();
+	currentAnimation = BALL_DARK_BALL_ANI;
 	startUntouched = GetTickCount();
 }
 

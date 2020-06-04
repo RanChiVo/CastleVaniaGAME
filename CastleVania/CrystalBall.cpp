@@ -9,8 +9,11 @@ CrystalBall::CrystalBall(D3DXVECTOR2 pos, int nx)
 	this->SetPosition(pos);
 	this->nx = nx;
 	currentAnimation = CRYSTAL_BALL_ANI;
-	width = Textures::GetInstance()->GetSizeObject(ID_ENTITY_CRYSTAL_BALL).first;
-	height = Textures::GetInstance()->GetSizeObject(ID_ENTITY_CRYSTAL_BALL).second;
+	AnimationSets * animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(id);
+	SetAnimationSet(ani_set);
+	width = Textures::GetInstance()->GetSizeObject(id).first;
+	height = Textures::GetInstance()->GetSizeObject(id).second;
 	vx = nx * 0.07f;
 	timeShoot = 0;
 }
@@ -43,7 +46,7 @@ void CrystalBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CrystalBall::Render(Viewport * viewport)
 {
-	//RenderBoundingBox(viewport);
+	RenderBoundingBox(viewport);
 	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
 	Flip flip;
 	if (nx == 1) flip = normal;

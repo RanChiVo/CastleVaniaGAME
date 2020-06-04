@@ -20,10 +20,10 @@
     <object spritePath= "Resources\Items\cross.xml"  animationPath="Resources\Items\crossAnimation.xml"/>
     <object spritePath= "Resources\Items\stop_watch.xml"  animationPath="Resources\Items\stop_watchAnimation.xml"/>
     <object spritePath= "Resources\Items\Invisible_Potion.xml"  animationPath="Resources\Items\Invisible_PotionAnimation.xml"/>
+    <object spritePath="Resources\Items\boomerang.xml" animationPath="Resources\Items\boomerangAnimation.xml" />
     <!--Static-->
     <object spritePath="TiledMap\brick.xml" animationPath="TiledMap\brickAnimation.xml" />
     <object spritePath="TiledMap\Candle.xml" animationPath="TiledMap\CandleAnimation.xml" />
-    <object spritePath="Resources\Items\burn_barrel.xml" animationPath="Resources\Items\burn_barrelAnimation.xml" />
     <object spritePath="TiledMap\movingBrick.xml" animationPath="TiledMap\movingBrickAnimation.xml" />
     <!--Enemies-->
     <object spritePath="Resources\Enemy\spearKnight.xml" animationPath="Resources\Enemy\spearKnightAnimation.xml" />
@@ -31,10 +31,10 @@
     <object spritePath="Resources\Enemy\ghost.xml" animationPath="Resources\Enemy\ghostAnimation.xml" />
     <object spritePath="Resources\Enemy\fleamen.xml" animationPath="Resources\Enemy\fleamenAnimation.xml" />
     <object spritePath="Resources\Enemy\whiteSkeleton.xml" animationPath="Resources\Enemy\whiteSkeletonAnimation.xml" />
+    <object spritePath="Resources\Enemy\raven.xml" animationPath="Resources\Enemy\ravenAnimation.xml" />
     <!--MenuPointHUD-->
     <object spritePath= "Resources\MenuPoint\HP.xml"  animationPath=""/>
     <object spritePath= "Resources\MenuPoint\enemy_HP.xml"  animationPath=""/>
     <object spritePath= "Resources\MenuPoint\menu.xml"  animationPath=""/>
-    <object spritePath= "Resources\Items\boomerang.xml"  animationPath="Resources\Items\boomerangAnimation.xml"/>
 </objectList>
 
