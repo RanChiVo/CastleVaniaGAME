@@ -91,6 +91,10 @@
     <animation name="SIMON_ANI_DEAD" default_time="100" rewind="true">
       <animation_frame sprite_id="Dead2" />
     </animation>
+
+    <animation name="SIMON_ANI_WIN" default_time="100" rewind="true">
+      <animation_frame sprite_id="Win1" />
+    </animation>
    
   </animations>
 </loadresource>
