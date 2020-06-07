@@ -88,29 +88,32 @@ void Fleamen::GetBoundingBox(float & left, float & top, float & right, float & b
 void Fleamen::Render(Viewport * viewport)
 {
 	RenderBoundingBox(viewport);
-	if (state == FLEAMEN_STATE_JUMP_ATTACK)
+	if (state!= STATE_EFFECT)
 	{
-		if (vy >= 0)
+		if (state == FLEAMEN_STATE_JUMP_ATTACK)
 		{
-			currentAnimation = FLEAMEN_ANI_IDLE;
+			if (vy >= 0)
+			{
+				currentAnimation = FLEAMEN_ANI_IDLE;
+			}
 		}
-	}
 
-	if (state == FLEAMEN_STATE_JUMP_ON_FLOOR)
-	{
-		if (vy >= 0)
+		if (state == FLEAMEN_STATE_JUMP_ON_FLOOR)
 		{
-			currentAnimation = FLEAMEN_ANI_IDLE;
+			if (vy >= 0)
+			{
+				currentAnimation = FLEAMEN_ANI_IDLE;
+			}
 		}
-	}
-	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	Flip flip;
-	if (nx == 1) flip = normal;
-	else flip = flip_horiz;
-	animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
-	if (isActive && !checkInsideViewPort(viewport))
-	{
-		SetState(STATE_DETROY);
+		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+		Flip flip;
+		if (nx == 1) flip = normal;
+		else flip = flip_horiz;
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
+		if (isActive && !checkInsideViewPort(viewport))
+		{
+			SetState(STATE_DETROY);
+		}
 	}
 	Enemy::Render(viewport);
 }

@@ -14,7 +14,7 @@ DaggerWeapon::DaggerWeapon()
 
 void DaggerWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vx = nx * 0.18f;
+	vx = nx * 0.25f;
 	CombatWeapon::Update(dt, coObjects);
 }
 

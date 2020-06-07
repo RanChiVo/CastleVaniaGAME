@@ -30,6 +30,8 @@ public:
 	void Render(Viewport* viewport);
 	void SetState(int state);
 	static void ActivateState() { isActivate = true; }
+	static bool IsActive() { return isActivate; }
+
 	static void StartTimeHurt() { startTimeHurt = GetTickCount(); }
 	void handleMoveRandom();
 	void changeMoveRandomToIdle();

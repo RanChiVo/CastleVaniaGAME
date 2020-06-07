@@ -21,6 +21,8 @@
     <object spritePath= "Resources\Items\stop_watch.xml"  animationPath="Resources\Items\stop_watchAnimation.xml"/>
     <object spritePath= "Resources\Items\Invisible_Potion.xml"  animationPath="Resources\Items\Invisible_PotionAnimation.xml"/>
     <object spritePath="Resources\Items\boomerang.xml" animationPath="Resources\Items\boomerangAnimation.xml" />
+    <object spritePath="Resources\Items\double_shoot.xml" animationPath="Resources\Items\double_shootAnimation.xml" />
+    <object spritePath="Resources\Items\pork_chop.xml" animationPath="Resources\Items\pork_chopAnimation.xml" />
     <!--Static-->
     <object spritePath="TiledMap\brick.xml" animationPath="TiledMap\brickAnimation.xml" />
     <object spritePath="TiledMap\Candle.xml" animationPath="TiledMap\CandleAnimation.xml" />

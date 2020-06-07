@@ -28,6 +28,8 @@
 #include "Game.h"
 #include "GameObjects/Zombie.h"
 #include "EnemyGeneration.h"
+#include "DeathFloor.h"
+#include "Pork_Chop.h"
 
 PlayScene::PlayScene(EntityID id, std::string filePath) :Scene(id, filePath)
 {
@@ -65,14 +67,17 @@ void PlayScene::Load()
 		else if (name.compare("StartViewportX") == 0)
 		{
 			viewport->setStartViewPortX(property.attribute("value").as_float());
+			viewport->setStartViewportResetX(property.attribute("value").as_float());
 		}
 		else if (name.compare("EndViewportX") == 0)
 		{
 			viewport->setEndViewPortX(property.attribute("value").as_float());
+			viewport->setEndViewportResetX(property.attribute("value").as_float());
 		}
 		else if (name.compare("StartViewportY") == 0)
 		{
 			viewport->setStartViewPortY(property.attribute("value").as_float());
+			viewport->setStartViewportResetY(property.attribute("value").as_float());
 		}
 	}
 
@@ -142,6 +147,12 @@ void PlayScene::Update(DWORD dt)
 		}
 	}
 
+	if (player->IsDie())
+	{
+		Game::GetInstance()->SwitchScene(Game::GetInstance()->GetCurrentSceneId());
+		player->SetIsDie(false);
+	}
+
 	player->Update(dt, &objects);
 
 	UpdateViewport(dt);
@@ -181,9 +192,11 @@ void PlayScene::Unload()
 
 	if (player)
 	{
-		player->UnloadWhip();
+		if (player->GetPortal()==nullptr)
+		{
+			player->Reset();
+		}
 	}
-
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
@@ -216,7 +229,7 @@ void PlayScene::ReadFile_FONTS(LPTSTR path)
 	AddFontResourceEx(path, FR_PRIVATE, NULL);
 
 	HRESULT result = D3DXCreateFont(
-		gDevice, 17, 0, FW_NORMAL, 1, false,
+		gDevice, 15, 0, FW_NORMAL, 1, false,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
 		ANTIALIASED_QUALITY, FF_DONTCARE, L"Press Start", &font);
 }
@@ -398,11 +411,13 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				break;
 			case ID_ENTITY_SIMON:
 				objectInit = Simon::getInstance();
-				Simon::getInstance()->SetPosition(D3DXVECTOR2(x, y - EXTRA_HEIGHT_SCREEN));
 				player = (Simon*)objectInit;
+				player->SetStartPosPlayer(D3DXVECTOR2(x, y - EXTRA_HEIGHT_SCREEN));
+				player->SetPosition(D3DXVECTOR2(x, y - EXTRA_HEIGHT_SCREEN));
 				player->setHeight(height);
 				player->setWidth(width);
 				player->SetAnimationSet(ani_set);
+				player->set_nx(nx);
 				if (whip)
 				{
 					player->SetWhip(whip);
@@ -414,6 +429,7 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				break;
 			case ID_ENTITY_BRICK:
 				objectInit = new CBrick(name, D3DXVECTOR2(x, y), height, width);
+				objectInit->setIdHiddenItem(idHiddenItemString);
 				objectInit->set_nx(nx);
 				break;
 			case ID_ENTITY_BURNBARREL:
@@ -426,6 +442,9 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				break;
 			case ID_ENTITY_WALL:
 				objectInit = new Wall(D3DXVECTOR2(x, y), height, width);
+				break;
+			case ID_ENTITY_DEATH_FLOOR:
+				objectInit = new DeathFloor(D3DXVECTOR2(x, y), height, width);
 				break;
 			case ID_ENTITY_ENTRANCE:
 				objectInit = new Entrance(D3DXVECTOR2(x, y), height, width);
@@ -476,7 +495,7 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				objectInit->setName(name);
 				break;
 			case ID_ENTITY_WHITE_SKELETON:
-				objectInit = new Skeleton(D3DXVECTOR2(x, y),nx, height, width);
+				objectInit = new Skeleton(D3DXVECTOR2(x, y), nx, height, width);
 				objectInit->setName(name);
 				break;
 			case ID_ENTITY_RAVEN:
@@ -484,7 +503,7 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				objectInit->setName(name);
 				break;
 			}
-		
+
 			if (ani_set != nullptr && objectInit)
 			{
 				objectInit->SetAnimationSet(ani_set);
@@ -505,16 +524,45 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	Game *game = Game::GetInstance();
 
 	if (simon->GetState() == Simon::State::SIMON_STATE_AUTO_GOES ||
-		simon->GetState() == Simon::State::SIMON_STATE_CHANGECOLOR)
+		simon->GetState() == Simon::State::SIMON_STATE_CHANGECOLOR ||
+		simon->GetState() == Simon::State::SIMON_STATE_WIN ||
+		simon->GetState() == Simon::State::SIMON_STATE_HURT ||
+		simon->GetState() == Simon::State::SIMON_STATE_DIE ||
+		simon->GetState() == Simon::State::SIMON_STATE_WIN_FINISH)
 	{
 		return;
 	}
 
 	switch (KeyCode)
 	{
+	case DIK_1:
+	{
+		Game::GetInstance()->SwitchScene(ID_ENTITY_MAP_ENTRANCE);
+		simon->SetPortal(nullptr);
+	}
+	break;
+	case DIK_2:
+	{
+		Game::GetInstance()->SwitchScene(ID_ENTITY_MAP_MAIN_HALL);
+		simon->SetPortal(nullptr);
+	}
+	break;
+	case DIK_3:
+	{
+		Game::GetInstance()->SwitchScene(ID_ENTITY_MAP_CRUMBLING_TOWER);
+		simon->SetPortal(nullptr);
+	}
+	break;
+	case DIK_4:
+	{
+		Game::GetInstance()->SwitchScene(ID_ENTITY_MAP_END);
+		simon->SetPortal(nullptr);
+	}
+	break;
 	case DIK_X:
 		if (simon->GetState() != Simon::State::SIMON_STATE_JUMPING && simon->isOnGround() &&
 			simon->GetState() != Simon::State::SIMON_STATE_ATTACK_STAND &&
+			simon->GetState() != Simon::State::SIMON_STATE_ATTACK_SITDOWN &&
 			simon->GetState() != Simon::State::SIMON_STATE_ATTACK_STAND_SUBWEAPON && !simon->IsOnStair())
 		{
 			simon->SetState(Simon::State::SIMON_STATE_JUMPING);
@@ -524,19 +572,20 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		if (game->IsKeyDown(DIK_UP))
 		{
 			if (simon->GetState() == Simon::State::SIMON_STATE_ATTACK_STAND ||
-				simon->GetState() == Simon::State::SIMON_STATE_ATTACK_STAND_SUBWEAPON||
+				simon->GetState() == Simon::State::SIMON_STATE_ATTACK_STAND_SUBWEAPON ||
 				simon->GetState() == Simon::State::SIMON_STATE_ATTACK_UP_STAIR ||
+				simon->GetState() == Simon::State::SIMON_STATE_ATTACK_SITDOWN ||
 				simon->GetState() == Simon::State::SIMON_STATE_ATTACK_DOWN_STAIR)
 			{
 				return;
 			}
-			
+
 			if (simon->GetState() == Simon::State::SIMON_STATE_SITDOWN)
 				simon->SetState(Simon::State::SIMON_STATE_ATTACK_SITDOWN_SUBWEAPON);
-			
+
 			if (simon->IsOnStair())
 			{
-				if (simon->getBaseInfo()->getIdSubWeapon() != ID_ENTITY_NULL && simon->getBaseInfo()->getHeart()> 0)
+				if (simon->getBaseInfo()->getIdSubWeapon() != ID_ENTITY_NULL && simon->getBaseInfo()->getHeart() > 0)
 				{
 					if (simon->GetState() == Simon::State::SIMON_STATE_IDLE_UP_STAIR ||
 						simon->GetState() == Simon::State::SIMON_STATE_GO_UP_STAIR)
@@ -545,7 +594,6 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			}
 			else
 				simon->SetState(Simon::State::SIMON_STATE_ATTACK_STAND_SUBWEAPON);
-
 			if (simon->GetState() != Simon::State::SIMON_STATE_JUMPING)
 				simon->SetVx(0);
 			simon->SetTimeAttackSub(GetTickCount());
@@ -553,8 +601,9 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		else
 		{
 			if (simon->GetState() == Simon::State::SIMON_STATE_ATTACK_STAND ||
-				simon->GetState() == Simon::State::SIMON_STATE_ATTACK_STAND_SUBWEAPON||
-				simon->GetState() == Simon::State::SIMON_STATE_ATTACK_UP_STAIR||
+				simon->GetState() == Simon::State::SIMON_STATE_ATTACK_STAND_SUBWEAPON ||
+				simon->GetState() == Simon::State::SIMON_STATE_ATTACK_UP_STAIR ||
+				simon->GetState() == Simon::State::SIMON_STATE_ATTACK_SITDOWN ||
 				simon->GetState() == Simon::State::SIMON_STATE_ATTACK_DOWN_STAIR)
 			{
 				return;
@@ -563,12 +612,12 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				simon->SetState(Simon::State::SIMON_STATE_ATTACK_SITDOWN);
 			else if (simon->IsOnStair())
 			{
-				if (simon->GetState() == Simon::State::SIMON_STATE_IDLE_UP_STAIR||
+				if (simon->GetState() == Simon::State::SIMON_STATE_IDLE_UP_STAIR ||
 					simon->GetState() == Simon::State::SIMON_STATE_GO_UP_STAIR)
 					simon->SetState(Simon::State::SIMON_STATE_ATTACK_UP_STAIR);
 
 				if (simon->GetState() == Simon::State::SIMON_STATE_IDLE_DOWN_STAIR
-					||simon->GetState() == Simon::State::SIMON_STATE_GO_DOWN_STAIR)
+					|| simon->GetState() == Simon::State::SIMON_STATE_GO_DOWN_STAIR)
 					simon->SetState(Simon::State::SIMON_STATE_ATTACK_DOWN_STAIR);
 			}
 			else
@@ -618,6 +667,8 @@ void PlayScenceKeyHandler::KeyState(BYTE *states)
 		simon->GetState() == Simon::State::SIMON_STATE_HURT ||
 		simon->GetState() == Simon::State::SIMON_STATE_ATTACK_SITDOWN ||
 		simon->GetState() == Simon::State::SIMON_STATE_WIN ||
+		simon->GetState() == Simon::State::SIMON_STATE_DIE ||
+		simon->GetState() == Simon::State::SIMON_STATE_WIN_FINISH ||
 		simon->GetState() == Simon::State::SIMON_STATE_AUTO_GOES || simon->IsGoingAutoStair() ||
 		simon->GetTimeJumpingSitFloor() > 0 || simon->GetTimestartJumpingFloor() > 0)
 	{

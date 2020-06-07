@@ -33,16 +33,21 @@ void Crown::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isActivate = false;
 		
 	}
-	else if (state == STATE_SHOW && !isActivate && liveTime > 0 && (GetTickCount() - liveTime > 2000))
+	else if (vy != 0 && state == STATE_SHOW && !isActivate && liveTime > 0 && (GetTickCount() - liveTime > 2000))
 	{
 		vy = 0;
-		liveTime = 0;
+		liveTime = GetTickCount();
+	}
+
+	if (vy == 0 && state == STATE_SHOW && liveTime > 0 && (GetTickCount() - liveTime > 4000))
+	{
+		state = STATE_DETROY;
 	}
 }
 
 void Crown::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	left = x + width;
+	left = x;
 	top = y;
 	right = left + width;
 	bottom = y + height;

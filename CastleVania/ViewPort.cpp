@@ -29,14 +29,19 @@ void Viewport::autoMove(DWORD dt)
 	x += VIEWPORT_SPEED_X * dt;
 }
 
+void Viewport::setStartViewPortX(float startViewportX)
+{
+	this->startViewportX = startViewportX;
+}
+
 float Viewport::getStartViewportX()
 {
 	return startViewportX;
 }
 
-void Viewport::setEndViewPortX(float endViewport)
+void Viewport::setEndViewPortX(float endViewportX)
 {
-	this->endViewportX = endViewport;
+	this->endViewportX = endViewportX;
 }
 
 float Viewport::getEndViewportX()
@@ -54,10 +59,37 @@ float Viewport::getStartViewportY()
 	return startViewportY;
 }
 
-void Viewport::setStartViewPortX(float startViewport)
+void Viewport::setStartViewportResetX(float startViewportResetX)
 {
-	this->startViewportX = startViewport;
+	this->startViewportResetX = startViewportResetX;
 }
+
+float Viewport::getStartViewportResetX()
+{
+	return startViewportResetX;
+}
+
+void Viewport::setEndViewportResetX(float endViewportResetX)
+{
+	this->endViewportResetX = endViewportResetX;
+}
+
+float Viewport::getEndViewportResetX()
+{
+	return endViewportResetX;
+}
+
+void Viewport::setStartViewportResetY(float startViewportResetY)
+{
+	this->startViewportResetY = startViewportResetY;
+}
+
+float Viewport::getStartViewportResetY()
+{
+	return startViewportResetY;
+}
+
+
 
 Viewport::~Viewport()
 {

@@ -66,7 +66,7 @@ void Raven::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					nx = -nx;
 					dRandom += 1;
 					SetState(RAVEN_STATE_ACTIVATE);
-					if (y >= posSimon.y - 20)
+					if (y >= posSimon.y - 10)
 					{
 						SetState(RAVEN_STATE_FLY);
 					}
@@ -164,7 +164,7 @@ void Raven::SetState(int state)
 		int activateAreaY = 216 - originalLocation_y;
 		int randomPositionY = rand() % (activateAreaY)+originalLocation_y;
 		vx = nx * RAVEN_SPEED_X;
-		float ytemp = y + 50;
+		float ytemp = y + 20;
 		if (y > Simon::getInstance()->getPosition().y)
 		{
 			ny = -1;

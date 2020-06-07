@@ -10,6 +10,7 @@
 #include "./Axe.h"
 #include "./InvisibilityPotion.h"
 #include "./Boomerang.h"
+#include "./DoubleShoot.h"
 #include "./Utils.h"
 
 constexpr int FIRE_LIVE_TIME = 200;
@@ -66,6 +67,9 @@ void StaticObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			case ID_ENTITY_WHITE_700_MIRACULOUS_BAG:
 			case ID_ENTITY_BONUS_1000_MIRACULOUS_BAG:
 				item = new MiraculousBag(idHiddenItem, this->getPosition());
+				break;
+			case ID_ENTITY_DOUBLE_SHOOT:
+				item = new DoubleShoot(this->getPosition());
 				break;
 			}
 			if(item)

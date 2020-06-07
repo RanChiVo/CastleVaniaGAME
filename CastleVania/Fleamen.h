@@ -26,6 +26,7 @@ public:
 	virtual void Render(Viewport* viewport);
 	void SetState(int state);
 	void StartActivate();
+	bool IsActive() { return isActive; }
 	void HandleActivateTolLowJump();
 	void HandleLowTolHeightJump();
 	void HandleHeightToLowJump();

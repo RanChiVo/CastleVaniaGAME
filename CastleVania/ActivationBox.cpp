@@ -7,6 +7,7 @@
 #include "Skeleton.h"
 #include "Raven.h"
 #include "DarkBat.h"
+#include "SpearKnight.h"
 
 ActivationBox::ActivationBox(D3DXVECTOR2 pos, EntityID activatedObjecId, int height, int width)
 {
@@ -23,6 +24,7 @@ void ActivationBox::ActionObject(vector<LPGAMEOBJECT> *coObjects)
 	switch (activatedObjecId)
 	{
 	case ID_ENTITY_CROWN:
+
 		for (int i = 0; i < (int)coObjects->size(); i++)
 		{
 			switch (coObjects->at(i)->getID())
@@ -117,10 +119,11 @@ void ActivationBox::ActionObject(vector<LPGAMEOBJECT> *coObjects)
 						{
 							isActivate = true;
 							vampireBat->SetState(VampireBat::VAMPIRE_STATE_ATTACK);
+							vampireBat->SetIsActive(true);
 						}
 					}
-					break;
 				}
+				break;
 			}
 		}
 		break;

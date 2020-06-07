@@ -301,17 +301,21 @@ void Skeleton::Render(Viewport * viewport)
 	{
 		return;
 	}
-	D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-	Flip flip;
-	
-	if (nx_Render == -1) flip = normal;
-	else flip = flip_horiz;
-	animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
-
-	for (int i = 0; i < weaponWhiteSkeleton.size(); i++)
+	if (state != STATE_EFFECT)
 	{
-		weaponWhiteSkeleton[i]->Render(viewport);
+		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
+		Flip flip;
+
+		if (nx_Render == -1) flip = normal;
+		else flip = flip_horiz;
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
+
+		for (int i = 0; i < weaponWhiteSkeleton.size(); i++)
+		{
+			weaponWhiteSkeleton[i]->Render(viewport);
+		}
 	}
+	Enemy::Render(viewport);
 }
 
 void Skeleton::SetActivate(bool isActive)

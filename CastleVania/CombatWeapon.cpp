@@ -42,8 +42,11 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			case ID_ENTITY_VAMPIRE_BAT:
 			case ID_ENTITY_GHOST:
 			case ID_ENTITY_SPEAR_KNIGHT:
-				coEventsResult[i]->obj->SetState(STATE_EFFECT);
-				coEventsResult[i]->obj->setLiveTime(GetTickCount());
+				if (coEventsResult[i]->obj->GetState()!= STATE_EFFECT)
+				{
+					coEventsResult[i]->obj->SetState(STATE_EFFECT);
+					coEventsResult[i]->obj->setLiveTime(GetTickCount());
+				}
 				break;
 			case ID_ENTITY_DARK_BAT:
 				DarkBat::StartTimeHurt();
@@ -95,9 +98,11 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					else
 					{
-						coObjects->at(i)->SetState(STATE_EFFECT);
-						coObjects->at(i)->setLiveTime(GetTickCount());
-						DebugOut(L"liveTime:{%d}\n", coObjects->at(i)->getLiveTime());
+						if (coObjects->at(i)->GetState() != STATE_EFFECT)
+						{
+							coObjects->at(i)->SetState(STATE_EFFECT);
+							coObjects->at(i)->setLiveTime(GetTickCount());
+						}
 						if (id == ID_ENTITY_DAGGER_WEAPON)
 							coObjects->at(i)->SetState(STATE_DETROY);
 					}

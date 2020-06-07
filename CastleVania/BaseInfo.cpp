@@ -6,11 +6,10 @@ constexpr int MAX_HEALTH = 12;
 
 BaseInfo::BaseInfo()
 {
-	heart = 25;
-	scoreNumber = 0;
-	health = 16;
 	idSubWeapon = EntityID::ID_ENTITY_NULL;
 	subWeapon = nullptr;
+	idSubItem = EntityID::ID_ENTITY_NULL;
+	lives = 0;
 }
 
 int BaseInfo::getHeart()
@@ -43,6 +42,26 @@ void BaseInfo::setScore(int score)
 	this->scoreNumber = score;
 }
 
+int BaseInfo::GetLives()
+{
+	return lives;
+}
+
+void BaseInfo::SetLives(int lives)
+{
+	this->lives = lives;
+}
+
+void BaseInfo::SetIdSubItem(EntityID idSubItem)
+{
+	this->idSubItem = idSubItem;
+}
+
+EntityID BaseInfo::GetIdSubItem()
+{
+	return idSubItem;
+}
+
 EntityID BaseInfo::getIdSubWeapon()
 {
 	return idSubWeapon;
@@ -68,12 +87,19 @@ void BaseInfo::setIdSubWeapon(EntityID IdSubWeapon)
 	case ID_ENTITY_BOOMERANG_WEAPON:
 		setSubWeapon(new BoomerangWeapon());
 		break;
+	case ID_ENTITY_NULL:
+		idSubWeapon = ID_ENTITY_NULL;
+		break;
 	}
 }
 
 CombatWeapon * BaseInfo::getSubWeapon()
 {
-	return subWeapon;
+	if (idSubWeapon!= ID_ENTITY_NULL)
+	{
+		return subWeapon;
+	}
+	return nullptr;
 }
 
 void BaseInfo::setSubWeapon(CombatWeapon * subWeapon)

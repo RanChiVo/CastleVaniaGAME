@@ -10,6 +10,7 @@
 #include "./Axe.h"
 #include "./Pork_Chop.h"
 #include "BrickBrokenEffect.h"
+#include "DoubleShoot.h"
 
 CBrick::CBrick(std::string name, D3DXVECTOR2 pos, int height, int width)
 {
@@ -36,7 +37,7 @@ CBrick::CBrick(std::string name, D3DXVECTOR2 pos, int height, int width)
 	{
 		currentAnimation = BRICK_ANI3;
 	}
-	else  if (name.compare("SmallBrick")==0)
+	else  if (name.compare("SmallBrick")==0 || name.compare("SmallBrick1") == 0)
 	{
 		currentAnimation = BRICK_ANI4;
 	}
@@ -44,13 +45,15 @@ CBrick::CBrick(std::string name, D3DXVECTOR2 pos, int height, int width)
 	{
 		currentAnimation = BRICK_ANI5;
 	}
+	else  if (name.compare("SmallBrickCrumbling") == 0)
+	{
+		currentAnimation = BRICK_ANI6;
+	}
 	isBroken = false;
 }
 
 void CBrick::Render(Viewport* viewport)
 {
-	RenderBoundingBox(viewport);
-
 	if (name.compare("EdgeBrick")==0)
 	{
 		return;
@@ -61,6 +64,7 @@ void CBrick::Render(Viewport* viewport)
 		Flip flip = normal;
 		animation_set->at(currentAnimation)->Render(position.x, position.y, flip);
 	}
+	RenderBoundingBox(viewport);
 }
 
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -74,34 +78,37 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		switch (idHiddenItem)
 		{
 		case ID_ENTITY_WEAPON_REWARD:
-			item = new WeaponReward(this->getPosition());
+			item = new WeaponReward(D3DXVECTOR2(x, y - 5));
 			break;
 		case ID_ENTITY_HEART:
-			item = new Heart(this->getPosition());
+			item = new Heart(D3DXVECTOR2(x, y - 5));
 			break;
 		case ID_ENTITY_PORK_CHOP:
-			item = new Pork_Chop(this->getPosition());
+			item = new Pork_Chop(D3DXVECTOR2(x, y - 5));
 			break;
 		case ID_ENTITY_AXE:
-			item = new Axe(this->getPosition());
+			item = new Axe(D3DXVECTOR2(x, y - 5));
 			break;
 		case ID_ENTITY_DAGGER:
-			item = new Dagger(this->getPosition());
+			item = new Dagger(D3DXVECTOR2(x, y - 5));
 			break;
 		case ID_ENTITY_SMALL_HEART:
-			item = new SmallHeart(this->getPosition());
+			item = new SmallHeart(D3DXVECTOR2(x, y - 5));
 			break;
 		case ID_ENTITY_CROSS:
-			item = new Cross(this->getPosition());
+			item = new Cross(D3DXVECTOR2(x, y - 5));
 			break;
 		case ID_ENTITY_FIRE_BOMB:
-			item = new FireBomb(this->getPosition());
+			item = new FireBomb(D3DXVECTOR2(x, y - 5));
 			break;
 		case ID_ENTITY_RED_100_MIRACULOUS_BAG:
 		case ID_ENTITY_BLUE_400_MIRACULOUS_BAG:
 		case ID_ENTITY_WHITE_700_MIRACULOUS_BAG:
 		case ID_ENTITY_BONUS_1000_MIRACULOUS_BAG:
-			item = new MiraculousBag(idHiddenItem, this->getPosition());
+			item = new MiraculousBag(idHiddenItem, D3DXVECTOR2(x, y - 5));
+			break;
+		case ID_ENTITY_DOUBLE_SHOOT:
+			item = new DoubleShoot(D3DXVECTOR2(x,y-5));
 			break;
 		}
 		if (item)
@@ -117,12 +124,12 @@ void CBrick::GetBoundingBox(float & l, float & t, float & r, float & b)
 	t = y;
 	r = x + width;
 	b = y + height;
-	if (currentAnimation == BRICK_ANI4)
+	if (name.compare("SmallBrick") == 0)
 	{
 		l = x;
-		t = y + 8;
+		t = y + 10;
 		r = x + width;
-		b = t + height- 10;
+		b = t + 10;
 	}
 }
 

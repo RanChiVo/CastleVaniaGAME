@@ -111,10 +111,6 @@ public:
 	std::string getObjectID() { return objectID; }
 	void setEnemyName(std::string nameEnemy) { this->nameEnemy = nameEnemy; }
 	std::string getEnemyName() { return nameEnemy; }
-	float getStartViewPort() { return startViewPort; }
-	void setStartViewPort(float startViewPort) { this->startViewPort = startViewPort; }
-	float getEndViewPort() { return endViewPort; }
-	void setEndViewPort(float endViewPort) { this->endViewPort = endViewPort; }
 
 	void set_nx(int nx) { this->nx = nx; }
 	int get_nx() { return nx; }

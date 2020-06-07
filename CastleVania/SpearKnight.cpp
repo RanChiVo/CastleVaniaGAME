@@ -1,8 +1,10 @@
 #include "SpearKnight.h"
+#include "GameObjects/Floor.h"
+#include "GameObjects/Simon.h"
 
 constexpr float SPEAR_KNIGHT_MIN_DISTANCE = 32;
 constexpr float SPEAR_KNIGHT_GRAVITY = 0.0009f;
-constexpr float SPEAR_KNIGHT_SPEED_X = 0.13f;
+constexpr float SPEAR_KNIGHT_SPEED_X = 0.06f;
 
 
 SpearKnight::SpearKnight(D3DXVECTOR2 pos, int maxDistance, int height, int width )
@@ -21,47 +23,65 @@ SpearKnight::SpearKnight(D3DXVECTOR2 pos, int maxDistance, int height, int width
 void SpearKnight::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	Enemy::Update(dt, coObjects);
-	vy += SPEAR_KNIGHT_GRAVITY * dt;
-	vx = nx * vx;
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();
-
-	vector<LPGAMEOBJECT> staticObject;
-	for (int i = 0; i < coObjects->size(); i++)
+	if (state!= STATE_EFFECT)
 	{
-		if (coObjects->at(i)->getID() == ID_ENTITY_FLOOR ||
-			coObjects->at(i)->getID() == ID_ENTITY_WALL)
-			staticObject.push_back(coObjects->at(i));
-	}
+		vy += SPEAR_KNIGHT_GRAVITY * dt;
+		vx = nx * SPEAR_KNIGHT_SPEED_X;
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+		coEvents.clear();
 
-	CalcPotentialCollisions(&staticObject, coEvents);
+		vector<LPGAMEOBJECT> staticObject;
+		for (int i = 0; i < coObjects->size(); i++)
+		{
+			if (coObjects->at(i)->getID() == ID_ENTITY_FLOOR)
+				staticObject.push_back(coObjects->at(i));
+		}
 
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx, ny;
+		CalcPotentialCollisions(&staticObject, coEvents);
+
+		float min_tx, min_ty, _nx, ny;
 		float Dx = dx, Dy = dy;
 		float rdx = 0;
 		float rdy = 0;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		y += min_ty * dy + ny*0.11f;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, _nx, ny, rdx, rdy);
+		y += min_ty * dy + ny * 0.11f;
 		if (ny != 0) vy = 0;
-	}
+		for (int i = 0; i < (int)coEventsResult.size(); i++)
+		{
+			if (coEventsResult[i]->obj->getID() == ID_ENTITY_FLOOR)
+			{
+				highFloor = dynamic_cast<Floor *>(coEvents[i]->obj);
+			}
+		}
 
-	if (x > maxDistance )
-	{
-		nx = -1;
-		vx = -SPEAR_KNIGHT_SPEED_X;
-	}
-	else if (x < positionXStart)
-	{
-		nx = 1;
-		vx = SPEAR_KNIGHT_SPEED_X;
+		if (highFloor && highFloor == Simon::getInstance()->GetHightFloor())
+		{
+			float averageDistance = (float)highFloor->getWidth() / 2;
+			if (x < (maxDistance - 10) && x > (positionXStart + 10))
+			{
+				if (Simon::getInstance()->getPosition().x >= (positionXStart + averageDistance))
+				{
+					nx = 1;
+				}
+				else if (Simon::getInstance()->getPosition().x >= (positionXStart + averageDistance))
+				{
+					nx = -1;
+				}
+			}
+		}
+
+		if (x > maxDistance)
+		{
+			nx = -1;
+			vx = -SPEAR_KNIGHT_SPEED_X;
+		}
+		else if (x < positionXStart)
+		{
+			nx = 1;
+			vx = SPEAR_KNIGHT_SPEED_X;
+		}
+		x += dx;
 	}
 }
 

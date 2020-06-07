@@ -28,7 +28,7 @@ void VampireBat::Render(Viewport * viewport)
 		Enemy::Render(viewport);
 	}
 
-	if (!checkInsideViewPort(viewport))
+	if (isActive && !checkInsideViewPort(viewport))
 	{
 		SetState(STATE_DETROY);
 	}

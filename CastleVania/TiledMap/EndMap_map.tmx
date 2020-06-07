@@ -81,7 +81,7 @@
   <object id="84" name="Candle" x="567.999" y="298" width="16" height="32">
    <properties>
     <property name="Cell ID" value="1,18"/>
-    <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
+    <property name="Hidden Item ID" value="ID_ENTITY_CROSS"/>
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>
@@ -142,10 +142,11 @@
     <property name="Object ID" value="ID_ENTITY_WHIP"/>
    </properties>
   </object>
-  <object id="36" name="Start_Map" x="1064.42" y="339.917" width="60" height="66" rotation="180">
+  <object id="36" name="Start_Map" x="79.42" y="150.917" width="60" height="66" rotation="180">
    <properties>
     <property name="Cell ID" value="0,0 1,0"/>
     <property name="Object ID" value="ID_ENTITY_SIMON"/>
+    <property name="nx" value="1"/>
    </properties>
   </object>
  </objectgroup>

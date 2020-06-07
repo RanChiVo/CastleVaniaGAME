@@ -8,6 +8,7 @@ private:
 	int originalLocationX;
 	int delta;
 	DWORD timeActivate;
+	bool isActive = false;
 public:
 	enum StateVampireBat
 	{
@@ -20,6 +21,8 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void SetState(int state);
+	bool IsActive() { return isActive; }
+	void SetIsActive(bool isActive) { this->isActive = isActive; }
 	~VampireBat();
 };
 

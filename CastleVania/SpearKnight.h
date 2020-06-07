@@ -6,6 +6,7 @@ class SpearKnight:public Enemy
 	int maxDistance;
 	float positionXStart;
 	DWORD timeMoving;
+	GameObject* highFloor;
 public:
 	SpearKnight(D3DXVECTOR2 pos, int maxDistance, int width, int height);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

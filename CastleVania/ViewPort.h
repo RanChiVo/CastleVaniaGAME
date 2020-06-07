@@ -11,6 +11,9 @@ protected:
 	float startViewportX;
 	float endViewportX;
 	float startViewportY;
+	float startViewportResetX;
+	float endViewportResetX;
+	float startViewportResetY;
 	int state;
 public:
 	enum StateViewPort
@@ -44,17 +47,29 @@ public:
 
 	void autoMove(DWORD dt);
 
-	void setStartViewPortX(float startViewport);
+	void setStartViewPortX(float startViewportX);
 
 	float getStartViewportX();
 
-	void setEndViewPortX(float endViewport);
+	void setEndViewPortX(float endViewportX);
 
 	float getEndViewportX();
 
 	void setStartViewPortY(float startViewportY);
 
 	float getStartViewportY();
+
+	void setStartViewportResetX(float startViewportResetX);
+
+	float getStartViewportResetX();
+
+	void setEndViewportResetX(float endViewportResetX);
+
+	float getEndViewportResetX();
+
+	void setStartViewportResetY(float startViewportResetX);
+
+	float getStartViewportResetY();
 
 	void setState(StateViewPort state) { this->state = state; }
 

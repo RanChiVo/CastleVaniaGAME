@@ -57,6 +57,7 @@ LPDIRECT3DTEXTURE9 TiledMap::loadImagefromfile()
 	}
 
 	EntityID idTextfromfile = Utils::getInstance()->getStringToEntityID()[idText];
+	idMap = idTextfromfile;
 	std::wstring pathImageMapfromfile(imageMapPath.begin(), imageMapPath.end());
 	LPCWSTR pathImageMapLoad = pathImageMapfromfile.c_str();
 	Textures::GetInstance()->Add(idTextfromfile, pathImageMapLoad, D3DCOLOR_XRGB(255, 0, 255));

@@ -191,9 +191,9 @@ void Game::SwitchScene(EntityID scene_id)
 	LPSCENE s = scenes[current_scene];
 	s->Unload();
 
-	Textures::GetInstance()->Clear();
-	Sprites::GetInstance()->Clear();
-	Animations::GetInstance()->Clear();
+	//Textures::GetInstance()->Clear();
+	//Sprites::GetInstance()->Clear();
+	//Animations::GetInstance()->Clear();
 
 	Game::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();

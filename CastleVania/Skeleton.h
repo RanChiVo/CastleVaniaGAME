@@ -15,7 +15,7 @@ class Skeleton : public Enemy
 	float nx_Render = 0;
 	int distanceMoving;
 	int XGoOutActivateArea;
-	bool isAttack;	
+	bool isAttack;
 	DWORD timemoving = 0;
 	DWORD timeActivate = 0;
 	DWORD startmoving = 0;
@@ -34,6 +34,7 @@ public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Render(Viewport* viewport);
 	void SetActivate(bool isActive);
+	bool IsActive() { return isActive; }
 	void SetState(int state);
 	void SetDistanceGoOutActivateArea(int distance) { this->XGoOutActivateArea = distance; }
 	void Reset();

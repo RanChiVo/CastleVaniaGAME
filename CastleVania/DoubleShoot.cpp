@@ -1,28 +1,28 @@
-#include "Pork_Chop.h"
+#include "DoubleShoot.h"
 
-constexpr float PORKCHOP_GRAVITY = 0.0006f;
+constexpr float DOUBLE_GRAVITY = 0.0006f;
 
-Pork_Chop::Pork_Chop(D3DXVECTOR2 position)
+DoubleShoot::DoubleShoot(D3DXVECTOR2 position)
 {
-	id = ID_ENTITY_PORK_CHOP;
+	id = ID_ENTITY_DOUBLE_SHOOT;
+	//AddAnimation(HEART_ANI);
+	SetPosition(position);
 	AnimationSets * animation_sets = AnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(id);
 	SetAnimationSet(ani_set);
-	currentAnimation = PORK_CHOP_ANI;
-	state = STATE_SHOW;
-	SetPosition(position);
+	currentAnimation = DOUBLE_SHOOT_ANI;
 	width = Textures::GetInstance()->GetSizeObject(id).first;
 	height = Textures::GetInstance()->GetSizeObject(id).second;
 	liveTime = GetTickCount();
 }
 
-void Pork_Chop::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void DoubleShoot::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
 	if (state == STATE_SHOW)
 	{
-		vy += PORKCHOP_GRAVITY * dt;
+		vy += DOUBLE_GRAVITY * dt;
 
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
@@ -37,13 +37,22 @@ void Pork_Chop::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else
 		{
 			float min_tx, min_ty, nx, ny;
+			float Dx = dx, Dy = dy;
 			float rdx = 0;
 			float rdy = 0;
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-			if (ny != 0) vy = 0;
-			y += min_ty * dy + ny*0.08f;
+			for (int i = 0; i < coEvents.size(); i++)
+			{
+				switch (coEvents[i]->obj->getID())
+				{
+				case ID_ENTITY_FLOOR:
+					if (ny < 0) vy = 0;
+					Dy = min_ty * dy + ny * 0.08f;
+					break;
+				}
+			}
+			y += Dy;
 		}
-
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 		if (GetTickCount() - liveTime > 4000)
 		{
@@ -53,7 +62,7 @@ void Pork_Chop::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 }
 
-void Pork_Chop::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+void DoubleShoot::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	left = x;
 	top = y;
@@ -61,16 +70,20 @@ void Pork_Chop::GetBoundingBox(float & left, float & top, float & right, float &
 	bottom = y + height;
 }
 
-void Pork_Chop::Render(Viewport * viewport)
+void DoubleShoot::Render(Viewport * viewport)
 {
 	if (state == STATE_SHOW)
 	{
 		D3DXVECTOR2 position = viewport->WorldToScreen(D3DXVECTOR2(x, y));
-		animation_set->find(currentAnimation)->second->Render(position.x, position.y, Flip::normal);
+
+		Flip flip = normal;
+
+		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
+
 		RenderBoundingBox(viewport);
 	}
 }
 
-Pork_Chop::~Pork_Chop()
+DoubleShoot::~DoubleShoot()
 {
 }

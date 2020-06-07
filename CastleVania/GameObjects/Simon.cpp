@@ -21,12 +21,18 @@
 #include "../BallDarkBat.h"
 #include "../Boomerang.h"
 #include "../TiledMap.h"
-#include "../Portal.h"
 #include "../Game.h"
 #include "../PortalPosMap.h"
 #include "../ActivationBox.h"
 #include "../Crown.h"
 #include "../MovingBrick.h"
+#include "../Wall.h"
+#include "../DoubleShoot.h"
+#include "../Skeleton.h"
+#include "../SpearKnight.h"
+#include "../Ghost.h"
+#include "../VampireBat.h"
+#include "../Fleamen.h"
 
 constexpr int SIMON_JUMP_VEL = 350;
 constexpr float SIMON_JUMP_SPEED_Y = 0.38f;
@@ -36,10 +42,12 @@ constexpr float SIMON_GRAVITY = 0.001f;
 constexpr float SIMON_HURT_SPEED_Y = 0.28f;
 constexpr float SIMON_STAIR_SPEED = 0.06f;
 constexpr DWORD SIMON_ENTRANCE_TIME = 5000;
-constexpr DWORD INVISIBLE_TIME = 4000;
-constexpr DWORD SIMON_UNTOUCHABLE_TIME = 2000;
-constexpr DWORD SIMON_DIE_TIME = 3000;
+constexpr DWORD INVISIBLE_TIME = 1500;
+constexpr DWORD SIMON_UNTOUCHABLE_TIME = 800;
+constexpr DWORD SIMON_DIE_TIME = 1500;
 constexpr DWORD SIMON_CHANGE_COLOR_TIME = 1500;
+constexpr DWORD TIME_ATTACK_ONE_SHOOT = 1125;
+constexpr DWORD TIME_ATTACK_DOUBLE_SHOOT = 1125;
 
 Simon* Simon::_instance = nullptr;
 
@@ -59,6 +67,10 @@ Simon::Simon()
 	WHIP_STATE = 1;
 	levelWhip = 1;
 	baseInfo = new BaseInfo();
+	baseInfo->setHeart(25);
+	baseInfo->setScore(0);
+	baseInfo->setHealth(2);
+	baseInfo->SetLives(3);
 }
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -93,19 +105,21 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
-		SetState(SIMON_STATE_IDLE);
+		if (state!= SIMON_STATE_DIE)
+		{
+			SetState(SIMON_STATE_IDLE);
+		}
 	}
 
-	if (baseInfo->getHealth() == 0 && timeDie == 0)
+	if (baseInfo->getHealth() == 0 && state!= SIMON_STATE_DIE)
 	{
 		SetState(SIMON_STATE_DIE);
-		timeDie = GetTickCount();
 	}
 
 	if (timeDie > 0 && GetTickCount() - timeDie > SIMON_DIE_TIME)
 	{
 		timeDie = 0;
-		resetWhenDie();
+		Reset();
 	}
 
 	if (timeChangeColor > 0 && GetTickCount() - timeChangeColor > SIMON_CHANGE_COLOR_TIME)
@@ -125,12 +139,23 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else SetState(Simon::State::SIMON_STATE_IDLE_UP_STAIR);
 	}
 
-	if (startJumpingSitFloor > 0 && GetTickCount() - startJumpingSitFloor > 100)
+	if (startJumpingSitFloor > 0 && GetTickCount() - startJumpingSitFloor > 90)
 	{
 		startJumpingSitFloor = 0;
+		SetState(SIMON_STATE_IDLE);
 	}
 
-	if (highFloor && highFloor->getName().compare("HighFloor") == 0)
+	if (timeAttackOneShot > 0 && GetTickCount() - timeAttackOneShot > TIME_ATTACK_ONE_SHOOT)
+	{
+		timeAttackOneShot = 0;
+	}
+
+	if (timeAttackDoubleShot > 0 && GetTickCount() - timeAttackDoubleShot > TIME_ATTACK_DOUBLE_SHOOT)
+	{
+		timeAttackDoubleShot = 0;
+	}
+
+	if (highFloor && highFloor->getName().compare("HighFloor") == 0 )
 	{
 		if (!isjumping && !isOnStair)
 		{
@@ -182,6 +207,7 @@ void Simon::SetState(int state)
 		isOnStair = false;
 		checkRewind = false;
 		isjumping = false;
+		originalStair = nullptr;
 		break;
 	case SIMON_STATE_ATTACK_STAND:
 		break;
@@ -220,10 +246,12 @@ void Simon::SetState(int state)
 		isOnStair = true;
 		break;
 	case SIMON_STATE_WIN:
+		timeAtack = GetTickCount();
 		vx = 0;
-		isOnStair = false;
-		checkRewind = false;
-		isjumping = false;
+		break;
+	case SIMON_STATE_WIN_FINISH:
+		vx = 0;
+		break;
 	case SIMON_STATE_IDLE_DOWN_STAIR:
 		SetSpeed(0, 0);
 		isOnStair = true;
@@ -249,6 +277,7 @@ void Simon::SetState(int state)
 		currentAnimation = SIMON_ANI_DEAD;
 		originalStair = nullptr;
 		isjumping = false;
+		timeDie = GetTickCount();
 		break;
 	case SIMON_STATE_HURT:
 		if (untouchable_start == 0 && !isjumping && isOnGround() && !isOnStair)
@@ -290,35 +319,67 @@ void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 {
 	if (timeAtackSub && timeThrowWeapon == 0 && baseInfo->getHeart() > 0)
 	{
-		if (baseInfo->getIdSubWeapon() != NULL)
+		if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
 		{
-			if (baseInfo->getIdSubWeapon() == ID_ENTITY_STOP_WATCH)
+			if (baseInfo->GetIdSubItem()==ID_ENTITY_DOUBLE_SHOOT)
 			{
-				Enemy::StopWatchStart();
-			}
-			else
-			{
-				baseInfo->getSubWeapon()->SetState(STATE_SHOW);
-				if (state == SIMON_STATE_ATTACK_SITDOWN_SUBWEAPON)
+				if (baseInfo->getIdSubWeapon() == ID_ENTITY_STOP_WATCH)
 				{
-					baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y + 30));
+					Enemy::StopWatchStart();
 				}
 				else
 				{
-					baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y));
+					baseInfo->getSubWeapon()->SetState(STATE_SHOW);
+					if (state == SIMON_STATE_ATTACK_SITDOWN_SUBWEAPON)
+					{
+						baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y + 30));
+					}
+					else
+					{
+						baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y));
+					}
+					baseInfo->getSubWeapon()->set_nx(nx);
+					coObjects->push_back(baseInfo->getSubWeapon());
+					timeThrowWeapon = GetTickCount();
 				}
-				baseInfo->getSubWeapon()->set_nx(nx);
-				coObjects->push_back(baseInfo->getSubWeapon());
-				timeThrowWeapon = GetTickCount();
+				baseInfo->setHeart(max(0, baseInfo->getHeart() - 1));
 			}
-			baseInfo->setHeart(max(0, baseInfo->getHeart() - 1));
+			else
+			{
+				if (timeAttackOneShot==0)
+				{
+					if (baseInfo->getIdSubWeapon() == ID_ENTITY_STOP_WATCH)
+					{
+						Enemy::StopWatchStart();
+					}
+					else
+					{
+						baseInfo->getSubWeapon()->SetState(STATE_SHOW);
+						if (state == SIMON_STATE_ATTACK_SITDOWN_SUBWEAPON)
+						{
+							baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y + 30));
+						}
+						else
+						{
+							baseInfo->getSubWeapon()->SetPosition(D3DXVECTOR2(x, y));
+						}
+						baseInfo->getSubWeapon()->set_nx(nx);
+						coObjects->push_back(baseInfo->getSubWeapon());
+						timeThrowWeapon = GetTickCount();
+					}
+					baseInfo->setHeart(max(0, baseInfo->getHeart() - 1));
+					timeAttackOneShot = GetTickCount();
+				}
+				
+			}
+			
 		}
 	}
 }
 
 void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
 {
-	if (timeAtack > 0 && timeHurt ==0)
+	if (timeAtack > 0 && timeHurt ==0 && state!= SIMON_STATE_HURT)
 	{
 		whip->updatePostision(animation->getCurrentFrame(), currentAnimation, flip);
 		whip->draw(flip, viewport);
@@ -330,8 +391,18 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (timeAtack)
 	{
 		whip->Update(dt, coObjects);
-
-		if (timeAtack > 0 && GetTickCount() - timeAtack > 400)
+		if (state == SIMON_STATE_WIN)
+		{
+			if (timeAtack > 0 && GetTickCount() - timeAtack > 375)
+			{
+				timeAtack = 0;
+			}
+			if (timeAtack==0)
+			{
+				timeAtack = GetTickCount();
+			}
+		}
+		else if (timeAtack > 0 && GetTickCount() - timeAtack > 400)
 		{
 			Reset(currentAnimation);
 			timeAtack = 0;
@@ -344,7 +415,7 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			baseInfo->getSubWeapon()->setLiveTime(GetTickCount());
 		}
-		if (timeAtackSub > 0 && GetTickCount() - timeAtackSub > 400)
+		if (timeAtackSub > 0 && GetTickCount() - timeAtackSub > 375)
 		{
 			Reset(currentAnimation);
 			animation_set->find(currentAnimation)->second->SetFinish(false);
@@ -424,9 +495,12 @@ void Simon::Render(Viewport* viewport)
 			checkRewind = false;
 			break;
 		case SIMON_STATE_WIN:
-			currentAnimation = SIMON_ANI_IDLE;
-			checkRewind = false;
+			currentAnimation = SIMON_ANI_ATTACK_STANDING;
+			checkRewind = true;
 			break;
+		case SIMON_STATE_WIN_FINISH:
+			currentAnimation = SIMON_ANI_WIN;
+			checkRewind = true;
 		case SIMON_STATE_ATTACK_STAND:
 			checkRewind = true;
 			currentAnimation = SIMON_ANI_ATTACK_STANDING;
@@ -585,7 +659,6 @@ void Simon::Reset(int currentAnimation)
 	if (!timeAtackSub)
 	{
 		whip->GetAnimationSet()->find(whip->getCurrentAnimation())->second->SetFinish(false);
-
 	}
 	animation_set->find(currentAnimation)->second->SetFinish(false);
 }
@@ -621,7 +694,7 @@ void Simon::updateCollisionSubStair()
 	{
 		return;
 	}
-	if (isOnStair)
+	if (isOnStair && originalStair)
 	{
 		if (originalStair->Get_nyStair() > 0 && (y + height <= (originalStair->getPosition().y + originalStair->getHeight() - originalStair->GetHeightStair())
 			|| y + height >= originalStair->getPosition().y + originalStair->getHeight())
@@ -649,6 +722,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		if (coObjects->at(i)->getID() == ID_ENTITY_WALL
 			|| coObjects->at(i)->getID() == ID_ENTITY_FLOOR ||
+			coObjects->at(i)->getID() == ID_ENTITY_DEATH_FLOOR||
 			(coObjects->at(i)->getID() == ID_ENTITY_BRICK && coObjects->at(i)->getName().compare("EdgeBrick")!=0)
 			|| coObjects->at(i)->getID() == ID_ENTITY_MOVING_BRICK)
 			staticObject.push_back(coObjects->at(i));
@@ -695,7 +769,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				startJumpingFloor = 0;
 			}
-			y += min_ty * dy + ny * 0.11f;
+			y += min_ty * dy + ny * 0.2f;
 		}
 		else y += Dy;
 	}
@@ -704,7 +778,7 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
-	handleCollisionIntersectedObject(dt, coObjects, &coEvents);
+	if (state != SIMON_STATE_DIE) handleCollisionIntersectedObject(dt, coObjects, &coEvents);
 
 	for (int i = 0; i < (int)coEvents.size(); i++)
 	{
@@ -712,8 +786,13 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 		case ID_ENTITY_PORTAL:
 		{
-			Portal *p = dynamic_cast<Portal *>(coEvents[i]->obj);
+			p = dynamic_cast<Portal *>(coEvents[i]->obj);
 			Game::GetInstance()->SwitchScene(p->GetSceneId());
+		}
+		break;
+		case ID_ENTITY_WALL:
+		{
+			highFloor = dynamic_cast<Wall *>(coEvents[i]->obj);
 		}
 		break;
 		case ID_ENTITY_FLOOR:
@@ -763,7 +842,17 @@ void Simon::handleCollisionObjectGame(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		case ID_ENTITY_MOVING_BRICK:
 		{
 			MovingBrick *movingBrick = dynamic_cast<MovingBrick *>(coEvents[i]->obj);
+			highFloor = dynamic_cast<MovingBrick *>(coEvents[i]->obj);
 			SetSpeed(movingBrick->GetVx(), vy);
+		}
+		break;
+		case ID_ENTITY_DEATH_FLOOR:
+		{
+			if (!isOnStair)
+			{
+				vy = 0;
+				Reset();
+			}
 		}
 		break;
 		}
@@ -791,6 +880,10 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		}
 		break;
 	case ID_ENTITY_WEAPON_REWARD:
+		if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
+		{
+			baseInfo->SetIdSubItem(ID_ENTITY_NULL);
+		}
 		SetState(SIMON_STATE_CHANGECOLOR);
 		if (timeChangeColor == 0)
 		{
@@ -821,7 +914,16 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		}
 		break;
 	case ID_ENTITY_BOOMERANG:
+		if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
+		{
+			baseInfo->SetIdSubItem(ID_ENTITY_NULL);
+		}
 		baseInfo->setIdSubWeapon(ID_ENTITY_BOOMERANG_WEAPON);
+		if (baseInfo->getIdSubWeapon()!= ID_ENTITY_NULL)
+		{
+			baseInfo->SetIdSubItem(ID_ENTITY_NULL);
+
+		}
 		if (coObjects)
 		{
 			coObjects->at(i)->SetState(STATE_DETROY);
@@ -849,6 +951,10 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		SetState(SIMON_STATE_WIN);
 		break;
 	case ID_ENTITY_STOP_WATCH:
+		if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
+		{
+			baseInfo->SetIdSubItem(ID_ENTITY_NULL);
+		}
 		baseInfo->setIdSubWeapon(ID_ENTITY_STOP_WATCH);
 		if (coObjects)
 		{
@@ -860,6 +966,10 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		}
 		break;
 	case ID_ENTITY_FIRE_BOMB:
+		if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
+		{
+			baseInfo->SetIdSubItem(ID_ENTITY_NULL);
+		}
 		baseInfo->setIdSubWeapon(ID_ENTITY_FIRE_BOMP_WEAPON);
 		if (coObjects)
 		{
@@ -871,13 +981,61 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		}
 		break;
 	case ID_ENTITY_CROSS:
+		if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
+		{
+			baseInfo->SetIdSubItem(ID_ENTITY_NULL);
+		}
 		TiledMap::CreateEffectStart();
 		for (int j = 0; j < (int)coObjects->size(); j++)
 		{
 			switch (coObjects->at(j)->getID())
 			{
 			case ID_ENTITY_ZOMBIE:
+			{
 				coObjects->at(j)->SetState(STATE_DETROY);
+			}
+				break;
+			case ID_ENTITY_WHITE_SKELETON:
+			{
+				Skeleton *skeleton = dynamic_cast<Skeleton *>((coObjects->at(j)));
+				if (skeleton->IsActive())
+				{
+					skeleton->SetState(STATE_DETROY);
+				}
+			}
+				break;
+			case ID_ENTITY_GHOST:
+			{
+				Ghost *ghost = dynamic_cast<Ghost *>((coObjects->at(j)));
+				if (ghost->IsActive())
+				{
+					ghost->SetState(STATE_DETROY);
+				}
+			}
+				break;
+			case ID_ENTITY_SPEAR_KNIGHT:
+			{
+				SpearKnight *spearKnight = dynamic_cast<SpearKnight *>((coObjects->at(j)));
+				spearKnight->SetState(STATE_DETROY);
+			}
+				break;
+			case ID_ENTITY_VAMPIRE_BAT:
+			{
+				VampireBat *vampireBat = dynamic_cast<VampireBat *>((coObjects->at(j)));
+				if (vampireBat->IsActive())
+				{
+					vampireBat->SetState(STATE_DETROY);
+				}
+			}
+				break;
+			case ID_ENTITY_FLEAMEN:
+			{
+				Fleamen *fleamen = dynamic_cast<Fleamen *>((coObjects->at(j)));
+				if (fleamen->IsActive())
+				{
+					fleamen->SetState(STATE_DETROY);
+				}
+			}
 				break;
 			}
 		}
@@ -891,7 +1049,22 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		}
 		break;
 	case ID_ENTITY_DAGGER:
+		if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
+		{
+			baseInfo->SetIdSubItem(ID_ENTITY_NULL);
+		}
 		baseInfo->setIdSubWeapon(ID_ENTITY_DAGGER_WEAPON);
+		if (coObjects)
+		{
+			coObjects->at(i)->SetState(STATE_DETROY);
+		}
+		else
+		{
+			coEvents->at(i)->obj->SetState(STATE_DETROY);
+		}
+		break;
+	case ID_ENTITY_DOUBLE_SHOOT:
+		baseInfo->SetIdSubItem(ID_ENTITY_DOUBLE_SHOOT);
 		if (coObjects)
 		{
 			coObjects->at(i)->SetState(STATE_DETROY);
@@ -917,6 +1090,10 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		}
 		break;
 	case ID_ENTITY_AXE:
+		if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)
+		{
+			baseInfo->SetIdSubItem(ID_ENTITY_NULL);
+		}
 		baseInfo->setIdSubWeapon(ID_ENTITY_AXE_WEAPON);
 		if (coObjects)
 		{
@@ -936,6 +1113,7 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		break;
 	case ID_ENTITY_PORK_CHOP:
 		baseInfo->setHeart(baseInfo->getHeart() + 10);
+		baseInfo->setHealth(baseInfo->getHealth() + 10);
 		if (coObjects)
 		{
 			coObjects->at(i)->SetState(STATE_DETROY);
@@ -973,11 +1151,19 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 	{
 		ActivationBox *actionBox = dynamic_cast<ActivationBox *>(coObjects->at(i));
 		actionBox->ActionObject(coObjects);
-		if (actionBox->GetActivatedObjecId() != ID_ENTITY_VAMPIRE_BAT
-			&& actionBox->GetActivatedObjecId() != ID_ENTITY_WHITE_SKELETON && 
-			actionBox->GetActivatedObjecId() != ID_ENTITY_ZOMBIE)
+		if (actionBox->GetActivatedObjecId() == ID_ENTITY_CROWN ||
+			actionBox->GetActivatedObjecId() == ID_ENTITY_GHOST||
+			actionBox->GetActivatedObjecId() == ID_ENTITY_FLEAMEN)
 		{
 			actionBox->SetState(STATE_DETROY);
+		}
+	}
+	break;
+	case ID_ENTITY_DEATH_FLOOR:
+	{
+		if (!isOnStair)
+		{
+			Reset();
 		}
 	}
 	break;
@@ -1005,14 +1191,22 @@ void Simon::handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coO
 	}
 }
 
-void Simon::resetWhenDie()
+void Simon::Reset()
 {
-	baseInfo->setHealth(4);
-	SetPosition(resetPosition);
-	Direct3DManager::getInstance()->getViewport()->setStartViewPortX(getStartViewPort());
-	Direct3DManager::getInstance()->getViewport()->setEndViewPortX(getEndViewPort());
+	baseInfo->setHealth(16);
+	Direct3DManager::getInstance()->getViewport()->setStartViewPortX(Direct3DManager::getInstance()->getViewport()->getStartViewportResetX());
+	Direct3DManager::getInstance()->getViewport()->setEndViewPortX(Direct3DManager::getInstance()->getViewport()->getEndViewportResetX());
+	Direct3DManager::getInstance()->getViewport()->setStartViewPortY(Direct3DManager::getInstance()->getViewport()->getStartViewportResetY());
+	SetPosition(startPosPlayer);
 	SetState(SIMON_STATE_IDLE);
+	StartUntouchable();
 	set_nx(1);
+	baseInfo->SetLives(max(baseInfo->GetLives() - 1, 0));
+	isDie = true;
+	highFloor = nullptr;
+	originalStair = nullptr;
+	baseInfo->setIdSubWeapon(ID_ENTITY_NULL);
+	baseInfo->SetIdSubItem(ID_ENTITY_NULL);
 }
 
 void Simon::setResetPosition(D3DXVECTOR2 pos)

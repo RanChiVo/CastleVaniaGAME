@@ -66,7 +66,7 @@ void Bone::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult.at(i);
 			if (dynamic_cast<Simon*>(e->obj) && (nx != 0 || ny != 0))
 			{
-				if (Simon::getInstance()->GetState()!= Simon::SIMON_STATE_HURT && Simon::getInstance()->isOnGround())
+				if (Simon::getInstance()->GetState()!= Simon::SIMON_STATE_HURT && Simon::getInstance()->isOnGround() && Simon::getInstance()->GetVy()==0)
 				{
 					Simon::getInstance()->SetState(Simon::SIMON_STATE_HURT);
 					isFinishNext = true;

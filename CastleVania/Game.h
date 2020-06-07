@@ -41,6 +41,7 @@ public:
 	void virtual update(DWORD dt);
 	void virtual Load(std::string gameFile);
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
+	EntityID GetCurrentSceneId() { return current_scene; }
 	void SwitchScene(EntityID scene_id);
 	void Render();
 	int Run();

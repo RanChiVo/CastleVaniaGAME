@@ -6,6 +6,7 @@
 #include <vector>
 #include "Library/pugixml.hpp"
 #include "GameObjects/GameObject.h"
+#include "EntityID.h"
 
 constexpr int EXTRA_HEIGHT_SCREEN = 90;
 constexpr int STANDARD_HEIGHT_SCREEN = 384;
@@ -15,6 +16,7 @@ class TiledMap
 {
 private:
 	//Info in the game world
+	EntityID idMap;
 	D3DXVECTOR2 worldPosition;
 	D3DXVECTOR2 viewPosition;
 	float heightWorld;
@@ -57,7 +59,7 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* object = NULL);
 	void readMatrixMap();
 	void draw(Viewport* viewport, int alpha = 255);
-
+	EntityID GetIdMap(){ return idMap; }
 	~TiledMap();
 };
 

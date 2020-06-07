@@ -8,10 +8,12 @@
 
 class BaseInfo
 {
+	int lives;
 	int heart;
 	int health;
 	int scoreNumber;
 	EntityID idSubWeapon;
+	EntityID idSubItem;
 	CombatWeapon* subWeapon;
 
 public:
@@ -22,6 +24,10 @@ public:
 	void setHealth(int health);
 	int getScore();
 	void setScore(int score);
+	int GetLives();
+	void SetLives(int lives);
+	void SetIdSubItem(EntityID idSubItem);
+	EntityID GetIdSubItem();
 	EntityID getIdSubWeapon();
 	void setIdSubWeapon(EntityID IdSubWeapon);
 	CombatWeapon* getSubWeapon();

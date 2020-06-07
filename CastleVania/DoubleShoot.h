@@ -1,16 +1,13 @@
 #pragma once
-#include "Enemy.h"
+#include "GameObjects/GameObject.h"
 
-class Ghost : public Enemy
+class DoubleShoot : public GameObject
 {
-	bool isAcTive = false;
 public:
-	Ghost(D3DXVECTOR2 pos, int width, int height);
+	DoubleShoot(D3DXVECTOR2 position);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Render(Viewport* viewport);
-	void SetState(int state);
-	bool IsActive() { return isAcTive; }
-	~Ghost();
+	~DoubleShoot();
 };
 

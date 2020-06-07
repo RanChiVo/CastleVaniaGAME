@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
   <imagelayer id="ID_ENTITY_BRICK"  name="block">
-    <image source="TiledMap\Block.png" width="162" height="32"/>
+    <image source="TiledMap\Block.png" width="194" height="32"/>
   </imagelayer>
   <sprites>
     <spriteframe id="brick01" left = "0" top="0" right="32" bottom="32"/>
@@ -9,6 +9,7 @@
     <spriteframe id="brick03" left="64" top="0" right="96" bottom="32" />
     <spriteframe id="brick04" left="98" top="0" right="127" bottom="32" />
     <spriteframe id="brick05" left="130" top="0" right="162" bottom="32" />
+    <spriteframe id="brick06" left="162" top="0" right="194" bottom="32" />
   </sprites>
   
 </loadresource>

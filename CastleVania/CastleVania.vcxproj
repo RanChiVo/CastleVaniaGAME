@@ -147,6 +147,8 @@
     <ClCompile Include="Crown.cpp" />
     <ClCompile Include="CrystalBall.cpp" />
     <ClCompile Include="DarkBat.cpp" />
+    <ClCompile Include="DeathFloor.cpp" />
+    <ClCompile Include="DoubleShoot.cpp" />
     <ClCompile Include="EnemyGeneration.cpp" />
     <ClCompile Include="EntranceScreen.cpp" />
     <ClCompile Include="Fleamen.cpp" />
@@ -227,6 +229,8 @@
     <ClInclude Include="Crown.h" />
     <ClInclude Include="CrystalBall.h" />
     <ClInclude Include="DarkBat.h" />
+    <ClInclude Include="DeathFloor.h" />
+    <ClInclude Include="DoubleShoot.h" />
     <ClInclude Include="EnemyGeneration.h" />
     <ClInclude Include="EntranceScreen.h" />
     <ClInclude Include="Fleamen.h" />
@@ -272,7 +276,6 @@
     <ClInclude Include="GameObjects\MiraculousBag.h" />
     <ClInclude Include="ObjectStair.h" />
     <ClInclude Include="Pork_Chop.h" />
-    <ClInclude Include="Screens\GameplayScreen.h" />
     <ClInclude Include="DebugOut\DebugOut.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObjects\GameObject.h" />

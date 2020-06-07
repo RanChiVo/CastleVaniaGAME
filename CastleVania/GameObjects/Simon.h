@@ -7,6 +7,7 @@
 #include "../BaseInfo.h"
 #include "../ObjectStair.h"
 #include "Floor.h"
+#include "../Portal.h"
 
 class Simon: public GameObject
 {
@@ -17,6 +18,7 @@ private:
 	DWORD comeEntranceStart = 0;
 	DWORD invisible_Potion_Start = 0;
 	bool isInSpawn = false;
+	D3DXVECTOR2 startPosPlayer;
 	std::string activateNameEnemy;
 	EntityID idEnemySpawn;
 	bool enableSubWeapon = false;
@@ -29,8 +31,11 @@ private:
 	bool isGoingAutoStair = false;
 	int temporaryState;
 	bool isJumpingFloor = false;
+	bool isDie = false;
 
 	DWORD timeAtack = 0;
+	DWORD timeAttackOneShot = 0;
+	DWORD timeAttackDoubleShot = 0;
 	DWORD timeAtackSub= 0;
 	DWORD timeHurt;
 	DWORD timeDie = 0;
@@ -44,7 +49,8 @@ private:
 	ObjectStair* originalStair = nullptr;
 	D3DXVECTOR2 resetPosition;
 	GameObject* highFloor = nullptr; 
-	
+	GameObject* itemSub = nullptr; 
+	Portal *p = nullptr;
 	Flip flip;
 	Whip* whip;
 	int levelWhip;
@@ -77,6 +83,7 @@ public:
 		SIMON_STATE_HURT,
 		SIMON_STATE_AUTO_GOES,
 		SIMON_STATE_WIN,
+		SIMON_STATE_WIN_FINISH,
 	};
 
 	static Simon* getInstance();
@@ -103,7 +110,7 @@ public:
 	void handleAfterCollision(vector<LPGAMEOBJECT> *coObjects, EntityID id ,int i, vector<LPCOLLISIONEVENT> *coEvents);
 	void handleCollisionIntersectedObject(DWORD dt, vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> *coEvents);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-	void resetWhenDie();
+	void Reset();
 	void setResetPosition(D3DXVECTOR2 pos);
 	D3DXVECTOR2 getResetPosition() { return resetPosition; }
 
@@ -119,13 +126,24 @@ public:
 	DWORD GetTimeJumpingSitFloor() { return startJumpingSitFloor; }
 	DWORD GetTimestartJumpingFloor() { return startJumpingFloor; }
 	DWORD GetTimeUntouchable() { return untouchable_start; }
+	DWORD GetTimeAttackOneShot() { return timeAttackOneShot; }
+	DWORD GetTimeAttackDoubleShot() { return timeAttackDoubleShot; }
+	void SetTimeAttackDoubleShot(DWORD time) { this->timeAttackDoubleShot = time; }
+	void SetTimeAttackOneShot(DWORD time) { this->timeAttackOneShot = time; }
 
+	D3DXVECTOR2 GetStartPosPlayer() { return startPosPlayer; }
+	void SetStartPosPlayer(D3DXVECTOR2 pos) { this->startPosPlayer = pos; }
 
 	void AutoGoUpStair(State state );
 	void UpdateGotoStair();
 	bool IsGoingAutoStair() { return isGoingAutoStair; }
 	void LoadWhip();
 	void UnloadWhip();
+	Portal* GetPortal() { return p; }
+	void SetPortal(Portal* p) { this->p = p; }
+	bool IsDie(){return isDie;}
+	void SetIsDie(bool isDie) { this->isDie = isDie; }
+	GameObject* GetHightFloor() { return highFloor; }
 	~Simon();
 };
 

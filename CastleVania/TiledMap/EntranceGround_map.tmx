@@ -32,6 +32,7 @@
    <properties>
     <property name="Cell ID" value="0,0 1,0"/>
     <property name="Object ID" value="ID_ENTITY_SIMON"/>
+    <property name="nx" value="1"/>
    </properties>
   </object>
  </objectgroup>
