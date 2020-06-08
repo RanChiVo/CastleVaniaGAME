@@ -164,8 +164,6 @@ void PlayScene::Update(DWORD dt)
 
 void PlayScene::Render(Viewport* viewport)
 {
-	menuPoint->Draw(font);
-
 	tiled_map->draw(viewport);
 
 	for (int i = 0; i < (int)objects.size(); i++)
@@ -179,6 +177,7 @@ void PlayScene::Render(Viewport* viewport)
 	{
 		castleWall->Render(viewport);
 	}
+	menuPoint->Draw(font);
 }
 
 void PlayScene::Unload()
@@ -229,7 +228,7 @@ void PlayScene::ReadFile_FONTS(LPTSTR path)
 	AddFontResourceEx(path, FR_PRIVATE, NULL);
 
 	HRESULT result = D3DXCreateFont(
-		gDevice, 15, 0, FW_NORMAL, 1, false,
+		gDevice, 17, 0, FW_NORMAL, 1, false,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
 		ANTIALIASED_QUALITY, FF_DONTCARE, L"Press Start", &font);
 }

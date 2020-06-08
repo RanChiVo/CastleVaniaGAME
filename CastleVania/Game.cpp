@@ -4,7 +4,7 @@
 #include "PlayScence.h"
 
 constexpr unsigned int ScreenBase_width = 530;
-constexpr unsigned int ScreenBase_height = 530;
+constexpr unsigned int ScreenBase_height = 515;
 constexpr int max_frame_rate = 120;
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0,0,0)

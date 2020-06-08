@@ -37,7 +37,6 @@ private:
 	DWORD timeAttackOneShot = 0;
 	DWORD timeAttackDoubleShot = 0;
 	DWORD timeAtackSub= 0;
-	DWORD timeHurt;
 	DWORD timeDie = 0;
 	DWORD timeChangeColor = 0;
 	DWORD timeJumpHeightFloor = 0;

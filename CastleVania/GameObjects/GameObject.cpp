@@ -98,7 +98,7 @@ void GameObject::RenderBoundingBox(Viewport* viewport)
 
 	D3DXVECTOR2 pos = viewport->WorldToScreen(D3DXVECTOR2(l, t));
 
-	sprite->Draw(pos, 256);
+	sprite->Draw(pos, 200);
 }
 
 bool GameObject::checkInsideViewPort(Viewport * viewport)

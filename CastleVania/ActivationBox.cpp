@@ -88,20 +88,19 @@ void ActivationBox::ActionObject(vector<LPGAMEOBJECT> *coObjects)
 		{
 			switch (coObjects->at(i)->getID())
 			{
-			case ID_ENTITY_WHITE_SKELETON:
-			{
-				Skeleton*skeleton = dynamic_cast<Skeleton *>(coObjects->at(i));
-				if (skeleton->getName().compare(name) == 0)
+				case ID_ENTITY_WHITE_SKELETON:
 				{
-					if (!isActivate)
+					Skeleton*skeleton = dynamic_cast<Skeleton *>(coObjects->at(i));
+					if (skeleton->getName().compare(name) == 0)
 					{
-						isActivate = true;
-						skeleton->SetActivate(true);
-						skeleton->SetDistanceGoOutActivateArea(x + width);
+						if (!isActivate && !skeleton->IsActive())
+						{
+							skeleton->SetActivate(true);
+							skeleton->SetDistanceGoOutActivateArea(x + width);
+						}
 					}
 				}
-			}
-			break;
+				break;
 			}
 		}
 		break;

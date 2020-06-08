@@ -17,9 +17,9 @@ Skeleton::Skeleton(D3DXVECTOR2 pos, int nx, int height, int width)
 	distanceMoving = 40;
 	this->height = height;
 	this->width = width;
-	this->nx = 1;
 	vx = 0;
 	vy = 0;
+	currentAnimation = WHITE_SKELETON_ATTACK;
 }
 
 void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -297,6 +297,8 @@ void Skeleton::GetBoundingBox(float & left, float & top, float & right, float & 
 
 void Skeleton::Render(Viewport * viewport)
 {
+	RenderBoundingBox(viewport);
+
 	if (!isActiveFirst)
 	{
 		return;
@@ -313,6 +315,13 @@ void Skeleton::Render(Viewport * viewport)
 		for (int i = 0; i < weaponWhiteSkeleton.size(); i++)
 		{
 			weaponWhiteSkeleton[i]->Render(viewport);
+		}
+	}
+	if (isActiveFirst)
+	{
+		if (!checkInsideViewPort(viewport))
+		{
+			state = STATE_DETROY;
 		}
 	}
 	Enemy::Render(viewport);

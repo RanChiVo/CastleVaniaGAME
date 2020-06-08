@@ -44,6 +44,7 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			case ID_ENTITY_SPEAR_KNIGHT:
 				if (coEventsResult[i]->obj->GetState()!= STATE_EFFECT)
 				{
+					coEventsResult[i]->obj->SetVx(0);
 					coEventsResult[i]->obj->SetState(STATE_EFFECT);
 					coEventsResult[i]->obj->setLiveTime(GetTickCount());
 				}
@@ -100,6 +101,7 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						if (coObjects->at(i)->GetState() != STATE_EFFECT)
 						{
+							coObjects->at(i)->SetVx(0);
 							coObjects->at(i)->SetState(STATE_EFFECT);
 							coObjects->at(i)->setLiveTime(GetTickCount());
 						}

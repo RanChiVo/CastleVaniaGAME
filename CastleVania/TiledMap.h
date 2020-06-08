@@ -8,9 +8,8 @@
 #include "GameObjects/GameObject.h"
 #include "EntityID.h"
 
-constexpr int EXTRA_HEIGHT_SCREEN = 90;
+constexpr int EXTRA_HEIGHT_SCREEN = 70;
 constexpr int STANDARD_HEIGHT_SCREEN = 384;
-
 
 class TiledMap
 {

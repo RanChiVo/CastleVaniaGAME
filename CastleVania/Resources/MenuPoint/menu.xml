@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <loadresource>
-  <imagelayer id="ID_ENTITY_MENU" name="ID_ENTITY_MENU" width="553" height="90">
-    <image source="Resources\MenuPoint\menu.png" width="553" height="90" />
+  <imagelayer id="ID_ENTITY_MENU" name="ID_ENTITY_MENU" width="530" height="90">
+    <image source="Resources\MenuPoint\menu.png" width="530" height="90" />
   </imagelayer>
   
   <sprites>
-    <spriteframe id="menu" left = "0" top="0" right="553" bottom="90"/>
+    <spriteframe id="menu" left="0" top="0" right="530" bottom="90" />
   </sprites>
 </loadresource>

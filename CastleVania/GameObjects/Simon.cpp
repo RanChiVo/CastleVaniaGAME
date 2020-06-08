@@ -379,7 +379,7 @@ void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 
 void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
 {
-	if (timeAtack > 0 && timeHurt ==0 && state!= SIMON_STATE_HURT)
+	if (timeAtack > 0 && untouchable_start==0 )
 	{
 		whip->updatePostision(animation->getCurrentFrame(), currentAnimation, flip);
 		whip->draw(flip, viewport);
@@ -614,6 +614,10 @@ void Simon::Render(Viewport* viewport)
 			else if (untouchable)
 			{
 				int alpha = rand() % 100 > 50 ? 80 : 170;
+				if (isDie)
+				{
+					alpha = 0;
+				}
 				animation->Render(pos.x, pos.y, flip, alpha);
 			}
 			else if (isVisible)
@@ -1113,7 +1117,7 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		break;
 	case ID_ENTITY_PORK_CHOP:
 		baseInfo->setHeart(baseInfo->getHeart() + 10);
-		baseInfo->setHealth(baseInfo->getHealth() + 10);
+		baseInfo->setHealth(min(16, (baseInfo->getHealth() + 10)));
 		if (coObjects)
 		{
 			coObjects->at(i)->SetState(STATE_DETROY);

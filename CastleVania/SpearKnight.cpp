@@ -4,7 +4,7 @@
 
 constexpr float SPEAR_KNIGHT_MIN_DISTANCE = 32;
 constexpr float SPEAR_KNIGHT_GRAVITY = 0.0009f;
-constexpr float SPEAR_KNIGHT_SPEED_X = 0.06f;
+constexpr float SPEAR_KNIGHT_SPEED_X = 0.05f;
 
 
 SpearKnight::SpearKnight(D3DXVECTOR2 pos, int maxDistance, int height, int width )

@@ -140,9 +140,9 @@ void MenuPoint::update(DWORD dt)
 void MenuPoint::Draw(ID3DXFont* font)
 {
 	menu->Draw(D3DXVECTOR2(0, 0), Flip::normal, 255);
-	content = "      " + scoreString + "        " + timeString + "         "+ stageString +  "\n";
-	content += "                           " + heartScoreString + "\n";
-	content += "                            " + livesString + "\n";
+	content = "      " + scoreString + "      " + timeString + "        "+ stageString +  "\n";
+	content += "                        " + heartScoreString + "\n";
+	content += "                         " + livesString + "\n";
 	for (int i = 0; i < healthDarkBat; i++)
 	{
 		enemy_HP1->Draw(D3DXVECTOR2(125.0f + 10.0f * i, 55.0f), Flip::normal, 255);
