@@ -30,6 +30,7 @@
 #include "EnemyGeneration.h"
 #include "DeathFloor.h"
 #include "Pork_Chop.h"
+#include "ObjectGridCreation.h"
 
 PlayScene::PlayScene(EntityID id, std::string filePath) :Scene(id, filePath)
 {
@@ -41,6 +42,8 @@ PlayScene::PlayScene(EntityID id, std::string filePath) :Scene(id, filePath)
 
 void PlayScene::Load()
 {
+
+
 	ReadFile_FONTS(L"Resources\\Fonts\\prstart.ttf");
 
 	Textures::GetInstance()->Add(ID_ENTITY_BBOX, L"Resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
@@ -78,6 +81,14 @@ void PlayScene::Load()
 		{
 			viewport->setStartViewPortY(property.attribute("value").as_float());
 			viewport->setStartViewportResetY(property.attribute("value").as_float());
+		}
+		else if (name.compare("ColGrid") == 0)
+		{
+			colGrid = property.attribute("value").as_int();
+		}
+		else if (name.compare("RowGrid") == 0)
+		{
+			rowGrid = property.attribute("value").as_int();
 		}
 	}
 
@@ -131,11 +142,21 @@ void PlayScene::Load()
 
 	ReadFile_OBJECTS(docMap.child("map"));
 
+	//ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\EndMap\\EndMap_map.tmx");
+
+	//Addproperty->divideOnjectToGrid(&objects, rowGrid, colGrid);
+
+	grid = new Grid(rowGrid, colGrid);
+
+	grid->loadObjects(&objects);
+
 	menuPoint->loadResource();
 }
 
 void PlayScene::Update(DWORD dt)
 {
+	grid->update(&objects);
+
 	tiled_map->Update(dt);
 
 	for (int i = 0; i < (int)objects.size(); i++)
@@ -182,9 +203,6 @@ void PlayScene::Render(Viewport* viewport)
 
 void PlayScene::Unload()
 {
-	for (int i = 0; i < (int)objects.size(); i++)
-		delete objects[i];
-
 	objects.clear();
 
 	castleWall = nullptr;
@@ -470,8 +488,6 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 			case ID_ENTITY_STAIR:
 				objectInit = new ObjectStair(D3DXVECTOR2(x, y), width,
 					height, nx, ny, stairHeight, isTwoDirection);
-				objectInit->setMainId(id);
-				objectInit->setCellId(cellId);
 				break;
 			case ID_ENTITY_ACTIVATEBOX:
 				objectInit = new ActivationBox(D3DXVECTOR2(x, y), activationObjectID, height, width);
@@ -502,6 +518,13 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				objectInit->setName(name);
 				break;
 			}
+
+			if (objectInit)
+			{
+				objectInit->setMainId(id);
+				objectInit->setCellId(cellId);
+			}
+
 
 			if (ani_set != nullptr && objectInit)
 			{

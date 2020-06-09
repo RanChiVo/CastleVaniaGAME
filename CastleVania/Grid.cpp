@@ -76,6 +76,20 @@ void Grid::update(vector<LPGAMEOBJECT>* coObjects)
 		{
 		case ID_ENTITY_FLOOR:
 			break;
+		case ID_ENTITY_DEATH_FLOOR:
+			break;
+		case ID_ENTITY_CROWN:
+			break;
+		case ID_ENTITY_VAMPIRE_BAT:
+			break;
+		case ID_ENTITY_PORTAL_POS_MAP:
+			break;
+		case ID_ENTITY_ACTIVATEBOX:
+			break;
+		case ID_ENTITY_MOVING_BRICK:
+			break;
+		case ID_ENTITY_PORTAL:
+			break;
 		case ID_ENTITY_BRICK:
 			break;
 		case ID_ENTITY_BURNBARREL:
@@ -93,8 +107,6 @@ void Grid::update(vector<LPGAMEOBJECT>* coObjects)
 		case ID_ENTITY_DARK_BAT:
 			break;
 		case ID_ENTITY_MOVING_MAP:
-			break;
-		case ID_ENTITY_SPAWN_ENEMY:
 			break;
 		default:
 			dynamicObjects.insert(coObjects->at(i));

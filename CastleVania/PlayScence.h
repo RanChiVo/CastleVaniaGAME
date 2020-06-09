@@ -5,6 +5,7 @@
 #include "TiledMap.h"
 #include "CastleWall.h"
 #include "GameObjects/Entrance.h"
+#include "Grid.h"
 
 class PlayScene : public Scene
 {
@@ -17,6 +18,9 @@ protected:
 	TiledMap* tiled_map;
 	MenuPoint* menuPoint;
 	Viewport* viewport;
+	Grid* grid;
+	int colGrid;
+	int rowGrid;
 
 	void ReadFile_FONTS(LPTSTR path);
 	void ReadFile_TEXTURES(pugi::xml_node node, LPDIRECT3DTEXTURE9 &texID);

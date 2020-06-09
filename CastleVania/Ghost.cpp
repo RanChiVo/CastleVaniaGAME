@@ -1,7 +1,7 @@
 #include "Ghost.h"
 #include "GameObjects/Simon.h"
 
-constexpr float GHOST_SPEED_X = 0.15f;
+constexpr float GHOST_SPEED_X = 0.1f;
 constexpr float GHOST_SPEED_Y = 0.065f;
 constexpr int GHOST_DISTANCE_NEAR_SIMON = 30;
 

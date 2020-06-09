@@ -94,7 +94,7 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (ny < 0)
 			{
 				vy = 0;
-				y += min_ty * dy + ny * 0.4f;
+				y += min_ty * dy + ny * 0.11f;
 			}
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

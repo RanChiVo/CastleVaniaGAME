@@ -183,7 +183,7 @@ void Fleamen::HandleActivateTolLowJump()
 		timeOnGround = GetTickCount();
 	}
 
-	if (timeLowJump && timeOnGround > 0 && GetTickCount() - timeOnGround >= 400)
+	if (timeLowJump && timeOnGround > 0 && GetTickCount() - timeOnGround >= 600)
 	{
 		timeOnGround = 0;
 		hasLowJumpedDone = true;
@@ -212,7 +212,7 @@ void Fleamen::HandleLowTolHeightJump()
 
 void Fleamen::HandleHeightToLowJump()
 {
-	if (isOnGround && timeJumpToPlayer > 0 && GetTickCount() - timeJumpToPlayer >= 800)
+	if (isOnGround && timeJumpToPlayer > 0 && GetTickCount() - timeJumpToPlayer >= 1000)
 	{
 		timeJumpToPlayer = 0;
 		timeLowJump = GetTickCount();
