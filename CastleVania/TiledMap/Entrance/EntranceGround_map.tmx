@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="24" height="6" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="16">
  <properties>
-  <property name="ColGrid" value="6"/>
+  <property name="ColGrid" value="3"/>
   <property name="EndViewportX" value="1536"/>
   <property name="ImagePath" value="TiledMap\EntranceGround_bank.png"/>
   <property name="ObjectPath" value="PathReadObjectsGame\ReadObjectsEntrance.xml"/>
-  <property name="RowGrid" value="2"/>
+  <property name="RowGrid" value="1"/>
   <property name="StartViewportX" value="0"/>
   <property name="StartViewportY" value="0"/>
   <property name="TexID" value="ID_ENTITY_MAP_ENTRANCE"/>
@@ -41,14 +41,14 @@
  <objectgroup color="#00ff00" id="3" name="Static_Castle">
   <object id="10" name="Wall" x="1.33333" y="32.3333" width="6" height="291">
    <properties>
-    <property name="Cell ID" value="0,0 1,0"/>
+    <property name="Cell ID" value="0,0"/>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_WALL"/>
    </properties>
   </object>
-  <object id="11" name="Floor" x="1.33333" y="322.333" width="1534" height="6" visible="0">
+  <object id="11" name="Floor" x="1.33333" y="322.333" width="1534" height="6">
    <properties>
-    <property name="Cell ID" value="1,0 1,1 1,2 1,3 1,4 1,5"/>
+    <property name="Cell ID" value="0,0 0,1 0,2"/>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_FLOOR"/>
    </properties>
@@ -57,49 +57,49 @@
  <objectgroup color="#ff0000" id="4" name="Static_Object">
   <object id="1" name="BurnBarrel" x="1264" y="256.333" width="32" height="64">
    <properties>
-    <property name="Cell ID" value="1,4 1,5"/>
+    <property name="Cell ID" value="0,2"/>
     <property name="Hidden Item ID" value="ID_ENTITY_DAGGER"/>
     <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
    </properties>
   </object>
   <object id="2" name="BurnBarrel" x="1006" y="256.333" width="32" height="64">
    <properties>
-    <property name="Cell ID" value="1,3 1,4"/>
+    <property name="Cell ID" value="0,1 0,2"/>
     <property name="Hidden Item ID" value="ID_ENTITY_WEAPON_REWARD"/>
     <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
    </properties>
   </object>
   <object id="3" name="BurnBarrel" x="750" y="256.333" width="32" height="64">
    <properties>
-    <property name="Cell ID" value="1,2 1,3"/>
+    <property name="Cell ID" value="0,1"/>
     <property name="Hidden Item ID" value="ID_ENTITY_AXE"/>
     <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
    </properties>
   </object>
   <object id="4" name="BurnBarrel" x="497" y="256.333" width="32" height="64">
    <properties>
-    <property name="Cell ID" value="1,1 1,2"/>
+    <property name="Cell ID" value="0,0 0,1"/>
     <property name="Hidden Item ID" value="ID_ENTITY_WEAPON_REWARD"/>
     <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
    </properties>
   </object>
   <object id="5" name="BurnBarrel" x="238" y="256.333" width="32" height="64">
    <properties>
-    <property name="Cell ID" value="1,0 1,1"/>
+    <property name="Cell ID" value="0,0"/>
     <property name="Hidden Item ID" value="ID_ENTITY_WEAPON_REWARD"/>
     <property name="Object ID" value="ID_ENTITY_BURNBARREL"/>
    </properties>
   </object>
   <object id="12" name="Portal" x="1478.67" y="29.5002" width="6" height="290.333">
    <properties>
-    <property name="Cell ID" value="0,5 1,5"/>
+    <property name="Cell ID" value="0,2"/>
     <property name="Object ID" value="ID_ENTITY_PORTAL"/>
     <property name="SceneID" value="ID_ENTITY_MAP_MAIN_HALL"/>
    </properties>
   </object>
   <object id="13" name="Entrance" x="1379.17" y="143.5" width="6" height="177">
    <properties>
-    <property name="Cell ID" value="0,5 1,5"/>
+    <property name="Cell ID" value="0,2"/>
     <property name="Hidden Item ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_ENTRANCE"/>
    </properties>

@@ -1,5 +1,6 @@
 #pragma once
 #include "../CastleVania/GameObjects/GameObject.h"
+#include "BaseInfo.h"
 
 class Enemy : public GameObject
 {
@@ -7,6 +8,7 @@ protected:
 	EntityID idHiddenItem;
 	DWORD timeRevival;
 	static DWORD stopWatchStart;
+	BaseInfo* baseInfo;
 public:
 	Enemy();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
@@ -16,7 +18,7 @@ public:
 	virtual void setTimeRevival(DWORD timeRevival);
 	static void StopWatchStart();
 	virtual DWORD getTimeRevival(DWORD timeRevival);
-
+	BaseInfo* GetBaseInfo() { return baseInfo; }
 	~Enemy();
 };
 

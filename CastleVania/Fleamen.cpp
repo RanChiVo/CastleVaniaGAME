@@ -18,6 +18,11 @@ Fleamen::Fleamen(D3DXVECTOR2 pos, int height, int width)
 
 void Fleamen::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (state == STATE_DETROY)
+	{
+		return;
+	}
+
 	if (state != STATE_EFFECT)
 	{
 		vy += FLEAMEN_GRAVITY * dt;
@@ -87,8 +92,19 @@ void Fleamen::GetBoundingBox(float & left, float & top, float & right, float & b
 
 void Fleamen::Render(Viewport * viewport)
 {
+	if (state == STATE_DETROY)
+	{
+		return;
+	}
+
+	if (isActive && !checkInsideViewPort(viewport))
+	{
+		SetState(STATE_DETROY);
+	}
+
 	RenderBoundingBox(viewport);
-	if (state!= STATE_EFFECT)
+
+	if (state!= STATE_EFFECT && state!= STATE_DETROY)
 	{
 		if (state == FLEAMEN_STATE_JUMP_ATTACK)
 		{
@@ -110,10 +126,6 @@ void Fleamen::Render(Viewport * viewport)
 		if (nx == 1) flip = normal;
 		else flip = flip_horiz;
 		animation_set->find(currentAnimation)->second->Render(position.x, position.y, flip);
-		if (isActive && !checkInsideViewPort(viewport))
-		{
-			SetState(STATE_DETROY);
-		}
 	}
 	Enemy::Render(viewport);
 }
@@ -183,7 +195,7 @@ void Fleamen::HandleActivateTolLowJump()
 		timeOnGround = GetTickCount();
 	}
 
-	if (timeLowJump && timeOnGround > 0 && GetTickCount() - timeOnGround >= 600)
+	if (timeLowJump && timeOnGround > 0 && GetTickCount() - timeOnGround >= 400)
 	{
 		timeOnGround = 0;
 		hasLowJumpedDone = true;
@@ -212,7 +224,7 @@ void Fleamen::HandleLowTolHeightJump()
 
 void Fleamen::HandleHeightToLowJump()
 {
-	if (isOnGround && timeJumpToPlayer > 0 && GetTickCount() - timeJumpToPlayer >= 1000)
+	if (isOnGround && timeJumpToPlayer > 0 && GetTickCount() - timeJumpToPlayer >= 800)
 	{
 		timeJumpToPlayer = 0;
 		timeLowJump = GetTickCount();

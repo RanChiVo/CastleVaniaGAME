@@ -4,9 +4,9 @@
 #include "Wall.h"
 #include "Brick.h"
 
-constexpr float SKELETON_GRAVITY = 0.00015f;
+constexpr float SKELETON_GRAVITY = 0.0015f;
 constexpr float SKELETON_SPEED_Y = 0.3f;
-constexpr float SKELETON_SPEED_X = 0.08f;
+constexpr float SKELETON_SPEED_X = 0.1f;
 
 Skeleton::Skeleton(D3DXVECTOR2 pos, int nx, int height, int width)
 {

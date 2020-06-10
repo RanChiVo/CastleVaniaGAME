@@ -1,9 +1,10 @@
 #include "Ghost.h"
 #include "GameObjects/Simon.h"
 
-constexpr float GHOST_SPEED_X = 0.1f;
+constexpr float GHOST_SPEED_X = 0.07f;
 constexpr float GHOST_SPEED_Y = 0.065f;
-constexpr int GHOST_DISTANCE_NEAR_SIMON = 30;
+constexpr int GHOST_DISTANCE_NEAR_SIMON = 35;
+constexpr DWORD GHOST_TIME_HURT = 50;
 
 Ghost::Ghost(D3DXVECTOR2 pos, int width, int height)
 {
@@ -13,6 +14,8 @@ Ghost::Ghost(D3DXVECTOR2 pos, int width, int height)
 	this->width = width;
 	currentAnimation = GHOST_ANI;
 	SetState(STATE_HIDDEN);
+	baseInfo = new BaseInfo();
+	baseInfo->setHealth(2);
 }
 
 void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -20,6 +23,19 @@ void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	GameObject::Update(dt, coObjects);
 	x += dx;
 	y += dy;
+
+	if (baseInfo->getHealth() == 0 && state == !STATE_EFFECT)
+	{
+		SetState(STATE_EFFECT);
+		setLiveTime(GetTickCount());
+	}
+
+	if (timeHurt > 0 && GetTickCount() - timeHurt > GHOST_TIME_HURT)
+	{
+		timeHurt = 0;
+		baseInfo->setHealth(max(0, baseInfo->getHealth() - 1));
+	}
+
 	if (state==STATE_SHOW)
 	{
 		Simon* simon = Simon::getInstance();

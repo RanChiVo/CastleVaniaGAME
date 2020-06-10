@@ -1141,8 +1141,12 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 		if (coObjects)
 		{
 			Crown* crown = dynamic_cast<Crown*>(coObjects->at(i));
-			crown->SetState(STATE_EFFECT);
-			crown->setTimeEffect(GetTickCount());
+			if (crown->GetState() != STATE_EFFECT)
+			{
+				baseInfo->setScore(baseInfo->getScore() + 2000);
+				crown->SetState(STATE_EFFECT);
+				crown->setTimeEffect(GetTickCount());
+			}
 		}
 		break;
 	case ID_ENTITY_STAIR:

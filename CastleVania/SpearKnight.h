@@ -7,11 +7,14 @@ class SpearKnight:public Enemy
 	float positionXStart;
 	DWORD timeMoving;
 	GameObject* highFloor;
+	DWORD timeHurt = 0;
 public:
 	SpearKnight(D3DXVECTOR2 pos, int maxDistance, int width, int height);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Render(Viewport* viewport);
+	void SetTimeHurt(DWORD timeHurt) { this->timeHurt = timeHurt; }
+	DWORD GetTimeHurt() { return timeHurt; }
 	~SpearKnight();
 };
 

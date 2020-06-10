@@ -6,8 +6,8 @@
 #include <set> 
 #include "GameObjects/GameObject.h"
 
-constexpr int HIEGHT_GRID = 256;
-constexpr int WIDTH_GRID = 256;
+constexpr int HIEGHT_GRID = 512;
+constexpr int WIDTH_GRID = 512;
 
 class Grid
 {

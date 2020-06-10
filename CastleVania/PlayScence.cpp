@@ -42,8 +42,6 @@ PlayScene::PlayScene(EntityID id, std::string filePath) :Scene(id, filePath)
 
 void PlayScene::Load()
 {
-
-
 	ReadFile_FONTS(L"Resources\\Fonts\\prstart.ttf");
 
 	Textures::GetInstance()->Add(ID_ENTITY_BBOX, L"Resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
@@ -141,7 +139,7 @@ void PlayScene::Load()
 	tiled_map->readMapfromfile();
 
 	ReadFile_OBJECTS(docMap.child("map"));
-
+	//
 	//ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\EndMap\\EndMap_map.tmx");
 
 	//Addproperty->divideOnjectToGrid(&objects, rowGrid, colGrid);
@@ -155,8 +153,6 @@ void PlayScene::Load()
 
 void PlayScene::Update(DWORD dt)
 {
-	grid->update(&objects);
-
 	tiled_map->Update(dt);
 
 	for (int i = 0; i < (int)objects.size(); i++)
@@ -181,11 +177,23 @@ void PlayScene::Update(DWORD dt)
 	menuPoint->update(dt);
 
 	EnemyGeneration::getInstance()->GenerateEnemy(&objects, dt);
+
+	grid->update(&objects);
 }
 
 void PlayScene::Render(Viewport* viewport)
 {
 	tiled_map->draw(viewport);
+
+	for (int i = 0; i < (int)objects.size(); i++)
+	{
+		if (objects[i]->getID() == ID_ENTITY_BRICK && i < (int)objects.size()-1)
+		{
+			auto it = objects.begin() + i;
+			std::rotate(it, it + 1, objects.end());
+			break;
+		}
+	}
 
 	for (int i = 0; i < (int)objects.size(); i++)
 	{
@@ -524,7 +532,6 @@ void PlayScene::ReadFile_OBJECTS(pugi::xml_node node)
 				objectInit->setMainId(id);
 				objectInit->setCellId(cellId);
 			}
-
 
 			if (ani_set != nullptr && objectInit)
 			{

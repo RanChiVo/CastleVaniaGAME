@@ -1,5 +1,7 @@
 #include "CombatWeapon.h"
 #include "DarkBat.h"
+#include "Ghost.h"
+#include "SpearKnight.h"
 
 CombatWeapon::CombatWeapon()
 {
@@ -40,14 +42,46 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			case ID_ENTITY_WHITE_SKELETON:
 			case ID_ENTITY_ZOMBIE:
 			case ID_ENTITY_VAMPIRE_BAT:
-			case ID_ENTITY_GHOST:
-			case ID_ENTITY_SPEAR_KNIGHT:
-				if (coEventsResult[i]->obj->GetState()!= STATE_EFFECT)
+			{
+				if (coEventsResult[i]->obj->GetState() != STATE_EFFECT)
 				{
 					coEventsResult[i]->obj->SetVx(0);
 					coEventsResult[i]->obj->SetState(STATE_EFFECT);
 					coEventsResult[i]->obj->setLiveTime(GetTickCount());
 				}
+			}
+				break;
+			case ID_ENTITY_GHOST:
+			{
+				Ghost* ghost = dynamic_cast<Ghost*>(coObjects->at(i));
+				if (ghost)
+				{
+					if (ghost->GetState() != STATE_EFFECT)
+					{
+						if (ghost->GetTimeHurt() == 0)
+						{
+							ghost->SetTimeHurt(GetTickCount());
+							ghost->SetSpeed(0, 0);
+						}
+					}
+				}
+			}
+				break;
+			case ID_ENTITY_SPEAR_KNIGHT:
+			{
+				SpearKnight *spearKnight = dynamic_cast<SpearKnight *>((coObjects->at(i)));
+				if (spearKnight)
+				{
+					if (spearKnight->GetState() != STATE_EFFECT)
+					{
+						if (spearKnight->GetTimeHurt() == 0)
+						{
+							spearKnight->SetTimeHurt(GetTickCount());
+							spearKnight->SetSpeed(0, 0);
+						}
+					}
+				}
+			}
 				break;
 			case ID_ENTITY_DARK_BAT:
 				DarkBat::StartTimeHurt();
@@ -87,27 +121,62 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (result)
 			{
-				if (ID == ID_ENTITY_DARK_BAT)
+				switch (ID)
 				{
+				case ID_ENTITY_DARK_BAT:
 					DarkBat::StartTimeHurt();
-				}
-				else 
-				{
-					if (ID == ID_ENTITY_BRICK && coObjects->at(i)->getName().compare("EdgeBrick") == 0)
-					{
-						break;
-					}
-					else
+					break;
+				case ID_ENTITY_BRICK:
+					if (coObjects->at(i)->getName().compare("EdgeBrick") != 0)
 					{
 						if (coObjects->at(i)->GetState() != STATE_EFFECT)
 						{
-							coObjects->at(i)->SetVx(0);
+							coObjects->at(i)->SetSpeed(0, 0);
 							coObjects->at(i)->SetState(STATE_EFFECT);
 							coObjects->at(i)->setLiveTime(GetTickCount());
 						}
-						if (id == ID_ENTITY_DAGGER_WEAPON)
-							coObjects->at(i)->SetState(STATE_DETROY);
 					}
+					break;
+				case ID_ENTITY_GHOST:
+				{
+					Ghost* ghost = dynamic_cast<Ghost*>(coObjects->at(i));
+					if (ghost)
+					{
+						if (ghost->GetState() != STATE_EFFECT)
+						{
+							if (ghost->GetTimeHurt() == 0)
+							{
+								ghost->SetTimeHurt(GetTickCount());
+								ghost->SetSpeed(0, 0);
+							}
+						}
+					}
+				}
+					break;
+				case ID_ENTITY_SPEAR_KNIGHT:
+				{
+					SpearKnight *spearKnight = dynamic_cast<SpearKnight *>((coObjects->at(i)));
+					if (spearKnight)
+					{
+						if (spearKnight->GetState() != STATE_EFFECT)
+						{
+							if (spearKnight->GetTimeHurt()==0)
+							{
+								spearKnight->SetTimeHurt(GetTickCount());
+								spearKnight->SetSpeed(0, 0);
+							}
+						}
+					}
+				}
+					break;
+				default:
+					if (coObjects->at(i)->GetState() != STATE_EFFECT)
+					{
+						coObjects->at(i)->SetSpeed(0, 0);
+						coObjects->at(i)->SetState(STATE_EFFECT);
+						coObjects->at(i)->setLiveTime(GetTickCount());
+					}
+					break;
 				}
 			}
 			break;

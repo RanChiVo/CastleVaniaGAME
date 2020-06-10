@@ -4,8 +4,8 @@
 
 constexpr float SPEAR_KNIGHT_MIN_DISTANCE = 32;
 constexpr float SPEAR_KNIGHT_GRAVITY = 0.0009f;
-constexpr float SPEAR_KNIGHT_SPEED_X = 0.05f;
-
+constexpr float SPEAR_KNIGHT_SPEED_X = 0.07f;
+constexpr DWORD SPEAR_KNIGHT_TIME_HURT = 50;
 
 SpearKnight::SpearKnight(D3DXVECTOR2 pos, int maxDistance, int height, int width )
 {
@@ -18,11 +18,24 @@ SpearKnight::SpearKnight(D3DXVECTOR2 pos, int maxDistance, int height, int width
 	nx = 1;
 	vx = SPEAR_KNIGHT_SPEED_X;
 	positionXStart = pos.x;
+	baseInfo = new BaseInfo();
+	baseInfo->setHealth(3);
 }
 
 void SpearKnight::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	Enemy::Update(dt, coObjects);
+	if (baseInfo->getHealth() <= 0 && state != STATE_EFFECT)
+	{
+		SetState(STATE_EFFECT);
+		setLiveTime(GetTickCount());
+	}
+	
+	if (timeHurt > 0 && GetTickCount() - timeHurt > SPEAR_KNIGHT_TIME_HURT)
+	{
+		timeHurt = 0;
+		baseInfo->setHealth(max(0, baseInfo->getHealth() - 1));
+	}
+
 	if (state!= STATE_EFFECT)
 	{
 		vy += SPEAR_KNIGHT_GRAVITY * dt;
@@ -83,6 +96,7 @@ void SpearKnight::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		x += dx;
 	}
+	Enemy::Update(dt, coObjects);
 }
 
 void SpearKnight::GetBoundingBox(float & left, float & top, float & right, float & bottom)

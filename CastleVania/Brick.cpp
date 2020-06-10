@@ -127,9 +127,9 @@ void CBrick::GetBoundingBox(float & l, float & t, float & r, float & b)
 	if (name.compare("SmallBrick") == 0)
 	{
 		l = x;
-		t = y + 10;
+		t = y + 7;
 		r = x + width;
-		b = t + 10;
+		b = t + 12;
 	}
 }
 
