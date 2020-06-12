@@ -255,6 +255,9 @@
     <ClCompile Include="DoubleShoot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OptionScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\GameObject.h">
@@ -285,9 +288,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Direct3DManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Screens\MenuScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DebugOut\DebugOut.h">
@@ -501,6 +501,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DoubleShoot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

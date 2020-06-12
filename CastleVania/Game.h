@@ -28,6 +28,8 @@ protected:
 	LPKEYEVENTHANDLER keyHandler;
 	unordered_map<EntityID, LPSCENE> scenes;
 	EntityID current_scene;
+	EntityID current_scene_saved;
+	LPSCENE optionScene;
 	Game();
 public:
 	static Game * GetInstance();
@@ -42,6 +44,7 @@ public:
 	void virtual Load(std::string gameFile);
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	EntityID GetCurrentSceneId() { return current_scene; }
+	EntityID GetCurrentSceneIdSaved() { return current_scene_saved; }
 	void SwitchScene(EntityID scene_id);
 	void Render();
 	int Run();

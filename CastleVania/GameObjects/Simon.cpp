@@ -101,6 +101,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isVisible = false;
 	}
 
+	if (timeWin > 0 && GetTickCount() - timeWin > 100)
+	{
+		timeWin = 0;
+		Game::GetInstance()->SwitchScene(ID_ENTITY_OPTION_SCENE);
+	}
+
 	if (untouchable_start > 0 && GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
@@ -208,6 +214,7 @@ void Simon::SetState(int state)
 		checkRewind = false;
 		isjumping = false;
 		originalStair = nullptr;
+		isGoingAutoStair = false;
 		break;
 	case SIMON_STATE_ATTACK_STAND:
 		break;
@@ -250,6 +257,7 @@ void Simon::SetState(int state)
 		vx = 0;
 		break;
 	case SIMON_STATE_WIN_FINISH:
+		timeWin = GetTickCount();
 		vx = 0;
 		break;
 	case SIMON_STATE_IDLE_DOWN_STAIR:
@@ -290,7 +298,6 @@ void Simon::SetState(int state)
 		}
 		checkRewind = true;
 		animation_set->find(ani)->second->SetFinish(false);
-		timeAtack = 0;
 		break;
 	}
 }
@@ -379,7 +386,11 @@ void Simon::SetupSubWeapon(vector<LPGAMEOBJECT>* coObjects)
 
 void Simon::RenderWeapon(LPANIMATION animation, Viewport * viewport)
 {
-	if (timeAtack > 0 && untouchable_start==0 )
+	if (untouchable_start)
+	{
+		return;
+	}
+	if (timeAtack > 0)
 	{
 		whip->updatePostision(animation->getCurrentFrame(), currentAnimation, flip);
 		whip->draw(flip, viewport);
@@ -391,18 +402,7 @@ void Simon::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (timeAtack)
 	{
 		whip->Update(dt, coObjects);
-		if (state == SIMON_STATE_WIN)
-		{
-			if (timeAtack > 0 && GetTickCount() - timeAtack > 375)
-			{
-				timeAtack = 0;
-			}
-			if (timeAtack==0)
-			{
-				timeAtack = GetTickCount();
-			}
-		}
-		else if (timeAtack > 0 && GetTickCount() - timeAtack > 400)
+		 if (timeAtack > 0 && GetTickCount() - timeAtack > 400)
 		{
 			Reset(currentAnimation);
 			timeAtack = 0;
@@ -501,6 +501,7 @@ void Simon::Render(Viewport* viewport)
 		case SIMON_STATE_WIN_FINISH:
 			currentAnimation = SIMON_ANI_WIN;
 			checkRewind = true;
+			break;
 		case SIMON_STATE_ATTACK_STAND:
 			checkRewind = true;
 			currentAnimation = SIMON_ANI_ATTACK_STANDING;
@@ -654,6 +655,8 @@ void Simon::Reset(int currentAnimation)
 	case SIMON_ANI_SITDOWN:
 	case SIMON_ANI_ATTACK_SITDOWN:
 		SetState(SIMON_STATE_SITDOWN);
+		break;
+	case SIMON_ANI_HURT:
 		break;
 	default:
 		SetState(SIMON_STATE_IDLE);
@@ -952,7 +955,7 @@ void Simon::handleAfterCollision(vector <LPGAMEOBJECT>* coObjects, EntityID id, 
 				coEvents->at(i)->obj->SetState(STATE_DETROY);
 			}
 		}
-		SetState(SIMON_STATE_WIN);
+		SetState(SIMON_STATE_WIN_FINISH);
 		break;
 	case ID_ENTITY_STOP_WATCH:
 		if (baseInfo->getIdSubWeapon() != ID_ENTITY_NULL)

@@ -4,6 +4,7 @@
 constexpr float RAVEN_GRAVITY = 0.0009f;
 constexpr float RAVEN_SPEED_X = 0.2f;
 constexpr float RAVEN_SPEED_Y = 0.1f;
+constexpr DWORD RAVEN_TIME_IDLE = 200;
 
 Raven::Raven(D3DXVECTOR2 pos, int height, int width)
 {
@@ -45,7 +46,7 @@ void Raven::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					SetState(RAVEN_STATE_IDLE);
 					currentAnimation = RAVEN_ANI_FLY;
 				}
-				if (startIdle > 0 && GetTickCount() - startIdle > 200)
+				if (startIdle > 0 && GetTickCount() - startIdle > RAVEN_TIME_IDLE)
 				{
 					startIdle = 0;
 					SetState(RAVEN_STATE_FLY);

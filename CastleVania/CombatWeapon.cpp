@@ -61,7 +61,6 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (ghost->GetTimeHurt() == 0)
 						{
 							ghost->SetTimeHurt(GetTickCount());
-							ghost->SetSpeed(0, 0);
 						}
 					}
 				}
@@ -147,7 +146,6 @@ void CombatWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							if (ghost->GetTimeHurt() == 0)
 							{
 								ghost->SetTimeHurt(GetTickCount());
-								ghost->SetSpeed(0, 0);
 							}
 						}
 					}

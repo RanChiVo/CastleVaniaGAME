@@ -6,6 +6,8 @@ constexpr float FLEAMEN_SPEED_X = 0.2f;
 constexpr float FLEAMEN_SPEED_HIGHT_Y = 0.2f;
 constexpr float FLEAMEN_SPEED_LOW_Y = 0.1f;
 constexpr float FLEAMEN_GRAVITY = 0.0009f;
+constexpr DWORD FLEAMEN_TIME_JUMP_LOW = 400;
+constexpr DWORD FLEAMEN_TIME_JUMP_HIGHT = 800;
 
 Fleamen::Fleamen(D3DXVECTOR2 pos, int height, int width)
 {
@@ -69,7 +71,7 @@ void Fleamen::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else y += dy;
 		}
-		if (timeFirstJump > 0 && GetTickCount() - timeFirstJump >= 800)
+		if (timeFirstJump > 0 && GetTickCount() - timeFirstJump >= FLEAMEN_TIME_JUMP_HIGHT)
 		{
 			timeFirstJump = 0;
 			timeLowJump = GetTickCount();
@@ -195,7 +197,7 @@ void Fleamen::HandleActivateTolLowJump()
 		timeOnGround = GetTickCount();
 	}
 
-	if (timeLowJump && timeOnGround > 0 && GetTickCount() - timeOnGround >= 400)
+	if (timeLowJump && timeOnGround > 0 && GetTickCount() - timeOnGround >= FLEAMEN_TIME_JUMP_LOW)
 	{
 		timeOnGround = 0;
 		hasLowJumpedDone = true;
@@ -224,7 +226,7 @@ void Fleamen::HandleLowTolHeightJump()
 
 void Fleamen::HandleHeightToLowJump()
 {
-	if (isOnGround && timeJumpToPlayer > 0 && GetTickCount() - timeJumpToPlayer >= 800)
+	if (isOnGround && timeJumpToPlayer > 0 && GetTickCount() - timeJumpToPlayer >= FLEAMEN_TIME_JUMP_HIGHT)
 	{
 		timeJumpToPlayer = 0;
 		timeLowJump = GetTickCount();

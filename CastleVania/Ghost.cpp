@@ -3,7 +3,7 @@
 
 constexpr float GHOST_SPEED_X = 0.07f;
 constexpr float GHOST_SPEED_Y = 0.065f;
-constexpr int GHOST_DISTANCE_NEAR_SIMON = 35;
+constexpr int GHOST_DISTANCE_NEAR_SIMON = 50;
 constexpr DWORD GHOST_TIME_HURT = 50;
 
 Ghost::Ghost(D3DXVECTOR2 pos, int width, int height)
@@ -24,7 +24,7 @@ void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	x += dx;
 	y += dy;
 
-	if (baseInfo->getHealth() == 0 && state == !STATE_EFFECT)
+	if (baseInfo->getHealth() == 0 && state != STATE_EFFECT)
 	{
 		SetState(STATE_EFFECT);
 		setLiveTime(GetTickCount());

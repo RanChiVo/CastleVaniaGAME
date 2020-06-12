@@ -23,7 +23,7 @@ DarkBat::DarkBat(D3DXVECTOR2 pos, int height, int width)
 	originalLocation = pos;
 	activatePositionMaxX = 512;
 	SetState(DARK_BAT_STATE_IDLE);
-	baseInfo.setHealth(16);
+	baseInfo.setHealth(2);
 }
 
 void DarkBat::GetBoundingBox(float & left, float & top, float & right, float & bottom)

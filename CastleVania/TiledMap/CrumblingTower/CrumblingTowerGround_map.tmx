@@ -38,7 +38,7 @@
     <property name="Object ID" value="ID_ENTITY_WHIP"/>
    </properties>
   </object>
-  <object id="101" name="Start_Map" x="1503.37" y="708.703" width="60" height="66" rotation="180">
+  <object id="101" name="Start_Map" x="1497.04" y="711.036" width="60" height="66" rotation="180">
    <properties>
     <property name="Cell ID" value=""/>
     <property name="Object ID" value="ID_ENTITY_SIMON"/>
@@ -194,7 +194,7 @@
     <property name="Object ID" value="ID_ENTITY_CANDLE"/>
    </properties>
   </object>
-  <object id="22" name="Ghost" x="1563.75" y="685.75" width="32" height="32">
+  <object id="22" name="Ghost" x="1569.75" y="795.75" width="32" height="32">
    <properties>
     <property name="Cell ID" value="1,3"/>
     <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
@@ -262,7 +262,7 @@
     <property name="nx" value="1"/>
    </properties>
   </object>
-  <object id="31" name="Skeleton_2" x="717.749" y="270.583" width="32" height="60">
+  <object id="31" name="Skeleton_2" x="711.416" y="274.75" width="32" height="60">
    <properties>
     <property name="Cell ID" value="0,1"/>
     <property name="Hidden Item ID" value="ID_ENTITY_SMALL_HEART"/>
@@ -540,7 +540,7 @@
     <property name="ny" value="1"/>
    </properties>
   </object>
-  <object id="69" name="Wall" x="1564.94" y="631.149" width="34" height="90.6663">
+  <object id="69" name="Wall" x="1564.94" y="631.149" width="34" height="90.6663" visible="0">
    <properties>
     <property name="Cell ID" value="1,3"/>
     <property name="Hidden Item ID" value=""/>
@@ -563,7 +563,7 @@
     <property name="StartViewportX" value="64"/>
    </properties>
   </object>
-  <object id="72" name="ActionBox" x="1263.28" y="627.649" width="63" height="125">
+  <object id="72" name="ActionBox" x="1298.28" y="630.649" width="63" height="125">
    <properties>
     <property name="Activation Object ID" value="ID_ENTITY_GHOST"/>
     <property name="Cell ID" value="1,2"/>
@@ -755,7 +755,7 @@
     <property name="Object ID" value="ID_ENTITY_DEATH_FLOOR"/>
    </properties>
   </object>
-  <object id="99" name="Skeleton_2" x="550" y="226.667" width="82.6667" height="108.333">
+  <object id="99" name="Skeleton_2" x="560.667" y="230.334" width="208" height="108.333">
    <properties>
     <property name="Activation Object ID" value="ID_ENTITY_WHITE_SKELETON"/>
     <property name="Cell ID" value="0,1"/>

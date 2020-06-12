@@ -1,6 +1,9 @@
 #include "Crown.h"
 
 constexpr float CROWN_GRAVITY = 0.0006f;
+constexpr float CROWN_SPEED_Y = 0.018f;
+constexpr DWORD CROWN_TIME_SHOW = 2000;
+constexpr DWORD CROWN_TIME_LIVE = 4000;
 
 Crown::Crown(D3DXVECTOR2 position, int height, int width)
 {
@@ -29,17 +32,17 @@ void Crown::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else if (state == STATE_SHOW && isActivate)
 	{
-		vy = -0.018f;
+		vy = -CROWN_SPEED_Y;
 		isActivate = false;
 		
 	}
-	else if (vy != 0 && state == STATE_SHOW && !isActivate && liveTime > 0 && (GetTickCount() - liveTime > 2000))
+	else if (vy != 0 && state == STATE_SHOW && !isActivate && liveTime > 0 && (GetTickCount() - liveTime > CROWN_TIME_SHOW))
 	{
 		vy = 0;
 		liveTime = GetTickCount();
 	}
 
-	if (vy == 0 && state == STATE_SHOW && liveTime > 0 && (GetTickCount() - liveTime > 4000))
+	if (vy == 0 && state == STATE_SHOW && liveTime > 0 && (GetTickCount() - liveTime > CROWN_TIME_LIVE))
 	{
 		state = STATE_DETROY;
 	}

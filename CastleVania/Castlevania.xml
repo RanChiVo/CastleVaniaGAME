@@ -3,9 +3,7 @@
     <startScene id="ID_ENTITY_MAP_END" />
     <sceneList>
         <scene id="ID_ENTITY_MAP_ENTRANCE" mapPath="TiledMap\Entrance\EntranceGround_map.tmx" />
-        <!-- <scene id="ID_ENTITY_MAP_MAIN_HALL" mapPath="TiledMap\MainHallGround_map.tmx" /> -->
         <scene id="ID_ENTITY_MAP_MAIN_HALL" mapPath="TiledMap\MainHall\MainHallGround_map.tmx" />
-        <!-- <scene id="ID_ENTITY_MAP_CRUMBLING_TOWER" mapPath="TiledMap\CrumblingTowerGround_map.tmx" /> -->
         <scene id="ID_ENTITY_MAP_CRUMBLING_TOWER" mapPath="TiledMap\CrumblingTower\CrumblingTowerGround_map.tmx" />
         <scene id="ID_ENTITY_MAP_END" mapPath="TiledMap\EndMap\EndMap_map.tmx" />
     </sceneList>

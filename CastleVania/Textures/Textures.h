@@ -14,6 +14,7 @@ public:
 	void Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor);
 	std::pair<int, int> GetSizeObject(int id);
 	void setSizeObject(int id, int widthObject, int heightObject);
+	unordered_map<int, LPDIRECT3DTEXTURE9> GetTextures();
 	LPDIRECT3DTEXTURE9 Get(unsigned int i);
 	void Clear();
 	static Textures * GetInstance();

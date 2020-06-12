@@ -1,5 +1,6 @@
 #include "MovingBrick.h"
 
+
 MovingBrick::MovingBrick(D3DXVECTOR2 pos, int maxDistance, int height, int  width)
 {
 	id = ID_ENTITY_MOVING_BRICK;

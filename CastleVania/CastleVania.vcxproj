@@ -156,6 +156,7 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="MovingBrick.cpp" />
     <ClCompile Include="ObjectGridCreation.cpp" />
+    <ClCompile Include="OptionScene.cpp" />
     <ClCompile Include="PlayScence.cpp" />
     <ClCompile Include="PortalPosMap.cpp" />
     <ClCompile Include="Raven.cpp" />
@@ -239,6 +240,7 @@
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="MovingBrick.h" />
     <ClInclude Include="ObjectGridCreation.h" />
+    <ClInclude Include="OptionScene.h" />
     <ClInclude Include="PlayScence.h" />
     <ClInclude Include="PortalPosMap.h" />
     <ClInclude Include="Raven.h" />
@@ -280,7 +282,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
     <ClInclude Include="GameObjects\Simon.h" />
-    <ClInclude Include="Screens\MenuScreen.h" />
     <ClInclude Include="GameObjects\SmallHeart.h" />
     <ClInclude Include="SpriteManagements\Sprite.h" />
     <ClInclude Include="SpriteManagements\Sprites.h" />

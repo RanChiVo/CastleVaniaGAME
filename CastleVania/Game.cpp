@@ -2,6 +2,7 @@
 #include "DebugOut/DebugOut.h"
 #include "Utils.h"
 #include "PlayScence.h"
+#include "OptionScene.h"
 
 constexpr unsigned int ScreenBase_width = 530;
 constexpr unsigned int ScreenBase_height = 515;
@@ -87,6 +88,7 @@ void Game::InitKeyboard()
 Game::Game()
 {
 	direct3D = Direct3DManager::getInstance();
+
 }
 
 void Game::init(HINSTANCE hInstance, int nCmdShow)
@@ -96,6 +98,7 @@ void Game::init(HINSTANCE hInstance, int nCmdShow)
 	direct3D->init(window);
 
 	HWND hWnd = direct3D->gethWnd();
+
 
 }
 
@@ -182,20 +185,33 @@ void Game::Load(std::string gameFile)
 	}
 
 	SwitchScene(current_scene);
+
+	LPSCENE scene = new OptionScene(ID_ENTITY_OPTION_SCENE, "");
+	scenes[ID_ENTITY_OPTION_SCENE] = scene;
 }
 
 void Game::SwitchScene(EntityID scene_id)
 {
-	current_scene = scene_id;
+	if (scene_id == ID_ENTITY_OPTION_SCENE)
+	{
+		current_scene = scene_id;
+		Game::GetInstance()->SetKeyHandler(scenes[scene_id]->GetKeyEventHandler());
+		scenes[scene_id]->Load();
+	}
+	else
+	{
+		current_scene = scene_id;
+		current_scene_saved = scene_id;
+		LPSCENE s = scenes[current_scene];
+		s->Unload();
+		/*Textures::GetInstance()->Clear();
 
-	LPSCENE s = scenes[current_scene];
-	s->Unload();
-	//Textures::GetInstance()->Clear();
-	//Sprites::GetInstance()->Clear();
-	//Animations::GetInstance()->Clear();
+		Sprites::GetInstance()->Clear();
+		Animations::GetInstance()->Clear();*/
 
-	Game::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
-	s->Load();
+		Game::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
+		s->Load();
+	}
 }
 
 void Game::Render()

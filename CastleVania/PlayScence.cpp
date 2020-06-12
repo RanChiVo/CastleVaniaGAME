@@ -139,7 +139,7 @@ void PlayScene::Load()
 	tiled_map->readMapfromfile();
 
 	ReadFile_OBJECTS(docMap.child("map"));
-	//
+
 	//ObjectGridCreation* Addproperty = new ObjectGridCreation("TiledMap\\EndMap\\EndMap_map.tmx");
 
 	//Addproperty->divideOnjectToGrid(&objects, rowGrid, colGrid);
@@ -164,10 +164,22 @@ void PlayScene::Update(DWORD dt)
 		}
 	}
 
+	if (player->getBaseInfo()->GetLives()==0)
+	{
+		player->SetIsDie(false);
+	}
+
 	if (player->IsDie())
 	{
-		Game::GetInstance()->SwitchScene(Game::GetInstance()->GetCurrentSceneId());
-		player->SetIsDie(false);
+		if (player->getBaseInfo()->GetLives() == 0)
+		{
+			Game::GetInstance()->SwitchScene(ID_ENTITY_OPTION_SCENE);
+		}
+		else
+		{
+			Game::GetInstance()->SwitchScene(Game::GetInstance()->GetCurrentSceneId());
+			player->SetIsDie(false);
+		}
 	}
 
 	player->Update(dt, &objects);
@@ -179,6 +191,7 @@ void PlayScene::Update(DWORD dt)
 	EnemyGeneration::getInstance()->GenerateEnemy(&objects, dt);
 
 	grid->update(&objects);
+
 }
 
 void PlayScene::Render(Viewport* viewport)
@@ -187,10 +200,10 @@ void PlayScene::Render(Viewport* viewport)
 
 	for (int i = 0; i < (int)objects.size(); i++)
 	{
-		if (objects[i]->getID() == ID_ENTITY_BRICK && i < (int)objects.size()-1)
+		if (objects[i]->getID() == ID_ENTITY_BRICK &&
+			objects[i]->getName().compare("SmallBrickCrown") == 0)
 		{
-			auto it = objects.begin() + i;
-			std::rotate(it, it + 1, objects.end());
+			std::swap(objects[i], objects.back());
 			break;
 		}
 	}
@@ -586,6 +599,11 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 		Game::GetInstance()->SwitchScene(ID_ENTITY_MAP_END);
 		simon->SetPortal(nullptr);
+	}
+	break;
+	case DIK_M:
+	{
+		Game::GetInstance()->SwitchScene(ID_ENTITY_OPTION_SCENE);
 	}
 	break;
 	case DIK_X:

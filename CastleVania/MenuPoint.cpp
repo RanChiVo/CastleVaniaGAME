@@ -16,7 +16,7 @@ void MenuPoint::loadResource()
 	HP = Sprites::GetInstance()->Get("HP1");
 	enemy_HP1 = Sprites::GetInstance()->Get("enemy_HP1");
 	spriteHandler = Direct3DManager::getInstance()->GetSpriteHandler();
-	R = RECT{ 5, 20, 550, 528 };
+	R = RECT{ 5, 20, 550, 90 };
 	itemList[ID_ENTITY_DAGGER_WEAPON] = Sprites::GetInstance()->Get("dagger");
 	itemList[ID_ENTITY_AXE_WEAPON] = Sprites::GetInstance()->Get("axe1");
 	itemList[ID_ENTITY_FIRE_BOMP_WEAPON] = Sprites::GetInstance()->Get("fire_bomb");

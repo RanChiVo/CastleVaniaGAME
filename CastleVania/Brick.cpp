@@ -37,7 +37,8 @@ CBrick::CBrick(std::string name, D3DXVECTOR2 pos, int height, int width)
 	{
 		currentAnimation = BRICK_ANI3;
 	}
-	else  if (name.compare("SmallBrick")==0 || name.compare("SmallBrick1") == 0)
+	else  if (name.compare("SmallBrick")==0 ||
+		name.compare("SmallBrick1") == 0 || name.compare("SmallBrickCrown") == 0)
 	{
 		currentAnimation = BRICK_ANI4;
 	}

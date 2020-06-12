@@ -52,6 +52,11 @@ void Textures::setSizeObject(int id, int widthObject, int heightObject)
 	sizeObject.emplace(id, std::make_pair(widthObject, heightObject));
 }
 
+unordered_map<int, LPDIRECT3DTEXTURE9> Textures::GetTextures()
+{
+	return textures;
+}
+
 LPDIRECT3DTEXTURE9 Textures::Get(unsigned int i)
 {
 	return textures[i];

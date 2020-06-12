@@ -7,6 +7,8 @@
 constexpr float SKELETON_GRAVITY = 0.0015f;
 constexpr float SKELETON_SPEED_Y = 0.3f;
 constexpr float SKELETON_SPEED_X = 0.1f;
+constexpr DWORD SKELETON_TIME_ATTACK_BIG = 1000;
+constexpr DWORD SKELETON_TIME_ATTACK_SMALL = 200;
 
 Skeleton::Skeleton(D3DXVECTOR2 pos, int nx, int height, int width)
 {
@@ -29,54 +31,57 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy += SKELETON_GRAVITY * dt;
 
 		float sx = Simon::getInstance()->getPosition().x;
-
-		if (!isAttack && (startAttack == 0 || GetTickCount() - startAttack < 1000))
+		
+		if (isActiveFirst)
 		{
-			int numberOfWeapon = RandomNumber(1, 3);
-			startAttack = GetTickCount();
-			for (int i = 0; i < numberOfWeapon; i++)
+			if (!isAttack && (startAttack == 0 || GetTickCount() - startAttack < SKELETON_TIME_ATTACK_BIG))
 			{
-				if (isJumping)
+				int numberOfWeapon = RandomNumber(1, 3);
+				startAttack = GetTickCount();
+				for (int i = 0; i < numberOfWeapon; i++)
 				{
-					break;
-				}
-				weaponWhiteSkeleton.push_back(new Bone);
-				weaponWhiteSkeleton[i]->SetPosition(D3DXVECTOR2(x, y));
-				weaponWhiteSkeleton[i]->set_nx(nx_Render);
-				isAttack = 1;
-			}
-		}
-
-		if (weaponWhiteSkeleton.size() == 0)
-		{
-			startAttack = 0;
-			isAttack = 0;
-		}
-		else
-		{
-			for (int i = 0; i < weaponWhiteSkeleton.size(); i++)
-			{
-				if (!weaponWhiteSkeleton[i]->IsStart())
-				{
-					if (startConsecutiveAttack == 0 || GetTickCount() - startConsecutiveAttack >= 200)
+					if (isJumping)
 					{
-						weaponWhiteSkeleton[i]->SetPosition(D3DXVECTOR2(x, y));
-						weaponWhiteSkeleton[i]->SetIsStart(true);
-						weaponWhiteSkeleton[i]->set_nx(nx_Render);
-						if (i == weaponWhiteSkeleton.size() - 1)
-						{
-							startConsecutiveAttack = 0;
-						}
-						else
-						{
-							startConsecutiveAttack = GetTickCount();
-						}
+						break;
 					}
-					break;
+					weaponWhiteSkeleton.push_back(new Bone);
+					weaponWhiteSkeleton[i]->SetPosition(D3DXVECTOR2(x, y));
+					weaponWhiteSkeleton[i]->set_nx(nx_Render);
+					isAttack = 1;
 				}
-				weaponWhiteSkeleton[i]->Update(dt, coObjects);
-				if (weaponWhiteSkeleton[i]->IsFinishNext())
-					weaponWhiteSkeleton.erase(weaponWhiteSkeleton.begin() + i);
+			}
+
+			if (weaponWhiteSkeleton.size() == 0)
+			{
+				startAttack = 0;
+				isAttack = 0;
+			}
+			else
+			{
+				for (int i = 0; i < weaponWhiteSkeleton.size(); i++)
+				{
+					if (!weaponWhiteSkeleton[i]->IsStart())
+					{
+						if (startConsecutiveAttack == 0 || GetTickCount() - startConsecutiveAttack >= SKELETON_TIME_ATTACK_SMALL)
+						{
+							weaponWhiteSkeleton[i]->SetPosition(D3DXVECTOR2(x, y));
+							weaponWhiteSkeleton[i]->SetIsStart(true);
+							weaponWhiteSkeleton[i]->set_nx(nx_Render);
+							if (i == weaponWhiteSkeleton.size() - 1)
+							{
+								startConsecutiveAttack = 0;
+							}
+							else
+							{
+								startConsecutiveAttack = GetTickCount();
+							}
+						}
+						break;
+					}
+					weaponWhiteSkeleton[i]->Update(dt, coObjects);
+					if (weaponWhiteSkeleton[i]->IsFinishNext())
+						weaponWhiteSkeleton.erase(weaponWhiteSkeleton.begin() + i);
+				}
 			}
 		}
 

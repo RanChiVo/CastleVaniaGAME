@@ -45,6 +45,7 @@ private:
 	DWORD timeAutoGoStair = 0;
 	DWORD startJumpingSitFloor;
 	DWORD startJumpingFloor;
+	DWORD timeWin;
 	ObjectStair* originalStair = nullptr;
 	D3DXVECTOR2 resetPosition;
 	GameObject* highFloor = nullptr; 
@@ -138,6 +139,7 @@ public:
 	bool IsGoingAutoStair() { return isGoingAutoStair; }
 	void LoadWhip();
 	void UnloadWhip();
+	Whip* GetWhip() {return whip; }
 	Portal* GetPortal() { return p; }
 	void SetPortal(Portal* p) { this->p = p; }
 	bool IsDie(){return isDie;}
